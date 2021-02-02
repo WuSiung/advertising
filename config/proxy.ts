@@ -7,17 +7,22 @@
  */
 export default {
   dev: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/proxyApi/': {
+      target: 'https://dev.tanwanai.com/',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/proxyApi': '/' },
+    },
+    '/code': {
+      target: 'https://dev.tanwanai.com/',
+      changeOrigin: true,
+      pathRewrite: { '^/': '/' },
     },
   },
   test: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/proxyApi/': {
+      target: 'https://dev.tanwanai.com/',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/proxyApi': '/' },
     },
   },
   pre: {
