@@ -8,10 +8,10 @@ export type LoginParamsType = {
 };
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request('/api/login/account', {
+  return request('/auth/oauth/token', {
     method: 'POST',
-    data: params,
-  });
+    params: {...params, isToken: false},
+  },);
 }
 
 export async function getFakeCaptcha(mobile: string) {
