@@ -4,8 +4,9 @@ import { history } from 'umi';
 
 import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
+import { getPageQuery, encryption } from '@/utils/utils';
 import { message } from 'antd';
+import Store from '@/utils/store'
 
 export type StateType = {
   status?: 'ok' | 'error';
@@ -34,13 +35,22 @@ const Model: LoginModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const grant_type = 'password', scope = 'server'
+      const user = encryption(
+        {
+          data: payload,
+          key: 'thanks,pig4cloud',
+          param: ['password']
+        }
+      )
+      const response = yield call(fakeAccountLogin, {...user, grant_type, scope});
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.access_token) {
+        Store.SetToken(response.access_token)
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         message.success('🎉 🎉 🎉  登录成功！');
