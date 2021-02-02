@@ -53,7 +53,7 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
               </Link>
             </div>
             <div className={styles.desc}>
-              <FormattedMessage id="pages.layouts.userLayout.title" defaultMessage="智能广告平台" />
+              {/* <FormattedMessage id="pages.layouts.userLayout.title" defaultMessage="智能广告平台" /> */}
             </div>
           </div>
           {children}
