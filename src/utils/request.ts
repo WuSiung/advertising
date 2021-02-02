@@ -1,5 +1,6 @@
+import Store from '@/utils/store';
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { extend } from 'umi-request';
+import { Context, extend } from 'umi-request';
 import { notification } from 'antd';
 
 const codeMessage = {
@@ -20,6 +21,11 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+interface Headers{
+  isToken: Boolean,
+  Authorization: String
+}
+
 /** 异常处理程序 */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
@@ -39,11 +45,68 @@ const errorHandler = (error: { response: Response }): Response => {
   }
   return response;
 };
-
+const { NODE_ENV } = process.env;
+// console.log(NODE_ENV, process.env)
 /** 配置request请求时的默认参数 */
 const request = extend({
+  // headers,
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
+  timeout: 1500,
+});
+/** 中间件对请求前后做处理 */
+request.use(async (ctx: Context, next: Function): Promise<void> => {
+  const { req } = ctx;
+  const { url, options } = req;
+  // 添加代理前缀
+  if (url.indexOf('/proxyApi') !== 0) {
+    ctx.req.url = '/proxyApi' + url
+  }
+  let headers = {}
+  const dataObj = options.params || options.data
+  if (dataObj.isToken === false) {
+    headers = {
+      Authorization: 'Basic cGlnOnBpZw==',
+      isToken:false,
+    }
+  } else {
+    headers = {
+      Authorization: `Bearer ${Store.GetToken()}`
+    }
+  }
+  
+  ctx.req.options.headers = headers
+  await next()
+})
+
+/** 拦截器 */
+request.interceptors.response.use(async (response: Response) => {
+  const { ok } = response;
+  if (!ok) {
+    const res = await response.clone().json();
+    notification.error({
+      message: res.msg,
+    })
+    if (res.error&&res.error.message&&res.error.details) {
+      notification.error({
+        message: res.error.message,
+        description:res.error.details
+      })
+      return res;
+    } else if (res.error&&res.error.message){
+      notification.error({
+        message: res.error.message,
+      })
+      return res;
+    } else if (res.error){
+      notification.error({
+        message: res.error,
+      })
+      return res;
+    }
+    return res;
+  }
+  return response;
 });
 
 export default request;
