@@ -34,10 +34,10 @@ const Login: React.FC<LoginProps> = (props) => {
   };
 
   useEffect(() => {
-    console.log(1)
     return function clearnUp() {
-      setCodeRandom(randomLenNum(4, true))
-      console.log('unmounting...');
+      if (submitting == false) { // loading结束后更新code
+        setCodeRandom(randomLenNum(4, true))
+      }
     }
   }, [submitting])
   const changeRandom = useCallback((random: number) => {
