@@ -1,5 +1,5 @@
 import { Form, Input, Image, Button } from 'antd';
-import React, { useState, useCallback, useMemo} from 'react';
+import React, { useState, useCallback, useMemo, useEffect} from 'react';
 import { connect } from 'umi';
 import {randomLenNum} from '@/utils/utils'
 import type { Dispatch } from 'umi';
@@ -21,7 +21,8 @@ const RandomCode: React.FC<{ random: Number, changeRandom: Function }> = ({ rand
 }
 
 const Login: React.FC<LoginProps> = (props) => {
-  const [codeRandom, setCodeRandom] = useState<Number>(randomLenNum(4, true))
+  const { userLogin = {}, submitting } = props;
+  const [codeRandom, setCodeRandom] = useState<Number>()
   const memoRandom = useMemo(()=> codeRandom, [codeRandom])
 
   const handleSubmit = (values: LoginParamsType) => {
@@ -31,6 +32,14 @@ const Login: React.FC<LoginProps> = (props) => {
       payload: { ...values, randomStr: codeRandom},
     });
   };
+
+  useEffect(() => {
+    console.log(1)
+    return function clearnUp() {
+      setCodeRandom(randomLenNum(4, true))
+      console.log('unmounting...');
+    }
+  }, [submitting])
   const changeRandom = useCallback((random: number) => {
     setCodeRandom(random)
   }, [codeRandom])
@@ -63,9 +72,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <RandomCode random={memoRandom} changeRandom={ changeRandom }/>
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          <Button type="primary" htmlType="submit">登陆</Button>
         </Form.Item>
       </Form>
     </div>
