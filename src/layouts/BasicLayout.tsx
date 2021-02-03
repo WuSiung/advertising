@@ -92,13 +92,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   const menuDataRef = useRef<MenuDataItem[]>([]);
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (dispatch) {
+  //     dispatch({
+  //       type: 'user/fetchCurrent',
+  //     });
+  //   }
+  // }, []);
   /** Init variables */
 
   const handleMenuCollapse = (payload: boolean): void => {
