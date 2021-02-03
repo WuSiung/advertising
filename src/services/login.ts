@@ -3,8 +3,7 @@ import request from '@/utils/request';
 export type LoginParamsType = {
   userName: string;
   password: string;
-  mobile: string;
-  captcha: string;
+  code: string
 };
 
 export async function fakeAccountLogin(params: LoginParamsType) {
