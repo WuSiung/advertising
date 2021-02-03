@@ -14,6 +14,11 @@ export type StateType = {
   currentAuthority?: 'user' | 'guest' | 'admin';
 };
 
+export type LoginAndRegisterPublicType = {
+  grant_type: string,
+  scope: string
+}
+
 export type LoginModelType = {
   namespace: string;
   state: StateType;
@@ -35,7 +40,10 @@ const Model: LoginModelType = {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const grant_type = 'password', scope = 'server'
+      const loginPublicParams: LoginAndRegisterPublicType = {
+        grant_type: 'password',
+        scope: 'server'
+      }
       const user = encryption(
         {
           data: payload,
@@ -43,7 +51,7 @@ const Model: LoginModelType = {
           param: ['password']
         }
       )
-      const response = yield call(fakeAccountLogin, {...user, grant_type, scope});
+      const response = yield call(fakeAccountLogin, {...user, ...loginPublicParams});
       yield put({
         type: 'changeLoginStatus',
         payload: response,
