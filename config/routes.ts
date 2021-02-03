@@ -12,6 +12,11 @@
             path: '/user/login',
             component: './User/login',
           },
+          {
+            name: 'register',
+            path: '/user/register',
+            component: './User/register',
+          },
         ],
       },
       {
