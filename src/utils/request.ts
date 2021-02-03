@@ -50,9 +50,9 @@ const { NODE_ENV } = process.env;
 /** 配置request请求时的默认参数 */
 const request = extend({
   // headers,
-  errorHandler, // 默认错误处理
+  // errorHandler, // 默认错误处理,注释不需要了，拦截器处理错误
   credentials: 'include', // 默认请求是否带上cookie
-  timeout: 1500,
+  timeout: 15000,
 });
 /** 中间件对请求前后做处理 */
 request.use(async (ctx: Context, next: Function): Promise<void> => {
@@ -63,7 +63,7 @@ request.use(async (ctx: Context, next: Function): Promise<void> => {
     ctx.req.url = '/proxyApi' + url
   }
   let headers = {}
-  const dataObj = options.params || options.data
+  const dataObj = Object.assign(options.data || {}, options.params || {}) //合并参数检查是否需要token
   if (dataObj.isToken === false) {
     headers = {
       Authorization: 'Basic cGlnOnBpZw==',
@@ -82,29 +82,36 @@ request.use(async (ctx: Context, next: Function): Promise<void> => {
 /** 拦截器 */
 request.interceptors.response.use(async (response: Response) => {
   const { ok } = response;
+  const res = await response.clone().json();
   if (!ok) {
-    const res = await response.clone().json();
     notification.error({
       message: res.msg,
     })
-    if (res.error&&res.error.message&&res.error.details) {
-      notification.error({
-        message: res.error.message,
-        description:res.error.details
-      })
-      return res;
-    } else if (res.error&&res.error.message){
-      notification.error({
-        message: res.error.message,
-      })
-      return res;
-    } else if (res.error){
-      notification.error({
-        message: res.error,
-      })
-      return res;
-    }
-    return res;
+    // if (res.error&&res.error.message&&res.error.details) {
+    //   notification.error({
+    //     message: res.error.message,
+    //     description:res.error.details
+    //   })
+    //   return res;
+    // } else if (res.error&&res.error.message){
+    //   notification.error({
+    //     message: res.error.message,
+    //   })
+    //   return res;
+    // } else if (res.error){
+    //   notification.error({
+    //     message: res.error,
+    //   })
+    //   return res;
+    // }
+    // return res;
+    throw new Error(JSON.stringify(res));
+  } else if(res.code == 1){
+    notification.error({
+      message: res.msg,
+    })
+    // return res
+    throw new Error(JSON.stringify(res));
   }
   return response;
 });
