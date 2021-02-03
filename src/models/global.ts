@@ -1,7 +1,7 @@
 import type { Reducer, Effect } from 'umi';
 
 import type { NoticeIconData } from '@/components/NoticeIcon';
-import { queryNotices } from '@/services/user';
+import { queryNotices, changeFbAccount } from '@/services/user';
 import type { ConnectState } from './connect.d';
 
 export type NoticeItem = {
@@ -22,6 +22,7 @@ export type GlobalModelType = {
     fetchNotices: Effect;
     clearNotices: Effect;
     changeNoticeReadState: Effect;
+    changeFbAccount: Effect;
   };
   reducers: {
     changeLayoutCollapsed: Reducer<GlobalModelState>;
@@ -97,6 +98,12 @@ const GlobalModel: GlobalModelType = {
         },
       });
     },
+    *changeFbAccount({ payload }, { call, put }) {
+      const res = yield call(changeFbAccount, payload)
+      if (res.code != 0) {
+        throw new Error(res.msg);
+      }
+    }
   },
 
   reducers: {
