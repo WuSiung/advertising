@@ -21,9 +21,8 @@ const Modal: RegisterModelType = {
                 grant_type: 'password',
                 scope: 'server'
             }
-            const registerParams = encryption({ data: payload, key: 'thanks,pig4cloud', param: ['password'] })
 
-            let response = yield call(postUserRegisterParams, { ...registerParams, ...registerPublicParams })
+            let response = yield call(postUserRegisterParams, { ...payload, ...registerPublicParams })
             if (response.code == 0) {
                 history.replace('/user/login')
             }
