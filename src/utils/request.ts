@@ -1,6 +1,7 @@
 import Store from '@/utils/store';
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { Context, extend } from 'umi-request';
+import { history } from 'umi'
 import { notification } from 'antd';
 
 const codeMessage = {
@@ -81,12 +82,16 @@ request.use(async (ctx: Context, next: Function): Promise<void> => {
 
 /** 拦截器 */
 request.interceptors.response.use(async (response: Response) => {
-  const { ok } = response;
+  const { ok, status } = response;
   const res = await response.clone().json();
   if (!ok) {
     notification.error({
       message: res.msg,
     })
+    if (status == 401) {
+      history.replace('/user/login')
+      throw new Error(String(status));
+    }
     // if (res.error&&res.error.message&&res.error.details) {
     //   notification.error({
     //     message: res.error.message,
