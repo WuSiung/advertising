@@ -47,7 +47,7 @@ const Model: LoginModelType = {
       const user = encryption(
         {
           data: payload,
-          key: 'thanks,pig4cloud',
+          key: 'yixiawangluo2020',
           param: ['password']
         }
       )
