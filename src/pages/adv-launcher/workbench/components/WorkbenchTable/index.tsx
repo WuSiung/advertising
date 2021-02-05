@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import { create } from 'lodash'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { connect } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType } from '../../data.d'
 
@@ -49,7 +49,13 @@ const createS = (X: number, Y: number) => {
 
 const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
     const { X, Y } = props
-    return <td className={styles.creatBlock} onClick={e => createS(X, Y)} onMouseEnter={e => createS(X, Y)} onMouseLeave={e => createS(X, Y)}>
+    const [checkX,setCheckX] = useState<number>(-1);
+    const [checkY,setCheckY] = useState<number>(-1);
+    const setXY = (checkX: number, checkY: number) => {
+        setCheckX(checkX)
+        setCheckY(checkY)
+    }
+    return <td className={`${styles.creatBlock} ${X==checkX&&Y==checkY?styles.active:""}`} onClick={e => createS(X, Y)} onMouseEnter={e => setXY(X, Y)} onMouseLeave={e => setXY(-1, -1)}>
         <div className={styles.add}>+</div>
     </td>
 }
