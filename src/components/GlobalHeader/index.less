@@ -9,6 +9,9 @@
   :global(.ant-dropdown-menu-item) {
     min-width: 160px;
   }
+  :global(.iconlogo){
+    font-size: 22px;
+  }
 }
 
 .right {
@@ -32,6 +35,12 @@
     }
     &:global(.opened) {
       background: @pro-header-hover-bg;
+    }
+  }
+  .spin{
+    height: 100%;
+    :global(.ant-spin-container){
+      height: 100%;
     }
   }
   .search {
@@ -80,3 +89,13 @@
     }
   }
 }
+
+.addAccount{
+  display: flex;
+  align-items: center;
+  :global(.anticon) {
+    margin-right: 10px;
+    font-size: 22px;
+  }
+}
+
