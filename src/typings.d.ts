@@ -28,6 +28,7 @@ interface Window {
     fieldsObject: GAFieldsObject | string,
   ) => void;
   reloadAuthorized: () => void;
+  fbAsyncInit: ()=> void
 }
 
 declare let ga: () => void;
