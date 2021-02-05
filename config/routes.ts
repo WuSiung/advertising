@@ -30,13 +30,39 @@
             routes: [
               {
                 path: '/',
-                redirect: '/welcome',
+                redirect: '/advlauncher',
               },
               {
                 path: '/welcome',
                 name: 'welcome',
                 icon: 'smile',
                 component: './Welcome',
+              },
+              {
+                path: '/advlauncher',
+                name: 'advlauncher',
+                component: './adv-launcher',
+                routes: [
+                  {
+                    path: '/advlauncher',
+                    redirect: '/advlauncher/workbench',
+                  },
+                  {
+                    path: '/advlauncher/workbench',
+                    name: 'workbench',
+                    component: './adv-launcher/workbench',
+                  },
+                  {
+                    path: '/advlauncher/advertising',
+                    name: 'advertising',
+                    component: './adv-launcher/advertising',
+                  },
+                  {
+                    path: '/advlauncher/media',
+                    name: 'media',
+                    component: './adv-launcher/media',
+                  },
+                ]
               },
               {
                 path: '/admin',
