@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import type {FacebookAccount} from '@/models/user'
+import type { FacebookAccount } from '@/models/user'
 
 export async function query(): Promise<any> {
   return request('/api/users');
@@ -19,6 +19,13 @@ export async function queryNotices(): Promise<any> {
 
 export async function changeFbAccount(params:FacebookAccount) {
   return request('/admin/systoken/bindPlatform', {
+    data: params,
+    method: 'post'
+  })
+}
+
+export async function queryFbOnlineAccounts(params: {access_token: string, fbid: string}) {
+  return request('/admin/user/getAccount', {
     data: params,
     method: 'post'
   })
