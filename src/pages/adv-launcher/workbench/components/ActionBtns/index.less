@@ -1,0 +1,18 @@
+@import '~antd/lib/style/themes/default.less';
+
+.actions{
+    margin-bottom: 10px;
+    :global(.ant-btn){
+        margin-right: @margin-xs;
+        margin-bottom: @margin-sm;
+    }
+    .rightActions{
+        text-align: right;
+    }
+    .uploadBtns{
+        display: inline-block;
+        .openFileInput{
+            display: none;
+        }
+    }
+}

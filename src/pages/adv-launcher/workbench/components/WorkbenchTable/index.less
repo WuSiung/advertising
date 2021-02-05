@@ -1,0 +1,88 @@
+@import '~antd/lib/style/themes/default.less';
+
+@baseTableWidth: 125px;
+@baseTableHeight: 115px;
+
+.tableContainer{
+    background: #fbfbfb;
+    max-height: 695px;
+    overflow: auto;
+    border-radius: 4px;
+}
+.workbenchTable{
+    table-layout: fixed;
+    width: 100%;
+    padding: 10px;
+    .firsttd{
+        width: 280px;
+        padding: 10px;
+        background-color: rebeccapurple;
+        position: sticky;
+        z-index: 11;
+        left: 0;
+        text-align: center;
+        top: 0;
+    }
+    .creatBlock{
+        cursor: pointer;
+        .add{
+            display: flex;
+            margin: 10px 5px 0;
+            height: @baseTableHeight;
+            width: @baseTableWidth - 10;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: @shadow-2;
+        }
+    }
+    .container{
+        width: @baseTableWidth;
+        background: rebeccapurple;
+        position: sticky;
+        top: 0;
+        z-index: 9;
+        .mediaBox{
+            border: 1px solid transparent;
+            text-align: center;
+            position: relative;
+            margin: 10px 5px;
+            max-width: 100%;
+            background-color: #ffffff;
+            height: @baseTableHeight;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            box-shadow: @shadow-2;
+            video,img{
+                max-height: @baseTableHeight - 10px;
+                max-width: @baseTableHeight - 10px;
+            }
+        }
+    }
+    .tdtext{
+        left: 0;
+        position: sticky;
+        z-index: 1;
+        background-color: rebeccapurple;
+        font-size: 12px;
+        .textBox{
+            height: @baseTableHeight;
+            margin: 10px 10px 0;
+            border: 1px solid transparent;
+            background: #fff;
+            padding: 10px 30px 10px 10px;
+            overflow-y: scroll;
+            border-radius: 4px;
+            box-shadow: @shadow-2;
+        }
+    }
+    .bestText{
+        bottom: 10px;
+        color: #ffffff;
+        position: absolute;
+        font-size: 22px;
+    }
+}
