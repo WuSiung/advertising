@@ -1,6 +1,10 @@
 export default {
   'menu.welcome': '欢迎',
+  'menu.advlauncher': '广告启动',
   'menu.more-blocks': '更多区块',
+  'menu.advlauncher.workbench': '工作台',
+  'menu.advlauncher.advertising': '已有广告',
+  'menu.advlauncher.media': '公共素材库',
   'menu.home': '首页',
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
