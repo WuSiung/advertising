@@ -1,6 +1,6 @@
 import type { Effect, Reducer } from 'umi';
 
-import { queryCurrent, query as queryUsers, queryFbAccounts } from '@/services/user';
+import { queryCurrent, query as queryUsers, queryFbAccounts, queryFbOnlineAccounts } from '@/services/user';
 
 export type CurrentUser = {
   avatar?: string;
@@ -34,11 +34,24 @@ export type FacebookAccount = {
   tokenId?: number
 }
 
+export type OnlineFbAcccountType = {
+  account_id: string,
+  account_status: number,
+  age: number,
+  amount_spent: string,
+  balance: string,
+  currency: string,
+  id: string,
+  name: string
+}
+
 export type UserModelState = {
   currentUser?: CurrentUser,
   appInfo?: AppInfo,
-  facebookAccounts?: FacebookAccount[]
+  facebookAccounts?: FacebookAccount[], // 已绑定的fb账号本地数据库
+  fbOnlineAccounts?: OnlineFbAcccountType[], // fb线上账号
 };
+
 
 export type UserModelType = {
   namespace: 'user';
@@ -47,12 +60,14 @@ export type UserModelType = {
     fetch: Effect;
     fetchCurrent: Effect;
     fetchFbAccounts: Effect;
+    fetchFbOnlineAccounts: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<UserModelState['currentUser']>;
     changeNotifyCount: Reducer<UserModelState>;
     saveAppInfo: Reducer<UserModelState['appInfo']>;
-    saveFbAccounts: Reducer<UserModelState>
+    saveFbAccounts: Reducer<UserModelState>;
+    saveFbOnlineAccounts: Reducer<UserModelState>;
   };
 };
 
@@ -62,7 +77,8 @@ const UserModel: UserModelType = {
   state: {
     currentUser: {},
     appInfo: {},
-    facebookAccounts: []
+    facebookAccounts: [],
+    fbOnlineAccounts: []
   },
 
   effects: {
@@ -94,6 +110,13 @@ const UserModel: UserModelType = {
         type: 'saveFbAccounts',
         payload: response.data
       })
+    },
+    *fetchFbOnlineAccounts({ payload }, { call, put }) {
+      const response = yield call(queryFbOnlineAccounts, { ...payload })
+      yield put({
+        type: 'saveFbOnlineAccounts',
+        payload: response.data.data
+      })
     }
   },
 
@@ -114,6 +137,12 @@ const UserModel: UserModelType = {
       return {
         ...state,
         facebookAccounts: payload
+      }
+    },
+    saveFbOnlineAccounts(state, { payload }) {
+      return {
+        ...state,
+        fbOnlineAccounts: payload
       }
     },
     changeNotifyCount(
