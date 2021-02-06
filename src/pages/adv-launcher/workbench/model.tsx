@@ -1,6 +1,6 @@
 import { Effect, Reducer } from 'umi';
 import { WorkbenchDataType, PostMediaDataType } from './data.d'
-import { queryAllList, uploadMediaToWorkbench } from './service'
+import { postTextsToWorkbench, queryAllList, uploadMediaToWorkbench } from './service'
 
 export interface WorkbenchModalType {
     namespace: string,
@@ -8,17 +8,19 @@ export interface WorkbenchModalType {
     effects: {
         fetchAllList: Effect,
         uploadFile: Effect,
+        uploadText: Effect,
     },
     reducers: {
         saveImgList: Reducer<WorkbenchDataType>,
-        saveTextList: Reducer<WorkbenchModalType>
+        saveTextList: Reducer<WorkbenchModalType>,
+        savePreviewAdvs: Reducer<WorkbenchModalType>,
     }
 }
 
 const initSate: WorkbenchDataType = {
     uploadImgList: [],
     uploadTextList: [],
-    savePreviewAdv: [],
+    previewAdvs: [],
     templateDetailData: undefined,
     templateList: []
 }
@@ -40,7 +42,10 @@ const WorkbenchModal: WorkbenchModalType = {
         },
         *uploadFile({ payload }, { call }) {
             const response: any = yield call(uploadMediaToWorkbench, payload)
-            return  response.value
+            return response.value
+        },
+        *uploadText({ payload }, { call }) { 
+            yield call(postTextsToWorkbench, {data: JSON.stringify(payload)})
         }
     },
     reducers: {
@@ -49,7 +54,12 @@ const WorkbenchModal: WorkbenchModalType = {
         },
         saveTextList(state, { payload }) {
             return { ...state, ...payload }
-        }
+        },
+        savePreviewAdvs(state, { payload }) {
+            // 数据深拷贝
+            let newParams = JSON.parse(JSON.stringify(payload))
+            return { ...state, ...newParams }
+        },
     }
 }
 
