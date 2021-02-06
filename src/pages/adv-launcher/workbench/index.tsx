@@ -21,7 +21,7 @@ const Workbench: FC<WorkbenchPropsType> = (props) => {
             <Card>
                 <ActionBtns></ActionBtns>
                 {/* 有数据后不再显示loading */}
-                <Spin spinning={!!loading && workbench.uploadImgList.length <= 0}>
+                <Spin spinning={!!loading}>
                     <WorkbenchTable />
                 </Spin>
             </Card>
