@@ -7,7 +7,7 @@ export interface TextDataType {
 
 export interface ImgDataType {
     fileId: string,
-    imgId: string | number,
+    imgId: number,
     type: string | number,
     url: string,
     url2: string
@@ -15,7 +15,8 @@ export interface ImgDataType {
 
 export interface PostMediaDataType {
     id: string,
-    link: string
+    link: string,
+    type?: number | string
 }
 
 export interface TemplateDataType {
@@ -28,7 +29,8 @@ export interface PreviewAdvType {
     content: string,
     title: string,
     imgId: number,
-    textId: number
+    textId: number,
+    type?: number | string
 }
 
 export interface TemplateDetailDataType {
@@ -37,10 +39,10 @@ export interface TemplateDetailDataType {
     advTemplateRelList: PreviewAdvType[]
 }
 
-export interface WorkbenchDataType{
+export interface WorkbenchDataType {
     uploadImgList: ImgDataType[],
     uploadTextList: TextDataType[],
-    savePreviewAdv: PreviewAdvType[],
+    previewAdvs: PreviewAdvType[],
     templateDetailData?: TemplateDetailDataType,
     templateList: TemplateDataType[]
 }
