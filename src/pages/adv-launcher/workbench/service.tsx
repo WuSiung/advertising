@@ -15,6 +15,13 @@ export async function uploadMediaToWorkbench(media: FormData) {
 export async function postOneRecordToWorkbench(params:PostMediaDataType) {
     return request('/ads/advimg', {
         method: 'post',
-        data: {type: 0, fileId: params.id, url: params.link}
+        data: {type: params.type || 0, fileId: params.id, url: params.link}
+    })
+}
+
+export async function postTextsToWorkbench(data:{data: string}) {
+    return request('/ads/advtext/batchSave', {
+        method: 'post',
+        data: data
     })
 }
