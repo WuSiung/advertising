@@ -1,9 +1,12 @@
 import { Card, Spin } from 'antd'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType } from './data.d'
 import ActionBtns from './components/ActionBtns'
 import WorkbenchTable from './components/WorkbenchTable'
+import PreviewContainer from '../components/PreviewContainer'
+
+import styles from './index.les'
 
 export interface WorkbenchPropsType {
     workbench: WorkbenchDataType,
@@ -13,6 +16,7 @@ export interface WorkbenchPropsType {
 
 const Workbench: FC<WorkbenchPropsType> = (props) => {
     const { workbench, loading, dispatch } = props
+    const [PreiviewVisible, setPreviewVisible] = useState<boolean>(true)
     useEffect(() => {
         dispatch({ type: 'workbench/fetchAllList' })
     }, [])
@@ -24,6 +28,7 @@ const Workbench: FC<WorkbenchPropsType> = (props) => {
                 <Spin spinning={!!loading}>
                     <WorkbenchTable />
                 </Spin>
+                <PreviewContainer visible={ PreiviewVisible } handleVisible={setPreviewVisible}></PreviewContainer>
             </Card>
         </>
     )

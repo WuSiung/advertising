@@ -29,10 +29,10 @@ const AdvLauncher: FC<AdvLauncher> = (props) => {
             case 'workbench':
                 history.push(`${url}/workbench`);
                 break;
-            case 'advertising': 
+            case 'advertising':
                 history.push(`${url}/advertising`);
                 break;
-            case 'media': 
+            case 'media':
                 history.push(`${url}/media`);
                 break;
             default:
@@ -47,15 +47,23 @@ const AdvLauncher: FC<AdvLauncher> = (props) => {
         }
         return 'workbench'
     }
+    const tableKey = getTabKey()
+    const isTabPage = tabList.some(tab => {
+        return tab.key == tableKey
+    })
     const header = {
         title: '',
         breadcrumb: {} // 必须为空，去除面包屑
     }
     return (
         <div className={styles.advlauncher}>
-            <PageContainer header={header} tabList={tabList} tabActiveKey={ getTabKey() } onTabChange={handleTabChange}>
-                {children}
-            </PageContainer>
+            {
+                isTabPage ? <PageContainer header={header} tabList={tabList} tabActiveKey={tableKey} onTabChange={handleTabChange}>
+                    {children}
+                </PageContainer>
+                    : <div>{children}</div>
+            }
+
         </div>
     )
 }

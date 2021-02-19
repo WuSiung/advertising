@@ -62,6 +62,33 @@
                     name: 'media',
                     component: './adv-launcher/media',
                   },
+                  {
+                    path: '/advlauncher/compaign',
+                    name: 'compaign',
+                    hideInMenu: true,
+                    component: './adv-launcher/compaign',
+                  },
+                ]
+              },
+              {
+                path: '/audience',
+                name: 'audience',
+                component: './audience-manager/manager',
+                routes: [
+                  {
+                    path: '/audience',
+                    redirect: '/audience/manager',
+                  },
+                  {
+                    path: '/audience/crowds',
+                    name: 'crowds',
+                    component: './audience-manager/crowds',
+                  },
+                  {
+                    path: '/audience/manager',
+                    name: 'manager',
+                    component: './audience-manager/manager',
+                  },
                 ]
               },
               {

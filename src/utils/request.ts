@@ -51,7 +51,7 @@ const { NODE_ENV } = process.env;
 /** 配置request请求时的默认参数 */
 const request = extend({
   // headers,
-  errorHandler,
+  // errorHandler,
   credentials: 'include', // 默认请求是否带上cookie
   timeout: 15000,
 });

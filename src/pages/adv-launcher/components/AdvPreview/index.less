@@ -1,0 +1,53 @@
+@import '~antd/lib/style/themes/default.less';
+
+.previewAdv{
+    border: 1px solid #ccc;
+    transform: scale(0.70);
+    transform-origin: 0px 0px;
+    width: 252px;
+    .header{
+        display: flex;
+        padding: 4px;
+        .logo{
+            width: 40px;
+        }
+        .info{
+            flex: 1;
+            margin-left: 10px;
+            .appName{
+                font-size: @font-size-sm;
+            }
+        }
+    }
+
+    .content{
+        .contentText{
+            font-size: @font-size-sm;
+            margin: 6px 0 10px;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        .media{
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            min-height: 252px;
+        }
+    }
+
+    .footer{
+        display: flex;
+        padding: 10px;
+        background: #fbfbfb;
+        align-items: center;
+        .title{
+            font-size: @font-size-sm;
+            flex: 1;
+        }
+        .donwload{
+            font-size: @font-size-sm;
+        }
+    }
+}

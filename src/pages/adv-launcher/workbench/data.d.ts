@@ -43,6 +43,7 @@ export interface WorkbenchDataType {
     uploadImgList: ImgDataType[],
     uploadTextList: TextDataType[],
     previewAdvs: PreviewAdvType[],
+    savePreviewAdvsRecord: PreviewAdvType[],
     templateDetailData?: TemplateDetailDataType,
     templateList: TemplateDataType[]
 }

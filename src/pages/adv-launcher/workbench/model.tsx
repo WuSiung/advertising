@@ -22,7 +22,8 @@ const initSate: WorkbenchDataType = {
     uploadTextList: [],
     previewAdvs: [],
     templateDetailData: undefined,
-    templateList: []
+    templateList: [],
+    savePreviewAdvsRecord: []
 }
 
 const WorkbenchModal: WorkbenchModalType = {

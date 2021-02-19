@@ -1,7 +1,7 @@
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Col, Row, Button, Select, Upload, Spin, message } from 'antd'
 import React, { FC, useCallback, useState } from 'react'
-import { connect, Dispatch } from 'umi';
+import { connect, Dispatch, history } from 'umi';
 import Loading from '@/components/Loading'
 import { isImage, isVideo } from '@/utils/fileType'
 import UploadTextFile from '../../../components/UploadTextFile'
@@ -47,6 +47,14 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
         }
     }
 
+    const createAdv = ()=>{
+        if(workbench.previewAdvs.length<=0){
+            message.error('请选择广告')
+        }else{
+            history.push('/advlauncher/compaign')
+        }
+    }
+
     const fileUpload = useCallback(fileChange, [])
 
     return (
@@ -69,8 +77,8 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
                 </Col>
                 <Col span={12} className={styles.rightActions}>
                     <Button type="primary" disabled>撤回</Button>
-                    <Button type="primary">清空选择</Button>
-                    <Button type="primary">创建广告</Button>
+                    <Button type="primary" onClick={() => clearPreview(dispatch)}>清空选择</Button>
+                    <Button type="primary" onClick={createAdv}>创建广告</Button>
                 </Col>
             </Row>
             {
@@ -100,6 +108,14 @@ const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
 
 const addResultToWorkbench = (result: PostMediaDataType) => {
     postOneRecordToWorkbench(result)
+}
+
+// 清空预览广告
+const clearPreview = (dispatch: Dispatch) => {
+    dispatch({
+        type: 'workbench/savePreviewAdvs',
+        payload: { previewAdvs: [] }
+    })
 }
 
 const fileType = (name: string) => {
