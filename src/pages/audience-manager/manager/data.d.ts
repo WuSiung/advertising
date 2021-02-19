@@ -4,31 +4,57 @@ export interface QueryListDataType {
     id?: string | number
 }
 
-export interface InterestDataType{
+export interface InterestDataType {
     loveId: string,
     loveName: string,
     loveCname?: string,
     path: string,
-    count: number|string,
+    count: number | string,
     type: string,
     ctype?: string,
     pid: string,
+    checked?: boolean | undefined
     level: number
 }
-export interface AudienceDataType{
-    audienceId: string,
+export interface AudienceDataType {
+    audienceId: string | number,
     audienceName: string,
     approximateCount: string,
     type: string,
-    deliveryStatus: string|null,
-    deliveryDesc: string|null,
-    operationStatus: string|null,
-    ratio_start: string|null,
-    ratio_end: string|null,
+    deliveryStatus: string | null,
+    deliveryDesc: string | null,
+    operationStatus: string | null,
+    ratio_start: string | null,
+    ratio_end: string | null,
+    checked?: boolean | undefined,
     retention: number
 }
 
-export interface ManagerDataType{
-    interestList: InterestDataType[],
-    audienceList: AudienceDataType[]
+export interface AudienceModelDataType{
+    audId: number,
+    audName: string,
+    stype: number
+}
+
+export interface AudienceModelDetailType{
+    audLoveId: number,
+    loveCname: string,
+    loveId: number,
+    loveName: string,
+    stype: string | number,
+    type: string | number
+}
+
+export interface SaveCrowdParamsType{
+    loves: string,
+    audName: string,
+    stype: number
+}
+
+export interface ManagerDataType {
+    interestList: Array<InterestDataType>,
+    audienceList: AudienceDataType[],
+    includeList: Array<InterestDataType & AudienceDataType>,
+    excludeList: Array<InterestDataType & AudienceDataType>,
+    modelList: Array<AudienceModelDataType>
 }

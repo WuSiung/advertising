@@ -1,0 +1,51 @@
+@import '~antd/lib/style/themes/default.less';
+
+.infos{
+    margin-top: 10px;
+    .topBtns{
+        display: flex;
+        justify-content: space-between;
+        .right{
+            display: flex;
+        }
+    }
+    .chooseList{
+        display: flex;
+        margin-top: 20px;
+        .listContent{
+            width: 440px;
+            height: 180px;
+            overflow-y: scroll;
+            box-sizing: border-box;
+            padding: 10px 0;
+            box-shadow: @shadow-2;
+            margin-top: 10px;
+            .line{
+                font-size: 14px;
+                color: #333;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 6px 10px 0;
+                .name{
+                    flex: 1;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .num{
+                    margin-left: 10px;
+                }
+                .delete{
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+.selectItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

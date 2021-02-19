@@ -16,7 +16,7 @@ export interface WorkbenchPropsType {
 
 const Workbench: FC<WorkbenchPropsType> = (props) => {
     const { workbench, loading, dispatch } = props
-    const [PreiviewVisible, setPreviewVisible] = useState<boolean>(true)
+    const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
     useEffect(() => {
         dispatch({ type: 'workbench/fetchAllList' })
     }, [])
