@@ -78,8 +78,10 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
     }
 
     const selectTarget = (_: string, options: any) => {
-        // selectTarget()
-        console.log(options.key)
+        let targetNow = targetList.filter(target => {
+            return target.id == options.key
+        })
+        setTarget(targetNow[0])
     }
 
     const selectInclude = (_: string, options: any) => {
