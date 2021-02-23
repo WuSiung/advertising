@@ -30,7 +30,9 @@ export interface PreviewAdvType {
     title: string,
     imgId: number,
     textId: number,
-    type?: number | string
+    type?: number | string,
+    checked?: boolean,
+    audsInfo?: { audId: number; audName: string; }[]
 }
 
 export interface TemplateDetailDataType {
