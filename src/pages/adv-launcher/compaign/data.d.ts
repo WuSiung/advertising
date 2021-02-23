@@ -1,7 +1,7 @@
 export interface CompaignsListType {
     packId: number,
     appName: string,
-    budget: number | string,
+    budget: number,
     spendNum: number | string
 }
 
@@ -11,7 +11,15 @@ export interface CreateCompaignDataType {
     spendNum: number | string
 }
 
+export interface SaveChooseCompaignDataType {
+    packId?: number,
+    appName: string,
+    budget: number,
+    spendNum: number | string
+}
+
 
 export interface CompaignsData {
-    compaignsList: CompaignsListType[]
+    compaignsList: CompaignsListType[],
+    compaignParams: SaveChooseCompaignDataType
 }

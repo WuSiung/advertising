@@ -9,27 +9,36 @@ export interface CompaignsModalType {
         fetchCompaignsList: Effect,
     },
     reducers: {
-        saveCompaignsList: Reducer<CompaignsData>,
+        saveCompaignsList: Reducer<CompaignsData['compaignsList']>,
+        saveCompaignChooseParams: Reducer<CompaignsData['compaignParams']>,
     }
 }
 
 const CompaignsModal: CompaignsModalType = {
     namespace: 'compaigns',
     state: {
-        compaignsList: []
+        compaignsList: [],
+        compaignParams: {
+            budget: 0,
+            spendNum: 0,
+            appName: '',
+        },
     },
     effects: {
         *fetchCompaignsList(_, { call, put }) {
             const response = yield call(queryCompaigns)
             yield put({
                 type: 'saveCompaignsList',
-                payload: response.data.records
+                payload: {compaignsList: response.data.records}
             })
         }
     },
     reducers: {
         saveCompaignsList(state, { payload }) {
-            return { ...state, ...{ compaignsList: payload } }
+            return { ...state, ...payload }
+        },
+        saveCompaignChooseParams(state, { payload }) {
+            return { ...state, ...payload }
         }
     }
 }
