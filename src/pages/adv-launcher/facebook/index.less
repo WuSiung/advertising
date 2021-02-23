@@ -1,0 +1,63 @@
+@import '~antd/lib/style/themes/default.less';
+
+@boxshadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+
+
+
+.setting{
+    padding-top: 20px;
+    .tips{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        box-shadow: @boxshadow;
+        margin-bottom: 10px;
+        .name{
+            font-size: @font-size-base;
+            span{
+                display: inline-block;
+                padding: 2px 30px;
+                border-radius: 10px;
+                color: #fff;
+                background: #ccc;
+                font-size: @font-size-sm;
+                margin-left: 10px;
+            }
+        }
+    }
+    .settingls{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+}
+.box{
+    box-shadow: @boxshadow;
+    margin-bottom: 20px;
+    background: #f0f2f5;
+    width: 49%;
+    &:nth-child(odd){
+        margin-right: 2%;
+    }
+    .title{
+        padding: 10px;
+        background: #fff;
+        font-size: 14px;
+        color: #333;
+    }
+    .content{
+        padding: 10px;
+        height: 100%;
+        :global(.ant-table-thead > tr > th),:global(.ant-table-tbody > tr > td),:global(.ant-table tfoot > tr > th),:global(.ant-table tfoot > tr > td){
+            font-size: 12px;
+            padding: 12px;
+        }
+        .area{
+            margin: 10px 0;
+            background: #ffffff;
+            padding: 10px;
+            min-height: 80px;
+        }
+    }
+}
