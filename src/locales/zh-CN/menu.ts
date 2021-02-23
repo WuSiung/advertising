@@ -6,6 +6,8 @@ export default {
   'menu.advlauncher.advertising': '已有广告',
   'menu.advlauncher.media': '公共素材库',
   'menu.advlauncher.compaign': '广告系列',
+  'menu.advlauncher.crowds': '绑定人群包',
+  'menu.advlauncher.facebook': 'Facebook基础设置',
   'menu.audience': '观众工作室',
   'menu.audience.crowds': '人群包列表',
   'menu.audience.manager': '人群包管理',
