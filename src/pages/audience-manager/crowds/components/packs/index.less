@@ -1,0 +1,75 @@
+@import '~antd/lib/style/themes/default.less';
+
+.navname{
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.crowdPack{
+    background: #ecf5ff;
+    .packs{
+        display: flex;
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        .title{
+            width: 20px;
+            padding: 10px 20px;
+            border-right: 1px solid rgba(0,0,0,.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .packList{
+        flex: 1;
+        padding: 20px 10px 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .item{
+        cursor: pointer;
+        user-select: none;
+        width: 180px;
+        height: 180px;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        position: relative;
+        border: 1px solid rgba(0,0,0,.1);
+        &.active{
+            box-shadow: @shadow-2;
+        }
+        &:hover{
+            .popover, &::after{
+                display: block;
+            }
+        }
+        &::after{
+            content: "";
+            display: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-right: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-bottom: 10px solid #fff;
+            top: 100px;
+        }
+        .popover{
+            position: absolute;
+            box-shadow: 0 2px 6px 0 rgb(0 0 0 / 10%);
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 19;
+            width: calc(100% + 100px);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 12px;
+            background: #fff;
+            display: none;
+        }
+    }
+}

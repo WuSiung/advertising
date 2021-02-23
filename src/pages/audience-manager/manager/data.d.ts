@@ -1,3 +1,4 @@
+import type {AudienceModelDataType} from '../data'
 export interface QueryListDataType {
     size: number,
     name?: string,
@@ -30,11 +31,6 @@ export interface AudienceDataType {
     retention: number
 }
 
-export interface AudienceModelDataType{
-    audId: number,
-    audName: string,
-    stype: number
-}
 
 export interface AudienceModelDetailType{
     audLoveId: number,

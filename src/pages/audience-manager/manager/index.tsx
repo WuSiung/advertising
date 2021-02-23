@@ -1,7 +1,8 @@
 import { Card, Tabs, Input, Button, Spin } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { connect, Dispatch } from 'umi'
-import { InterestDataType, AudienceDataType, ManagerDataType, AudienceModelDataType } from './data'
+import { InterestDataType, AudienceDataType, ManagerDataType } from './data'
+import { AudienceModelDataType } from '../data'
 import CheckInfoShow from './components/CheckInfoShow'
 import { formatterPersonNum } from '@/utils/countTrans'
 
