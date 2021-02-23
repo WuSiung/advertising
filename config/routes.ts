@@ -68,12 +68,24 @@
                     hideInMenu: true,
                     component: './adv-launcher/compaign',
                   },
+                  {
+                    path: '/advlauncher/crowds',
+                    name: 'crowds',
+                    hideInMenu: true,
+                    component: './adv-launcher/crowds',
+                  },
+                  {
+                    path: '/advlauncher/facebook',
+                    name: 'facebook',
+                    hideInMenu: true,
+                    component: './adv-launcher/facebook',
+                  },
                 ]
               },
               {
                 path: '/audience',
                 name: 'audience',
-                component: './audience-manager/manager',
+                component: './audience-manager',
                 routes: [
                   {
                     path: '/audience',
