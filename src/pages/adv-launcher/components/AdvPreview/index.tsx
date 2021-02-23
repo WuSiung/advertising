@@ -12,8 +12,8 @@ type AdvPreviewProps = {
 } & PreviewAdvType
 
 const AdvPreview: FC<AdvPreviewProps> = (props) => {
-    const { appInfo,classNames, ...ohterProps } = props
-    return <div className={`${styles.previewAdv} ${classNames||''}`}>
+    const { appInfo, classNames, type, ...ohterProps } = props
+    return <div className={`${styles.previewAdv} ${classNames || ''}`}>
         <div className={styles.header}>
             <Image src={appInfo?.logo} preview={false} width={28} />
             <div className={styles.info}>
@@ -25,7 +25,10 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
                 {ohterProps.content}
             </div>
             <div className={styles.media}>
-                <Image src={ohterProps.url} />
+                {
+                    type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url}></video>
+                }
+
             </div>
         </div>
         <div className={styles.footer}>
