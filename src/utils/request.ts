@@ -86,7 +86,7 @@ request.interceptors.response.use(async (response: Response) => {
   const res = await response.clone().json();
   if (!ok) {
     notification.error({
-      message: res.msg,
+      message: res.msg || res.message,
     })
     if (status == 401) {
       history.replace('/user/login')
