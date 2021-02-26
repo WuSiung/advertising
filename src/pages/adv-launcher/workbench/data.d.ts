@@ -32,7 +32,22 @@ export interface PreviewAdvType {
     textId: number,
     type?: number | string,
     checked?: boolean,
-    audsInfo?: { audId: number; audName: string; }[]
+    audsInfo?: { audId: number; audName: string; }[],
+    facebookSetting?: SaveFacebookSettingType,
+    setName?: string,
+    advName?: string,
+    campaignName?: string
+}
+
+export interface SaveFacebookSettingType {
+    age: [number, number],
+    budget: string,
+    exclude: string[],
+    include: string[],
+    market_type: string,
+    position: string[],
+    sex: number,
+    target_type: string
 }
 
 export interface TemplateDetailDataType {

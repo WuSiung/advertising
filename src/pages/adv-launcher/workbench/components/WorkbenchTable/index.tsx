@@ -83,13 +83,16 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
             payload: { previewAdvs: newPreviewAdvs }
         })
     }
+    const clearAll = () => [
+        dispatch({ type: 'workbench/clearWorkbench' })
+    ]
     return (
         <div className={styles.tableContainer}>
             <table className={styles.workbenchTable}>
                 <thead>
                     <tr>
                         <th className={styles.firsttd}>
-                            <Button type='primary'>清空素材</Button>
+                            <Button type='primary' onClick={clearAll}>清空素材</Button>
                             <div className={styles.bestText}>最佳文案素材</div>
                         </th>
                         {

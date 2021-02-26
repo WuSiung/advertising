@@ -6,7 +6,7 @@ import ActionBtns from './components/ActionBtns'
 import WorkbenchTable from './components/WorkbenchTable'
 import PreviewContainer from '../components/PreviewContainer'
 
-import styles from './index.les'
+import styles from './index.less'
 
 export interface WorkbenchPropsType {
     workbench: WorkbenchDataType,
@@ -19,9 +19,10 @@ const Workbench: FC<WorkbenchPropsType> = (props) => {
     const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
     useEffect(() => {
         dispatch({ type: 'workbench/fetchAllList' })
+        dispatch({ type: 'workbench/queryTemp' })
     }, [])
     return (
-        <>
+        <div style={{overflow: 'hidden'}}>
             <Card>
                 <ActionBtns></ActionBtns>
                 {/* 有数据后不再显示loading */}
@@ -30,7 +31,7 @@ const Workbench: FC<WorkbenchPropsType> = (props) => {
                 </Spin>
                 <PreviewContainer visible={ PreiviewVisible } handleVisible={setPreviewVisible}></PreviewContainer>
             </Card>
-        </>
+        </div>
     )
 }
 
