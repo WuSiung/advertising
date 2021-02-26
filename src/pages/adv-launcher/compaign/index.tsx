@@ -144,16 +144,17 @@ const Compaign: FC<CompaignProps> = (props) => {
     const [newCompaignVisible, setNewCompaignVisible] = useState<boolean>(false)
     const [newCompaignParams, setNewCompaignParams] = useState<CreateCompaignDataType>({ budget: 0, spendNum: '', appName: initName() })
     const [autoParams, setAutoParams] = useState<SaveChooseCompaignDataType>({ budget: 0, spendNum: '', appName: initName() })
-    const [hasParams, setHasPramas] = useState<SaveChooseCompaignDataType>({ budget: 0, spendNum: '', appName: initName(), packId: -1 })
+    const [hasParams, setHasPramas] = useState<SaveChooseCompaignDataType>(compaignsList[0] || { budget: 0, spendNum: '', appName: initName(), packId: -1 })
     let memoAutoParams = useMemo(() => {
         return autoParams
     }, [autoParams])
     useEffect(() => {
-        dispatch({ type: 'compaigns/fetchCompaignsList' })
+        dispatch({ type: 'compaigns/fetchCompaignsList', payload: { size: 1000 } })
     }, [])
 
     const changeNewCompaignBudget = (e: boolean) => {
-        setNewCompaignParams({ ...newCompaignParams, budget: Number(e) || 0 })
+        const name = e ? newCompaignParams.appName + ' CBO' : newCompaignParams.appName.replace(' CBO', '')
+        setNewCompaignParams({ ...newCompaignParams, budget: Number(e) || 0, appName: name })
     }
 
     const createCompaign = () => {
@@ -181,9 +182,18 @@ const Compaign: FC<CompaignProps> = (props) => {
             }
             params = hasParams
         }
+        // 删除Facebook设置，需要重新填写
+        const arr = previewAds.map(adv => {
+            delete adv.facebookSetting
+            return adv
+        })
         await dispatch({
             type: 'compaigns/saveCompaignChooseParams',
             payload: { compaignParams: params }
+        })
+        await dispatch({
+            type: 'workbench/savePreviewAdvs',
+            payload: { previewAdvs: arr }
         })
         history.push('/advlauncher/crowds')
     }
@@ -198,7 +208,8 @@ const Compaign: FC<CompaignProps> = (props) => {
                 <RenderCompaign className={styles.compaignBox} title='选择平台推荐策略'
                     dec='建议将不同的广告投放到不同的广告系列' isChecked={chooseType == 0} onClick={() => setChooseType(0)}>
                     <AutoCompaignTable length={previewAds.length} {...memoAutoParams} onChangeName={e => { setAutoParams({ ...autoParams, appName: e }) }}
-                        onSetCbo={e => { setAutoParams({ ...autoParams, budget: e }) }} onSetSpend={e => { setAutoParams({ ...autoParams, spendNum: e }) }} />
+                        onSetCbo={e => { setAutoParams({ ...autoParams, budget: e, appName: e ? autoParams.appName + ' CBO' : autoParams.appName.replace(' CBO', '') }) }}
+                        onSetSpend={e => { setAutoParams({ ...autoParams, spendNum: e as string }) }} />
                 </RenderCompaign>
                 <RenderCompaign className={styles.compaignBox} title='选择已有广告系列发布' onClick={() => setChooseType(1)}
                     dec='将所有广告投放到一个广告系列' isChecked={chooseType == 1} >

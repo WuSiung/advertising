@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Button, Card, Input, Select, Slider, Table, Tag } from 'antd'
+import { Button, Card, Input, message, Select, Slider, Table, Tag } from 'antd'
 import { AppInfo, connect, Dispatch, UserModelState } from 'umi'
 import { allCountry } from '@/utils/countrys'
-import { PreviewAdvType, WorkbenchDataType } from '../workbench/data'
+import { PreviewAdvType, SaveFacebookSettingType, WorkbenchDataType } from '../workbench/data'
 import { CompaignsData, SaveChooseCompaignDataType } from '../compaign/data'
 import { CountryRecordType, FacebookStateType, MarketType, TargetType } from './data'
 import { sex, advPosition } from './static'
@@ -37,14 +37,14 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
     // 是否全选了
     let isCheckAll = previewAdvs.every(adv => adv.checked);
     let checkCount = 0
-    let isFinished = previewAdvs.every(adv => { if (adv.checked) { checkCount++ } return adv });
+    let isFinished = previewAdvs.every(adv => { if (adv.checked) { checkCount++ } return adv.facebookSetting });
 
     const [spendNum, setSpendNum] = useState<string>('')
     const [defaultTarget, setTarget] = useState<TargetType>(targetList[0]);
     const [defaultMarket, setMarket] = useState<TargetType>(marketList[0]);
     const [defaultAge, setDefaultAge] = useState<[number, number]>([18, 55])
     const [defaultSex, setSex] = useState<number>(0)
-    const [defaultPosition, setPosition] = useState<number[]>(advPosition.map(position => position.id))
+    const [defaultPosition, setPosition] = useState<string[]>(advPosition.map(position => position.label))
     const [includeArea, setIncludeArea] = useState<string[]>([])
     const [excludeArea, setExcludeArea] = useState<string[]>([])
 
@@ -84,6 +84,13 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         setTarget(targetNow[0])
     }
 
+    const selectMarket = (_: string, options: any) => {
+        let marketNow = marketList.filter(market => {
+            return market.id == options.key
+        })
+        setMarket(marketNow[0])
+    }
+
     const selectInclude = (_: string, options: any) => {
         let newInclude: string[] = JSON.parse(JSON.stringify(includeArea)) || []
         if (!includeArea?.includes(options.key)) {
@@ -112,13 +119,70 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         setExcludeArea(newExclude)
     }
 
+    const saveFacebook = () => {
+        let params: SaveFacebookSettingType = {
+            age: defaultAge,
+            budget: compaignParams.budget == 1 ? String(compaignParams.spendNum) : spendNum,
+            exclude: excludeArea || [],
+            include: includeArea || [],
+            market_type: defaultMarket?.value || '',
+            position: defaultPosition || [],
+            sex: defaultSex,
+            target_type: defaultTarget?.value || ''
+        }
+        // 检测数据完整性
+        if (params.budget == '' && !Boolean(compaignParams.budget)) {
+            message.warning('请输入预算')
+            return
+        }
+        if (params.exclude.length == 0 && params.include.length == 0) {
+            message.warning('请选择地区')
+            return
+        }
+        if (params.position.length == 0) {
+            message.warning('请选择广告投放位置')
+            return
+        }
+        if (!params.market_type || !params.target_type) {
+            message.warning('请选择转换类型')
+            return
+        }
+
+
+        let autoNextIndex = 0;
+        let count = 0
+        const newAdvs = previewAdvs.map((adv, i) => {
+            const newAdv: PreviewAdvType = JSON.parse(JSON.stringify(adv))
+            if (newAdv.checked) {
+                newAdv.facebookSetting = params
+                newAdv.checked = false
+                newAdv.setName = setName(params, adv.audsInfo) + '-' + addZero(i + 1);
+                newAdv.advName = advName(params, adv.type);
+                newAdv.campaignName = compaignParams.appName + '-' + addZero(i + 1);
+                autoNextIndex = i + 1
+            } else {
+                count++
+            }
+            return newAdv
+        })
+        if (count == newAdvs.length) {
+            message.error('请选择至少一个广告素材')
+            return
+        }
+        // 自动选择下一项
+        if (autoNextIndex < newAdvs.length) {
+            newAdvs[autoNextIndex].checked = true
+        }
+        setAdvs(dispatch, newAdvs)
+        message.success('保存成功啦~')
+    }
     return <Card>
         <Steps stepNum={2} />
-        <RenderAdvs title='广告基础信息设置' isCheckAll={isCheckAll} isFinished nextUrl="/advlauncher/launcher" onCheckAdv={checkAdv} onCheckAll={checkAll}></RenderAdvs>
+        <RenderAdvs title='广告基础信息设置' isCheckAll={isCheckAll} isFinished={isFinished} nextUrl="/advlauncher/launcher" onCheckAdv={checkAdv} onCheckAll={checkAll}></RenderAdvs>
         <div className={styles.setting}>
             <div className={styles.tips}>
                 <div className={styles.name}>Facebook流量<span>选中 {checkCount}</span></div>
-                <Button type='primary'>保存更改</Button>
+                <Button type='primary' onClick={saveFacebook}>保存更改</Button>
             </div>
             <div className={styles.settingls}>
                 {
@@ -134,7 +198,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                             })
                         }
                     </Select>
-                    <Select style={{ display: 'block', marginBottom: 10 }} defaultValue={defaultMarket?.label} placeholder='请选择'>
+                    <Select style={{ display: 'block', marginBottom: 10 }} defaultValue={defaultMarket?.label} placeholder='请选择' onSelect={selectMarket}>
                         {
                             marketList.map(target => {
                                 return <Select.Option value={target.label} key={target.id}>{target.label}</Select.Option>
@@ -151,8 +215,8 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                 </RenderFacebookBox>
                 <RenderFacebookBox title='选择展示位置'>
                     <Table rowSelection={{
-                        type: 'checkbox', onChange: e => setPosition(e as number[]), selectedRowKeys: defaultPosition
-                    }} pagination={false} columns={positionColums} dataSource={advPosition} rowKey='id' />
+                        type: 'checkbox', onChange: e => setPosition(e as string[]), selectedRowKeys: defaultPosition
+                    }} pagination={false} columns={positionColums} dataSource={advPosition} rowKey='label' />
                 </RenderFacebookBox>
                 <RenderFacebookBox title='选择地区'>
                     <Select style={{ display: 'block' }} placeholder='选择包含地区' onSelect={selectInclude} showSearch>
@@ -166,7 +230,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                         包含的地区：
                         {
                             includeArea.map((area, index) => {
-                                return <Tag key={area} closable onClose={()=>deleteInclude(index)}>{area}</Tag>
+                                return <Tag key={area} closable onClose={() => deleteInclude(index)}>{area}</Tag>
                             })
                         }
                     </div>
@@ -181,7 +245,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                         排除的地区：
                         {
                             excludeArea.map((area, index) => {
-                                return <Tag key={area} closable onClose={()=>deleteExclude(index)}>{area}</Tag>
+                                return <Tag key={area} closable onClose={() => deleteExclude(index)}>{area}</Tag>
                             })
                         }
                     </div>
@@ -238,6 +302,33 @@ const ageRange = {
     55: '55岁',
     65: '65岁',
     75: '75岁',
+}
+
+const setName = (settings: SaveFacebookSettingType, audsInfo?: { audId: number; audName: string; }[]) => {
+    const { position } = settings
+    const positionStr = position.map(item => item).join(',');
+    const sex = ['男女', '男', '女'];
+    const crowdName = audsInfo?.map(item => item.audName).join(',');
+    return `yx-${positionStr}-${crowdName}-${settings.age}-${sex[settings.sex]}-${settings.target_type}-{${settings.include}，${settings.exclude}}`
+}
+
+const advName = (settings: SaveFacebookSettingType, type?: string | number) => {
+    const include = settings.include.map(item => item).join(',');
+    const exclude = settings.exclude.map(item => item).join(',');
+    const mediaType = type == '0' ? '图片' : '视频';
+    const transType = '应用安装'
+    const random = Math.floor(Math.random() * 1000000) + 1;
+    const now = new Date();
+    const time = now.getFullYear() + '' + addZero(now.getMonth() + 1) + '' + addZero(now.getDate());
+    return `${settings.market_type}-${mediaType}-{${include}，${exclude}}-${transType}-${random + time}`
+}
+
+const addZero = (num: number): string | number => {
+    if (num < 10) {
+        return '0' + num
+    } else {
+        return num
+    }
 }
 
 export default connect(({ workbench, user, compaigns, facebook }: { workbench: WorkbenchDataType, user: UserModelState, compaigns: CompaignsData, facebook: FacebookStateType }) => ({

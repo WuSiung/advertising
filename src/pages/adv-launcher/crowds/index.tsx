@@ -67,10 +67,12 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         const crowdIds = crowdsList.filter(crowd => { return crowd.active }).map(item => { return { audId: item.audId, audName: item.audName } })
         if (crowdIds.length <= 0) {
             message.warning('请选择人群包')
+            return
         }
         const isChecked = previewAdvs.some(item => item.checked)
         if (!isChecked) {
             message.warning('请选择至少一个广告素材')
+            return
         }
         let editAdvs = previewAdvs;
         let autoNextIndex = 0;
@@ -87,6 +89,7 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
             editAdvs[autoNextIndex].checked = true
         }
         setAdvs(dispatch, editAdvs)
+        message.success('绑定成功啦~')
     }
     return <Card className={styles.bindCrowds}>
         <Steps stepNum={1} />
