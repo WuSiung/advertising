@@ -8,6 +8,7 @@ export default {
   'menu.advlauncher.compaign': '广告系列',
   'menu.advlauncher.crowds': '绑定人群包',
   'menu.advlauncher.facebook': 'Facebook基础设置',
+  'menu.advlauncher.launcher': '启动广告',
   'menu.audience': '观众工作室',
   'menu.audience.crowds': '人群包列表',
   'menu.audience.manager': '人群包管理',
