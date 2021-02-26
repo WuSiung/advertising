@@ -7,6 +7,11 @@
  */
 export default {
   dev: {
+    '/subApi/': {
+      target: 'https://dev.tanwanai.com/',
+      changeOrigin: true,
+      pathRewrite: { '^/proxyApi/subApi/': '/' },
+    },
     '/proxyApi/': {
       target: 'https://dev.tanwanai.com/',
       changeOrigin: true,
