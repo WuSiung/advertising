@@ -26,7 +26,7 @@ export type RenderAdvsProps = {
 
 export type AdvProps = {
     appInfo?: AppInfo,
-    onClick: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void),
+    onClick?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void),
     onCopy?: () => void,
     onDelete?: () => void,
     showCopy?: boolean,
@@ -34,9 +34,9 @@ export type AdvProps = {
     advInfo: PreviewAdvType
 }
 
-const Adv: FC<AdvProps> = (props) => {
+export const Adv: FC<AdvProps> = (props) => {
     const { onClick, onCopy, onDelete, advInfo, appInfo, showCopy, showDelete } = props
-    return <div className={`${styles.item} ${advInfo.checked ? styles.active : ''}`} onClick={e => onClick(e)}>
+    return <div className={`${styles.item} ${advInfo.checked ? styles.active : ''}`} onClick={e => onClick && onClick(e)}>
         {
             showCopy && <span className={styles.copyIcon}><CopyOutlined className={styles.icon} onClick={(e) => { e.stopPropagation(); onCopy && onCopy() }} /></span>
         }
@@ -67,7 +67,7 @@ const RenderAdvs: FC<RenderAdvsProps> = (props) => {
         <div className={styles.lists}>
             {
                 previewAdvs.map((adv, index) => {
-                    return <Adv advInfo={adv} key={`${adv.imgId}&${adv.textId}&${index}`} appInfo={appInfo} onClick={e => onCheckAdv&&onCheckAdv(e, index)} showCopy={showCopy}
+                    return <Adv advInfo={adv} key={`${adv.imgId}&${adv.textId}&${index}`} appInfo={appInfo} onClick={e => onCheckAdv && onCheckAdv(e, index)} showCopy={showCopy}
                         showDelete={showDelete} onCopy={() => showCopy && onCopy && onCopy(index, adv)} onDelete={() => showDelete && onDelete && onDelete(index)} />
                 })
             }

@@ -12,16 +12,55 @@ export async function uploadMediaToWorkbench(media: FormData) {
     })
 }
 
-export async function postOneRecordToWorkbench(params:PostMediaDataType) {
+export async function postOneRecordToWorkbench(params: PostMediaDataType) {
     return request('/ads/advimg', {
         method: 'post',
-        data: {type: params.type || 0, fileId: params.id, url: params.link}
+        data: { type: params.type || 0, fileId: params.id, url: params.link }
     })
 }
 
-export async function postTextsToWorkbench(data:{data: string}) {
+export async function postOneTextsToWorkbench(data: { content: string, title: string }) {
+    return request('/ads/advtext', {
+        method: 'post',
+        data: data
+    })
+}
+
+export async function postTextsToWorkbench(data: { data: string }) {
     return request('/ads/advtext/batchSave', {
         method: 'post',
         data: data
     })
+}
+
+export async function postMediasToWorkbench(data: { data: string }) {
+    return request('/ads/advimg/batchSave', {
+        method: 'post',
+        data: data
+    })
+}
+
+export async function saveTemp(params: { imgStr: string, relStr: string, templateName: string, textStr: string }) {
+    return request('/ads/advtemplate/saveTemplate', {
+        method: 'post',
+        data: params
+    })
+}
+
+export async function queryTemplate() {
+    return request('/ads/advtemplate/page')
+}
+
+export async function deleteTemplate(id: string | number) {
+    return request('/ads/advtemplate/' + id, {
+        method: 'delete'
+    })
+}
+
+export async function getTempDetail(id: string | number) {
+    return request('/ads/advtemplate/' + id)
+}
+
+export async function clearAllMaterial() {
+    return request('/ads/advimg/recentAllClear')
 }

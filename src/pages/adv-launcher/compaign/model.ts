@@ -25,8 +25,8 @@ const CompaignsModal: CompaignsModalType = {
         },
     },
     effects: {
-        *fetchCompaignsList(_, { call, put }) {
-            const response = yield call(queryCompaigns)
+        *fetchCompaignsList({payload}, { call, put }) {
+            const response = yield call(queryCompaigns, payload)
             yield put({
                 type: 'saveCompaignsList',
                 payload: {compaignsList: response.data.records}
