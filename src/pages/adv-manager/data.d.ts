@@ -104,6 +104,7 @@ export interface AdvSetListType{
 }
 export interface AdvAdvListType{
     advName: string,
+    advId: number,
     approas: number,
     brandName: string,
     brandVal: string,
