@@ -17,14 +17,29 @@ export async function queryNotices(): Promise<any> {
   return request('/api/notices');
 }
 
-export async function changeFbAccount(params:FacebookAccount) {
+export async function bindFbAccount(params: FacebookAccount) {
   return request('/admin/systoken/bindPlatform', {
     data: params,
     method: 'post'
   })
 }
 
-export async function queryFbOnlineAccounts(params: {access_token: string, fbid: string}) {
+export async function refreshToekn(refresh_token: string) {
+  const grant_type = 'refresh_token'
+  return request('/auth/oauth/token/?grant_type=' + grant_type + '&refresh_token=' + refresh_token, {
+    method: 'post',
+    data: { refresh_token, isToken: false, scope: 'server' }
+  })
+}
+
+export async function changeFbAccount(params: FacebookAccount) {
+  return request('/admin/systoken/changePlatform', {
+    method: 'post',
+    data: params
+  })
+}
+
+export async function queryFbOnlineAccounts(params: { access_token: string, fbid: string }) {
   return request('/admin/user/getAccount', {
     data: params,
     method: 'post'
