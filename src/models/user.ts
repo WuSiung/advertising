@@ -1,6 +1,7 @@
 import type { Effect, Reducer } from 'umi';
 
-import { queryCurrent, query as queryUsers, queryFbAccounts, queryFbOnlineAccounts } from '@/services/user';
+import { queryCurrent, query as queryUsers, queryFbAccounts, queryFbOnlineAccounts, refreshToekn } from '@/services/user';
+import Store from '@/utils/store';
 
 export type CurrentUser = {
   avatar?: string;
@@ -61,6 +62,7 @@ export type UserModelType = {
     fetchCurrent: Effect;
     fetchFbAccounts: Effect;
     fetchFbOnlineAccounts: Effect;
+    refreshToken: Effect
   };
   reducers: {
     saveCurrentUser: Reducer<UserModelState['currentUser']>;
@@ -117,6 +119,13 @@ const UserModel: UserModelType = {
         type: 'saveFbOnlineAccounts',
         payload: response.data.data
       })
+    },
+    *refreshToken({ payload }, { call, put }) {
+      const response = yield call(refreshToekn, Store.GetRefreshToken())
+      if (response) {
+        Store.SetRefreshToken(response.refresh_token)
+        Store.SetToken(response.access_token)
+      }
     }
   },
 
