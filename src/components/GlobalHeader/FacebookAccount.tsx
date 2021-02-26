@@ -9,6 +9,8 @@ import styles from './index.less';
 import { DownOutlined, FacebookFilled, GoogleCircleFilled } from '@ant-design/icons';
 import FBLogin, { loadAndInitFB } from '@/utils/fblogin'
 import AddAccountModal from './AddAccountModal'
+import { refreshToekn } from '@/services/user'
+import Store from '@/utils/store'
 
 
 export type GlobalHeaderRightProps = {
@@ -43,7 +45,7 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                     // 保存accesstoken
                     setFacebookLoginParam(params)
                     if (dispatch) {
-                        message.loading({key: params.access_token, duration: 0, content: '获取Facebook账号中，请稍等'})
+                        message.loading({ key: params.access_token, duration: 0, content: '获取Facebook账号中，请稍等' })
                         await dispatch({
                             type: 'user/fetchFbOnlineAccounts',
                             payload: params
@@ -76,12 +78,12 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
         {accounts}
         <Menu.Item key='addFacebookAccount'>
             <div className={styles.addAccount}>
-                <FacebookFilled className={ styles.iconlogo } style={{ color: "#3b5998" }}/> 添加Facebook账号
+                <FacebookFilled className={styles.iconlogo} style={{ color: "#3b5998" }} /> 添加Facebook账号
             </div>
         </Menu.Item>
         <Menu.Item key='addGoogleAccount'>
-        <div className={styles.addAccount}>
-                <GoogleCircleFilled className={ styles.iconlogo } style={{ color: "#dd4b39" }}/> 添加Google账号
+            <div className={styles.addAccount}>
+                <GoogleCircleFilled className={styles.iconlogo} style={{ color: "#dd4b39" }} /> 添加Google账号
             </div>
         </Menu.Item>
     </Menu >
@@ -91,9 +93,9 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                 <Spin spinning={!!changeAccounting} wrapperClassName={styles.spin}>
                     <span className={`${styles.action} ${styles.account}`}>
                         {
-                            checkAccount&&<Avatar size='small' className={styles.avatar} src={appInfo?.logo} alt='appLogo'></Avatar>
+                            checkAccount && <Avatar size='small' className={styles.avatar} src={appInfo?.logo} alt='appLogo'></Avatar>
                         }
-                        <span className={`${styles.name} anticon`}>{checkAccount? checkAccount.accountName : '选择Facebook账号'}</span>
+                        <span className={`${styles.name} anticon`}>{checkAccount ? checkAccount.accountName : '选择Facebook账号'}</span>
                         <DownOutlined />
                     </span>
                 </Spin>
@@ -103,13 +105,14 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
     )
 }
 
-const dispatchChangeAccount = (dispatch: Dispatch | undefined,changeAccount: FacebookAccount[]) =>{
+const dispatchChangeAccount = (dispatch: Dispatch | undefined, changeAccount: FacebookAccount[]) => {
     if (dispatch && changeAccount?.length > 0) {
         dispatch({
             type: 'global/changeFbAccount',
             payload: changeAccount[0]
-        }).then(() => {
+        }).then(async () => {
             // 切换成功后获取所有账号列表
+            // await dispatch({ type: 'user/refreshToken' })
             dispatch({ type: 'user/fetchFbAccounts' })
         }).catch(() => {
         })
