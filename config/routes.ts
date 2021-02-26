@@ -80,6 +80,12 @@
                     hideInMenu: true,
                     component: './adv-launcher/facebook',
                   },
+                  {
+                    path: '/advlauncher/launcher',
+                    name: 'launcher',
+                    hideInMenu: true,
+                    component: './adv-launcher/launcher',
+                  },
                 ]
               },
               {
