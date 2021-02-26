@@ -104,10 +104,7 @@ export interface AdvSetListType{
 }
 export interface AdvAdvListType{
     advName: string,
-<<<<<<< HEAD
     advId: number,
-=======
->>>>>>> e91af4a (feat:广告管理功能页面)
     approas: number,
     brandName: string,
     brandVal: string,
