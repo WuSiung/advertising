@@ -1,18 +1,11 @@
 import { AdvAdvParam } from '@/pages/adv-manager/data';
 import { Card } from 'antd'
-<<<<<<< HEAD
 import moment from 'moment';
 import React, { FC, useEffect, useState } from 'react'
 import { connect, Dispatch } from 'umi';
 import { AdvPreview } from '../components/AdvPreview';
 import DateRange from '../components/DateRange';
 import { AdvModelStateType } from './data';
-=======
-import React, { FC } from 'react'
-import DateRange from '../components/DateRange';
-
-import styles from './index.less'
->>>>>>> 06b51ca (feat: 重构页面)
 
 import styles from './index.less'
 
@@ -24,7 +17,6 @@ type QueryType = {
     rangeStart: string,
     rangeEnd: string
 } & AdvAdvParam
-
 const Advertising: FC<AdvertisingProps> = (props) => {
     const initQueryParmas: QueryType = {
         rangeStart: moment().format('YYYY-MM-DD'),
@@ -50,8 +42,18 @@ const Advertising: FC<AdvertisingProps> = (props) => {
     return (
         <Card>
             <div className={styles.filter}>
-                <span className={styles.date}>发布范围筛选： <DateRange /></span>
+                <span className={styles.date}>发布范围筛选： <DateRange onChange={changeRoundDate} /></span>
                 <span className={styles.date}>统计数据过滤： <DateRange /></span>
+            </div>
+            <div className={styles.list}>
+                {
+                    advertisingList.map(adv => {
+                        console.log(adv)
+                        return <div key={adv.advId}>
+                            {/* <AdvPreview url={adv.imgTextList} /> */}
+                        </div>
+                    })
+                }
             </div>
         </Card>
     )
