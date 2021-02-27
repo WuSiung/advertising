@@ -45,3 +45,9 @@ export async function queryFbOnlineAccounts(params: { access_token: string, fbid
     method: 'post'
   })
 }
+
+export async function logout() {
+  return request('/auth/token/logout', {
+    method: 'delete'
+  })
+}
