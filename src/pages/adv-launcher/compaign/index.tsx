@@ -201,7 +201,7 @@ const Compaign: FC<CompaignProps> = (props) => {
         <Card>
             <Steps stepNum={0} />
             <div className={styles.btns}>
-                <Button type='primary' onClick={() => history.goBack()}>返回</Button>
+                <Button type='primary' onClick={() => history.replace('/advlauncher/workbench')}>返回</Button>
                 <Button type='primary' style={{ marginLeft: 10 }} onClick={nextStep}>下一步</Button>
             </div>
             <div className={styles.chooseCompaigns}>
