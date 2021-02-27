@@ -85,10 +85,10 @@ request.interceptors.response.use(async (response: Response) => {
   const { ok, status } = response;
   const res = await response.clone().json();
   if (!ok) {
-    notification.error({
-      message: res.msg || res.message,
-    })
     if (status == 401) {
+      notification.error({
+        message: '登陆过期，请重新登陆',
+      })
       history.replace('/user/login')
       throw new Error(String(status));
     }
