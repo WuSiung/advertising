@@ -28,7 +28,6 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
                 {
                     type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url}></video>
                 }
-
             </div>
         </div>
         <div className={styles.footer}>
