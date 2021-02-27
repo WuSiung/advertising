@@ -67,6 +67,7 @@ const AdvModal: AdvModalType = {
             yield put({
                 type: 'saveAdvAdvList',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 payload: {advAdvList: response.data.records}
             })
             yield put({
@@ -79,6 +80,13 @@ const AdvModal: AdvModalType = {
                 type: 'saveAdvAdvTotal',
                 payload: {advSetTotal: response.data.total}
 >>>>>>> 07ff2a7 (feat:广告管理功能)
+=======
+                payload: {advAdvList: response.data.records}
+            })
+            yield put({
+                type: 'saveAdvAdvTotal',
+                payload: {advAdvTotal: response.data.total}
+>>>>>>> db55532 (feat:广告管理功能)
             })
         },
         *fetchAdvSetListForTreeView({payload,callback}, { call, put }) {
