@@ -605,6 +605,11 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
+            title: 'fbId',
+            dataIndex: 'fbId',
+            key: 'fbId',
+        },
+        {
             title: '频率',
             dataIndex: 'frequency',
             key: 'frequency',
@@ -655,12 +660,100 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: '名称',
             dataIndex: 'advName',
             key: 'advName',
-            width:450
+            width:450,
+            render: (t, _) => {
+                const text=(_ as AdvAdvListType).advName;
+                const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
+                    return new Promise((resolve,reject) => {
+                        if(key.toString().indexOf("adv_")!==-1){
+                            reject();
+                            return;
+                        }
+                        if(key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/fetchAdvAdvListForTreeView',
+                                payload: {
+                                    setId: key.split("_")[1]
+                                }
+                            }).then((result:AdvSetListType[])=>{
+                                resolve({res:result,isAdv:true});
+                            });
+                        }else{
+                            dispatch({
+                                type: 'adv/fetchAdvSetListForTreeView',
+                                payload: {
+                                    packId: key
+                                }
+                            }).then((result:AdvSetListType[])=>{
+                                resolve({res:result,isAdv:false});
+                            });
+                        }
+
+                    })
+                }
+
+
+                const advAdv:(param:{node:DataNode,isOn:boolean})=>Promise<boolean>= (param) => {
+                    const {node,isOn} = param;
+                    return new Promise((resolve,reject) => {
+                        if(node.key.toString().indexOf("adv_")!==-1){
+                            dispatch({
+                                type: 'adv/advAdv',
+                                payload: {
+                                    fbId: node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                            return;
+                        }
+                        if(node.key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/advSet',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }else{
+                            dispatch({
+                                type: 'adv/advPack',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }
+                    })
+                }
+                return (<AdvPackTree _={_} text={text} getAdvSetListForTreeView={getAdvSetListForTreeView} advAdv={advAdv} isAdv={true}/>)
+            }
         },
         {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            render:(t,_)=>{
+                const status= (_ as AdvAdvListType).status;
+                switch (status){
+                    case "0":
+                        return "草稿"
+                    case "1":
+                        return "发送中"
+                    case "2":
+                        return "失败"
+                    case "3":
+                        return "成功"
+                    default:
+                        return null;
+
+                }
+            }
         },
         {
             title: '展示数',
