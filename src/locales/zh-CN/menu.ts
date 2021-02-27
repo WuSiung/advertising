@@ -13,7 +13,7 @@ export default {
   'menu.audience.crowds': '人群包列表',
   'menu.audience.manager': '人群包管理',
   'menu.home': '首页',
-    "menu.advmanager":"广告管理",
+  'menu.advmanager':"广告管理",
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',
