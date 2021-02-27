@@ -17,7 +17,8 @@ interface AudienceManagerProps {
     includeList: Array<InterestDataType & AudienceDataType>,
     modelList: Array<AudienceModelDataType>,
     gettingInterest: boolean,
-    changeSelect: boolean
+    changeSelect: boolean,
+    onFinished?: () => void
 }
 
 interface InterestTableProps {
@@ -189,7 +190,7 @@ const AudienceTable: FC<AudienceTableProps> = (props) => {
     </table>
 }
 const AudienceManager: FC<AudienceManagerProps> = (props) => {
-    const { interests, audiences, dispatch, gettingInterest, includeList, excludeList, modelList, changeSelect } = props
+    const { interests, audiences, dispatch, gettingInterest, includeList, excludeList, modelList, changeSelect, onFinished } = props
     useEffect(() => {
         dispatch({
             type: 'audienceManager/fetchInterestList',
@@ -305,7 +306,7 @@ const AudienceManager: FC<AudienceManagerProps> = (props) => {
             </Tabs.TabPane>
         </Tabs>
         <CheckInfoShow includeList={includeList} excludeList={excludeList} deleteIn={params => deleteIncludes(params)} dispatch={dispatch}
-            deleteEx={params => deleteExcludes(params)} modelList={modelList} changeSelect={changeSelect}/>
+            deleteEx={params => deleteExcludes(params)} modelList={modelList} changeSelect={changeSelect} onFinished={onFinished} />
     </Card>
 }
 
