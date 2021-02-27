@@ -54,6 +54,17 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         dispatch({ type: 'facebook/fetchTarget' })
     }, [])
 
+    const initData = (params: SaveFacebookSettingType) => {
+        setSpendNum(params.budget);
+        setMarket(marketList.filter(market => market.value == params.market_type)[0] || [])
+        setTarget(targetList.filter(tartget => tartget.value == params.target_type)[0] || [])
+        setPosition(params.position)
+        setDefaultAge(params.age)
+        setSex(params.sex)
+        setIncludeArea(params.include)
+        setExcludeArea(params.exclude)
+    }
+
     const checkAdv = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, i: number) => {
         let editAdvs = previewAdvs;
         if (e.shiftKey) {
@@ -62,6 +73,9 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
             editAdvs.map((adv, advIndex) => {
                 if (i == advIndex) {
                     editAdvs[i].checked = true;
+                    if (adv.facebookSetting) {
+                        initData(adv.facebookSetting)
+                    }
                 } else {
                     editAdvs[advIndex].checked = false
                 }
@@ -191,14 +205,14 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                     </RenderFacebookBox>
                 }
                 <RenderFacebookBox title='选择转换类型'>
-                    <Select style={{ display: 'block', marginBottom: 10 }} defaultValue={defaultTarget?.label} placeholder='请选择' onSelect={selectTarget}>
+                    <Select style={{ display: 'block', marginBottom: 10 }} value={defaultTarget?.label} defaultValue={defaultTarget?.label} placeholder='请选择' onSelect={selectTarget}>
                         {
                             targetList.map(target => {
                                 return <Select.Option value={target.label} key={target.id}>{target.label}</Select.Option>
                             })
                         }
                     </Select>
-                    <Select style={{ display: 'block', marginBottom: 10 }} defaultValue={defaultMarket?.label} placeholder='请选择' onSelect={selectMarket}>
+                    <Select style={{ display: 'block', marginBottom: 10 }} value={defaultMarket?.label} defaultValue={defaultMarket?.label} placeholder='请选择' onSelect={selectMarket}>
                         {
                             marketList.map(target => {
                                 return <Select.Option value={target.label} key={target.id}>{target.label}</Select.Option>
@@ -207,7 +221,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                     </Select>
                 </RenderFacebookBox>
                 <RenderFacebookBox title='选择年龄'>
-                    <Slider range marks={ageRange} min={15} max={80} defaultValue={defaultAge} onChange={e => setDefaultAge(e)}></Slider>
+                    <Slider range marks={ageRange} min={15} max={80} value={defaultAge} defaultValue={defaultAge} onChange={e => setDefaultAge(e)}></Slider>
                 </RenderFacebookBox>
                 <RenderFacebookBox title='选择性别'>
                     <Table rowSelection={{ type: 'radio', selectedRowKeys: [defaultSex], onChange: e => setSex(e[0] as number) }} pagination={false}
