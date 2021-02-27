@@ -144,7 +144,6 @@ const AdvPackTree: React.FC<AdvPackTreeProps> = (props) => {
                                  onTreeNodeSwitchChange(node);
                              }
                          } loading={node.loading} disabled={node.switchButtonDisable} checked={node.isOn}
-                                      style={{marginRight: node.key.toString().indexOf("set_") !== -1 ? "3px" : node.key.toString().indexOf("adv_") !== -1 ? "" : "6px"}}
                                       className={styles.switch}/></div>
                      </div>)
                  }}/>;
