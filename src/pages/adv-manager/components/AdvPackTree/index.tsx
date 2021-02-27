@@ -120,7 +120,9 @@ const AdvPackTree: React.FC<AdvPackTreeProps> = (props) => {
 
     const onTreeNodeSwitchChange = (node: DataNode) => {
         node.loading = true;
-        //setTreeData(treeData);
+        setTreeData((origin) => {
+            return [...treeData];
+        });
         advAdv({node, isOn: !!!node.isOn}).then(success => {
             node.loading = false;
             setTreeData((origin) => {
@@ -133,7 +135,7 @@ const AdvPackTree: React.FC<AdvPackTreeProps> = (props) => {
             });
         })
     }
-    return <Tree loadData={onLoadData} treeData={treeData}
+    return <Tree selectable={false} loadData={onLoadData} treeData={treeData}
                  titleRender={(node: DataNode & { switchButtonDisable?: boolean }) => {
                      return (<div className={styles.nodeTitleWrap}><span>{node.title}</span>
                          <div><Switch onClick={
