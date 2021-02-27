@@ -7,15 +7,15 @@
  */
 export default {
   dev: {
+    '/': {
+      target: 'https://dev.tanwanai.com/',
+      changeOrigin: true,
+      pathRewrite: { '^/': '/' },
+    },
     '/subApi/': {
       target: 'https://dev.tanwanai.com/',
       changeOrigin: true,
-      pathRewrite: { '^/proxyApi/subApi/': '/' },
-    },
-    '/proxyApi/': {
-      target: 'https://dev.tanwanai.com/',
-      changeOrigin: true,
-      pathRewrite: { '^/proxyApi': '/' },
+      pathRewrite: { '^/subApi/': '/' },
     },
     '/code': {
       target: 'https://dev.tanwanai.com/',
@@ -24,10 +24,10 @@ export default {
     },
   },
   test: {
-    '/proxyApi/': {
+    '/': {
       target: 'https://dev.tanwanai.com/',
       changeOrigin: true,
-      pathRewrite: { '^/proxyApi': '/' },
+      pathRewrite: { '^/': '/' },
     },
   },
   pre: {

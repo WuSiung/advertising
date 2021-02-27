@@ -120,6 +120,21 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
             })
         })
     }
+    const onCopyText = async (info: TextDataType) => {
+        const postArr: Array<TextDataType | Omit<TextDataType, 'textId'>> = [];
+        textList.map(text => {
+            postArr.push(text)
+            if (text.textId == info.textId) {
+                const { textId, ...copyParams } = text
+                postArr.push(copyParams)
+            }
+        })
+        await dispatch({
+            type: 'workbench/uploadText',
+            payload: postArr
+        })
+        dispatch({ type: 'workbench/fetchAllList' })
+    }
     return (
         <div className={styles.tableContainer}>
             <table className={styles.workbenchTable}>
@@ -145,7 +160,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                     {
                         textList.map((text, Y) => {
                             return <tr key={text.textId}>
-                                <RenderTextList {...text} onDelete={onDeleteText} />
+                                <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
                                 {
                                     imgList.map((img, X) => (
                                         <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}

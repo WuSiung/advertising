@@ -6,17 +6,20 @@ interface AdverModelType {
     namespace: string,
     state: AdvModelStateType,
     effects: {
-        fetchAdvList: Effect
+        fetchAdvList: Effect,
+        fetchAdvListAddMore:Effect
     },
     reducers: {
-        saveAdvLis: Reducer
+        saveAdvLis: Reducer,
+        saveAdvListAddMore:Reducer
     }
 }
 
 const AdverModel: AdverModelType = {
     namespace: 'advertising',
     state: {
-        advertisingList: []
+        advertisingList: [],
+        count:0
     },
     effects: {
         *fetchAdvList({payload}, { call, put }) {
@@ -25,11 +28,31 @@ const AdverModel: AdverModelType = {
                 type: 'saveAdvLis',
                 payload: {advertisingList: res.data.records}
             })
+            yield put({
+                type: 'saveAdvLis',
+                payload: {count: res.data.total}
+            })
+        },
+        *fetchAdvListAddMore({payload}, { call, put }) {
+            const res = yield call(queryAdvAdv, payload)
+            yield put({
+                type: 'saveAdvListAddMore',
+                payload: {advertisingList: res.data.records}
+            });
+            yield put({
+                type: 'saveAdvLis',
+                payload: {count: res.data.total}
+            })
         }
     },
     reducers: {
         saveAdvLis(state, { payload }) {
             return { ...state, ...payload }
+        },
+        saveAdvListAddMore(state, { payload }) {
+            const st= state;
+            st.advertisingList= st.advertisingList.concat(payload.advertisingList);
+            return { ...st }
         }
     }
 }

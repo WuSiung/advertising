@@ -16,11 +16,12 @@ interface CheckInfoShowPropsType {
     deleteEx(params: InterestDataType & AudienceDataType): void,
     modelList: Array<AudienceModelDataType>,
     changeSelect: boolean,
-    dispatch: Dispatch
+    dispatch: Dispatch,
+    onFinished?: () => void
 }
 
 const CheckInfoShow: FC<CheckInfoShowPropsType> = (props) => {
-    const { excludeList, includeList, deleteIn, deleteEx, modelList, dispatch, changeSelect } = props
+    const { excludeList, includeList, deleteIn, deleteEx, modelList, dispatch, changeSelect, onFinished } = props
     const [defaultValue, setDefaultValue] = useState<string | undefined>()
     const [showModal, setShowModal] = useState<boolean>(false)
     const [delModal, setDelModal] = useState<boolean>(false)
@@ -86,12 +87,16 @@ const CheckInfoShow: FC<CheckInfoShowPropsType> = (props) => {
             }
             setSaveLoading(true)
             postSaveCrowd({ loves: JSON.stringify(postArr), audName: crowdName, stype: allType }).then(res => {
-                setShowModal(false)
-                setSaveLoading(false)
-                dispatch({
-                    type: 'audienceManager/fetchAudienceModelList',
-                    payload: { size: 1000 }
-                })
+                if (onFinished) {
+                    onFinished()
+                } else {
+                    setShowModal(false)
+                    setSaveLoading(false)
+                    dispatch({
+                        type: 'audienceManager/fetchAudienceModelList',
+                        payload: { size: 1000 }
+                    })
+                }
             })
         }
     }
