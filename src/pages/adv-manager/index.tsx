@@ -16,9 +16,15 @@ type CheckboxValueType = string | number | boolean;
 const {TabPane} = Tabs
 
 interface AdvPropsType {
-    advPackList: AdvPackListType[],
+    advPackList:AdvPackListType[],
+    advSetList:AdvSetListType[],
+    advAdvList:AdvAdvListType[],
     advPackTotal: number,
+    advSetTotal: number,
+    advAdvTotal: number,
     loadingAdvPack: boolean,
+    loadingAdvSet:boolean,
+    loadingAdvAdv:boolean,
     dispatch: Dispatch
 }
 
@@ -27,7 +33,7 @@ interface Columns {
     key: string,
     dataIndex: string,
     width?:number,
-    render?: (param: number | string, _: AdvPackListType) => string | number | ReactNode
+    render?: (param: number | string, _: AdvPackListType|AdvSetListType|AdvAdvListType) => string | number | ReactNode
 }
 
 export interface CheckboxListPopoverPropsType {
@@ -54,8 +60,9 @@ const CheckboxListPopover: FC<CheckboxListPopoverPropsType> = props => {
 
 const AdvManager: FC<AdvPropsType> = (props) => {
     const [dates, setDates] = useState<RangeValue<moment.Moment>>();
-    const [hackValue, setHackValue] = useState<RangeValue<moment.Moment>>();
     const [value, setValue] = useState<RangeValue<moment.Moment>>();
+    const [valueFSet, setValueFSet] = useState<RangeValue<moment.Moment>>();
+    const [valueFAdv, setValueFAdv] = useState<RangeValue<moment.Moment>>();
     const disabledDate: (currentDate: moment.Moment) => boolean = current => {
         if (!dates || (dates as Array<moment.Moment>).length === 0) {
             return false;
@@ -66,10 +73,8 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     };
     const onOpenChange = (open: boolean) => {
         if (open) {
-            setHackValue(null);
             setDates(null);
         } else {
-            setHackValue(undefined);
         }
     };
 
@@ -79,7 +84,183 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'appName',
             key: 'appName',
             width:450,
-            render: (text, _) => {
+            render: (t, _) => {
+                console.log(_,"cesss")
+                const text=(_ as AdvPackListType).appName;
+                const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
+                    return new Promise((resolve,reject) => {
+                        if(key.toString().indexOf("adv_")!==-1){
+                            reject();
+                            return;
+                        }
+                        if(key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/fetchAdvAdvListForTreeView',
+                                payload: {
+                                    setId: key.split("_")[1]
+                                }
+                            }).then((result:AdvAdvListType[])=>{
+                                resolve({res:result,isAdv:true});
+                            });
+                        }else{
+                            dispatch({
+                                type: 'adv/fetchAdvSetListForTreeView',
+                                payload: {
+                                    packId: key
+                                }
+                            }).then((result:AdvSetListType[])=>{
+                                resolve({res:result,isAdv:false});
+                            });
+                        }
+
+                    })
+                }
+
+
+                const advAdv:(param:{node:DataNode,isOn:boolean})=>Promise<boolean>= (param) => {
+                    const {node,isOn} = param;
+                    return new Promise((resolve,reject) => {
+                        if(node.key.toString().indexOf("adv_")!==-1){
+                            dispatch({
+                                type: 'adv/advAdv',
+                                payload: {
+                                    fbId: node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                            return;
+                        }
+                        if(node.key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/advSet',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }else{
+                            dispatch({
+                                type: 'adv/advPack',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }
+                    })
+                }
+                return (<AdvPackTree isPack _={_} text={text} getAdvSetListForTreeView={getAdvSetListForTreeView} advAdv={advAdv}/>)
+            }
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+            key: 'status',
+        },
+        {
+            title: '展示数',
+            dataIndex: 'impression',
+            key: 'impression',
+        },
+        {
+            title: '点击数',
+            dataIndex: 'clicks',
+            key: 'clicks',
+        },
+        {
+            title: '每结果成本',
+            dataIndex: 'pfee',
+            key: 'pfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '移动应用回报率',
+            dataIndex: 'approas',
+            key: 'approas',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '点击率',
+            dataIndex: 'ctr',
+            key: 'ctr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '频率',
+            dataIndex: 'frequency',
+            key: 'frequency',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '费用/千次',
+            dataIndex: 'cpm',
+            key: 'cpm',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '出站点击率',
+            dataIndex: 'octr',
+            key: 'octr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '每次点击费用',
+            dataIndex: 'cpc',
+            key: 'cpc',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '安装数',
+            dataIndex: 'installs',
+            key: 'installs',
+        },
+        {
+            title: '每次安装费用',
+            dataIndex: 'installfee',
+            key: 'installfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+    ];
+    const advSetOriginColumns: Columns[] = [
+        {
+            title: '名称',
+            dataIndex: 'setName',
+            key: 'setName',
+            width:450,
+            render: (t, _) => {
+                console.log(_,"1111aqaa")
+                const text=(_ as AdvSetListType).setName;
                 const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
                     return new Promise((resolve,reject) => {
                         if(key.toString().indexOf("adv_")!==-1){
@@ -245,19 +426,131 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
     ];
+    const advAdvOriginColumns: Columns[] = [
+        {
+            title: '名称',
+            dataIndex: 'advName',
+            key: 'advName',
+            width:450
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+            key: 'status',
+        },
+        {
+            title: '展示数',
+            dataIndex: 'impression',
+            key: 'impression',
+        },
+        {
+            title: '点击数',
+            dataIndex: 'clicks',
+            key: 'clicks',
+        },
+        {
+            title: '每结果成本',
+            dataIndex: 'pfee',
+            key: 'pfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '移动应用回报率',
+            dataIndex: 'approas',
+            key: 'approas',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '点击率',
+            dataIndex: 'ctr',
+            key: 'ctr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '频率',
+            dataIndex: 'frequency',
+            key: 'frequency',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '费用/千次',
+            dataIndex: 'cpm',
+            key: 'cpm',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '出站点击率',
+            dataIndex: 'octr',
+            key: 'octr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '每次点击费用',
+            dataIndex: 'cpc',
+            key: 'cpc',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '安装数',
+            dataIndex: 'installs',
+            key: 'installs',
+        },
+        {
+            title: '每次安装费用',
+            dataIndex: 'installfee',
+            key: 'installfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+    ];
     const [advpackColumns, setAdvpackColumns] = useState<Columns[]>(advpackOriginColumns);
     const [advpackPagesize, setAdvpackPagesize] = useState<number>(10);
     const [advpackPageindex, setAdvpackPageindex] = useState<number>(1);
+
+    const [advSetColumns, setAdvSetColumns] = useState<Columns[]>(advSetOriginColumns);
+    const [advSetPagesize, setAdvSetPagesize] = useState<number>(10);
+    const [advSetPageindex, setAdvSetPageindex] = useState<number>(1);
+
+    const [advAdvColumns, setAdvAdvColumns] = useState<Columns[]>(advAdvOriginColumns);
+    const [advAdvPagesize, setAdvAdvPagesize] = useState<number>(10);
+    const [advAdvPageindex, setAdvAdvPageindex] = useState<number>(1);
+
     const [serachText, setSearchText] = useState<string>("");
-    const {advPackList, loadingAdvPack, advPackTotal, dispatch} = props;
+    const [serachTextForSet, setSerachTextForSet] = useState<string>("");
+    const [serachTextForAdv, setSerachTextForAdv] = useState<string>("");
+    const {advPackList, loadingAdvPack,loadingAdvSet,loadingAdvAdv, advPackTotal,advSetTotal,advAdvTotal,advAdvList,advSetList, dispatch} = props;
     useEffect(() => {
         dispatch({
             type: 'adv/fetchAdvPackList', payload: {
                 current: advpackPageindex,
                 size: advpackPagesize,
                 appName: serachText,
-                startT: value && value[0] ? (value[0] as moment.Moment).format("yyyy-MM-dd") : "",
-                endT: value && value[1] ? (value[1] as moment.Moment).format("yyyy-MM-dd") : "",
+                startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
             }
         })
     }, [advpackPageindex]);
@@ -267,27 +560,82 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 current: advpackPageindex,
                 size: advpackPagesize,
                 appName: serachText,
-                startT: value && value[0] ? (value[0] as moment.Moment).format("yyyy-MM-dd") : "",
-                endT: value && value[1] ? (value[1] as moment.Moment).format("yyyy-MM-dd") : "",
+                startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
             }
         })
     }, [advpackPagesize]);
 
+    useEffect(() => {
+        dispatch({
+            type: 'adv/fetchAdvSetList', payload: {
+                current: advSetPageindex,
+                size: advSetPagesize,
+                setName: serachTextForSet,
+                startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
+            }
+        })
+    }, [advSetPageindex]);
+    useDidMountEffect(() => {
+        dispatch({
+            type: 'adv/fetchAdvSetList', payload: {
+                current: advSetPageindex,
+                size: advSetPagesize,
+                setName: serachTextForSet,
+                startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
+            }
+        })
+    }, [advSetPagesize]);
 
+
+    useEffect(() => {
+        dispatch({
+            type: 'adv/fetchAdvAdvList', payload: {
+                current: advAdvPageindex,
+                size: advAdvPagesize,
+                setName: serachTextForAdv,
+                startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
+            }
+        })
+    }, [advAdvPageindex]);
+    useDidMountEffect(() => {
+        dispatch({
+            type: 'adv/fetchAdvAdvList', payload: {
+                current: advAdvPageindex,
+                size: advAdvPagesize,
+                setName: serachTextForAdv,
+                startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
+            }
+        })
+    }, [advAdvPagesize]);
+
+
+    const [tabKey,setTabKey] = useState("1");
     return (
         <>
             <div className={styles.advManager}>
             <Card>
-                <Tabs defaultActiveKey="1"
-                      tabBarExtraContent={<CheckboxListPopover columns={advpackOriginColumns} title="列筛选"
+                <Tabs onChange={(key)=>{
+                    setTabKey(key)
+                }} defaultActiveKey="1"
+                tabBarExtraContent={<CheckboxListPopover columns={tabKey==="1"?advpackOriginColumns:tabKey==="2"?advSetOriginColumns:advAdvOriginColumns} title="列筛选"
                                                                onChange={selectedValues => {
-                                                                   setAdvpackColumns(advpackOriginColumns.filter(item => selectedValues.find(value => value === item.dataIndex)));
+                                                                   if(tabKey==="1"){
+                                                                       setAdvpackColumns(advpackOriginColumns.filter(item => selectedValues.find(value => value === item.dataIndex)));
+                                                                   }else if(tabKey==="2"){
+                                                                       setAdvSetColumns(advpackOriginColumns.filter(item => selectedValues.find(value => value === item.dataIndex)));
+                                                                   }else{
+                                                                       setAdvAdvColumns(advpackOriginColumns.filter(item => selectedValues.find(value => value === item.dataIndex)));
+                                                                   }
+
                                                                }}>
                           <Button type="link">列筛选</Button>
                       </CheckboxListPopover>}>
                     <TabPane tab="广告系列" key="1">
-
-
                         <Row gutter={24}>
                             <Col span={12}>
                                 <Input.Search placeholder="广告系列名称关键词搜索" enterButton={true} onChange={event => {
@@ -298,15 +646,15 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                             current: advpackPageindex,
                                             size: advpackPagesize,
                                             appName: text,
-                                            startT: value && value[0] ? (value[0] as moment.Moment).format("yyyy-MM-dd") : "",
-                                            endT: value && value[1] ? (value[1] as moment.Moment).format("yyyy-MM-dd") : "",
+                                            startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                                            endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
                                         }
                                     })
                                 }} style={{width: 300}}/>
                             </Col>
                             <Col span={12} style={{textAlign: "right"}}>
                                 <DatePicker.RangePicker
-                                    value={hackValue || value}
+                                    value={value}
                                     disabledDate={disabledDate}
                                     onCalendarChange={val => setDates(val)}
                                     onChange={val => setValue(val)}
@@ -334,10 +682,96 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                         </Table>
                     </TabPane>
                     <TabPane tab="广告集" key="2">
-                        广告集
+                        <Row gutter={24}>
+                            <Col span={12}>
+                                <Input.Search placeholder="广告集名称关键词搜索" enterButton={true} onChange={event => {
+                                    setSerachTextForSet(event.target.value);
+                                }} onSearch={text => {
+                                    dispatch({
+                                        type: 'adv/fetchAdvSetList', payload: {
+                                            current: advSetPageindex,
+                                            size: advSetPagesize,
+                                            setName: text,
+                                            startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                                            endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
+                                        }
+                                    })
+                                }} style={{width: 300}}/>
+                            </Col>
+                            <Col span={12} style={{textAlign: "right"}}>
+                                <DatePicker.RangePicker
+                                    value={valueFSet}
+                                    disabledDate={disabledDate}
+                                    onCalendarChange={val => setDates(val)}
+                                    onChange={val => setValueFSet(val)}
+                                    onOpenChange={onOpenChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Table className="adv-tb" pagination={false} loading={loadingAdvSet} columns={advSetColumns} rowKey="setId"
+                               dataSource={advSetList}
+                               footer={() =>
+                                   (<Pagination defaultCurrent={1}
+                                                total={advSetTotal}
+                                                pageSize={advSetPagesize}
+                                                current={advSetPageindex}
+                                                onChange={(pi) => {
+                                                    setAdvSetPageindex(pi);
+                                                }}
+                                                onShowSizeChange={(pi, pz) => {
+                                                    setAdvSetPagesize(pz);
+                                                }}
+
+                                   />)
+                               }
+                        >
+                        </Table>
                     </TabPane>
                     <TabPane tab="广告" key="3">
-                        广告
+                        <Row gutter={24}>
+                            <Col span={12}>
+                                <Input.Search placeholder="广告名称关键词搜索" enterButton={true} onChange={event => {
+                                    setSerachTextForAdv(event.target.value);
+                                }} onSearch={text => {
+                                    dispatch({
+                                        type: 'adv/fetchAdvSetList', payload: {
+                                            current: advAdvPageindex,
+                                            size: advAdvPagesize,
+                                            setName: text,
+                                            startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
+                                            endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
+                                        }
+                                    })
+                                }} style={{width: 300}}/>
+                            </Col>
+                            <Col span={12} style={{textAlign: "right"}}>
+                                <DatePicker.RangePicker
+                                    value={valueFAdv}
+                                    disabledDate={disabledDate}
+                                    onCalendarChange={val => setDates(val)}
+                                    onChange={val => setValueFAdv(val)}
+                                    onOpenChange={onOpenChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Table className="adv-tb" pagination={false} loading={loadingAdvAdv} columns={advAdvColumns} rowKey="setId"
+                               dataSource={advAdvList}
+                               footer={() =>
+                                   (<Pagination defaultCurrent={1}
+                                                total={advAdvTotal}
+                                                pageSize={advAdvPagesize}
+                                                current={advAdvPageindex}
+                                                onChange={(pi) => {
+                                                    setAdvAdvPageindex(pi);
+                                                }}
+                                                onShowSizeChange={(pi, pz) => {
+                                                    setAdvAdvPagesize(pz);
+                                                }}
+
+                                   />)
+                               }
+                        >
+                        </Table>
                     </TabPane>
                 </Tabs>
             </Card>
@@ -348,6 +782,12 @@ const AdvManager: FC<AdvPropsType> = (props) => {
 export default connect(({adv, loading}: { adv: AdvData, loading: { effects: { [key: string]: boolean } } }) => ({
     adv: adv,
     advPackTotal: adv.advPackTotal,
+    advSetTotal:adv.advSetTotal,
+    advAdvTotal:adv.advAdvTotal,
     advPackList: adv.advPackList,
-    loadingAdvPack: loading.effects['adv/fetchAdvPackList']
+    advSetList:adv.advSetList,
+    advAdvList:adv.advAdvList,
+    loadingAdvPack: loading.effects['adv/fetchAdvPackList'],
+    loadingAdvSet: loading.effects['adv/fetchAdvSetList'],
+    loadingAdvAdv: loading.effects['adv/fetchAdvAdvList']
 }))(AdvManager)

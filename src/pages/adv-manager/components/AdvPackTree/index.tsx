@@ -27,7 +27,8 @@ interface AdvPackTreeProps{
     _:any,
     text:string | number,
     getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>,
-    advAdv:(param:{node:DataNode,isOn:boolean})=>Promise<boolean>
+    advAdv:(param:{node:DataNode,isOn:boolean})=>Promise<boolean>,
+    isPack?:boolean
 }
 
 
@@ -68,11 +69,11 @@ const findNode:(data:DataNode[],key:string)=>DataNode|null = (data,key) => {
 }*/
 
 const AdvPackTree: React.FC<AdvPackTreeProps> = (props) => {
-    const {_,text,getAdvSetListForTreeView,advAdv}=props;
+    const {_,text,getAdvSetListForTreeView,advAdv,isPack}=props;
     const initTreeDate: DataNode[] = [
         {
             title:text.toString(),
-            key:_.packId,
+            key:!!isPack?_.packId:`set_${_.setId}`,
             switchButtonDisable:_.status!="3",
             state:_.state==="1",
             isOn:_.state==="1",
@@ -117,25 +118,23 @@ const AdvPackTree: React.FC<AdvPackTreeProps> = (props) => {
     const onTreeNodeSwitchChange= (node:DataNode)=>{
         node.loading=true;
         setTreeData(treeData);
-        console.log(treeData,22222222222);
         advAdv({node,isOn:!!node.isOn}).then(success=>{
             node.loading=false;
             if(success===null)return;
             node.isOn=!node.isOn;
-            console.log(success);
 
             setTreeData((origin) =>{
-                console.log(origin,treeData);
                 return [...treeData];
             });
         })
     }
     return <Tree loadData={onLoadData} treeData={treeData} titleRender={(node:DataNode&{switchButtonDisable?:boolean})=>{
-        return (<div className={styles.nodeTitleWrap}><span>{node.title}</span><div onClick={
+        return (<div className={styles.nodeTitleWrap}><span>{node.title}</span><div><Switch onClick={
             (isOn)=>{
+                if(node.switchButtonDisable)return;
                 onTreeNodeSwitchChange(node);
             }
-        }  ><Switch loading={node.loading} disabled={node.switchButtonDisable}  checked={node.isOn} style={{marginRight:node.key.toString().indexOf("set_")!==-1?"3px":node.key.toString().indexOf("adv_")!==-1?"":"6px"}} className={styles.switch}  /></div></div>)
+        }  loading={node.loading} disabled={node.switchButtonDisable}  checked={node.isOn} style={{marginRight:node.key.toString().indexOf("set_")!==-1?"3px":node.key.toString().indexOf("adv_")!==-1?"":"6px"}} className={styles.switch}  /></div></div>)
     }} />;
 };
 

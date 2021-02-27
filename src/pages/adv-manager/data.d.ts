@@ -66,6 +66,7 @@ export interface AdvPackListType{
 export interface AdvSetListType{
     setId:number,
     setName: string,
+    appName:string,
     approas: number,
     brandName: string,
     brandVal: string,
@@ -144,8 +145,12 @@ export interface AdvAdvListType{
 }
 export interface AdvData {
     advPackList: AdvPackListType[],
+    advSetList: AdvSetListType[],
+    advAdvList: AdvAdvListType[],
     advSetListForTreeView:AdvSetListType[],
     advAdvListForTreeView:AdvAdvListType[],
-    advPackTotal:number
+    advPackTotal:number,
+    advSetTotal:number,
+    advAdvTotal:number
 }
 
