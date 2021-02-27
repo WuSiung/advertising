@@ -10,6 +10,7 @@ interface PacksProps {
     title?: string,
     crowdList: Array<AudienceModelDataType>,
     dispatch: Dispatch,
+    toCreateType?: () => void
     loading: boolean
 }
 
@@ -37,7 +38,7 @@ const Pack: FC<OnePackProps> = (props) => {
 }
 
 const Packs: FC<PacksProps> = (props) => {
-    const { title, crowdList, dispatch, loading } = props
+    const { title, crowdList, dispatch, loading, toCreateType } = props
     useEffect(() => {
         dispatch({
             type: 'crowds/fetchCrowdsList',
@@ -47,7 +48,11 @@ const Packs: FC<PacksProps> = (props) => {
     const newset = crowdList.slice(0, 5)
 
     const toCreateCrowd = () => {
-        history.push('/audience/manager')
+        if (toCreateType) {
+            toCreateType()
+        } else {
+            history.push('/audience/manager')
+        }
     }
 
     const choose = (id: number) => {

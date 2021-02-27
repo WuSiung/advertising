@@ -22,7 +22,7 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-interface Headers{
+interface Headers {
   isToken: Boolean,
   Authorization: String
 }
@@ -59,23 +59,24 @@ const request = extend({
 request.use(async (ctx: Context, next: Function): Promise<void> => {
   const { req } = ctx;
   const { url, options } = req;
+  console.log(url)
   // 添加代理前缀
-  if (url.indexOf('/proxyApi') !== 0) {
-    ctx.req.url = '/proxyApi' + url
-  }
+  // if (url.indexOf('/proxyApi') !== 0) {
+  //   ctx.req.url = '/proxyApi' + url
+  // }
   let headers = {}
   const dataObj = Object.assign(options.data || {}, options.params || {}) //合并参数检查是否需要token
   if (dataObj.isToken === false) {
     headers = {
       Authorization: 'Basic cGlnOnBpZw==',
-      isToken:false,
+      isToken: false,
     }
   } else {
     headers = {
       Authorization: `Bearer ${Store.GetToken()}`
     }
   }
-  
+
   ctx.req.options.headers = headers
   await next()
 })
@@ -111,7 +112,7 @@ request.interceptors.response.use(async (response: Response) => {
     // }
     // return res;
     throw new Error(JSON.stringify(res));
-  } else if(res.code == 1){
+  } else if (res.code == 1) {
     notification.error({
       message: res.msg,
     })
