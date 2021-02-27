@@ -64,3 +64,15 @@ export async function getTempDetail(id: string | number) {
 export async function clearAllMaterial() {
     return request('/ads/advimg/recentAllClear')
 }
+
+export async function deleteMedia(id: number | string) {
+    return request('/ads/advimg/' + id, {
+        method: 'DELETE'
+    })
+}
+
+export async function deleteText(id: number | string) {
+    return request('/ads/advtext/' + id, {
+        method: 'DELETE'
+    })
+}

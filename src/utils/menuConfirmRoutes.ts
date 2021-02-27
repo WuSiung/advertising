@@ -1,0 +1,1 @@
+export const includeRoutes: string[] = ['/advlauncher/compaign','/advlauncher/crowds','/advlauncher/facebook', '/advlauncher/launcher']

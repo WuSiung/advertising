@@ -1,0 +1,29 @@
+version: '3'
+services:
+  pig-ui:
+    build:
+      context: .
+    restart: always
+    container_name: pig-ui
+    image: pig-ui
+    networks:
+      - adv_default
+    external_links:
+      - pig-gateway
+    ports:
+      - 80:80
+      - 443:443
+
+  # pig-minio:
+  #   image: minio
+  #   ports:
+  #     - 9000:9000
+  #   restart: always
+  #   container_name: pig-minio
+  #   networks:
+  #     - adv_default
+
+# 加入到后端网络， 默认为 adv_default  | docker network ls   查看
+networks:
+  adv_default:
+    external: true

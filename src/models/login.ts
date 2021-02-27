@@ -7,6 +7,7 @@ import { setAuthority } from '@/utils/authority';
 import { getPageQuery, encryption } from '@/utils/utils';
 import { message } from 'antd';
 import Store from '@/utils/store'
+import { logout } from '@/services/user';
 
 export type StateType = {
   status?: 'ok' | 'error';
@@ -80,10 +81,12 @@ const Model: LoginModelType = {
       }
     },
 
-    logout() {
+    *logout(_,{call}) {
       const { redirect } = getPageQuery();
+      yield call(logout)
       // Note: There may be security issues, please note
       if (window.location.pathname !== '/user/login' && !redirect) {
+        Store.clearStorage();
         history.replace({
           pathname: '/user/login',
           search: stringify({

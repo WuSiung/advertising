@@ -29,7 +29,7 @@
             authority: ['admin', 'user'],
             routes: [
               {
-                path: '/',
+                path: '/', // 根路由默认重定向
                 redirect: '/advlauncher',
               },
               {
@@ -126,10 +126,10 @@
                 ],
               },
               {
-                name: 'list.table-list',
-                icon: 'table',
-                path: '/list',
-                component: './TableList',
+                path: '/advmanager',
+                name: 'advmanager',
+                icon: '',
+                component: './adv-manager',
               },
               {
                 path: '/advmanager',

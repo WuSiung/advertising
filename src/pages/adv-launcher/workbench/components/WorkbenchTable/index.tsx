@@ -1,8 +1,11 @@
+import { showConfirm } from '@/components/Confrim'
+import { CopyOutlined, DeleteFilled, EditOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { create } from 'lodash'
 import React, { FC, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType } from '../../data.d'
+import { deleteMedia, deleteText } from '../../service'
 
 import styles from './index.less'
 
@@ -20,12 +23,20 @@ interface CreateBlockProps {
     createAdv(X: number, Y: number): void,
 }
 
-const RenderImgList: FC<ImgDataType> = (props) => {
+type RenderImgListProps = {
+    onDelete?: (params: ImgDataType) => void
+} & ImgDataType
+
+type RenderTextListProps = {
+    onDelete?: (params: TextDataType) => void,
+    onCopy?: (params: TextDataType) => void,
+    onEdit?: (params: TextDataType) => void,
+} & TextDataType
+
+const RenderImgList: FC<RenderImgListProps> = (props) => {
     return <th key={props.imgId} className={styles.container}>
         <div className={styles.mediaBox}>
-            <span className="del-icon" onClick={() => { console.log() }}>
-                <i className="el-icon-delete"></i>
-            </span>
+            <span className={styles.delText} onClick={() => props.onDelete && props.onDelete(props)}><DeleteFilled /></span>
             {
                 props.type == 0 ? <img src={props.url} className="img-item" v-if="item.type==0" />
                     : <video src={props.url} />
@@ -37,13 +48,14 @@ const RenderImgList: FC<ImgDataType> = (props) => {
     </th>
 }
 
-const RenderTextList: FC<TextDataType> = (props) => {
+const RenderTextList: FC<RenderTextListProps> = (props) => {
+    const { onCopy, onDelete, onEdit } = props
     return <td className={styles.tdtext}>
         <div className={styles.textBox}>
             {props.content + '&&' + props.title}
-            <span>删除</span>
-            <span>复制</span>
-            <span>编辑</span>
+            <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
+            <span className={styles.copyText} onClick={() => onCopy && onCopy(props)}><CopyOutlined /></span>
+            <span className={styles.editText} onClick={() => onEdit && onEdit(props)}><EditOutlined /></span>
         </div>
     </td>
 }
@@ -86,6 +98,28 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
     const clearAll = () => [
         dispatch({ type: 'workbench/clearWorkbench' })
     ]
+
+    const deleteImg = (info: ImgDataType) => {
+        showConfirm({ onOk: deleteMedia.bind(null, info.imgId) }).then(async () => {
+            let newPreview = previewAdvs.filter(adv => adv.imgId != info.imgId)
+            await dispatch({ type: 'workbench/fetchAllList' })
+            dispatch({
+                type: 'workbench/savePreviewAdvs',
+                payload: { previewAdvs: newPreview }
+            })
+        })
+    }
+
+    const onDeleteText = (info: TextDataType) => {
+        showConfirm({ onOk: deleteText.bind(null, info.textId) }).then(() => {
+            let newPreview = previewAdvs.filter(adv => adv.textId != info.textId)
+            dispatch({ type: 'workbench/fetchAllList' })
+            dispatch({
+                type: 'workbench/savePreviewAdvs',
+                payload: { previewAdvs: newPreview }
+            })
+        })
+    }
     return (
         <div className={styles.tableContainer}>
             <table className={styles.workbenchTable}>
@@ -97,7 +131,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                         </th>
                         {
                             imgList.map(img => {
-                                return <RenderImgList key={img.imgId} {...img} />
+                                return <RenderImgList key={img.imgId} {...img} onDelete={deleteImg} />
                             })
                         }
                         {
@@ -111,7 +145,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                     {
                         textList.map((text, Y) => {
                             return <tr key={text.textId}>
-                                <RenderTextList {...text} />
+                                <RenderTextList {...text} onDelete={onDeleteText} />
                                 {
                                     imgList.map((img, X) => (
                                         <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}

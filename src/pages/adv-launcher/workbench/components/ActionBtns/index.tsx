@@ -82,6 +82,10 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
         getTempDetail(option.key).then(res => {
             Promise.all([postMediasToWorkbench({ data: JSON.stringify(res.data.imgList) }), postTextsToWorkbench({ data: JSON.stringify(res.data.textList) })]).then(res => {
                 setSelectTempLoading(false)
+                dispatch({
+                    type: 'workbench/savePreviewAdvs',
+                    payload: { previewAdvs: [] }
+                })
                 message.success('读取模板成功，请等待加载或刷新页面')
                 dispatch({ type: 'workbench/fetchAllList' })
             })
