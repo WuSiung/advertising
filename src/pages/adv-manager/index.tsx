@@ -650,6 +650,107 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
     ];
+    const advAdvOriginColumns: Columns[] = [
+        {
+            title: '名称',
+            dataIndex: 'advName',
+            key: 'advName',
+            width:450
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+            key: 'status',
+        },
+        {
+            title: '展示数',
+            dataIndex: 'impression',
+            key: 'impression',
+        },
+        {
+            title: '点击数',
+            dataIndex: 'clicks',
+            key: 'clicks',
+        },
+        {
+            title: '每结果成本',
+            dataIndex: 'pfee',
+            key: 'pfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '移动应用回报率',
+            dataIndex: 'approas',
+            key: 'approas',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '点击率',
+            dataIndex: 'ctr',
+            key: 'ctr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '频率',
+            dataIndex: 'frequency',
+            key: 'frequency',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '费用/千次',
+            dataIndex: 'cpm',
+            key: 'cpm',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '出站点击率',
+            dataIndex: 'octr',
+            key: 'octr',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '每次点击费用',
+            dataIndex: 'cpc',
+            key: 'cpc',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+        {
+            title: '安装数',
+            dataIndex: 'installs',
+            key: 'installs',
+        },
+        {
+            title: '每次安装费用',
+            dataIndex: 'installfee',
+            key: 'installfee',
+            render: (number) => {
+                return number && (number as number).toFixed(2) || 0
+            }
+        },
+    ];
     const [advpackColumns, setAdvpackColumns] = useState<Columns[]>(advpackOriginColumns);
     const [advpackPagesize, setAdvpackPagesize] = useState<number>(10);
     const [advpackPageindex, setAdvpackPageindex] = useState<number>(1);
