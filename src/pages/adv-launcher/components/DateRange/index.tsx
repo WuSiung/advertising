@@ -1,14 +1,17 @@
 import React, { FC } from 'react'
 import moment from 'moment';
 import { DatePicker } from 'antd';
+type EventValue<DateType> = DateType | null;
+
+type RangeValue<DateType> = [EventValue<DateType>, EventValue<DateType>] | null;
 
 interface RangeDateProps {
-    onChange?: (date: [string, string]) => void
+    onChange?: (date: [string, string],dateObj?:RangeValue<moment.Moment>) => void
 }
 
 const DateRange: FC<RangeDateProps> = (props) => {
-    const changeDate = (_: unknown, dateStrings: [string, string]) => {
-        props.onChange && props.onChange(dateStrings)
+    const changeDate = (_: RangeValue<moment.Moment>, dateStrings: [string, string]) => {
+        props.onChange && props.onChange(dateStrings,_)
     }
     return <DatePicker.RangePicker onChange={changeDate} ranges={{
         '今天': [moment(), moment()],
