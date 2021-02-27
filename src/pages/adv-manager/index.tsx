@@ -59,24 +59,24 @@ const CheckboxListPopover: FC<CheckboxListPopoverPropsType> = props => {
 
 
 const AdvManager: FC<AdvPropsType> = (props) => {
-    const [dates, setDates] = useState<RangeValue<moment.Moment>>();
+    /*const [dates, setDates] = useState<RangeValue<moment.Moment>>();*/
     const [value, setValue] = useState<RangeValue<moment.Moment>>();
     const [valueFSet, setValueFSet] = useState<RangeValue<moment.Moment>>();
     const [valueFAdv, setValueFAdv] = useState<RangeValue<moment.Moment>>();
-    const disabledDate: (currentDate: moment.Moment) => boolean = current => {
+    /*const disabledDate: (currentDate: moment.Moment) => boolean = current => {
         if (!dates || (dates as Array<moment.Moment>).length === 0) {
             return false;
         }
         const tooLate = dates[0] && current.diff(dates[0], 'days') > 7;
         const tooEarly = dates[1] && dates[1].diff(current, 'days') > 7;
         return !!(tooEarly || tooLate);
-    };
-    const onOpenChange = (open: boolean) => {
+    };*/
+    /*const onOpenChange = (open: boolean) => {
         if (open) {
             setDates(null);
         } else {
         }
-    };
+    };*/
 
     const advpackOriginColumns: Columns[] = [
         {
@@ -85,7 +85,6 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             key: 'appName',
             width:450,
             render: (t, _) => {
-                console.log(_,"cesss")
                 const text=(_ as AdvPackListType).appName;
                 const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
                     return new Promise((resolve,reject) => {
@@ -162,6 +161,22 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            render:(t,_)=>{
+                const status= (_ as AdvPackListType).status;
+                switch (status){
+                    case "0":
+                        return "草稿"
+                    case "1":
+                        return "发送中"
+                    case "2":
+                        return "失败"
+                    case "3":
+                        return "成功"
+                    default:
+                        return null;
+
+                }
+            }
         },
         {
             title: '展示数',
@@ -259,7 +274,6 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             key: 'setName',
             width:450,
             render: (t, _) => {
-                console.log(_,"1111aqaa")
                 const text=(_ as AdvSetListType).setName;
                 const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
                     return new Promise((resolve,reject) => {
@@ -336,6 +350,22 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            render:(t,_)=>{
+                const status= (_ as AdvSetListType).status;
+                switch (status){
+                    case "0":
+                        return "草稿"
+                    case "1":
+                        return "发送中"
+                    case "2":
+                        return "失败"
+                    case "3":
+                        return "成功"
+                    default:
+                        return null;
+
+                }
+            }
         },
         {
             title: '展示数',
@@ -379,6 +409,11 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             render: (number) => {
                 return number && (number as number).toFixed(2) || 0
             }
+        },
+        {
+            title: 'fbId',
+            dataIndex: 'fbId',
+            key: 'fbId',
         },
         {
             title: '频率',
@@ -431,12 +466,100 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: '名称',
             dataIndex: 'advName',
             key: 'advName',
-            width:450
+            width:450,
+            render: (t, _) => {
+                const text=(_ as AdvAdvListType).advName;
+                const getAdvSetListForTreeView:(key:string)=>Promise<{res:AdvSetListType[]|AdvPackListType[]|AdvAdvListType[],isAdv:boolean}>= (key: string) => {
+                    return new Promise((resolve,reject) => {
+                        if(key.toString().indexOf("adv_")!==-1){
+                            reject();
+                            return;
+                        }
+                        if(key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/fetchAdvAdvListForTreeView',
+                                payload: {
+                                    setId: key.split("_")[1]
+                                }
+                            }).then((result:AdvSetListType[])=>{
+                                resolve({res:result,isAdv:true});
+                            });
+                        }else{
+                            dispatch({
+                                type: 'adv/fetchAdvSetListForTreeView',
+                                payload: {
+                                    packId: key
+                                }
+                            }).then((result:AdvSetListType[])=>{
+                                resolve({res:result,isAdv:false});
+                            });
+                        }
+
+                    })
+                }
+
+
+                const advAdv:(param:{node:DataNode,isOn:boolean})=>Promise<boolean>= (param) => {
+                    const {node,isOn} = param;
+                    return new Promise((resolve,reject) => {
+                        if(node.key.toString().indexOf("adv_")!==-1){
+                            dispatch({
+                                type: 'adv/advAdv',
+                                payload: {
+                                    fbId: node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                            return;
+                        }
+                        if(node.key.toString().indexOf("set_")!==-1){
+                            dispatch({
+                                type: 'adv/advSet',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }else{
+                            dispatch({
+                                type: 'adv/advPack',
+                                payload: {
+                                    fbId:node.fbId,
+                                    state:isOn?"1":"0"
+                                }
+                            }).then((result:boolean)=>{
+                                resolve(result);
+                            })
+                        }
+                    })
+                }
+                return (<AdvPackTree _={_} text={text} getAdvSetListForTreeView={getAdvSetListForTreeView} advAdv={advAdv} isAdv={true}/>)
+            }
         },
         {
             title: '状态',
             dataIndex: 'status',
             key: 'status',
+            render:(t,_)=>{
+                const status= (_ as AdvAdvListType).status;
+                switch (status){
+                    case "0":
+                        return "草稿"
+                    case "1":
+                        return "发送中"
+                    case "2":
+                        return "失败"
+                    case "3":
+                        return "成功"
+                    default:
+                        return null;
+
+                }
+            }
         },
         {
             title: '展示数',
@@ -595,7 +718,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             type: 'adv/fetchAdvAdvList', payload: {
                 current: advAdvPageindex,
                 size: advAdvPagesize,
-                setName: serachTextForAdv,
+                advName: serachTextForAdv,
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
             }
@@ -606,7 +729,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             type: 'adv/fetchAdvAdvList', payload: {
                 current: advAdvPageindex,
                 size: advAdvPagesize,
-                setName: serachTextForAdv,
+                advName: serachTextForAdv,
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
             }
@@ -655,10 +778,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                             <Col span={12} style={{textAlign: "right"}}>
                                 <DatePicker.RangePicker
                                     value={value}
-                                    disabledDate={disabledDate}
-                                    onCalendarChange={val => setDates(val)}
+                                    /*disabledDate={disabledDate}*/
+                                    /*onCalendarChange={val => setDates(val)}*/
                                     onChange={val => setValue(val)}
-                                    onOpenChange={onOpenChange}
+                                    /*onOpenChange={onOpenChange}*/
                                 />
                             </Col>
                         </Row>
@@ -701,10 +824,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                             <Col span={12} style={{textAlign: "right"}}>
                                 <DatePicker.RangePicker
                                     value={valueFSet}
-                                    disabledDate={disabledDate}
-                                    onCalendarChange={val => setDates(val)}
+                                   /* disabledDate={disabledDate}*/
+                                    /*onCalendarChange={val => setDates(val)}*/
                                     onChange={val => setValueFSet(val)}
-                                    onOpenChange={onOpenChange}
+                                    /*onOpenChange={onOpenChange}*/
                                 />
                             </Col>
                         </Row>
@@ -734,10 +857,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     setSerachTextForAdv(event.target.value);
                                 }} onSearch={text => {
                                     dispatch({
-                                        type: 'adv/fetchAdvSetList', payload: {
+                                        type: 'adv/fetchAdvAdvList', payload: {
                                             current: advAdvPageindex,
                                             size: advAdvPagesize,
-                                            setName: text,
+                                            advName: text,
                                             startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                                             endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
                                         }
@@ -747,10 +870,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                             <Col span={12} style={{textAlign: "right"}}>
                                 <DatePicker.RangePicker
                                     value={valueFAdv}
-                                    disabledDate={disabledDate}
-                                    onCalendarChange={val => setDates(val)}
+                                    /*disabledDate={disabledDate}*/
+                                    /*onCalendarChange={val => setDates(val)}*/
                                     onChange={val => setValueFAdv(val)}
-                                    onOpenChange={onOpenChange}
+                                    /*onOpenChange={onOpenChange}*/
                                 />
                             </Col>
                         </Row>

@@ -66,11 +66,11 @@ const AdvModal: AdvModalType = {
             const response = yield call(queryAdvAdv,payload)
             yield put({
                 type: 'saveAdvAdvList',
-                payload: {advSetList: response.data.records}
+                payload: {advAdvList: response.data.records}
             })
             yield put({
                 type: 'saveAdvAdvTotal',
-                payload: {advSetTotal: response.data.total}
+                payload: {advAdvTotal: response.data.total}
             })
         },
         *fetchAdvSetListForTreeView({payload,callback}, { call, put }) {
