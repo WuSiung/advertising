@@ -6,10 +6,19 @@
   }
 }
 .nodeTitleWrap{
-  width:100%;
+  width:450px;
+  height:25px;
+  line-height: 25px;
   display: flex;
   justify-content: space-between;
   .switch{
     text-align: right;
+  }
+  :global{
+    span{
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
   }
 }
