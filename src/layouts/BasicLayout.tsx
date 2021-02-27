@@ -19,6 +19,8 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import type { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
+import { includeRoutes } from '@/utils/menuConfirmRoutes';
+import { ConfirmProps, showConfirm } from '@/components/Confrim';
 
 const noMatch = (
   <Result
@@ -120,6 +122,17 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   const { formatMessage } = useIntl();
 
+  const routeNext = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, pathname: string, to: string) => {
+    if (includeRoutes.includes(pathname)) {
+      e.preventDefault()
+      const params: ConfirmProps = {
+        content: '广告创建中，是否确认离开',
+        onOk: () => { history.push(to) }
+      }
+      showConfirm({ ...params })
+    }
+  }
+
   return (
     <ProLayout
       logo={logo}
@@ -136,7 +149,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         ) {
           return defaultDom;
         }
-        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+        return <Link to={menuItemProps.path} onClick={(e) => routeNext(e, location.pathname!, menuItemProps.path || '/')}>{defaultDom}</Link>;
       }}
       // breadcrumbRender={(routers = []) => [
       //   {
