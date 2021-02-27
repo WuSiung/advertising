@@ -22,6 +22,7 @@
         left: 0;
         text-align: center;
         top: 0;
+        height: 120px;
     }
     .creatBlock{
         cursor: pointer;
@@ -73,6 +74,22 @@
                 max-height: @baseTableHeight - 10px;
                 max-width: @baseTableHeight - 10px;
             }
+            .delText{
+                position: absolute;
+                background: rebeccapurple;
+                width: 22px;
+                height: 22px;
+                z-index: 9;
+                font-size: 12px;
+                border-radius: 50%;
+                color: #ffffff;
+                position: absolute;
+                top: 0;
+                cursor: pointer;
+                text-align: center;
+                line-height: 20px;
+                right: 0px;
+            }
         }
     }
     .tdtext{
@@ -90,6 +107,27 @@
             overflow-y: scroll;
             border-radius: 4px;
             box-shadow: @shadow-2;
+            .delText,.copyText,.editText{
+                position: absolute;
+                background: rebeccapurple;
+                width: 22px;
+                height: 22px;
+                z-index: 9;
+                border-radius: 50%;
+                color: #ffffff;
+                position: absolute;
+                top: 12px;
+                cursor: pointer;
+                text-align: center;
+                line-height: 20px;
+                right: 12px;
+            }
+            .copyText{
+                top: 37px;
+            }
+            .editText{
+                top: 62px;
+            }
         }
     }
     tbody tr:last-of-type{
