@@ -1,12 +1,14 @@
 import {AdvData} from "./data";
 import { Effect, Reducer} from "@@/plugin-dva/connect";
-import {qureyAdvPark,queryAdvSetForTreeView,queryAdvAdvForTreeView,advAdv,advPack,advSet} from "./service";
+import {qureyAdvPark,queryAdvSet,queryAdvAdv,queryAdvSetForTreeView,queryAdvAdvForTreeView,advAdv,advPack,advSet} from "./service";
 
 export interface AdvModalType {
     namespace: string,
     state: AdvData,
     effects: {
         fetchAdvPackList: Effect,
+        fetchAdvSetList: Effect,
+        fetchAdvAdvList: Effect,
         fetchAdvSetListForTreeView:Effect,
         fetchAdvAdvListForTreeView:Effect,
         advAdv:Effect,
@@ -16,6 +18,10 @@ export interface AdvModalType {
     reducers: {
         saveAdvPackList: Reducer<AdvData>,
         saveAdvPackTotal: Reducer<AdvData>,
+        saveAdvSetList: Reducer<AdvData>,
+        saveAdvSetTotal: Reducer<AdvData>,
+        saveAdvAdvList: Reducer<AdvData>,
+        saveAdvAdvTotal: Reducer<AdvData>,
         saveAdvSetListForTreeView:Reducer<AdvData>,
         saveAdvAdvListForTreeView:Reducer<AdvData>
     }
@@ -26,6 +32,10 @@ const AdvModal: AdvModalType = {
     state: {
         advPackList:[],
         advPackTotal:0,
+        advSetList:[],
+        advSetTotal:0,
+        advAdvList:[],
+        advAdvTotal:0,
         advSetListForTreeView:[],
         advAdvListForTreeView:[]
     },
@@ -39,6 +49,28 @@ const AdvModal: AdvModalType = {
             yield put({
                 type: 'saveAdvPackTotal',
                 payload: {advPackTotal: response.data.total}
+            })
+        },
+        *fetchAdvSetList({payload,callback}, { call, put }) {
+            const response = yield call(queryAdvSet,payload)
+            yield put({
+                type: 'saveAdvSetList',
+                payload: {advSetList: response.data.records}
+            })
+            yield put({
+                type: 'saveAdvSetTotal',
+                payload: {advSetTotal: response.data.total}
+            })
+        },
+        *fetchAdvAdvList({payload,callback}, { call, put }) {
+            const response = yield call(queryAdvAdv,payload)
+            yield put({
+                type: 'saveAdvAdvList',
+                payload: {advSetList: response.data.records}
+            })
+            yield put({
+                type: 'saveAdvAdvTotal',
+                payload: {advSetTotal: response.data.total}
             })
         },
         *fetchAdvSetListForTreeView({payload,callback}, { call, put }) {
@@ -87,6 +119,18 @@ const AdvModal: AdvModalType = {
             return { ...state, ...payload }
         },
         saveAdvPackTotal(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveAdvSetList(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveAdvSetTotal(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveAdvAdvList(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveAdvAdvTotal(state, { payload }) {
             return { ...state, ...payload }
         },
         saveAdvSetListForTreeView(state, { payload }) {
