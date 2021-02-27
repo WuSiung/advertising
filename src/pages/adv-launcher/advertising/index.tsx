@@ -95,10 +95,6 @@ const Advertising: FC<AdvPropsType> = (props) => {
     )
 }
 
-<<<<<<< HEAD
-export default connect(({ advertising }: { advertising: AdvModelStateType }) => ({
-    advertisingList: advertising.advertisingList
-=======
 export default connect(({advertising, loading, user}: { user:UserModelState, advertising: AdvModelStateType, loading: { effects: { [key: string]: boolean } } }) => ({
     advertising,
     advertisingList:advertising.advertisingList,
@@ -106,5 +102,4 @@ export default connect(({advertising, loading, user}: { user:UserModelState, adv
     count:advertising.count,
     loadingAdvList: loading.effects['advertising/fetchAdvList'],
     loadingAdvListAddMore: loading.effects['advertising/fetchAdvListAddMore']
->>>>>>> develop
 }))(Advertising)
