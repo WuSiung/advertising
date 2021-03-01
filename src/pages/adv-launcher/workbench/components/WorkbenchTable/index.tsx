@@ -1,6 +1,6 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { create } from 'lodash'
 import React, { FC, useState } from 'react'
 import { connect, Dispatch } from 'umi'
@@ -133,6 +133,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
             type: 'workbench/uploadText',
             payload: postArr
         })
+        message.success('复制成功')
         dispatch({ type: 'workbench/fetchAllList' })
     }
     return (
