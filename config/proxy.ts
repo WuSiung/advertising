@@ -5,24 +5,18 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
+const allApiStr = ['/code', '/admin', '/ads', '/auth', '/subApi']
+const apiArr = {}
+allApiStr.map(str => {
+  return apiArr[str] = {
+    target: 'https://dev.tanwanai.com/',
+    changeOrigin: true,
+    pathRewrite: { '^/': '/' },
+  }
+})
+
 export default {
-  dev: {
-    '/': {
-      target: 'https://dev.tanwanai.com/',
-      changeOrigin: true,
-      pathRewrite: { '^/': '/' },
-    },
-    '/subApi/': {
-      target: 'https://dev.tanwanai.com/',
-      changeOrigin: true,
-      pathRewrite: { '^/subApi/': '/' },
-    },
-    '/code': {
-      target: 'https://dev.tanwanai.com/',
-      changeOrigin: true,
-      pathRewrite: { '^/': '/' },
-    },
-  },
+  dev: apiArr,
   test: {
     '/': {
       target: 'https://dev.tanwanai.com/',
