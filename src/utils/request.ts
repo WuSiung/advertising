@@ -59,7 +59,6 @@ const request = extend({
 request.use(async (ctx: Context, next: Function): Promise<void> => {
   const { req } = ctx;
   const { url, options } = req;
-  console.log(url)
   // 添加代理前缀
   // if (url.indexOf('/proxyApi') !== 0) {
   //   ctx.req.url = '/proxyApi' + url
