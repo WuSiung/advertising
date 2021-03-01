@@ -14,9 +14,9 @@ interface AdvPropsType {
     advertisingList: AdvAdvListType[],
     loadingAdvList: boolean,
     dispatch: Dispatch,
-    appInfo: AppInfo | undefined,
-    loadingAdvListAddMore: boolean,
-    count: number
+    appInfo:AppInfo|undefined,
+    loadingAdvListAddMore:boolean,
+    count:number
 }
 
 let hideLoading: () => void;
@@ -336,9 +336,9 @@ export default connect(({
                             user
                         }: { user: UserModelState, advertising: AdvModelStateType, loading: { effects: { [key: string]: boolean } } }) => ({
     advertising,
-    advertisingList: advertising.advertisingList,
+    advertisingList:advertising.advertisingList,
     appInfo: user.appInfo,
-    count: advertising.count,
+    count:advertising.count,
     loadingAdvList: loading.effects['advertising/fetchAdvList'],
     loadingAdvListAddMore: loading.effects['advertising/fetchAdvListAddMore']
 }))(Advertising)
