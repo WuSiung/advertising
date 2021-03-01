@@ -30,13 +30,18 @@
             routes: [
               {
                 path: '/', // 根路由默认重定向
-                redirect: '/advlauncher',
+                redirect: '/dashboard',
               },
               {
                 path: '/welcome',
                 name: 'welcome',
                 icon: 'smile',
                 component: './Welcome',
+              },
+              {
+                path: '/dashboard',
+                name: 'dashboard',
+                component: './dashboard',
               },
               {
                 path: '/advlauncher',
@@ -86,7 +91,7 @@
                     hideInMenu: true,
                     component: './adv-launcher/launcher',
                   },
-                ]
+                ],
               },
               {
                 path: '/audience',
@@ -107,7 +112,7 @@
                     name: 'manager',
                     component: './audience-manager/manager',
                   },
-                ]
+                ],
               },
               {
                 path: '/admin',
