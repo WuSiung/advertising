@@ -6,24 +6,19 @@
  * https://pro.ant.design/docs/deploy
  */
 const allApiStr = ['/code', '/admin', '/ads', '/auth', '/subApi']
-const apiArr = {}
+const apiProxyConfig = {}
+const proxyUrl = process.env.REACT_APP_ENV == 'dev' ? 'https://dev.tanwanai.com/' : 'https://dev.tanwanai.com/'
 allApiStr.map(str => {
-  return apiArr[str] = {
-    target: 'https://dev.tanwanai.com/',
+  return apiProxyConfig[str] = {
+    target: proxyUrl,
     changeOrigin: true,
     pathRewrite: { '^/': '/' },
   }
 })
 
 export default {
-  dev: apiArr,
-  test: {
-    '/': {
-      target: 'https://dev.tanwanai.com/',
-      changeOrigin: true,
-      pathRewrite: { '^/': '/' },
-    },
-  },
+  dev: apiProxyConfig,
+  test: apiProxyConfig,
   pre: {
     '/api/': {
       target: 'your pre url',
