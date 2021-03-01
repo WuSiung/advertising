@@ -132,12 +132,6 @@
                 component: './adv-manager',
               },
               {
-                path: '/advmanager',
-                name: 'advmanager',
-                icon: '',
-                component: './adv-manager',
-              },
-              {
                 component: './404',
               },
             ],
