@@ -16,6 +16,7 @@ export interface ImgDataType {
 export interface PostMediaDataType {
     id: string,
     link: string,
+    md5Hex: string,
     type?: number | string
 }
 

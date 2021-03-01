@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import Crowds from '@/pages/audience-manager/crowds'
 import { Card, Button, message } from 'antd'
-import { AppInfo, connect, Dispatch, UserModelState, history } from 'umi'
+import { AppInfo, connect, Dispatch, UserModelState } from 'umi'
 import Steps from '../components/Steps'
 import type { PreviewAdvType, WorkbenchDataType } from '../workbench/data'
 import type { CrowdStateType } from '@/pages/audience-manager/crowds/data'
@@ -19,7 +19,7 @@ interface BindCrowdsProps {
 }
 
 const BindCrowds: FC<BindCrowdsProps> = (props) => {
-    const { previewAdvs, crowdsList, appInfo, dispatch } = props
+    const { previewAdvs, crowdsList, dispatch } = props
     const [showType, setShowType] = useState(false)
     // 是否全选了
     let isCheckAll = previewAdvs.every(adv => adv.checked);
@@ -96,7 +96,7 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
     return <Card className={styles.bindCrowds}>
         <Steps stepNum={1} />
         <RenderAdvs title='请为发布的广告选择人群包' onCheckAll={checkAll} isCheckAll={isCheckAll} isFinished={isFinished} showCopy showDelete
-            onCheckAdv={checkAdv} onCopy={copyAdv} onDelete={deleteAdv} nextUrl='/advlauncher/facebook'></RenderAdvs>
+            onCheckAdv={checkAdv} onCopy={copyAdv} onDelete={deleteAdv} nextUrl='/advlauncher/facebook' type='crowds'></RenderAdvs>
         {
             !showType && <div className={styles.save}>
                 <Button type='primary' onClick={saveCrowd}>保存</Button>

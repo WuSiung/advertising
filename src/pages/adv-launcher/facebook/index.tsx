@@ -192,7 +192,8 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
     }
     return <Card>
         <Steps stepNum={2} />
-        <RenderAdvs title='广告基础信息设置' isCheckAll={isCheckAll} isFinished={isFinished} nextUrl="/advlauncher/launcher" onCheckAdv={checkAdv} onCheckAll={checkAll}></RenderAdvs>
+        <RenderAdvs title='广告基础信息设置' isCheckAll={isCheckAll} isFinished={isFinished} nextUrl="/advlauncher/launcher" onCheckAdv={checkAdv}
+            onCheckAll={checkAll} type='facebook'></RenderAdvs>
         <div className={styles.setting}>
             <div className={styles.tips}>
                 <div className={styles.name}>Facebook流量<span>选中 {checkCount}</span></div>

@@ -39,7 +39,7 @@
     .preview{
         transform: scale(.52)!important;
     }
-    .copyIcon,.delIcon{
+    .copyIcon,.delIcon, .finished{
         right: 0;
         top: 0;
         position: absolute;
@@ -55,6 +55,15 @@
         .icon{
             color: #ffffff;
             font-size: 12px;
+        }
+    }
+    .finished{
+        left: 0;
+        background-color: transparent !important;
+        :global(.anticon){
+            background: @primary-color;
+            color: #ffffff;
+            border-radius: 50%;
         }
     }
     .delIcon{
