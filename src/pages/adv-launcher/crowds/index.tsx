@@ -91,7 +91,7 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
             editAdvs[autoNextIndex].checked = true
         }
         setAdvs(dispatch, editAdvs)
-        message.success('绑定成功啦~')
+        message.success('保存成功啦~')
     }
     return <Card className={styles.bindCrowds}>
         <Steps stepNum={1} />
