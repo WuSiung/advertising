@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { AppInfo, connect, Dispatch, history, UserModelState } from 'umi'
-import { CopyOutlined, DeleteOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, CopyOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { PreviewAdvType, WorkbenchDataType } from '../../workbench/data'
 import { AdvPreview } from '../AdvPreview'
@@ -20,6 +20,7 @@ export type RenderAdvsProps = {
     onCopy?: (index: number, adv: PreviewAdvType) => void,
     onDelete?: (index: number) => void,
     disptach?: Dispatch,
+    type?: 'crowds' | 'facebook' | 'launcher',
     showCopy?: boolean,
     showDelete?: boolean
 }
@@ -31,17 +32,21 @@ export type AdvProps = {
     onDelete?: () => void,
     showCopy?: boolean,
     showDelete?: boolean,
+    isFinished?: boolean,
     advInfo: PreviewAdvType
 }
 
 export const Adv: FC<AdvProps> = (props) => {
-    const { onClick, onCopy, onDelete, advInfo, appInfo, showCopy, showDelete } = props
+    const { onClick, onCopy, onDelete, advInfo, appInfo, showCopy, showDelete, isFinished } = props
     return <div className={`${styles.item} ${advInfo.checked ? styles.active : ''}`} onClick={e => onClick && onClick(e)}>
         {
             showCopy && <span className={styles.copyIcon}><CopyOutlined className={styles.icon} onClick={(e) => { e.stopPropagation(); onCopy && onCopy() }} /></span>
         }
         {
             showDelete && <span className={styles.delIcon}><DeleteOutlined className={styles.icon} onClick={(e) => { e.stopPropagation(); onDelete && onDelete() }} /></span>
+        }
+        {
+            isFinished && <span className={styles.finished}><CheckCircleOutlined /></span>
         }
         <AdvPreview {...advInfo} appInfo={appInfo} classNames={styles.preview} />
     </div>
@@ -53,7 +58,7 @@ Adv.defaultProps = {
 }
 
 const RenderAdvs: FC<RenderAdvsProps> = (props) => {
-    const { title, dec, isFinished, onCheckAll, isCheckAll, previewAdvs, appInfo, showCopy, showDelete, onCheckAdv, onCopy, onDelete, nextUrl } = props
+    const { title, dec, isFinished, onCheckAll, isCheckAll, previewAdvs, appInfo, showCopy, showDelete, onCheckAdv, onCopy, onDelete, nextUrl, type } = props
     return <div className={styles.advList}>
         <div className={styles.topdec}>
             <div className={styles.text}>
@@ -67,8 +72,9 @@ const RenderAdvs: FC<RenderAdvsProps> = (props) => {
         <div className={styles.lists}>
             {
                 previewAdvs.map((adv, index) => {
-                    return <Adv advInfo={adv} key={`${adv.imgId}&${adv.textId}&${index}`} appInfo={appInfo} onClick={e => onCheckAdv && onCheckAdv(e, index)} showCopy={showCopy}
-                        showDelete={showDelete} onCopy={() => showCopy && onCopy && onCopy(index, adv)} onDelete={() => showDelete && onDelete && onDelete(index)} />
+                    return <Adv advInfo={adv} key={`${adv.imgId}&${adv.textId}&${index}`} appInfo={appInfo} onClick={e => onCheckAdv && onCheckAdv(e, index)}
+                        showCopy={showCopy} showDelete={showDelete} onCopy={() => showCopy && onCopy && onCopy(index, adv)} onDelete={() => showDelete && onDelete && onDelete(index)}
+                        isFinished={Boolean(type == 'facebook' && adv?.facebookSetting) || Boolean(type == 'crowds' && adv.audsInfo)} />
                 })
             }
         </div>

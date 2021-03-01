@@ -1,5 +1,5 @@
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { Col, Row, Button, Select, Upload, Spin, message, Modal, Input } from 'antd'
+import { Col, Row, Button, Select, Upload, message, Modal, Input } from 'antd'
 import React, { FC, useCallback, useState } from 'react'
 import { connect, Dispatch, history } from 'umi';
 import Loading from '@/components/Loading'
