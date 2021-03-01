@@ -5,7 +5,7 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
-const allApiStr = ['/code', '/admin', '/ads', '/auth', '/subApi']
+const allApiStr = ['/code', '/admin', '/ads', '/auth', '/subApi', '/file']
 const apiProxyConfig = {}
 const proxyUrl = process.env.REACT_APP_ENV == 'dev' ? 'https://dev.tanwanai.com/' : 'https://dev.tanwanai.com/'
 allApiStr.map(str => {
