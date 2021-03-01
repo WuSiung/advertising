@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Button, Card, Input } from 'antd'
+import { Button, Card, Input, message } from 'antd'
 import { CaretDownOutlined, CaretRightOutlined, StarFilled } from '@ant-design/icons'
 import { connect, Dispatch, history } from 'umi'
 import Steps from '../components/Steps'
@@ -188,6 +188,7 @@ const Launcher: FC<LuancherProps> = (props) => {
         setSubmitting(true)
         postLauncherAdv({ data: JSON.stringify(params) }).then(res => {
             setSubmitting(false)
+            message.success('广告创建成功')
             history.replace('/advlauncher/workbench')
         }).catch(() => {
             setSubmitting(false)
