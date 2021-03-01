@@ -29,7 +29,7 @@ const Pack: FC<OnePackProps> = (props) => {
             {
 
                 props.advAudLoveList.map(love => {
-                    return <div key={love.audLoveId}>包含：{love.audName}</div>
+                    return <div key={love.audLoveId}>{love.type == 0 ? '包含' : '排除'}：{love.audName}</div>
                 })
             }
             <div>覆盖总人数： {count}</div>
@@ -80,7 +80,7 @@ const Packs: FC<PacksProps> = (props) => {
                     <div className={styles.packList}>
                         <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
                             +
-                         <div className={styles.popover}>
+                         <div className={styles.popover} style={{textAlign: 'center', fontSize: 16}}>
                                 点击前往创建新的人群包
                          </div>
                         </div>
