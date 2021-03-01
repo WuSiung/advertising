@@ -178,9 +178,10 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
 }
 
 const isActive = (previewAdvs: PreviewAdvType[], imgId: number, textId: number): boolean => {
-    return previewAdvs.some(adv => {
+    let flag = previewAdvs.some(adv => {
         return adv.imgId == imgId && adv.textId == textId
     })
+    return flag
 }
 
 const saveAdvs = (previewAdvs: PreviewAdvType[], addAdv: PreviewAdvType): PreviewAdvType[] => {

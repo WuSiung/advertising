@@ -6,7 +6,7 @@ import Loading from '@/components/Loading'
 import { isImage, isVideo } from '@/utils/fileType'
 import UploadTextFile from '../../../components/UploadTextFile'
 import { deleteTemplate, getTempDetail, postMediasToWorkbench, postOneRecordToWorkbench, postTextsToWorkbench } from '../../service'
-import { PostMediaDataType, WorkbenchDataType } from '../../data';
+import { PostMediaDataType, PreviewAdvType, WorkbenchDataType } from '../../data';
 
 import styles from './index.less'
 import { RcFile } from 'antd/lib/upload';
@@ -80,11 +80,17 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
     const tempSelect = (_: string, option: any) => {
         setSelectTempLoading(true)
         getTempDetail(option.key).then(res => {
-            Promise.all([postMediasToWorkbench({ data: JSON.stringify(res.data.imgList) }), postTextsToWorkbench({ data: JSON.stringify(res.data.textList) })]).then(res => {
+            let newPreviewsArr: Array<PreviewAdvType> = []
+            if (res.data.advTemplateRelList.length > 0) {
+                res.data.advTemplateRelList?.map((adv: any) => {
+                    newPreviewsArr.push({ ...adv.advImg, ...adv.advText })
+                })
+            }
+            Promise.all([postMediasToWorkbench({ data: JSON.stringify(res.data.imgList) }), postTextsToWorkbench({ data: JSON.stringify(res.data.textList) })]).then(() => {
                 setSelectTempLoading(false)
                 dispatch({
                     type: 'workbench/savePreviewAdvs',
-                    payload: { previewAdvs: [] }
+                    payload: { previewAdvs: newPreviewsArr || [] }
                 })
                 message.success('读取模板成功，请等待加载或刷新页面')
                 dispatch({ type: 'workbench/fetchAllList' })
