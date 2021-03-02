@@ -10,7 +10,7 @@ const api2Str = [{ key: '/subApi', rewrite: '/subApi' }]
 const apiProxyConfig = {}
 const urls = {
   'dev': 'https://dev.tanwanai.com/',
-  'local': 'http://192.168.31.66:9999/',
+  'local': 'http://192.168.43.66:9999/',
   'test': 'https://dev.tanwanai.com/'
 }
 
