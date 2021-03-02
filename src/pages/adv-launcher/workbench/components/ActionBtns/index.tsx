@@ -20,7 +20,7 @@ interface ActionBtnsProps {
     saveTempLoading: boolean,
     queryTempLoading: boolean
 }
-const uploadSucessValue: Array<Promise<unknown>> = []
+let uploadSucessValue: Array<Promise<unknown>> = []
 let uploadFileLength = 0;
 let uploadedLenth: number = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
@@ -46,6 +46,9 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
             uploadSucessValue.push(addResultToWorkbench(res))
             if (uploadFileLength == uploadedLenth) {
                 Promise.all(uploadSucessValue).then(() => {
+                    uploadSucessValue = [];
+                    uploadFileLength = 0;
+                    uploadedLenth = 0
                     dispatch({ type: 'workbench/fetchAllList' })
                 })
 
