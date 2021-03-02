@@ -16,6 +16,7 @@ export type GlobalHeaderRightProps = {
 
 const ENVTagColor = {
   dev: 'orange',
+  local: 'red',
   test: 'green',
   pre: '#87d068',
 };
