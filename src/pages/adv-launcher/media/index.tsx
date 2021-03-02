@@ -126,6 +126,8 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
                 setMediaLoading(true)
                 Promise.all(promistUploadFileArray).then((res) => {
                     promistUploadFileArray = []
+                    uploadProcess = 0
+                    allLenth = 0
                     setMediaLoading(false)
                     dispatch({
                         type: 'material/fetchMedias',
