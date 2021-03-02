@@ -60,7 +60,8 @@ export interface AdvPackListType{
     targetName: string,
     targetVal: string,
     tokenId: number,
-    updatetime: string
+    updatetime: string,
+    loading?:boolean
 }
 
 export interface AdvSetListType{
@@ -101,7 +102,8 @@ export interface AdvSetListType{
     targetName: string,
     targetVal: string,
     tokenId: number,
-    updatetime: string
+    updatetime: string,
+    loading?:boolean
 }
 export interface AdvAdvListType{
     advName: string,
@@ -141,7 +143,11 @@ export interface AdvAdvListType{
     targetVal: string,
     tokenId: number,
     updatetime: string,
+<<<<<<< HEAD
     imgTextList:Array<any>
+=======
+    loading?:boolean
+>>>>>>> 702b7de (feat:已有广告功能优化)
 }
 export interface AdvData {
     advPackList: AdvPackListType[],
