@@ -81,9 +81,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         advSetList,
         dispatch
     } = props;
-    const [value, setValue] = useState<RangeValue<moment.Moment>>();
-    const [valueFSet, setValueFSet] = useState<RangeValue<moment.Moment>>();
-    const [valueFAdv, setValueFAdv] = useState<RangeValue<moment.Moment>>();
+    const [value, setValue] = useState<RangeValue<moment.Moment>|undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
+    const [valueFSet, setValueFSet] = useState<RangeValue<moment.Moment>|undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
+    const [valueFAdv, setValueFAdv] = useState<RangeValue<moment.Moment>|undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
     const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
         {
             sortIdx: 1,
@@ -389,8 +389,6 @@ const AdvManager: FC<AdvPropsType> = (props) => {
 
         },
     ];
-
-
     const advpackOriginColumns: Columns[] = [
         {
             idx: 0,
@@ -1747,16 +1745,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         let sText = serachTextForSet;
         sText = sText as string[];
         sText = Array.from(new Set(sText))
-        let sId = null;
-        if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-            sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+        const sIds:Array<number>=[];
+        if(sText&&sText[0]){
+            sText.forEach(st=>{
+                if(st.indexOf("#^*_") != -1){
+                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                    sIds.push(sId);
+                }
+            })
         }
         setSerachTextForSet(sText);
         dispatch({
             type: 'adv/fetchAdvSetList', payload: {
                 current: advSetPageindex,
                 size: advpackPagesize,
-                packId: sId,
+                packids: sIds.join(","),
                 setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -1767,16 +1770,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         let sText = serachTextForSet;
         sText = sText as string[];
         sText = Array.from(new Set(sText))
-        let sId = null;
-        if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-            sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+        const sIds:Array<number>=[];
+        if(sText&&sText[0]){
+            sText.forEach(st=>{
+                if(st.indexOf("#^*_") != -1){
+                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                    sIds.push(sId);
+                }
+            })
         }
         setSerachTextForSet(sText);
         dispatch({
             type: 'adv/fetchAdvSetList', payload: {
                 current: advSetPageindex,
                 size: advpackPagesize,
-                packId: sId,
+                packids: sIds.join(","),
                 setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -1790,16 +1798,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         let sText = advInputTagRef.current?.changeVal();
         sText = sText as string[];
         sText = Array.from(new Set(sText));
-        let sId = null;
-        if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-            sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+        const sIds:Array<number>=[];
+        if(sText&&sText[0]){
+            sText.forEach(st=>{
+                if(st.indexOf("#^*_") != -1){
+                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                    sIds.push(sId);
+                }
+            })
         }
         setSerachTextForAdv(sText);
         dispatch({
             type: 'adv/fetchAdvAdvList', payload: {
                 current: advAdvPageindex,
                 size: advpackPagesize,
-                setId: sId,
+                setids: sIds.join(","),
                 advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -1810,16 +1823,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         let sText = advInputTagRef.current?.changeVal();
         sText = sText as string[];
         sText = Array.from(new Set(sText));
-        let sId = null;
-        if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-            sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+        const sIds:Array<number>=[];
+        if(sText&&sText[0]){
+            sText.forEach(st=>{
+                if(st.indexOf("#^*_") != -1){
+                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                    sIds.push(sId);
+                }
+            })
         }
         setSerachTextForAdv(sText);
         dispatch({
             type: 'adv/fetchAdvAdvList', payload: {
                 current: advAdvPageindex,
                 size: advpackPagesize,
-                setId: sId,
+                setids: sIds.join(","),
                 advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -1832,36 +1850,62 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const onRowClick = (record: AdvAdvListType | AdvSetListType | AdvPackListType, tabType: string) => {
         if (tabType === "set") {
             const rec = record as AdvSetListType;
+            let advt:Array<string>=[];
             setSerachTextForAdv(advtext => {
                 advtext = (advtext as string[]);
                 if (Array.isArray(advtext)) advtext.unshift(`${rec.setId}#^*_广告集-${rec.setName}`);
                 else advtext = [`${rec.setId}#^*_广告集-${rec.setName}`]
+                advt= [...advtext];
                 return [...advtext]
             });
+            advt = Array.from(new Set(advt));
+            const sIds:Array<number>=[];
+            if(advt&&advt[0]){
+                advt.forEach(st=>{
+                    if(st.indexOf("#^*_") != -1){
+                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                        sIds.push(sId);
+                    }
+                })
+            }
             setTabKey("3");
             dispatch({
                 type: 'adv/fetchAdvAdvList', payload: {
                     current: advAdvPageindex,
                     size: advAdvPagesize,
-                    setId: rec.setId,
+                    setids: sIds.join(","),
+                    advName:Array.isArray(advt) ? advt.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                     startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                     endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
                 }
             })
         } else if (tabType === "pack") {
             const rec = record as AdvPackListType;
+            let advt:Array<string>=[];
             setSerachTextForSet(advtext => {
                 advtext = (advtext as string[]);
                 if (Array.isArray(advtext)) advtext.unshift(`${rec.packId}#^*_广告系列-${rec.appName}`);
                 else advtext = [`${rec.packId}#^*_广告集-${rec.appName}`]
+                advt= [...advtext];
                 return [...advtext]
             });
+            advt = Array.from(new Set(advt))
+            const sIds:Array<number>=[];
+            if(advt&&advt[0]){
+                advt.forEach(st=>{
+                    if(st.indexOf("#^*_") != -1){
+                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                        sIds.push(sId);
+                    }
+                })
+            }
             setTabKey("2");
             dispatch({
                 type: 'adv/fetchAdvSetList', payload: {
                     current: 1,
                     size: advSetPagesize,
-                    packId: rec.packId,
+                    packids: sIds.join(","),
+                    setName:Array.isArray(advt) ? advt.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                     startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                     endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
                 }
@@ -1912,9 +1956,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
+                                        defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]}
                                         onChange={(dateString, dateObj) => {
                                             setValue(dateObj)
-
                                             let sText = serachText;
                                             dispatch({
                                                 type: 'adv/fetchAdvPackList', payload: {
@@ -1964,16 +2008,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                             let sText = setInputTagRef.current?.changeVal();
                                             sText = sText as string[];
                                             sText = Array.from(new Set(sText))
-                                            let sId = null;
-                                            if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-                                                sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+                                            const sIds:Array<number>=[];
+                                            if(sText&&sText[0]){
+                                                sText.forEach(st=>{
+                                                    if(st.indexOf("#^*_") != -1){
+                                                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                                                        sIds.push(sId);
+                                                    }
+                                                })
                                             }
                                             setSerachTextForSet(sText);
                                             dispatch({
                                                 type: 'adv/fetchAdvSetList', payload: {
                                                     current: 1,
                                                     size: advpackPagesize,
-                                                    packId: sId,
+                                                    packids: sIds.join(","),
                                                     setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                                                     startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                                                     endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -1991,21 +2040,27 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
+                                        defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]}
                                         onChange={(dateString, dateObj) => {
                                             setValueFSet(dateObj)
                                             let sText = serachTextForSet;
                                             sText = sText as string[];
                                             sText = Array.from(new Set(sText))
-                                            let sId = null;
-                                            if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-                                                sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+                                            const sIds:Array<number>=[];
+                                            if(sText&&sText[0]){
+                                                sText.forEach(st=>{
+                                                    if(st.indexOf("#^*_") != -1){
+                                                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                                                        sIds.push(sId);
+                                                    }
+                                                })
                                             }
                                             setSerachTextForSet(sText);
                                             dispatch({
                                                 type: 'adv/fetchAdvSetList', payload: {
                                                     current: 1,
                                                     size: advpackPagesize,
-                                                    packId: sId,
+                                                    packids: sIds.join(","),
                                                     setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                                                     startT: dateObj && dateObj[0] ? (dateObj[0] as moment.Moment).format("YYYY-MM-DD") : "",
                                                     endT: dateObj && dateObj[1] ? (dateObj[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -2019,13 +2074,6 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                    rowKey="setId"
                                    scroll={{x: 1300}}
                                    dataSource={advSetList}
-                                   onRow={record => {
-                                       return {
-                                           onClick: event => {
-                                               onRowClick(record, "set")
-                                           }, // 点击行
-                                       };
-                                   }}
                                    footer={() =>
                                        (<Pagination defaultCurrent={1}
                                                     total={advSetTotal}
@@ -2055,16 +2103,21 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                             let sText = advInputTagRef.current?.changeVal();
                                             sText = sText as string[];
                                             sText = Array.from(new Set(sText));
-                                            let sId = null;
-                                            if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-                                                sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+                                            const sIds:Array<number>=[];
+                                            if(sText&&sText[0]){
+                                                sText.forEach(st=>{
+                                                    if(st.indexOf("#^*_") != -1){
+                                                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                                                        sIds.push(sId);
+                                                    }
+                                                })
                                             }
                                             setSerachTextForAdv(sText);
                                             dispatch({
                                                 type: 'adv/fetchAdvAdvList', payload: {
                                                     current: 1,
                                                     size: advpackPagesize,
-                                                    setId: sId,
+                                                    setids: sIds.join(","),
                                                     advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                                                     startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                                                     endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
@@ -2082,21 +2135,27 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
+                                        defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]}
                                         onChange={(dateString, dateObj) => {
                                             setValueFAdv(dateObj)
                                             let sText = advInputTagRef.current?.changeVal();
                                             sText = sText as string[];
                                             sText = Array.from(new Set(sText));
-                                            let sId = null;
-                                            if (sText && sText[0] && sText[0].indexOf("#^*_") != -1) {
-                                                sId = Number.parseInt(sText[0].split("#^*_")[0], 10)
+                                            const sIds:Array<number>=[];
+                                            if(sText&&sText[0]){
+                                                sText.forEach(st=>{
+                                                    if(st.indexOf("#^*_") != -1){
+                                                        const sId = Number.parseInt(st.split("#^*_")[0], 10);
+                                                        sIds.push(sId);
+                                                    }
+                                                })
                                             }
                                             setSerachTextForAdv(sText);
                                             dispatch({
                                                 type: 'adv/fetchAdvAdvList', payload: {
                                                     current: 1,
                                                     size: advpackPagesize,
-                                                    setId: sId,
+                                                    setids: sIds.join(","),
                                                     advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                                                     startT: dateObj && dateObj[0] ? (dateObj[0] as moment.Moment).format("YYYY-MM-DD") : "",
                                                     endT: dateObj && dateObj[1] ? (dateObj[1] as moment.Moment).format("YYYY-MM-DD") : "",
