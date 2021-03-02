@@ -20,7 +20,7 @@ interface ActionBtnsProps {
     saveTempLoading: boolean,
     queryTempLoading: boolean
 }
-const uploadSucessValue: void[] = []
+const uploadSucessValue: Array<Promise<unknown>> = []
 let uploadFileLength = 0;
 let uploadedLenth: number = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
@@ -168,8 +168,8 @@ const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
     return true
 }
 
-const addResultToWorkbench = (result: PostMediaDataType) => {
-    postOneRecordToWorkbench(result)
+const addResultToWorkbench = async (result: PostMediaDataType) => {
+    await postOneRecordToWorkbench(result)
 }
 
 // 清空预览广告
