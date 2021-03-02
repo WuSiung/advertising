@@ -12,6 +12,7 @@ import { postOneRecordToWorkbench, postOneTextsToWorkbench } from '../workbench/
 import MaterialBox from './components/Box'
 
 import styles from './index.less'
+import { isImage } from '@/utils/fileType';
 
 type PublicMediaProps = {
     dispatch: Dispatch,
@@ -26,7 +27,7 @@ interface PageProps {
     size: number
 }
 
-const promistUploadFileArray: Array<Promise<unknown>> = [];
+let promistUploadFileArray: Array<Promise<unknown>> = [];
 let uploadProcess: number = 0
 const PublicMedia: FC<PublicMediaProps> = (props) => {
     const { textList, mediaList, dispatch, userInfo, textGetLoading, textUploading, mediaGetLoading } = props
@@ -124,6 +125,7 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
             if (uploadProcess == allLenth) {
                 setMediaLoading(true)
                 Promise.all(promistUploadFileArray).then((res) => {
+                    promistUploadFileArray = []
                     setMediaLoading(false)
                     dispatch({
                         type: 'material/fetchMedias',
@@ -161,7 +163,7 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
         setMediaToWorkbenchLoading(true)
         mediaList.map(media => {
             if (media.checked) {
-                addArr.push(postOneRecordToWorkbench({ id: media.id, type: 0, link: media.googleMediaLink }))
+                addArr.push(postOneRecordToWorkbench({ id: media.id, type: isImage(media.contentType) ? 0 : 1, link: media.googleMediaLink, md5Hex: media.md5Hex || '' }))
             }
         })
         Promise.all(addArr).then(() => {

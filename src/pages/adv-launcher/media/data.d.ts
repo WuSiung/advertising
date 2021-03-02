@@ -6,6 +6,7 @@ interface PublicMaterialDataType {
     description: string,
     release: boolean,
     mediaName: string,
+    md5Hex?: string,
     title: string,
     checked: boolean
 }
