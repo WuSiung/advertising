@@ -1,0 +1,22 @@
+@import '~antd/es/style/themes/default.less';
+.card {
+  width: 100%;
+  margin-top: 12px;
+  box-shadow: 5px 5px 4px 1px rgba(0, 0, 0, 0.2);
+}
+.main {
+  :global {
+    .@{ant-prefix}-card {
+      .card();
+    }
+
+    .@{ant-prefix}-card-head {
+      background-color: rgba(230, 230, 230, 0.75);
+    }
+  }
+
+  .total-card {
+    height: 355px;
+    .card();
+  }
+}
