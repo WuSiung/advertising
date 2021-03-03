@@ -1,7 +1,11 @@
 import request from '@/utils/request'
 
 export async function queryMediaList(params: { size: number, page: number, id: number }) {
-    return request(`/subApi/resources/permanent/media/${params.id}/${params.page}/${params.size}`)
+    const { size, page, id, ...other } = params
+    return request(`/subApi/resources/permanent/media/${id}/${page}/${size}`, {
+        method: 'get',
+        params: other
+    })
 }
 
 export async function deletResource(id: string) {
@@ -24,7 +28,7 @@ export async function uploadMedia(params: { media: FormData, id: string }) {
     })
 }
 
-export async function uploadText(params: {userId: number|string, arr: { title: string; text: string; id: string; }[]}) {
+export async function uploadText(params: { userId: number | string, arr: { title: string; text: string; id: string; }[] }) {
     const { userId, arr } = params
     return request(`/subApi/resources/permanent/${userId}/text`, {
         method: 'PUt',
@@ -33,5 +37,9 @@ export async function uploadText(params: {userId: number|string, arr: { title: s
 }
 
 export async function queryTextList(params: { size: number, page: number, id: number }) {
-    return request(`/subApi/resources/permanent/text/${params.id}/${params.page}/${params.size}`)
+    const { size, page, id, ...other } = params
+    return request(`/subApi/resources/permanent/text/${id}/${page}/${size}`, {
+        method: 'get',
+        params: other
+    })
 }
