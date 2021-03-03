@@ -25,19 +25,19 @@ const PopoverContent: FC<PopoverDataProps> = (props) => {
         </div>
         <div className={styles.line}>
             <div className={styles.name}>广告支出回报率(ROAS)</div>
-            <div className={styles.value}>{Number(props.roas).toFixed(2) || '0'}倍</div>
+            <div className={styles.value}>{Number(props.roas || '0').toFixed(2)}倍</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>平均点击消耗金额</div>
-            <div className={styles.value}>${Number(props.cost).toFixed(2) || '0'}</div>
+            <div className={styles.value}>${Number(props.cost || '0').toFixed(2)}</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>消费总金额</div>
-            <div className={styles.value}>${Number(props.spend).toFixed(2) || '0'}</div>
+            <div className={styles.value}>${Number(props.spend || '0').toFixed(2)}</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>点击转换比</div>
-            <div className={styles.value}>{Number(props.octr).toFixed(2) || '0'}</div>
+            <div className={styles.value}>{Number(props.octr || '0').toFixed(2)}</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>安装次数</div>
