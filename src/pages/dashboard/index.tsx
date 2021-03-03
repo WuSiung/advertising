@@ -89,8 +89,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
     {
       title: '消费金额',
-      dataIndex: 'spent',
-      key: 'spent',
+      dataIndex: 'spend',
+      key: 'spend',
       width: 120,
     },
     {
@@ -150,8 +150,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   ];
 
   const config = {
-    data:
-      dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
+    // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
+    data: [],
     height: 400,
     xField: 'x',
     yField: 'y',
@@ -197,10 +197,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       );
       summaryDataList.push(filterList);
 
-      contentList[`tab${idx + 1}`] = <Area {...config} key={`tab${idx + 1}`} />;
+      contentList[`tab${idx + 1}`] = <Area {...config} data={list} key={`tab${idx + 1}`} />;
     });
   }
 
+  console.log(dashboard.tabList);
+  console.log(dashboard.detailDataList);
   // console.log(contentList);
   const numList = summaryDataList.length;
   const summaryContentList = summaryDataList.map((d, idx) => {

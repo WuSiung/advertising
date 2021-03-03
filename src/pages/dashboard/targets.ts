@@ -9,7 +9,7 @@ export const TARGET_LIST = [
   },
   {
     name: '消费金额',
-    value: 'spent',
+    value: 'spend',
   },
   {
     name: '点击率',
