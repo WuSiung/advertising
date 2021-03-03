@@ -1,11 +1,27 @@
 export const TARGET_LIST = [
   {
+    name: '结果数',
+    value: 'results',
+  },
+  {
+    name: '送达数',
+    value: 'reach',
+  },
+  {
+    name: '印象数',
+    value: 'impressions',
+  },
+  {
+    name: '点击次数',
+    value: 'clicks',
+  },
+  {
     name: '每结果成本',
-    value: 'pfee',
+    value: 'cpr',
   },
   {
     name: '移动应用回报率',
-    value: 'approas',
+    value: 'mobileAppPurchaseRoas',
   },
   {
     name: '消费金额',
@@ -20,12 +36,16 @@ export const TARGET_LIST = [
     value: 'frequency',
   },
   {
-    name: '费用/前次',
+    name: '每千次展示费用',
     value: 'cpm',
   },
   {
     name: '出站点击率',
     value: 'octr',
+  },
+  {
+    name: '购买回报率',
+    value: 'purchaseRoas',
   },
   {
     name: '出站点击数',
@@ -39,10 +59,10 @@ export const TARGET_LIST = [
     name: '安装数',
     value: 'installs',
   },
-  // {
-  //   name: '每次安装费用',
-  //   value: 'installfee'
-  // }, // installfee暂时为null
+  {
+    name: '每次安装费用',
+    value: 'cpa',
+  }, // cpa暂时为null
 ];
 
 export const ROI_TARGET_LIST = [
