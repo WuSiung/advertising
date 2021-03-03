@@ -14,21 +14,22 @@ export type TStatistic = {
   name: string; // 名字
   id: number;
   resultName: string; // 结果(安装,应用,购买)
-  results: string; // "结果(安装,应用,购买)
+  results: string; // 结果数
   reach: string; // 送达数
-  impression: string; // 展示数(印象数)
+  impressions: string; // 展示数(印象数)
   clicks: string; // 点击数
   pfee: number; // 每结果成本
   approas: number; // 移动应用回报率
   spend: number; // 消费金额
   ctr: number; // 点击率
   frequency: number; // 频率
-  cpm: number; // 费用/前次
+  cpm: number; // 每千次展示费用
   octr: number; // 出站点击率
+  purchaseRoas: number; // 购买回报率
   oclicks: number; // 出站点击数
   cpc: number; // 每次点击费用
   installs: number; // 安装数
-  installfee: number; // 每次安装费用
+  cpa: number; // 每次安装费用
   createdDate: string; // 创建时间
 };
 
