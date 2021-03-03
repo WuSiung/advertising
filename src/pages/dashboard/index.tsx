@@ -197,12 +197,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       );
       summaryDataList.push(filterList);
 
-      contentList[`tab${idx + 1}`] = <Area {...config} data={list} key={`tab${idx + 1}`} />;
+      // contentList[`tab${idx + 1}`] = <Area {...config} data={list} key={`tab${idx + 1}`} />;
+      contentList[`tab${idx + 1}`] = list;
     });
   }
 
-  console.log(dashboard.tabList);
-  console.log(dashboard.detailDataList);
+  // console.log(dashboard.tabList);
+  // console.log(dashboard.detailDataList);
   // console.log(contentList);
   const numList = summaryDataList.length;
   const summaryContentList = summaryDataList.map((d, idx) => {
@@ -359,7 +360,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
               handleTabChange(key);
             }}
           >
-            {dashboard.activeTabKey ? contentList[dashboard.activeTabKey] : contentList['tab1']}
+            <Area
+              {...config}
+              data={
+                dashboard.activeTabKey ? contentList[dashboard.activeTabKey] : contentList['tab1']
+              }
+            />
           </Card>
         </Row>
         <Card title="投入产出比" extra={roiExtra} loading={isLoading}>
