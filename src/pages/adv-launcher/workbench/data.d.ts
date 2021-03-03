@@ -3,6 +3,13 @@ export interface TextDataType {
     md5: number | string,
     textId: number,
     title: string
+    cost: string | number, // 平均点击消耗金额
+    octr: string | number, // 点击转换比
+    installs: number | string, // 安装次数
+    impressions: number, // 展示次数
+    spend: number, // 消费总金额
+    roas: string, // 广告支出回报率
+    income: string, // 广告收益
 }
 
 export interface ImgDataType {
@@ -10,7 +17,14 @@ export interface ImgDataType {
     imgId: number,
     type: string | number,
     url: string,
-    url2: string
+    url2: string,
+    cost: string | number, // 平均点击消耗金额
+    octr: string | number, // 点击转换比
+    installs: number | string, // 安装次数
+    impressions: number, // 展示次数
+    spend: number, // 消费总金额
+    roas: string, // 广告支出回报率
+    income: string, // 广告收益
 }
 
 export interface PostMediaDataType {
