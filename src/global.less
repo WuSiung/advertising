@@ -19,17 +19,22 @@ canvas {
 }
 
 body {
+  font-size: 12px;
+  font-family: 'Poppins,Helvetica,sans-serif';
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Poppins,Helvetica,sans-serif";
-  font-size: 12px;
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #3a3950;
+  border-left: 3px solid @primary-color;
 }
 
 ::-webkit-scrollbar-thumb {
+  background-color: #e8e8e8;
   border-radius: 7px;
   -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
-  background-color: #e8e8e8;
 }
 
 ::-webkit-scrollbar {
@@ -37,7 +42,8 @@ body {
   height: 8px;
 }
 
-.ant-dropdown-menu-item, .ant-btn{
+.ant-dropdown-menu-item,
+.ant-btn {
   font-size: 12px;
 }
 
@@ -46,7 +52,10 @@ ol {
   list-style: none;
 }
 
-.ant-btn-primary[disabled], .ant-btn-primary[disabled]:hover, .ant-btn-primary[disabled]:focus, .ant-btn-primary[disabled]:active{
+.ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
+.ant-btn-primary[disabled]:active {
   color: #fff;
   background-color: #a0cfff;
   border-color: #a0cfff;
