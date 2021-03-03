@@ -3,78 +3,45 @@ import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Row, Col, Card, Select, Space, Table, DatePicker } from 'antd';
 // import {Line} from "@ant-design/charts";
-import { Area } from '@ant-design/charts';
+import { Area, Line } from '@ant-design/charts';
 
 // const { TabPane } = Tabs;
 import { TData, TState } from './data';
 import { ColumnsType } from 'antd/es/table';
+import { Moment } from 'moment';
+import type { RangeValue } from './data';
+import { TARGET_LIST } from './targets';
+
+import styles from './index.less';
+import Loading from '@/components/Loading';
 
 export type DashboardProps = {
   dispatch: Dispatch;
   dashboard: TState;
+  isLoading: boolean;
 };
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
-  const { dispatch, dashboard } = props;
+  const { dispatch, dashboard, isLoading } = props;
+  // console.log(isLoading)
   useEffect(() => {
     dispatch({
       type: 'dashboard/queryStatistics',
       payload: {
-        start: dashboard.rangeValues ? dashboard.rangeValues[0].format('yyyy-MM-DD') : '',
-        end: dashboard.rangeValues ? dashboard.rangeValues[1].format('YYYY-MM-DD') : '',
+        start:
+          dashboard.rangeValues && dashboard.rangeValues[0]
+            ? dashboard.rangeValues[0].format('yyyy-MM-DD')
+            : '',
+        end:
+          dashboard.rangeValues && dashboard.rangeValues[1]
+            ? dashboard.rangeValues[1].format('YYYY-MM-DD')
+            : '',
       },
     });
   }, [dashboard.rangeValues]);
-
-  const targetList = [
-    {
-      name: '每结果成本',
-      value: 'pfee',
-    },
-    {
-      name: '移动应用回报率',
-      value: 'approas',
-    },
-    {
-      name: '消费金额',
-      value: 'spent',
-    },
-    {
-      name: '点击率',
-      value: 'ctr',
-    },
-    {
-      name: '频率',
-      value: 'frequency',
-    },
-    {
-      name: '费用/前次',
-      value: 'cpm',
-    },
-    {
-      name: '出站点击率',
-      value: 'octr',
-    },
-    {
-      name: '出站点击数',
-      value: 'oclicks',
-    },
-    {
-      name: '每次点击费用',
-      value: 'cpc',
-    },
-    {
-      name: '安装数',
-      value: 'installs',
-    },
-    // {
-    //   name: '每次安装费用',
-    //   value: 'installfee'
-    // }, // installfee暂时为null
-  ];
 
   const columns: ColumnsType<object> = [
     {
@@ -86,7 +53,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
     {
       title: '结果',
-      width: 80,
+      width: 120,
       dataIndex: 'resultName',
       key: 'resultName',
     },
@@ -94,19 +61,19 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       title: '送达数',
       dataIndex: 'reach',
       key: 'reach',
-      width: 80,
+      width: 120,
     },
     {
       title: '展示数',
       dataIndex: 'impression',
       key: 'impression',
-      width: 80,
+      width: 120,
     },
     {
       title: '点击数',
       dataIndex: 'clicks',
       key: 'clicks',
-      width: 80,
+      width: 120,
     },
     {
       title: '每结果成本',
@@ -124,25 +91,25 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       title: '消费金额',
       dataIndex: 'spent',
       key: 'spent',
-      width: 100,
+      width: 120,
     },
     {
       title: '点击率',
       dataIndex: 'ctr',
       key: 'ctr',
-      width: 80,
+      width: 120,
     },
     {
       title: '频率',
       dataIndex: 'frequency',
       key: 'frequency',
-      width: 80,
+      width: 120,
     },
     {
       title: '费用/前次',
       dataIndex: 'cpm',
       key: 'cpm',
-      width: 100,
+      width: 120,
     },
     {
       title: '出站点击率',
@@ -166,7 +133,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       title: '安装数',
       dataIndex: 'installs',
       key: 'installs',
-      width: 100,
+      width: 120,
     },
     {
       title: '每次安装费用',
@@ -182,20 +149,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
   ];
 
-  // const data = [
-  //   { month: '一月', temperature: 10000, city: '获得' },
-  //   { month: '一月', temperature: 15000, city: '重新定位' },
-  //   { month: '一月', temperature: 10000, city: '保留' },
-  //   { month: '一月', temperature: 15000, city: '消费金额' },
-  //   { month: '二月', temperature: 20000, city: '获得' },
-  //   { month: '二月', temperature: 25000, city: '重新定位' },
-  //   { month: '二月', temperature: 20000, city: '保留' },
-  //   { month: '二月', temperature: 25000, city: '消费金额' },
-  //   { month: '三月', temperature: 10000, city: '获得' },
-  //   { month: '三月', temperature: 20000, city: '重新定位' },
-  //   { month: '三月', temperature: 10000, city: '保留' },
-  //   { month: '三月', temperature: 20000, city: '消费金额' },
-  // ];
   const config = {
     data:
       dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
@@ -204,62 +157,35 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     yField: 'y',
     seriesField: 'target',
     smooth: true,
+    loading: isLoading,
     area: {
       shape: 'smooth',
     },
-    style: {
-      backgroundColor: '#fff',
+    // style: {
+    //   backgroundColor: '#fff',
+    // },
+    areaStyle: {
+      fill: 'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff',
     },
   };
 
-  // const dataInputOutput = [
-  //   { month: '一月', temperature: 10000, city: '收入' },
-  //   { month: '一月', temperature: 15000, city: '支出' },
-  //   { month: '二月', temperature: 10000, city: '收入' },
-  //   { month: '二月', temperature: 15000, city: '支出' },
-  //   { month: '三月', temperature: 20000, city: '收入' },
-  //   { month: '三月', temperature: 25000, city: '支出' },
-  //   { month: '四月', temperature: 20000, city: '收入' },
-  //   { month: '四月', temperature: 25000, city: '支出' },
-  //   { month: '五月', temperature: 10000, city: '收入' },
-  //   { month: '五月', temperature: 20000, city: '支出' },
-  //   { month: '六月', temperature: 10000, city: '收入' },
-  //   { month: '六月', temperature: 20000, city: '支出' },
-  // ];
+  const roiData =
+    dashboard.audience && dashboard.roiDataRecord && Object.values(dashboard.roiDataRecord).length
+      ? dashboard.roiDataRecord[dashboard.audience]
+      : [];
+  // console.log('roiData', roiData);
 
-  // return (
-  //   <PageContainer>
-  //       <Row>
-  //           <Col span={8}>
-  //             <Area {...config} />
-  //           </Col>
-  //           <Col span={8}>
-  //             <Area {...config} />
-  //           </Col>
-  //         <Col span={8}>
-  //           <Area {...config} />
-  //         </Col>
-  //       </Row>
-  //     <Row style={{marginTop: "25px"}}>
-  //       <Tabs defaultActiveKey="1" size="large" type="card" style={{width: "100%", backgroundColor: "#fff"}}>
-  //         <TabPane tab="获得" key="1">
-  //             <Area {...config} />
-  //         </TabPane>
-  //         <TabPane tab="重新定位" key="2">
-  //             <Area {...config} />
-  //         </TabPane>
-  //         <TabPane tab="保留" key="3">
-  //             <Area {...config} />
-  //         </TabPane>
-  //       </Tabs>
-  //     </Row>
-  //     <Row style={{marginTop: "25px"}}>
-  //       <Col span={24}>
-  //         <Area {...config} />
-  //       </Col>
-  //     </Row>
-  //   </PageContainer>
-  // )
+  const configRoi = {
+    data: roiData,
+    height: 400,
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'target',
+    point: {
+      size: 5,
+      shape: 'diamond',
+    },
+  };
 
   // todo: 根据dashboard.detailDataList 和target1, target2 生成summaryDataList
   const summaryDataList: TData[][] = [];
@@ -275,7 +201,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     });
   }
 
-  console.log(contentList);
+  // console.log(contentList);
   const numList = summaryDataList.length;
   const summaryContentList = summaryDataList.map((d, idx) => {
     let span = 8;
@@ -286,22 +212,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       span = 12;
     }
     return (
-      <Col key={idx} span={span}>
+      <Col key={idx} span={span} style={{ marginTop: '12px' }}>
         <Area {...config} data={d} />
       </Col>
     );
   });
 
-  // const contentList = {
-  //   tab1: <Area {...config} />,
-  //   tab2: <Area {...config} />,
-  //   tab3: <Area {...config} />,
-  // };
-
-  const handleRangeChange = (
-    dates: [moment.Moment, moment.Moment],
-    dataStrings: [string, string],
-  ) => {
+  const handleRangeChange = (dates: RangeValue<Moment>, dataStrings: [string, string]) => {
     dispatch({
       type: 'dashboard/changeRange',
       payload: {
@@ -322,7 +239,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   };
 
   const handleTabChange = (key: string) => {
-    console.log(key);
+    // console.log(key);
     dispatch({
       type: 'dashboard/changeTab',
       payload: {
@@ -330,10 +247,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       },
     });
   };
-  // console.log(JSON.stringify(dashboard));
-  // console.log('activeTabKey', dashboard.strategyDetail?.activeTabKey);
-  const optionList1 = targetList.filter((o) => o.value !== dashboard.target2);
-  const optionList2 = targetList.filter((o) => o.value !== dashboard.target1);
+  const optionList1 = TARGET_LIST.filter((o) => o.value !== dashboard.target2);
+  const optionList2 = TARGET_LIST.filter((o) => o.value !== dashboard.target1);
 
   const extra = (
     <Space>
@@ -353,14 +268,11 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
         }
       >
-        {
-          // dashboard.optionList1 && dashboard.optionList1.map((o) => <Option key={o.value} value={o.value}>{o.name}</Option>)
-          optionList1.map((o) => (
-            <Option key={o.value} value={o.value}>
-              {o.name}
-            </Option>
-          ))
-        }
+        {optionList1.map((o) => (
+          <Option key={o.value} value={o.value}>
+            {o.name}
+          </Option>
+        ))}
       </Select>
       <Select
         showSearch
@@ -378,53 +290,87 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
         }
       >
-        {
-          // dashboard.optionList2 && dashboard.optionList2.map((o) => <Option key={o.value} value={o.value}>{o.name}</Option>)
-          optionList2.map((o) => (
-            <Option key={o.value} value={o.value}>
-              {o.name}
-            </Option>
-          ))
-        }
+        {optionList2.map((o) => (
+          <Option key={o.value} value={o.value}>
+            {o.name}
+          </Option>
+        ))}
       </Select>
     </Space>
   );
 
+  const roiExtra = (
+    <Select
+      showSearch
+      style={{ width: 120 }}
+      placeholder="请选择人群包"
+      value={dashboard.audience}
+      onChange={(value) => {
+        handleSelectChange('audience', value);
+      }}
+      optionFilterProp="children"
+      filterOption={(input, option) =>
+        option ? option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 : false
+      }
+      filterSort={(optionA, optionB) =>
+        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+      }
+    >
+      {dashboard.roiOptionList &&
+        dashboard.roiOptionList.map((o) => (
+          <Option key={o.value} value={o.value}>
+            {o.name}
+          </Option>
+        ))}
+    </Select>
+  );
+
   return (
     <PageContainer>
-      <Card
-        style={{ width: '100%' }}
-        title="综合统计"
-        extra={<RangePicker value={dashboard.rangeValues} onChange={handleRangeChange} />}
-      >
-        <Table columns={columns} dataSource={dashboard.totalList} scroll={{ x: 1500, y: 300 }} />
-      </Card>
-      <Card style={{ width: '100%', marginTop: '12px' }} title="策略状态概述" extra={extra}>
-        <Row>{summaryContentList}</Row>
-      </Card>
-      <Row style={{ marginTop: '12px' }}>
+      <div className={styles.main} style={{ paddingLeft: 100, paddingRight: 100 }}>
         <Card
-          style={{ width: '100%' }}
-          title="策略状态明细"
-          tabList={
-            dashboard.tabList && dashboard.tabList.length > 1 ? dashboard.tabList : undefined
-          }
-          activeTabKey={dashboard?.activeTabKey}
-          onTabChange={(key) => {
-            handleTabChange(key);
-          }}
+          className={`${styles.totalCard}`}
+          title="综合统计"
+          loading={isLoading}
+          extra={<RangePicker value={dashboard.rangeValues} onChange={handleRangeChange} />}
         >
-          {dashboard.activeTabKey ? contentList[dashboard.activeTabKey] : contentList['tab1']}
+          <Table
+            columns={columns}
+            rowKey="id"
+            dataSource={dashboard.totalList}
+            scroll={{ x: 1500, y: 300 }}
+          />
         </Card>
-      </Row>
-      <Card style={{ width: '100%', marginTop: '12px' }} title="投入产出比">
-        <Area {...config} smooth={false} />
-      </Card>
+        <Card title="策略状态概述" extra={extra} loading={isLoading}>
+          <Row>{summaryContentList}</Row>
+        </Card>
+        <Row>
+          <Card
+            className={styles.card}
+            title="策略状态明细"
+            loading={isLoading}
+            tabList={
+              dashboard.tabList && dashboard.tabList.length > 1 ? dashboard.tabList : undefined
+            }
+            activeTabKey={dashboard?.activeTabKey}
+            onTabChange={(key) => {
+              handleTabChange(key);
+            }}
+          >
+            {dashboard.activeTabKey ? contentList[dashboard.activeTabKey] : contentList['tab1']}
+          </Card>
+        </Row>
+        <Card title="投入产出比" extra={roiExtra} loading={isLoading}>
+          <Line {...configRoi} />
+        </Card>
+      </div>
+      {isLoading && <Loading showMask tips="数据加载中，请稍等..." />}
     </PageContainer>
   );
 };
 
 // export default Dashboard;
-export default connect(({ dashboard }: { dashboard: TState }) => ({
+export default connect(({ dashboard, loading }: { dashboard: TState; loading: any }) => ({
   dashboard,
+  isLoading: loading.effects['dashboard/queryStatistics'],
 }))(Dashboard);

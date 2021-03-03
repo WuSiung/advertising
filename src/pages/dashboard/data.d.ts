@@ -1,7 +1,14 @@
+import { Moment } from 'moment';
+// import type RangeValue from 'rc-picker/lib/interface';
+
 export type TStatisticParams = {
   start: string;
   end: string;
 };
+
+export declare type DateValue<T> = T | null;
+
+export declare type RangeValue<T> = [DateValue<T>, DateValue<T>] | null;
 
 export type TStatistic = {
   name: string; // 名字
@@ -46,6 +53,12 @@ export type TOption = {
   name: string;
 };
 
+export type TIncomeSpend = {
+  income: number;
+  spend: number;
+  createdDate: string;
+};
+
 export type TData = {
   x: string;
   y: number;
@@ -62,12 +75,16 @@ export type TColumn = {
 };
 
 export type TState = {
-  rangeValues?: [moment.Moment, moment.Moment];
+  rangeValues?: RangeValue<Moment>;
   target1?: string;
   target2?: string;
+  audience?: string;
   activeTabKey?: string;
+  loading?: boolean;
   targetList?: TOption[];
+  roiOptionList?: TOption[];
   tabList?: TTab[];
   totalList?: TStatistic[];
   detailDataList?: TData[][];
+  roiDataRecord?: Record<string, TData[]>;
 };
