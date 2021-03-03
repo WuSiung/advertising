@@ -151,20 +151,33 @@ const DashboardModel: TDashboardModel = {
       const roiDataList: TData[][] = [];
 
       // todo: 处理total
-      if (Array.isArray(payload.total)) {
-        const option = {
-          name: '总',
-          value: '0',
-        };
-        optionList.push(option);
-        // todo: 合并日期相同的数据
-        const dList = splitTarget(ROI_TARGET_LIST, payload.total);
-        roiDataList.push(dList);
-      }
+      // if (Array.isArray(payload.total)) {
+      //   const option = {
+      //     name: '总',
+      //     value: '0',
+      //   };
+      //   optionList.push(option);
+      //   // todo: 合并日期相同的数据
+      //   const dList = splitTarget(ROI_TARGET_LIST, payload.total);
+      //   roiDataList.push(dList);
+      // }
 
       // todo: 处理group
-      if (Array.isArray(payload.group)) {
-        payload.group.forEach((g: any) => {
+      // if (Array.isArray(payload.group)) {
+      //   payload.group.forEach((g: any) => {
+      //     const option = {
+      //       name: g.name,
+      //       value: String(g.id),
+      //     };
+      //     optionList.push(option);
+      //     const dList = splitTarget(ROI_TARGET_LIST, g.list);
+      //     roiDataList.push(dList);
+      //   });
+      // }
+
+      // 处理收入支出数据
+      if (Array.isArray(payload.roiList)) {
+        payload.roiList.forEach((g: any) => {
           const option = {
             name: g.name,
             value: String(g.id),
@@ -198,13 +211,6 @@ const DashboardModel: TDashboardModel = {
   },
   effects: {
     *queryStatistics({ payload }, { call, put }) {
-      // console.log('effects', payload)
-      // yield put({
-      //   type: 'updateDashboard',
-      //   payload: {
-      //     loading: true
-      //   }
-      // });
       const response = yield call(queryStatistics, payload);
       // console.log('errects', JSON.stringify(response))
       // clicks oclicks installs 需要返回数值类型
@@ -214,7 +220,7 @@ const DashboardModel: TDashboardModel = {
           totalList: response[0].data,
           // todo: 赋值detailList,inputoutput
           detailList: response[1].data,
-          ...response[2].data,
+          roiList: response[2].data,
         },
       });
     },
