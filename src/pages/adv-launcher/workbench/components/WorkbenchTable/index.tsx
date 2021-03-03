@@ -35,7 +35,7 @@ type RenderTextListProps = {
 
 const RenderImgList: FC<RenderImgListProps> = (props) => {
     return <th key={props.imgId} className={styles.container}>
-        <HoverPopover>
+        <HoverPopover {...props}>
             <div className={styles.mediaBox}>
                 <span className={styles.delText} onClick={() => props.onDelete && props.onDelete(props)}><DeleteFilled /></span>
                 {
@@ -53,12 +53,14 @@ const RenderImgList: FC<RenderImgListProps> = (props) => {
 const RenderTextList: FC<RenderTextListProps> = (props) => {
     const { onCopy, onDelete, onEdit } = props
     return <td className={styles.tdtext}>
-        <div className={styles.textBox}>
-            {props.content + '&&' + props.title}
-            <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
-            <span className={styles.copyText} onClick={() => onCopy && onCopy(props)}><CopyOutlined /></span>
-            <span className={styles.editText} onClick={() => onEdit && onEdit(props)}><EditOutlined /></span>
-        </div>
+        <HoverPopover {...props}>
+            <div className={styles.textBox}>
+                {props.content + '&&' + props.title}
+                <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
+                <span className={styles.copyText} onClick={() => onCopy && onCopy(props)}><CopyOutlined /></span>
+                <span className={styles.editText} onClick={() => onEdit && onEdit(props)}><EditOutlined /></span>
+            </div>
+        </HoverPopover>
     </td>
 }
 
