@@ -33,19 +33,15 @@
                 redirect: '/dashboard',
               },
               {
-                path: '/welcome',
-                name: 'welcome',
-                icon: 'smile',
-                component: './Welcome',
-              },
-              {
                 path: '/dashboard',
                 name: 'dashboard',
+                icon: 'AreaChartOutlined',
                 component: './dashboard',
               },
               {
                 path: '/advlauncher',
                 name: 'advlauncher',
+                icon: 'RocketOutlined',
                 component: './adv-launcher',
                 routes: [
                   {
@@ -96,6 +92,7 @@
               {
                 path: '/audience',
                 name: 'audience',
+                icon: 'TeamOutlined',
                 component: './audience-manager',
                 routes: [
                   {
@@ -125,7 +122,7 @@
                     path: '/admin/sub-page',
                     name: 'sub-page',
                     icon: 'smile',
-                    component: './Welcome',
+                    // component: './Welcome',
                     authority: ['admin'],
                   },
                 ],
@@ -133,7 +130,7 @@
               {
                 path: '/advmanager',
                 name: 'advmanager',
-                icon: '',
+                icon: 'TableOutlined',
                 component: './adv-manager',
               },
               {
