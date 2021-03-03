@@ -3,7 +3,7 @@ import type { Settings as ProSettings } from '@ant-design/pro-layout';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import type { ConnectProps } from 'umi';
-import { connect, SelectLang } from 'umi';
+import { connect } from 'umi';
 import type { ConnectState } from '@/models/connect';
 import FacebookAccountList from './FacebookAccount'
 import Avatar from './AvatarDropdown';
