@@ -143,7 +143,8 @@ export interface AdvAdvListType{
     targetVal: string,
     tokenId: number,
     updatetime: string,
-    imgTextList:Array<any>
+    imgTextList:Array<any>,
+    loading?:boolean
 }
 export interface AdvData {
     advPackList: AdvPackListType[],
