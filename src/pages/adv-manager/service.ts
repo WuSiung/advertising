@@ -2,18 +2,33 @@ import request from '@/utils/request'
 import { AdvPackParam, AdvSetParam, AdvAdvParam, AdvParam} from './data';
 
 export async function qureyAdvPark(params: AdvPackParam){
+    Object.keys(params).forEach(key=>{
+        if(!params[key]){
+            delete params[key];
+        }
+    });
   return request('/ads/advpack/page2',{
       method: 'get',
       params
   });
 }
 export async function queryAdvSet(params: AdvSetParam){
+    Object.keys(params).forEach(key=>{
+        if(!params[key]){
+            delete params[key];
+        }
+    });
     return request('/ads/advset/page2',{
         method: 'get',
         params
     });
 }
 export async function queryAdvAdv(params: AdvAdvParam){
+    Object.keys(params).forEach(key=>{
+        if(!params[key]){
+            delete params[key];
+        }
+    });
     return request('/ads/advadv/page2',{
         method: 'get',
         params
