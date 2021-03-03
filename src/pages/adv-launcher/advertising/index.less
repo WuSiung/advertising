@@ -1,7 +1,8 @@
 @import '~antd/lib/style/themes/default.less';
 
 .filter{
-    text-align: right;
+    display:flex;
+    justify-content: space-between;
     .date{
         margin-left: 10px;
     }
@@ -51,10 +52,61 @@
 
 
 .advWarp{
+  width:100%;
   float:left;
   margin:0 auto;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   padding-top:30px;
+}
+
+.previewAdv{
+  width: 352px;
+  user-select: none;
+  .header{
+    display: flex;
+    padding: 4px;
+    .logo{
+      width: 40px;
+    }
+    .info{
+      flex: 1;
+      margin-left: 10px;
+      .appName{
+        font-size: @font-size-sm;
+      }
+    }
+  }
+
+  .content{
+    .contentText{
+      font-size: @font-size-sm;
+      margin: 6px 0 10px;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    .media{
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-height: 252px;
+    }
+  }
+
+  .footer{
+    display: flex;
+    padding: 10px;
+    background: #fbfbfb;
+    align-items: center;
+    .title{
+      font-size: @font-size-sm;
+      flex: 1;
+    }
+    .donwload{
+      font-size: @font-size-sm;
+    }
+  }
 }
