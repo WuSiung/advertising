@@ -5,6 +5,7 @@ import React, { FC, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType } from '../../data.d'
 import { deleteMedia, deleteText } from '../../service'
+import HoverPopover from '../HoverPopover'
 
 import styles from './index.less'
 
@@ -34,16 +35,18 @@ type RenderTextListProps = {
 
 const RenderImgList: FC<RenderImgListProps> = (props) => {
     return <th key={props.imgId} className={styles.container}>
-        <div className={styles.mediaBox}>
-            <span className={styles.delText} onClick={() => props.onDelete && props.onDelete(props)}><DeleteFilled /></span>
-            {
-                props.type == 0 ? <img src={props.url} className="img-item" v-if="item.type==0" />
-                    : <video src={props.url} />
-            }
-            {
-                props.type == 1 && <i className="el-icon-video-play" v-if="item.type == 1" onClick={() => "playVideo(item.fileId)"}></i>
-            }
-        </div>
+        <HoverPopover>
+            <div className={styles.mediaBox}>
+                <span className={styles.delText} onClick={() => props.onDelete && props.onDelete(props)}><DeleteFilled /></span>
+                {
+                    props.type == 0 ? <img src={props.url} className="img-item" v-if="item.type==0" />
+                        : <video src={props.url} />
+                }
+                {
+                    props.type == 1 && <i className="el-icon-video-play" v-if="item.type == 1" onClick={() => "playVideo(item.fileId)"}></i>
+                }
+            </div>
+        </HoverPopover>
     </th>
 }
 
