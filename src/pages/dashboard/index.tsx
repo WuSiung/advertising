@@ -65,8 +65,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
     {
       title: '展示数',
-      dataIndex: 'impression',
-      key: 'impression',
+      dataIndex: 'impressions',
+      key: 'impressions',
       width: 120,
     },
     {
@@ -77,14 +77,14 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
     {
       title: '每结果成本',
-      dataIndex: 'pfee',
-      key: 'pfee',
+      dataIndex: 'cpr',
+      key: 'cpr',
       width: 120,
     },
     {
       title: '移动应用回报率',
-      dataIndex: 'approas',
-      key: 'approas',
+      dataIndex: 'mobileAppPurchaseRoas',
+      key: 'mobileAppPurchaseRoas',
       width: 150,
     },
     {
@@ -118,6 +118,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       width: 120,
     },
     {
+      title: '购买回报率',
+      dataIndex: 'purchaseRoas',
+      key: 'purchaseRoas',
+      width: 150,
+    },
+    {
       title: '出站点击数',
       dataIndex: 'oclicks',
       key: 'oclicks',
@@ -137,8 +143,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
     {
       title: '每次安装费用',
-      dataIndex: 'installfee',
-      key: 'installfee',
+      dataIndex: 'cpa',
+      key: 'cpa',
       width: 120,
     },
     {
@@ -363,7 +369,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
             <Area
               {...config}
               data={
-                dashboard.activeTabKey ? contentList[dashboard.activeTabKey] : contentList['tab1']
+                Object.keys(contentList).length && dashboard.activeTabKey
+                  ? contentList[dashboard.activeTabKey]
+                  : []
               }
             />
           </Card>

@@ -80,8 +80,8 @@ const DashboardModel: TDashboardModel = {
   namespace: 'dashboard',
   state: {
     rangeValues: [moment().subtract(30, 'days'), moment()], // todo 初始化时间范围
-    target1: 'pfee',
-    target2: 'approas',
+    target1: 'clicks',
+    target2: 'impressions',
     audience: '0',
     activeTabKey: 'tab1',
     loading: true,
