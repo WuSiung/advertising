@@ -35,7 +35,11 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
     const textRef = useRef<HTMLDivElement>(null)
     const [mediaQueryParams, setMediaQuery] = useState<PageProps>({ page: 1, size: 10 })
     const [textQueryParams, setTextQuery] = useState<PageProps>({ page: 1, size: 10 })
-    const [filterDate, setFilterDate] = useState<[string, string]>([moment().format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')])
+    const [filterDate, setFilterDate] = useState<[string, string]>(['', ''])
+    const [mediaSouceFilter, setmediaSouceFilte] = useState('All')
+    const [textFilter, setTextFilter] = useState('All')
+    const [mediaSort, setMediaSort] = useState('Default')
+    const [textSort, setTextSort] = useState('Default')
     const [mediaUploading, setMediaLoading] = useState(false)
     const [textModelVisible, setTextModelVisible] = useState(false)
     const [mediaToWorkbenchLoading, setMediaToWorkbenchLoading] = useState(false)
@@ -46,18 +50,24 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
         if (userInfo?.userId) {
             dispatch({
                 type: 'material/fetchMedias',
-                payload: { ...mediaQueryParams, id: userInfo.userId }
+                payload: {
+                    ...mediaQueryParams, id: userInfo.userId, resourceType: mediaSouceFilter, sortForResource: mediaSort,
+                    sortForTag: 'Default', beginTime: filterDate[0], endTime: filterDate[1]
+                }
             })
         }
-    }, [userInfo?.userId, mediaQueryParams])
+    }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter])
     useEffect(() => {
         if (userInfo?.userId) {
             dispatch({
                 type: 'material/fetchTexts',
-                payload: { ...textQueryParams, id: userInfo.userId }
+                payload: {
+                    ...textQueryParams, id: userInfo.userId, titleType: textFilter, sortForResource: textSort,
+                    sortForTag: 'Default', beginTime: filterDate[0], endTime: filterDate[1]
+                }
             })
         }
-    }, [userInfo?.userId, textQueryParams])
+    }, [userInfo?.userId, textQueryParams, textSort, textFilter])
     const changeDateRange = (value: [string, string]) => {
         setFilterDate(value)
         setTextQuery({ page: 1, size: 10 })
@@ -217,7 +227,7 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
             </div>
             <div className={styles.media}>
                 <div className={styles.leftContainer}>
-                    <PublicHeader onClear={clearMediaCheck} type='media' onAddToWorkbench={addMediaToWorkbench}
+                    <PublicHeader onClear={clearMediaCheck} type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
                         openFolder={() => { console.log('folder') }} onUpload={onUploadMedias} uploading={mediaUploading} />
                     <Spin spinning={!!mediaGetLoading}>
                         <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
@@ -230,7 +240,7 @@ const PublicMedia: FC<PublicMediaProps> = (props) => {
                     </Spin>
                 </div>
                 <div className={styles.textsContainer}>
-                    <PublicHeader onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench}
+                    <PublicHeader onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} onSort={setTextSort} onSource={setTextFilter}
                         onUploadText={submitTexts} uploading={textUploading} openText={setTextModelVisible} textVisible={textModelVisible} />
                     <Spin spinning={!!textGetLoading}>
                         <div className={`${styles.mediaContent} ${styles.textList}`} onScroll={scrollText} ref={textRef}>
