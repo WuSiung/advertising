@@ -91,26 +91,13 @@ request.interceptors.response.use(async (response: Response) => {
       })
       history.replace('/user/login')
       throw new Error(String(status));
+    } else if (codeMessage[status]) {
+      notification.error({
+        message: codeMessage[status],
+      })
+      throw new Error(String(status));
     }
-    // if (res.error&&res.error.message&&res.error.details) {
-    //   notification.error({
-    //     message: res.error.message,
-    //     description:res.error.details
-    //   })
-    //   return res;
-    // } else if (res.error&&res.error.message){
-    //   notification.error({
-    //     message: res.error.message,
-    //   })
-    //   return res;
-    // } else if (res.error){
-    //   notification.error({
-    //     message: res.error,
-    //   })
-    //   return res;
-    // }
-    // return res;
-    throw new Error(JSON.stringify(res));
+    // throw new Error(JSON.stringify(res));
   } else if (res.code == 1) {
     notification.error({
       message: res.msg,
