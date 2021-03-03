@@ -1,5 +1,5 @@
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { Col, Row, Button, Select, Upload, Spin, message, Modal, Input } from 'antd'
+import { Col, Row, Button, Select, Upload, message, Modal, Input } from 'antd'
 import React, { FC, useCallback, useState } from 'react'
 import { connect, Dispatch, history } from 'umi';
 import Loading from '@/components/Loading'
@@ -20,7 +20,7 @@ interface ActionBtnsProps {
     saveTempLoading: boolean,
     queryTempLoading: boolean
 }
-const uploadSucessValue: void[] = []
+const uploadSucessValue: Array<Promise<unknown>> = []
 let uploadFileLength = 0;
 let uploadedLenth: number = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
@@ -168,8 +168,8 @@ const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
     return true
 }
 
-const addResultToWorkbench = (result: PostMediaDataType) => {
-    postOneRecordToWorkbench(result)
+const addResultToWorkbench = async (result: PostMediaDataType) => {
+    await postOneRecordToWorkbench(result)
 }
 
 // 清空预览广告

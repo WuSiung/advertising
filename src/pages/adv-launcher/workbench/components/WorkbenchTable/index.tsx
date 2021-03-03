@@ -1,7 +1,6 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined } from '@ant-design/icons'
 import { Button, message } from 'antd'
-import { create } from 'lodash'
 import React, { FC, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType } from '../../data.d'

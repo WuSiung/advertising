@@ -5,19 +5,36 @@
  * For details, please see
  * https://pro.ant.design/docs/deploy
  */
-const allApiStr = ['/code', '/admin', '/ads', '/auth', '/subApi', '/file']
+const allApiStr = ['/code', '/admin', '/ads', '/auth', '/file']
+const api2Str = [{ key: '/subApi', rewrite: '/subApi' }]
 const apiProxyConfig = {}
-const proxyUrl = process.env.REACT_APP_ENV == 'dev' ? 'https://dev.tanwanai.com/' : 'https://dev.tanwanai.com/'
+const urls = {
+  'dev': 'https://dev.tanwanai.com/',
+  'local': 'http://192.168.31.66:9999/',
+  'test': 'https://dev.tanwanai.com/'
+}
+
+const localTestConfig = {
+  url: 'http://119.8.237.139:9191/'
+}
+
 allApiStr.map(str => {
   return apiProxyConfig[str] = {
-    target: proxyUrl,
+    target: urls[process.env.REACT_APP_ENV || 'dev'],
     changeOrigin: true,
     pathRewrite: { '^/': '/' },
   }
 })
-
+api2Str.map(str => {
+  return apiProxyConfig[str.key] = {
+    target: localTestConfig.url,
+    changeOrigin: true,
+    pathRewrite: { ['^' + str.key]: '/' },
+  }
+})
 export default {
   dev: apiProxyConfig,
+  local: apiProxyConfig,
   test: apiProxyConfig,
   pre: {
     '/api/': {

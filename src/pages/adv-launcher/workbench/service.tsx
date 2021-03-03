@@ -15,7 +15,7 @@ export async function uploadMediaToWorkbench(media: FormData) {
 export async function postOneRecordToWorkbench(params: PostMediaDataType) {
     return request('/ads/advimg', {
         method: 'post',
-        data: { type: params.type || 0, fileId: params.id, url: params.link }
+        data: { type: params.type || 0, fileId: params.id, url: params.link, md5: params.md5Hex }
     })
 }
 

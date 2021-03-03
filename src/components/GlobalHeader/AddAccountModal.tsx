@@ -28,7 +28,7 @@ const AddAccountModal: React.FC<AddAccountPropsType> = (props) => {
             }
             if (dispatch) {
                 dispatch({
-                    type: 'global/changeFbAccount',
+                    type: 'global/bindFbAccount',
                     payload: { ...params, type: 0 },
                 }).then(() => {
                     handleVisible(false)
@@ -61,5 +61,5 @@ AddAccountModal.defaultProps = {
 
 export default connect(({ user, loading }: ConnectState) => ({
     accounts: user.fbOnlineAccounts,
-    submitting: loading.effects['global/changeFbAccount'],
+    submitting: loading.effects['global/bindFbAccount'],
 }))(AddAccountModal)

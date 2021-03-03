@@ -2,7 +2,8 @@ import { StarFilled } from '@ant-design/icons'
 import { Card, Input, message, Modal, Select, Switch } from 'antd'
 import { Button } from 'antd'
 import React, { FC, useState, useEffect, useMemo } from 'react'
-import { connect, Dispatch, history } from 'umi'
+import { AppInfo, connect, Dispatch, history, UserModelState } from 'umi'
+import moment from 'moment';
 import Steps from '../components/Steps'
 import { PreviewAdvType, WorkbenchDataType } from '../workbench/data'
 import { CompaignsData, CompaignsListType, CreateCompaignDataType, SaveChooseCompaignDataType } from './data'
@@ -14,7 +15,8 @@ interface CompaignProps {
     previewAds: PreviewAdvType[],
     compaignsList: CompaignsListType[],
     dispatch: Dispatch,
-    creating: boolean
+    creating: boolean,
+    appInfo?: AppInfo,
 }
 
 interface CompaignBoxProps {
@@ -139,12 +141,12 @@ const SelectHasCompaign: FC<TableProps> = (props) => {
 }
 
 const Compaign: FC<CompaignProps> = (props) => {
-    const { dispatch, previewAds, compaignsList } = props
+    const { dispatch, previewAds, compaignsList, appInfo } = props
     const [chooseType, setChooseType] = useState<number>(0)
     const [newCompaignVisible, setNewCompaignVisible] = useState<boolean>(false)
-    const [newCompaignParams, setNewCompaignParams] = useState<CreateCompaignDataType>({ budget: 0, spendNum: '', appName: initName() })
-    const [autoParams, setAutoParams] = useState<SaveChooseCompaignDataType>({ budget: 0, spendNum: '', appName: initName() })
-    const [hasParams, setHasPramas] = useState<SaveChooseCompaignDataType>(compaignsList[0] || { budget: 0, spendNum: '', appName: initName(), packId: -1 })
+    const [newCompaignParams, setNewCompaignParams] = useState<CreateCompaignDataType>({ budget: 0, spendNum: '', appName: initName(appInfo!) })
+    const [autoParams, setAutoParams] = useState<SaveChooseCompaignDataType>({ budget: 0, spendNum: '', appName: initName(appInfo!) })
+    const [hasParams, setHasPramas] = useState<SaveChooseCompaignDataType>(compaignsList[0] || { budget: 0, spendNum: '', appName: initName(appInfo!), packId: -1 })
     let memoAutoParams = useMemo(() => {
         return autoParams
     }, [autoParams])
@@ -230,12 +232,13 @@ const Compaign: FC<CompaignProps> = (props) => {
     )
 }
 
-const initName = (): string => {
-    return 'yx'
+const initName = (appInfo: AppInfo): string => {
+    return 'yx-' + appInfo.appName + '-主要系列' + moment().format("YYYYMMDD")
 }
 
-export default connect(({ workbench, compaigns, loading }: { workbench: WorkbenchDataType, compaigns: CompaignsData, loading: { effects: { [key: string]: boolean } } }) => ({
+export default connect(({ workbench, compaigns, user, loading }: { workbench: WorkbenchDataType, compaigns: CompaignsData, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     previewAds: workbench.previewAdvs,
     compaignsList: compaigns.compaignsList,
+    appInfo: user.appInfo,
     creating: loading.effects['']
 }))(Compaign)
