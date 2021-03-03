@@ -203,12 +203,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       );
       summaryDataList.push(filterList);
 
-      contentList[`tab${idx + 1}`] = <Area {...config} data={list} key={`tab${idx + 1}`} />;
+      // contentList[`tab${idx + 1}`] = <Area {...config} data={list} key={`tab${idx + 1}`} />;
+      contentList[`tab${idx + 1}`] = list;
     });
   }
 
-  console.log(dashboard.tabList);
-  console.log(dashboard.detailDataList);
+  // console.log(dashboard.tabList);
+  // console.log(dashboard.detailDataList);
   // console.log(contentList);
   const numList = summaryDataList.length;
   const summaryContentList = summaryDataList.map((d, idx) => {
