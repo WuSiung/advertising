@@ -1,0 +1,45 @@
+@import '~antd/lib/style/themes/default.less';
+
+.a-r {
+  justify-content: right;
+}
+:global{
+
+  .ant-checkbox-group-item{
+    display:block;
+  }
+  th{
+    position:relative;
+  }
+  .th-title{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    .th-icon{
+      position:absolute;
+      bottom:30%;
+      right:2px;
+    }
+  }
+}
+.advManager{
+  .advTb{
+    min-width: 800px;
+  }
+  .advName{
+    display:flex;
+    justify-content: space-between;
+  }
+  .advTabs{
+    :global{
+      .ant-tabs-nav-list{
+        width:100%;
+      }
+      .ant-tabs-tab{
+        width:33% !important;
+        justify-content: center;
+      }
+    }
+  }
+}
+
