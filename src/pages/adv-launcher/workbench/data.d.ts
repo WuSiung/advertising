@@ -1,31 +1,17 @@
-export interface TextDataType {
+export type TextDataType = {
     content: string,
     md5: number | string,
     textId: number,
     title: string
-    cost: string | number, // 平均点击消耗金额
-    octr: string | number, // 点击转换比
-    installs: number | string, // 安装次数
-    impressions: number, // 展示次数
-    spend: number, // 消费总金额
-    roas: string, // 广告支出回报率
-    income: string, // 广告收益
-}
+} & AdvDataType
 
-export interface ImgDataType {
+export type ImgDataType = {
     fileId: string,
     imgId: number,
     type: string | number,
     url: string,
-    url2: string,
-    cost: string | number, // 平均点击消耗金额
-    octr: string | number, // 点击转换比
-    installs: number | string, // 安装次数
-    impressions: number, // 展示次数
-    spend: number, // 消费总金额
-    roas: string, // 广告支出回报率
-    income: string, // 广告收益
-}
+    url2: string
+} & AdvDataType
 
 export interface PostMediaDataType {
     id: string,
@@ -37,6 +23,16 @@ export interface PostMediaDataType {
 export interface TemplateDataType {
     templateId: number,
     templateName: string
+}
+
+interface AdvDataType {
+    cost: string | number, // 平均点击消耗金额
+    octr: string | number, // 点击转换比
+    installs: number | string, // 安装次数
+    impressions: number, // 展示次数
+    spend: number, // 消费总金额
+    roas: string, // 广告支出回报率
+    income: string, // 广告收益
 }
 
 export interface PreviewAdvType {
@@ -71,11 +67,17 @@ export interface TemplateDetailDataType {
     advTemplateRelList: PreviewAdvType[]
 }
 
+export type HasAdvs = {
+    ads: number,
+    total: number
+} & AdvDataType
+
 export interface WorkbenchDataType {
     uploadImgList: ImgDataType[],
     uploadTextList: TextDataType[],
     previewAdvs: PreviewAdvType[],
     savePreviewAdvsRecord: PreviewAdvType[],
     templateDetailData?: TemplateDetailDataType,
-    templateList: TemplateDataType[]
+    templateList: TemplateDataType[],
+    hasAdvs: Array<Array<HasAdvs>>
 }

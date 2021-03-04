@@ -255,7 +255,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       payload: {
         dates,
         dataStrings,
-        isRangeChanged: true,
       },
     });
   };

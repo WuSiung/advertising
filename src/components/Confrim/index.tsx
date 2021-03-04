@@ -13,8 +13,9 @@ export const showConfirm = (params: ConfirmProps) => {
     return new Promise((resolve: (value: boolean) => void, reject: (value: boolean) => void) => {
         Modal.confirm({
             title: title || '提示！！',
+            centered: true,
             icon: <ExclamationCircleOutlined />,
-            content: content || '是否确认删除',
+            content: content || '你确定删除？',
             onOk: async () => {
                 return onOk && onOk()?.then(() => {
                     resolve(true)
