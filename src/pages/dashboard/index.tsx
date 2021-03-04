@@ -27,21 +27,41 @@ const { RangePicker } = DatePicker;
 const Dashboard: React.FC<DashboardProps> = (props) => {
   const { dispatch, dashboard, isLoading } = props;
   // console.log(isLoading)
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'dashboard/queryStatistics',
+  //     payload: {
+  //       start:
+  //         dashboard.rangeValues && dashboard.rangeValues[0]
+  //           ? dashboard.rangeValues[0].format('yyyy-MM-DD')
+  //           : '',
+  //       end:
+  //         dashboard.rangeValues && dashboard.rangeValues[1]
+  //           ? dashboard.rangeValues[1].format('YYYY-MM-DD')
+  //           : '',
+  //     },
+  //   });
+  // }, [dashboard.rangeValues]);
+  const handleOpenChange = (open: boolean) => {
+    if (!open && dashboard.isRangeChanged) {
+      dispatch({
+        type: 'dashboard/queryStatistics',
+        payload: {
+          start:
+            dashboard.rangeValues && dashboard.rangeValues[0]
+              ? dashboard.rangeValues[0].format('yyyy-MM-DD')
+              : '',
+          end:
+            dashboard.rangeValues && dashboard.rangeValues[1]
+              ? dashboard.rangeValues[1].format('YYYY-MM-DD')
+              : '',
+        },
+      });
+    }
+  };
   useEffect(() => {
-    dispatch({
-      type: 'dashboard/queryStatistics',
-      payload: {
-        start:
-          dashboard.rangeValues && dashboard.rangeValues[0]
-            ? dashboard.rangeValues[0].format('yyyy-MM-DD')
-            : '',
-        end:
-          dashboard.rangeValues && dashboard.rangeValues[1]
-            ? dashboard.rangeValues[1].format('YYYY-MM-DD')
-            : '',
-      },
-    });
-  }, [dashboard.rangeValues]);
+    handleOpenChange(false);
+  }, []);
 
   const columns: ColumnsType<object> = [
     {
@@ -213,13 +233,21 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   // console.log(contentList);
   const numList = summaryDataList.length;
   const summaryContentList = summaryDataList.map((d, idx) => {
-    let span = 8;
+    // 策略概述3个图表一行的布局
+    // let span = 8;
+    //
+    // if (numList % 3 === 1 && idx === numList - 1) {
+    //   span = 24;
+    // } else if (numList % 3 === 2 && idx >= numList - 2) {
+    //   span = 12;
+    // }
 
-    if (numList % 3 === 1 && idx === numList - 1) {
+    // 策略概述2个图表一行的布局
+    let span = 12;
+    if (idx === numList - 1 && numList % 2 === 1) {
       span = 24;
-    } else if (numList % 3 === 2 && idx >= numList - 2) {
-      span = 12;
     }
+
     return (
       <Col key={idx} span={span} style={{ marginTop: '12px' }}>
         <Area {...config} data={d} />
@@ -233,6 +261,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       payload: {
         dates,
         dataStrings,
+        isRangeChanged: true,
       },
     });
   };
@@ -341,7 +370,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           className={`${styles.totalCard}`}
           title="综合统计"
           loading={isLoading}
-          extra={<RangePicker value={dashboard.rangeValues} onChange={handleRangeChange} />}
+          extra={
+            <RangePicker
+              value={dashboard.rangeValues}
+              onChange={handleRangeChange}
+              onOpenChange={handleOpenChange}
+            />
+          }
         >
           <Table
             columns={columns}

@@ -84,7 +84,7 @@ const DashboardModel: TDashboardModel = {
     target2: 'impressions',
     audience: '0',
     activeTabKey: 'tab1',
-    loading: true,
+    isRangeChanged: true,
     tabList: [],
     totalList: [],
     detailDataList: [],
@@ -95,6 +95,7 @@ const DashboardModel: TDashboardModel = {
       return {
         ...state,
         rangeValues: payload.dates,
+        isRangeChanged: payload.isRangeChanged,
       };
     },
     changeSelect(state, { payload }) {
@@ -114,7 +115,7 @@ const DashboardModel: TDashboardModel = {
       const data: TState = {
         ...state,
         totalList: payload.totalList,
-        loading: false,
+        isRangeChanged: false,
       };
       if (data.totalList && Array.isArray(data.totalList)) {
         data.totalList.forEach((d, idx) => {
