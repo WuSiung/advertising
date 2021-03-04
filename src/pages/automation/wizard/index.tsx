@@ -3,7 +3,10 @@ import { PageContainer } from '@ant-design/pro-layout';
 import {Button, Card, Col, Row, Select, Slider, Space, Table} from 'antd';
 import {history} from "@@/core/history";
 import Title from './components/title';
+import Step1 from './components/step1';
+import Step2 from "./components/step2";
 import styles from "@/pages/dashboard/index.less";
+
 
 const { Option } = Select;
 interface WizardProps {
@@ -32,172 +35,17 @@ const Wizard: FC<WizardProps> = (props) => {
   //   </Row>
   // )
 
+  const [current, setCurrent] = useState(0)
+
   return (
     <PageContainer>
       <Card
         className={`${styles.totalCard}`}
-        title={<Title></Title>}
+        title={<Title current={current} handleClick={(step) => setCurrent(step)}></Title>}
         loading={isLoading}
       >
-        <Row justify="space-between" gutter={{ xs: 8, sm: 16, md: 24}}>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-        <Row justify="space-between" gutter={{ xs: 8, sm: 16, md: 24}}>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-        <Row justify="space-between" gutter={{ xs: 8, sm: 16, md: 24}}>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              type="inner"
-              style={{ borderRight: '8px solid #9966ff', marginBottom: 25}}
-              hoverable={true}
-            >
-              <Space direction="vertical" size="small">
-                <div>
-                  <h2><strong>冲浪</strong></h2>
-                  <p>广告集级别</p>
-                </div>
-                <div>
-                  SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。
-                </div>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
+        {current === 0 && <Step1></Step1>}
+        {current === 1 && <Step2></Step2>}
       </Card>
     </PageContainer>
   )
