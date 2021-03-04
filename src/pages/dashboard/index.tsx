@@ -167,12 +167,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       key: 'cpa',
       width: 120,
     },
-    {
-      title: '创建时间',
-      dataIndex: 'createdDate',
-      key: 'createdDate',
-      width: 100,
-    },
   ];
 
   const config = {
