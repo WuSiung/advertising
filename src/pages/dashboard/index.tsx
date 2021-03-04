@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Row, Col, Card, Select, Space, Table, DatePicker } from 'antd';
@@ -43,8 +43,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   //   });
   // }, [dashboard.rangeValues]);
   const handleOpenChange = (open: boolean) => {
-    console.log(open);
-    console.log(dashboard.isRangeChanged);
+    // console.log(open);
+    // console.log(dashboard.isRangeChanged);
     if (!open && dashboard.isRangeChanged) {
       dispatch({
         type: 'dashboard/queryStatistics',
