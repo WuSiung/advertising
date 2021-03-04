@@ -45,7 +45,15 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [activeAdv, setActiveAdv] = useState<AdvAdvListType & { showPreviewModal: boolean }>();
     const actImgtext = activeAdv?.imgTextList[0] ? activeAdv?.imgTextList[0] : null;
 
-
+    useEffect(()=>{
+        dispatch({
+            type: 'advertising/fetchAdvList',
+            payload: {
+                current: 1,
+                size: pageSize
+            }
+        });
+    },[])
     useEffect(() => {
         if (loadingAdvList) {
             hideLoading = success();
@@ -278,7 +286,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 </Row>
             </div>
             <div>
-                <div className={styles.advWarp}>
+                <div className={styles.advWarp} >
                     {
                         advertisingList.length > 0 ? advertisingList.map(advertings => {
                             const imgtext = advertings.imgTextList[0] ? advertings.imgTextList[0] : null;
@@ -312,6 +320,16 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 }
                             /></div>
                     }
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+                    <div style={{height:"1px",width:"254px",margin:"0 7px"}}></div>
+
                 </div>
             </div>
             <div style={{width: "100%", textAlign: "center"}}>

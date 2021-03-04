@@ -126,7 +126,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     if (includeRoutes.includes(pathname)) {
       e.preventDefault()
       const params: ConfirmProps = {
-        content: '广告创建中，是否确认离开',
+        content: '你有未保存的更改，如果离开此页面，更改将丢失',
         onOk: () => { history.push(to) }
       }
       showConfirm({ ...params })

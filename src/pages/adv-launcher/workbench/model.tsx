@@ -18,6 +18,7 @@ export interface WorkbenchModalType {
         saveTextList: Reducer<WorkbenchModalType>,
         savePreviewAdvs: Reducer<WorkbenchModalType>,
         saveTempList: Reducer<WorkbenchModalType>,
+        saveHasAdvs: Reducer<WorkbenchModalType>,
     }
 }
 
@@ -27,7 +28,8 @@ const initSate: WorkbenchDataType = {
     previewAdvs: [],
     templateDetailData: undefined,
     templateList: [],
-    savePreviewAdvsRecord: []
+    savePreviewAdvsRecord: [],
+    hasAdvs: []
 }
 
 const WorkbenchModal: WorkbenchModalType = {
@@ -43,6 +45,10 @@ const WorkbenchModal: WorkbenchModalType = {
             yield put({
                 type: 'saveTextList',
                 payload: { uploadTextList: response.data.text || [] }
+            })
+            yield put({
+                type: 'saveHasAdvs',
+                payload: { hasAdvs: response.data.pair || [] }
             })
         },
         *uploadFile({ payload }, { call }) {
@@ -89,6 +95,9 @@ const WorkbenchModal: WorkbenchModalType = {
             return { ...state, ...newParams }
         },
         saveTempList(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveHasAdvs(state, { payload }) {
             return { ...state, ...payload }
         },
     }
