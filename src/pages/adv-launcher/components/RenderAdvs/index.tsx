@@ -19,7 +19,7 @@ export type RenderAdvsProps = {
     onCheckAdv?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => void,
     onCopy?: (index: number, adv: PreviewAdvType) => void,
     onDelete?: (index: number) => void,
-    disptach?: Dispatch,
+    dispatch: Dispatch,
     type?: 'crowds' | 'facebook' | 'launcher',
     showCopy?: boolean,
     showDelete?: boolean
@@ -58,7 +58,16 @@ Adv.defaultProps = {
 }
 
 const RenderAdvs: FC<RenderAdvsProps> = (props) => {
-    const { title, dec, isFinished, onCheckAll, isCheckAll, previewAdvs, appInfo, showCopy, showDelete, onCheckAdv, onCopy, onDelete, nextUrl, type } = props
+    const { title, dec, isFinished, onCheckAll, isCheckAll, previewAdvs, appInfo, showCopy, showDelete, onCheckAdv, onCopy, onDelete, nextUrl, type, dispatch } = props
+
+    const nextStep = () => {
+        previewAdvs[0].checked = true
+        dispatch({
+            type: 'workbench/savePreviewAdvs',
+            payload: { previewAdvs: previewAdvs }
+        })
+        history.push(nextUrl)
+    }
     return <div className={styles.advList}>
         <div className={styles.topdec}>
             <div className={styles.text}>
@@ -67,7 +76,7 @@ const RenderAdvs: FC<RenderAdvsProps> = (props) => {
             </div>
             <Button style={{ marginRight: 10 }} type='primary' onClick={onCheckAll}>{isCheckAll ? "取消全选" : "全选"}</Button>
             <Button style={{ marginRight: 10 }} type='primary' onClick={() => history.goBack()}>返回</Button>
-            <Button type='primary' disabled={!isFinished} onClick={() => history.push(nextUrl)}>下一步</Button>
+            <Button type='primary' disabled={!isFinished} onClick={nextStep}>下一步</Button>
         </div>
         <div className={styles.lists}>
             {

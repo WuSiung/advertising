@@ -2,6 +2,7 @@ import { Card, Tabs, Input, Button, Spin } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { connect, Dispatch } from 'umi'
 import { InterestDataType, AudienceDataType, ManagerDataType } from './data'
+import { PageContainer } from '@ant-design/pro-layout';
 import { AudienceModelDataType } from '../data'
 import CheckInfoShow from './components/CheckInfoShow'
 import { formatterPersonNum } from '@/utils/countTrans'
@@ -189,6 +190,7 @@ const AudienceTable: FC<AudienceTableProps> = (props) => {
         </tbody>
     </table>
 }
+const managerTip = '可帮助您确定最有利可图的受众并进行扩展。通过按照历史效果数据对Facebook AP进行挖掘，找出潜在的潜在受众，从而发现新的定位选项。在这里，您可以通过混合，缩小和排除受众群体操作以实现精准目标受众管理。'
 const AudienceManager: FC<AudienceManagerProps> = (props) => {
     const { interests, audiences, dispatch, gettingInterest, includeList, excludeList, modelList, changeSelect, onFinished } = props
     useEffect(() => {
@@ -290,24 +292,26 @@ const AudienceManager: FC<AudienceManagerProps> = (props) => {
             payload: { excludeList: JSON.parse(JSON.stringify(newExcludes)) }
         })
     }
-    return <Card>
-        <Tabs defaultActiveKey='interest'>
-            <Tabs.TabPane key='interest' tab='兴趣列表'>
-                <Input.Search placeholder="关键词搜索" allowClear onSearch={onSearchInterest} style={{ width: 300, marginBottom: 10 }} />
-                <Spin spinning={gettingInterest}>
-                    <div className={styles.tableContainer}><InterestTable list={interests} dispatch={dispatch} excludeList={excludeList} includeList={includeList} /></div>
-                </Spin>
-            </Tabs.TabPane>
-            <Tabs.TabPane key='audiences' tab='人群受众'>
-                <Input.Search placeholder="关键词搜索" allowClear onSearch={onSearchAudience} style={{ width: 300, marginBottom: 10 }} />
-                <Spin spinning={gettingInterest}>
-                    <div className={styles.tableContainer}><AudienceTable list={audiences} dispatch={dispatch} excludeList={excludeList} includeList={includeList} /></div>
-                </Spin>
-            </Tabs.TabPane>
-        </Tabs>
-        <CheckInfoShow includeList={includeList} excludeList={excludeList} deleteIn={params => deleteIncludes(params)} dispatch={dispatch}
-            deleteEx={params => deleteExcludes(params)} modelList={modelList} changeSelect={changeSelect} onFinished={onFinished} />
-    </Card>
+    return <PageContainer content={managerTip} breadcrumb={undefined}>
+        <Card>
+            <Tabs defaultActiveKey='interest'>
+                <Tabs.TabPane key='interest' tab='兴趣列表'>
+                    <Input.Search placeholder="关键词搜索" allowClear onSearch={onSearchInterest} style={{ width: 300, marginBottom: 10 }} />
+                    <Spin spinning={gettingInterest}>
+                        <div className={styles.tableContainer}><InterestTable list={interests} dispatch={dispatch} excludeList={excludeList} includeList={includeList} /></div>
+                    </Spin>
+                </Tabs.TabPane>
+                <Tabs.TabPane key='audiences' tab='人群受众'>
+                    <Input.Search placeholder="关键词搜索" allowClear onSearch={onSearchAudience} style={{ width: 300, marginBottom: 10 }} />
+                    <Spin spinning={gettingInterest}>
+                        <div className={styles.tableContainer}><AudienceTable list={audiences} dispatch={dispatch} excludeList={excludeList} includeList={includeList} /></div>
+                    </Spin>
+                </Tabs.TabPane>
+            </Tabs>
+            <CheckInfoShow includeList={includeList} excludeList={excludeList} deleteIn={params => deleteIncludes(params)} dispatch={dispatch}
+                deleteEx={params => deleteExcludes(params)} modelList={modelList} changeSelect={changeSelect} onFinished={onFinished} />
+        </Card>
+    </PageContainer >
 }
 
 
