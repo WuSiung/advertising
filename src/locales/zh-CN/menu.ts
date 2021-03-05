@@ -14,6 +14,7 @@ export default {
   'menu.creativity': '创意工作室',
   'menu.setting': '系统设置',
   'menu.automation': '自动化策略',
+  'menu.version': '版本更新详情',
   'menu.home': '首页',
   'menu.advmanager': '广告管理',
   'menu.admin': '管理页',

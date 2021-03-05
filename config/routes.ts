@@ -131,6 +131,12 @@
                 component: './setting',
               },
               {
+                path: '/version',
+                name: 'version',
+                hideInMenu: true,
+                component: './version',
+              },
+              {
                 path: '/admin',
                 name: 'admin',
                 icon: 'crown',
