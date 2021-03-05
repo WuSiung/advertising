@@ -43,3 +43,30 @@ export async function queryTextList(params: { size: number, page: number, id: nu
         params: other
     })
 }
+
+export async function addTag(params: any) {
+    const { userId, soureceId, ...other } = params
+    return request(`/subApi/resources/permanent/tag/${soureceId}/${userId}`, {
+        method: 'put',
+        data: { ...other }
+    })
+}
+
+export async function delTag(tagId: string) {
+    return request(`/subApi/resources/permanent/tag/${tagId}`, {
+        method: 'delete',
+    })
+}
+
+export async function getSouceTag(id: string) {
+    return request(`/subApi/resources/permanent/${id}/`, {
+        method: 'get',
+    })
+}
+
+export async function getAllTag(name?: string) {
+    return request(`/subApi/resources/permanent/tag`, {
+        method: 'get',
+        params: { name: name }
+    })
+}

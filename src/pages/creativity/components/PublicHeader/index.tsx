@@ -49,7 +49,7 @@ const mediaSortType = [
 ]
 
 const PublicHeader: FC<PublicHeaderProps> = (props) => {
-    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench, onSort, onSource, onChangeDate } = props
+    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench, onSort, onSource, onChangeDate, openFolder } = props
     const [uploadLenth, setLength] = useState(0)
     const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
         setLength(fileList.length)
@@ -72,7 +72,7 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
             }
             <Button type='primary' style={{ marginRight: 10 }} onClick={onClear}>清空选择</Button>
             <Button type='primary' style={{ marginRight: 10 }} onClick={onAddToWorkbench}>添加至工作台</Button>
-            <FolderOutlined className={styles.folder} title='标签库' />
+            <FolderOutlined className={styles.folder} title='标签库' onClick={openFolder} />
         </Col >
         <Col className={styles.filter} span={12}>
             <DateRange onChange={onChangeDate} />

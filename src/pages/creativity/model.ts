@@ -1,4 +1,5 @@
 import { Effect, Reducer } from 'umi'
+import { MaterialStateType } from './data';
 import { queryMediaList, queryTextList, uploadText } from './service'
 
 interface MediaModelType {

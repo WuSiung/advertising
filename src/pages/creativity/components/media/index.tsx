@@ -1,18 +1,19 @@
-import DateRange from '@/pages/adv-launcher/components/DateRange'
 import { postOneRecordToWorkbench } from '@/pages/adv-launcher/workbench/service'
 import { isImage } from '@/utils/fileType'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
-import { createContainer, deletResource, uploadMedia } from '../../service'
+import { addTag, createContainer, deletResource, delTag, getAllTag, getSouceTag, uploadMedia } from '../../service'
 import MaterialBox from '../Box'
 import PublicHeader from '../PublicHeader'
+import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data';
+import Loading from '@/components/Loading';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import EditTag from '../EditTag';
 
 import styles from './index.less'
 import { showConfirm } from '@/components/Confrim';
-import Loading from '@/components/Loading';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 type MediaCreativityProps = {
     dispatch: Dispatch,
@@ -37,6 +38,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     const [filterDate, setFilterDate] = useState<[string, string]>(['', ''])
     const [mediaSort, setMediaSort] = useState('Default')
     const [mediaSouceFilter, setmediaSouceFilte] = useState('All')
+    const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
+    const [tagVisible, setTagVisible] = useState(false)
+    const [tagName, setTagName] = useState('')
 
     useEffect(() => {
         if (userInfo?.userId) {
@@ -92,7 +96,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                     uploadProcess = 0
                     allLenth = 0
                     setMediaLoading(false)
-                    setMediaQuery({page: 1, size: 10})
+                    setMediaQuery({ page: 1, size: 10 })
                 }).catch(() => {
                     setMediaLoading(false)
                 })
@@ -121,21 +125,80 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
 
     const deleteMedia = (i: number) => {
         let deleteInfo = mediaList[i]
-        const newArr = mediaList
+        const newArr = JSON.parse(JSON.stringify(mediaList))
         newArr.splice(i, 1)
-        showDeleteConfirm(dispatch, deleteInfo, 'media', newArr)
+        showDeleteConfirm(dispatch, deleteInfo, newArr)
+    }
+
+    const handleAiLib = () => {
+        getAllTag().then(res => {
+            setTagName('')
+            setTagParams({ id: 'all', tagList: res.value })
+            setTagVisible(true)
+        })
+    }
+
+    const editTag = (i: number) => {
+        let editInfo = mediaList[i]
+        setTagParams({ id: editInfo.id, tagList: editInfo.tags })
+        setTagVisible(true)
+    }
+
+    const editTagOk = async () => {
+        if (tagParams.id == 'all') {
+            message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
+            return
+        } else {
+            const flag = tagParams.tagList.some(tag => tagName == tag.name)
+            if (flag) {
+                message.warning('标签已存在，请重新输入')
+                return
+            }
+        }
+        await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })
+        setTagName('')
+        updateTag()
+        message.success('添加成功')
+    }
+
+    const deleteTag = async (id: string) => {
+        showConfirm({ onOk: delTag.bind(null, id) }).then(() => { message.success('删除成功'); updateTag() })
+    }
+
+    const updateTag = () => {
+        getSouceTag(tagParams.id).then(res => {
+            setTagParams({ ...tagParams, tagList: res.value.tags })
+            const setMediaList = mediaList.map(media => {
+                if (media.id == tagParams.id) {
+                    media.tags = res.value.tags
+                }
+                return media
+            })
+            dispatch({
+                type: 'material/saveMedias',
+                payload: { mediaList: setMediaList }
+            })
+        })
+    }
+
+    const changeSearch = (v: string, o: any) => {
+        if (tagParams.id == 'all') {
+            message.warning('请不要重复添加噢~')
+        } else {
+            setTagName(v)
+        }
     }
 
     return <div>
         <div className={styles.rangeDate}>
         </div>
         <PublicHeader onClear={clearMediaCheck} type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
-            openFolder={() => { console.log('folder') }} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
+            openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
         <Spin spinning={!!mediaGetLoading}>
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
                 {
                     mediaList.map((media, i) => {
-                        return <MaterialBox {...media} key={media.id} index={i} type='media' onClick={checkedMedia} onDelete={deleteMedia} />
+                        return <MaterialBox {...media} key={media.id} index={i} type='media' onClick={checkedMedia} onDelete={deleteMedia} onEdit={editTag} />
                     })
                 }
             </div>
@@ -143,10 +206,12 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         {
             (mediaUploading || mediaToWorkbenchLoading) && <Loading showMask tips='上传中，请稍后...' />
         }
+        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk}
+            onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
     </div>
 }
 
-const showDeleteConfirm = (dispatch: Dispatch, deleteInfo: PublicMaterialDataType, type: 'text' | 'media', setArr: PublicMaterialDataType[]) => {
+const showDeleteConfirm = (dispatch: Dispatch, deleteInfo: PublicMaterialDataType, setArr: PublicMaterialDataType[]) => {
     Modal.confirm({
         title: '提示',
         icon: <ExclamationCircleOutlined />,
