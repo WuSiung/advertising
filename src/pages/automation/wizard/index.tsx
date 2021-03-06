@@ -3,9 +3,9 @@ import { PageContainer } from '@ant-design/pro-layout';
 import {Button, Card, Col, Row, Select, Slider, Space, Table} from 'antd';
 import Title from './components/title';
 import Step1 from './components/step1';
-import SurfCampaign from "./components/step2/surf-campaign";
 import styles from "@/pages/dashboard/index.less";
 import SurfAds from "@/pages/automation/wizard/components/step2/surf-ads";
+import SurfCampaign from "@/pages/automation/wizard/components/step2/surf-campaign";
 
 
 const { Option } = Select;
@@ -55,8 +55,8 @@ const Wizard: FC<WizardProps> = (props) => {
         loading={isLoading}
       >
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
-        {current === 1 && tactic === 'surfCampaign' && <SurfCampaign></SurfCampaign>}
-        {current === 1 && tactic === 'surfAds' && <SurfAds></SurfAds>}
+        {current === 1 && tactic === 'surfCampaign' && <SurfCampaign step={current}></SurfCampaign>}
+        {current === 1 && tactic === 'surfAds' && <SurfAds step={current}></SurfAds>}
       </Card>
     </PageContainer>
   )

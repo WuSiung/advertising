@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import {Button, Col, Row, Space, Steps} from "antd";
 import {history} from "umi";
-import SvgHead from "@/pages/automation/wizard/components/step2/surf-campaign/components/svg-head";
-import SvgGear from "@/pages/automation/wizard/components/step2/surf-campaign/components/svg-gears";
-import SvgFrontSight from "@/pages/automation/wizard/components/step2/surf-campaign/components/svg-front-sight";
-import SvgSignal from "@/pages/automation/wizard/components/step2/surf-campaign/components/svg-signal";
+import SvgHead from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-head";
+import SvgGear from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-gears";
+import SvgFrontSight from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-front-sight";
+import SvgSignal from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-signal";
 import TacticCardHead from "@/pages/automation/wizard/components/tactic-card-head";
 
 const { Step } = Steps;
@@ -19,15 +19,15 @@ const Title: FC<ITitle> = (props) => {
   // const [current, setCurrent] = React.useState(0);
   const steps = [
     {
-      title: 'First',
+      title: '选择',
       content: 'First-content',
     },
     {
-      title: 'Second',
+      title: '设置',
       content: 'Second-content',
     },
     {
-      title: 'Last',
+      title: '完成',
       content: 'Last-content',
     },
   ];
