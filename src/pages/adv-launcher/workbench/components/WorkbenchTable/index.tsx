@@ -169,7 +169,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                 <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
                                 {
                                     imgList.map((img, X) => {
-                                        return hasAdvs.length > 0 && hasAdvs[X][Y].ads > 0 ? <HoverPopover {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
+                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
                                             <div>
                                                 <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />

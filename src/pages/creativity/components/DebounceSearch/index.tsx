@@ -19,6 +19,7 @@ export interface DebounceSelectProps<ValueType = any>
 function DebounceSelect<
     ValueType extends { key?: string; label: React.ReactNode; value: string | number } = any
 >({ fetchOptions, debounceTimeout = 500, ...props }: DebounceSelectProps) {
+    const { setValue, onAdd, ...otherProps } = props
     const [fetching, setFetching] = React.useState(false);
     const [options, setOptions] = React.useState<ValueType[]>([]);
     const fetchRef = React.useRef(0);
@@ -26,7 +27,7 @@ function DebounceSelect<
     const debounceFetcher = React.useMemo(() => {
         const loadOptions = (value: string) => {
             if (value == '') return
-            props.setValue(value)
+            setValue(value)
             fetchRef.current += 1;
             const fetchId = fetchRef.current;
             setOptions([]);
@@ -58,10 +59,10 @@ function DebounceSelect<
                 showArrow={false}
                 defaultActiveFirstOption={false}
                 notFoundContent={fetching ? <Spin size="small" /> : null}
-                {...props}
+                {...otherProps}
                 options={options}
             />
-            <Button type='primary' onClick={props.onAdd} disabled={fetching}>添加</Button>
+            <Button type='primary' onClick={onAdd} disabled={fetching}>添加</Button>
         </div>
     );
 }
