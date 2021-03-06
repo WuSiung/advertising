@@ -12,6 +12,7 @@ const Version = () => {
     ]
     return <Card>
         <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+        <div className={styles.time}>2021-03-06 18:30</div>
         <div className={styles.detail}>
             <ol>
                 {
