@@ -8,6 +8,7 @@ const Version = () => {
     const versionDetail: string[] = [
         '新增版本说明页面',
         '新增素材绑定标签，查看所有标签',
+        '通过已有广告创建广告',
         '新增相关页面标题及说明'
     ]
     return <Card>
