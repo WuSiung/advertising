@@ -47,7 +47,8 @@ export interface PreviewAdvType {
     facebookSetting?: SaveFacebookSettingType,
     setName?: string,
     advName?: string,
-    campaignName?: string
+    campaignName?: string,
+    advId?: number
 }
 
 export interface SaveFacebookSettingType {
