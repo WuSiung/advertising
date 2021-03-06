@@ -1,11 +1,14 @@
+import { showConfirm } from '@/components/Confrim'
 import Loading from '@/components/Loading'
 import { postOneTextsToWorkbench } from '@/pages/adv-launcher/workbench/service'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
-import { deletResource } from '../../service'
+import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data'
+import { addTag, deletResource, delTag, getAllTag, getSouceTag } from '../../service'
 import MaterialBox from '../Box'
+import EditTag from '../EditTag'
 import PublicHeader from '../PublicHeader'
 
 import styles from './index.less'
@@ -33,6 +36,9 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const [textModelVisible, setTextModelVisible] = useState(false)
     const [textSort, setTextSort] = useState('Default')
     const [textFilter, setTextFilter] = useState('All')
+    const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
+    const [tagVisible, setTagVisible] = useState(false)
+    const [tagName, setTagName] = useState('')
 
     useEffect(() => {
         if (userInfo?.userId) {
@@ -114,14 +120,73 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
         })
     }
 
+    const handleAiLib = () => {
+        getAllTag().then(res => {
+            setTagName('')
+            setTagParams({ id: 'all', tagList: res.value })
+            setTagVisible(true)
+        })
+    }
+
+    const editTag = (i: number) => {
+        let editInfo = textList[i]
+        setTagParams({ id: editInfo.id, tagList: editInfo.tags })
+        setTagVisible(true)
+    }
+
+    const editTagOk = async () => {
+        if (tagParams.id == 'all') {
+            message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
+            return
+        } else {
+            const flag = tagParams.tagList.some(tag => tagName == tag.name)
+            if (flag) {
+                message.warning('标签已存在，请重新输入')
+                return
+            }
+        }
+        await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })
+        setTagName('')
+        updateTag()
+        message.success('添加成功')
+    }
+
+    const deleteTag = async (id: string) => {
+        showConfirm({ onOk: delTag.bind(null, id) }).then(() => { message.success('删除成功'); updateTag() })
+    }
+
+    const updateTag = () => {
+        getSouceTag(tagParams.id).then(res => {
+            setTagParams({ ...tagParams, tagList: res.value.tags })
+            const setTextList = textList.map(text => {
+                if (text.id == tagParams.id) {
+                    text.tags = res.value.tags
+                }
+                return text
+            })
+            dispatch({
+                type: 'material/saveTexts',
+                payload: { textList: setTextList }
+            })
+        })
+    }
+
+    const changeSearch = (v: string, o: any) => {
+        if (tagParams.id == 'all') {
+            message.warning('请不要重复添加噢~')
+        } else {
+            setTagName(v)
+        }
+    }
+
     return <div>
-        <PublicHeader onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} onSort={setTextSort} onSource={setTextFilter}
+        <PublicHeader onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib}
             onUploadText={submitTexts} uploading={textUploading} openText={setTextModelVisible} textVisible={textModelVisible} onChangeDate={setFilterDate} />
         <Spin spinning={!!textGetLoading}>
             <div className={`${styles.mediaContent} ${styles.textList}`} onScroll={scrollText} ref={textRef}>
                 {
-                    textList.map((media, i) => {
-                        return <MaterialBox {...media} key={media.id} index={i} type='text' onDelete={deleteText} onClick={checkText} />
+                    textList.map((text, i) => {
+                        return <MaterialBox {...text} key={text.id} index={i} type='text' onDelete={deleteText} onClick={checkText} onEdit={editTag} />
                     })
                 }
             </div>
@@ -129,6 +194,8 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
         {
             textToWorkbenchLoading && <Loading showMask tips='上传中，请稍后...' />
         }
+        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk}
+            onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
     </div>
 }
 
