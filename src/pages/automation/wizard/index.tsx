@@ -1,4 +1,4 @@
-import React, {FC, useState, useRef} from 'react';
+import React, {FC, useState} from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import {Button, Card, Col, Row, Select, Slider, Space, Table} from 'antd';
 import Title from './components/title';
@@ -6,6 +6,10 @@ import Step1 from './components/step1';
 import styles from "@/pages/dashboard/index.less";
 import SurfAds from "@/pages/automation/wizard/components/step2/surf-ads";
 import SurfCampaign from "@/pages/automation/wizard/components/step2/surf-campaign";
+import StopLossAdvSet from "@/pages/automation/wizard/components/step2/stoploss/advset";
+import StopLossAdvAdv from "@/pages/automation/wizard/components/step2/stoploss/advadv";
+import ReviveAdvSet from "@/pages/automation/wizard/components/step2/revive/advset";
+import ReviveAdvAdv from "@/pages/automation/wizard/components/step2/revive/advadv";
 
 
 const { Option } = Select;
@@ -73,6 +77,10 @@ const Wizard: FC<WizardProps> = (props) => {
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
         {tactic === 'surfCampaign' && <SurfCampaign ref={childRef} step={current}></SurfCampaign>}
         {tactic === 'surfAds' && <SurfAds ref={childRef} step={current}></SurfAds>}
+        {tactic === 'stopLossAds' && <StopLossAdvSet step={current}></StopLossAdvSet>}
+        {tactic === 'stopLossAd' && <StopLossAdvAdv step={current}></StopLossAdvAdv>}
+        {tactic === 'reviveAds' && <ReviveAdvSet step={current}></ReviveAdvSet>}
+        {tactic === 'reviveAd' && <ReviveAdvAdv step={current}></ReviveAdvAdv>}
       </Card>
     </PageContainer>
   )

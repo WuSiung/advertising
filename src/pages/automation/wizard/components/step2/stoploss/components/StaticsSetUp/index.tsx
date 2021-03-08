@@ -11,7 +11,7 @@ import {
 import React, {FC, useState} from 'react'
 import styles from './index.less';
 
-interface StaticsItemValueType{
+export interface StaticsItemValueType{
     staticMetricValue?:number;
     value?:number;
     lastDays?:string|number;
@@ -95,6 +95,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
 
 interface StaticsSetUpProps{
   staticsIdx:number,
+  setStaticsIdx:(value:number)=>void,
   title:string,
   installsValue?:number,
   installfeeValue?:StaticsItemValueType,
@@ -105,6 +106,7 @@ interface StaticsSetUpProps{
 }
 
 const StaticsSetUp: FC<StaticsSetUpProps> = (props) => {
+  const { staticsIdx } = props;
   const statics: { node: JSX.Element; field: string; label: string }[] = [{
     field: "installs",
     label: "移动应用安装数",
@@ -122,14 +124,13 @@ const StaticsSetUp: FC<StaticsSetUpProps> = (props) => {
 
     }
   ]
-  const [staticsIdx,setStaticsIdx]= useState<number>(0);
   return (<>
     <Card
       title={props.title}
       className={styles.tacticsSetUp}
     >
-      <div>如果<span className="em">点击次数</span>是 小于<span className="em">1</span>且<span className="em">支出</span>大于<span
-        className="em">US$ 50 2个</span>&nbsp;&nbsp;<Button type="link"></Button></div>
+      <div>如果<span className="em">{statics[staticsIdx].label}</span>是 小于<span className="em">{props.installsValue}</span>且<span className="em">支出</span>大于<span
+        className="em">US${props.spendFeeValue?.staticMetricValue}</span>&nbsp;&nbsp;<Button type="link"></Button></div>
       <div style={{marginTop:"20px"}}><Space>
         <svg className="icon"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1470">
@@ -138,11 +139,11 @@ const StaticsSetUp: FC<StaticsSetUpProps> = (props) => {
             p-id="1471"></path>
         </svg>
         <Select onChange={(value)=>{
-          setStaticsIdx(statics.findIndex(item=>item.field===value));
-        }} defaultValue="installs" style={{width: 160}}>
+          props.setStaticsIdx(statics.findIndex(item=>item.field===value));
+        }} defaultValue={statics[staticsIdx].label} style={{width: 160}}>
           {
             statics.map(item=>{
-              return <Select.Option value={item.field}>
+              return <Select.Option key={item.field} value={item.field}>
                 {
                   item.label
                 }
@@ -151,7 +152,7 @@ const StaticsSetUp: FC<StaticsSetUpProps> = (props) => {
           }
         </Select>
         &nbsp;
-        <Tag color="rgb(208 208 208)">&nbsp; &gt; &nbsp;</Tag>
+        <Tag color="rgb(208 208 208)">&nbsp; &gt;= &nbsp;</Tag>
         &nbsp;
         {statics[staticsIdx].node}
       </Space></div>
@@ -167,7 +168,7 @@ const StaticsSetUp: FC<StaticsSetUpProps> = (props) => {
             已花费金额
           </Tag>
           &nbsp;
-          <Tag color="rgb(208 208 208)">&nbsp; &gt; &nbsp;</Tag>
+          <Tag color="rgb(208 208 208)">&nbsp; &gt;= &nbsp;</Tag>
           &nbsp;
           <StaticsItem initValues={props.spendFeeValue}   onChange={(value)=>{
             props.onSpendFeeValueChange(value);
