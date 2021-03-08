@@ -8,7 +8,7 @@ import SvgRevive from "@/pages/automation/wizard/components/svg-revive";
 import TacticCard from "@/pages/automation/wizard/components/tactic-card";
 
 interface IStep1 {
-  onTactic: (tactic: string) => void;
+  onTactic: (tactic: string, level: number) => void;
 }
 
 const Step1: FC<IStep1> = (props) => {
@@ -18,6 +18,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
             <TacticCard
               tactic="surfAds"
+              level={1}
               icon={<SvgSurf fill="#7655c9" />}
               color="#7655c9"
               title="冲浪"
@@ -29,6 +30,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
           <TacticCard
             tactic="surfCampaign"
+            level={2}
             icon={<SvgSurf fill="#3d2870" />}
             color="#3d2870"
             title="冲浪"
@@ -40,6 +42,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
           <TacticCard
             tactic="stopLossAds"
+            level={1}
             icon={<SvgStopLoss fill="#7655c9" />}
             color="#7655c9"
             title="止损"
@@ -53,6 +56,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
           <TacticCard
             tactic="stopLossAd"
+            level={0}
             icon={<SvgStopLoss fill="#d964c5" />}
             color="#d964c5"
             title="止损"
@@ -64,6 +68,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
           <TacticCard
             tactic="reviveAds"
+            level={1}
             icon={<SvgRevive fill="#7655c9" />}
             color="#7655c9"
             title="复活"
@@ -75,6 +80,7 @@ const Step1: FC<IStep1> = (props) => {
         <Col span={8}>
           <TacticCard
             tactic="reviveAd"
+            level={0}
             icon={<SvgRevive fill="#d964c5" />}
             color="#d964c5"
             title="复活"

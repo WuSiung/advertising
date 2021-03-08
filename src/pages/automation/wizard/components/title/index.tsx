@@ -11,6 +11,7 @@ const { Step } = Steps;
 
 interface ITitle {
   current: number;
+  level: number; // 等级（广告，广告集，活动）
   tactic: string;
   handleClick: (step: number) => void;
 }
@@ -46,7 +47,11 @@ const Title: FC<ITitle> = (props) => {
       <Row justify="space-between">
         <Button disabled={ props.current <= 0 } onClick={() =>  props.handleClick(props.current - 1)}>{'< 后退'}</Button>
         { props.current === 0 && <h3>选择自动化策略</h3>}
-        <Button disabled={ !props.tactic || props.current >= steps.length - 1 } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>
+        { props.current === 1 && <h3>设置参数</h3>}
+        { props.current === 2 && props.level === 0 && <h3>请选择广告</h3>}
+        { props.current === 2 && props.level === 1 && <h3>请选择广告集</h3>}
+        { props.current === 2 && props.level === 2 && <h3>请选择活动</h3>}
+        <Button disabled={ !props.tactic } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>
       </Row>
       <Row style={{marginTop: 20}}>
         <Steps current={props.current}>

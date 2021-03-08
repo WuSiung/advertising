@@ -85,9 +85,9 @@ const Setting: FC<ISetting> = (props) => {
         <span>如果广告支出回报率（应用安装）</span>
         <SvgLine></SvgLine>
         <Space direction="vertical" size="large">
-          <Space><SvgGrid /><span>在。。。之间1.00x - 1.90x 广告系列预算将增加 30%.</span></Space>
-          <Space><SvgGrid /><span>在。。。之间1.00x - 1.90x 广告系列预算将增加 30%.</span></Space>
-          <Space><SvgGrid /><span>在。。。之间1.00x - 1.90x 广告系列预算将增加 30%.</span></Space>
+          <Space><SvgGrid /><span>在。。。之间 <Input style={{width: 100}} /> x - <Input style={{width: 100}} /> x 广告系列预算将增加 30%.</span></Space>
+          <Space><SvgGrid /><span>在。。。之间 <Input style={{width: 100}} /> x - <Input style={{width: 100}} /> x 广告系列预算将增加 30%.</span></Space>
+          <Space><SvgGrid /><span>在。。。之间 <Input style={{width: 100}} /> x - <Input style={{width: 100}} /> x 广告系列预算将增加 30%.</span></Space>
         </Space>
       </Space>
       </StepCard>

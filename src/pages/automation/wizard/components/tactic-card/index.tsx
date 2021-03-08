@@ -9,7 +9,8 @@ interface ITacticCard {
   subTitle: string;
   remark: string;
   tactic: string;
-  onSelected: (tactic: string) => void;
+  level: number;
+  onSelected: (tactic: string, level: number) => void;
 }
 
 const TacticCard: FC<ITacticCard> = (props) => {
@@ -19,7 +20,7 @@ const TacticCard: FC<ITacticCard> = (props) => {
       type="inner"
       style={{borderRight: border, height: 180, overflow: "hidden"}}
       hoverable={true}
-      onClick={() => {props.onSelected(props.tactic)}}
+      onClick={() => {props.onSelected(props.tactic, props.level)}}
     >
       <TacticCardHead
         icon={props.icon}
