@@ -77,10 +77,10 @@ const Wizard: FC<WizardProps> = (props) => {
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
         {tactic === 'surfCampaign' && <SurfCampaign ref={childRef} step={current}></SurfCampaign>}
         {tactic === 'surfAds' && <SurfAdSet ref={childRef} step={current}></SurfAdSet>}
-        {tactic === 'stopLossAds' && <StopLossAdvSet step={current}></StopLossAdvSet>}
-        {tactic === 'stopLossAd' && <StopLossAdvAdv step={current}></StopLossAdvAdv>}
-        {tactic === 'reviveAds' && <ReviveAdvSet step={current}></ReviveAdvSet>}
-        {tactic === 'reviveAd' && <ReviveAdvAdv step={current}></ReviveAdvAdv>}
+        {tactic === 'stopLossAds' && <StopLossAdvSet  ref={childRef} step={current}></StopLossAdvSet>}
+        {tactic === 'stopLossAd' && <StopLossAdvAdv  ref={childRef} step={current}></StopLossAdvAdv>}
+        {tactic === 'reviveAds' && <ReviveAdvSet  ref={childRef} step={current}></ReviveAdvSet>}
+        {tactic === 'reviveAd' && <ReviveAdvAdv  ref={childRef} step={current}></ReviveAdvAdv>}
       </Card>
     </PageContainer>
   )
