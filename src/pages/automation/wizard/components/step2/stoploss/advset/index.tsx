@@ -1,24 +1,25 @@
 import {
   Card,
-  Steps,
   TimePicker
 } from 'antd'
-import React, {FC, useState} from 'react'
-import {connect} from 'umi'
+import React, {FC, forwardRef, ForwardRefExoticComponent, useImperativeHandle, useState} from 'react'
 import {StaticsSetUp,StaticsItemValueType} from "../components/StaticsSetUp";
 import SettingHeadCard from "../../../setting-head-card"
 import SvgStopLoss,{SvgStopLossPicAds} from "../../../svg-stop-loss"
-interface StopLossAdvSetProps{
-  step:number
+import AdSetSelector from "@/pages/automation/wizard/components/step3/ad-set-selector";
+
+interface StopLossAdvSetProps {
+  step: number;
+  ref: React.MutableRefObject<any>
 }
 
-const StopLossAdvSet: FC<StopLossAdvSetProps> = (props) => {
+const Setting: FC<{}> = (props) => {
   const [staticsIdx,setStaticsIdx] = useState<number>(0);
   const [installsValue,setInstallsValue] = useState<number>();
   const [installfeeValue,setInstallfeeValue] = useState<StaticsItemValueType>({mertricType:2});
   const [spendFeeValue,setSpendFeeValue] = useState<StaticsItemValueType>({mertricType:2});
   return (<>
-   { <SettingHeadCard title="止损广告位" icon={<SvgStopLoss/>} pictrue={<SvgStopLossPicAds/>} subTitle="我们已经准备了止损策略，以适应渠道中的各种事件。选择您想要作为止损基础的事件，我们将为您推荐该事件的最佳预测止损指标，或者跳过此步骤并从头开始制定策略。" />}
+    { <SettingHeadCard title="止损广告位" icon={<SvgStopLoss/>} pictrue={<SvgStopLossPicAds/>} subTitle="我们已经准备了止损策略，以适应渠道中的各种事件。选择您想要作为止损基础的事件，我们将为您推荐该事件的最佳预测止损指标，或者跳过此步骤并从头开始制定策略。" />}
 
     <StaticsSetUp title="系统将触发止损并暂停广告集"
                   staticsIdx={staticsIdx}
@@ -49,17 +50,22 @@ const StopLossAdvSet: FC<StopLossAdvSetProps> = (props) => {
   </>);
 }
 
-export default connect(({stoploss, loading}: {
-  stoploss: any, loading:
-    {
-      effects: {
-        [key
-          :
-          string
-          ]:
-          boolean
-      }
+const StopLossAdvSet: ForwardRefExoticComponent<Pick<StopLossAdvSetProps,any>> = forwardRef((props, ref) => {
+  // console.log(props.step);
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      console.log('commit');
     }
-}) => ({
-  stoploss,
-}))(StopLossAdvSet)
+  }))
+  return (
+    <>
+      {props.step === 1 && <Setting />}
+      {props.step === 2 && <AdSetSelector />}
+    </>
+  )
+});
+
+
+
+
+export default StopLossAdvSet
