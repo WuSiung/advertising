@@ -1,18 +1,18 @@
 import {
   Card,
-  Steps,
   TimePicker
 } from 'antd'
-import React, {FC, useState} from 'react'
-import {connect} from 'umi'
+import React, {FC, forwardRef, ForwardRefExoticComponent, useImperativeHandle, useState} from 'react'
 import {StaticsSetUp,StaticsItemValueType} from "../components/StaticsSetUp";
 import SettingHeadCard from "../../../setting-head-card"
 import SvgStopLoss,{SvgStopLossPicAds} from "../../../svg-stop-loss"
+import AdSetSelector from "@/pages/automation/wizard/components/step3/ad-set-selector";
 interface StopLossAdvSetProps{
-  step:number
+  step:number;
+  ref: React.MutableRefObject<any>
 }
 
-const StopLossAdvAdv: FC<StopLossAdvSetProps> = (props) => {
+const Setting: FC<{}> = (props) => {
   const [staticsIdx,setStaticsIdx] = useState<number>(0);
   const [installsValue,setInstallsValue] = useState<number>();
   const [installfeeValue,setInstallfeeValue] = useState<StaticsItemValueType>({mertricType:2});
@@ -49,17 +49,20 @@ const StopLossAdvAdv: FC<StopLossAdvSetProps> = (props) => {
   </>);
 }
 
-export default connect(({stoploss, loading}: {
-  stoploss: any, loading:
-    {
-      effects: {
-        [key
-          :
-          string
-          ]:
-          boolean
-      }
+const StopLossAdvAdv: ForwardRefExoticComponent<Pick<StopLossAdvSetProps,any>> = forwardRef((props, ref) => {
+  // console.log(props.step);
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      console.log('commit');
     }
-}) => ({
-  stoploss,
-}))(StopLossAdvAdv)
+  }))
+  return (
+    <>
+      {props.step === 1 && <Setting />}
+      {props.step === 2 && <AdSetSelector />}
+    </>
+  )
+});
+
+
+export default StopLossAdvAdv
