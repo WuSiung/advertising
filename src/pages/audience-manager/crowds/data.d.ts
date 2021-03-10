@@ -1,4 +1,4 @@
-import type {AudienceModelDataType} from '../data'
+import type { AudienceModelDataType } from '../data'
 
 export interface TreeDataType {
     title: string,
@@ -6,7 +6,23 @@ export interface TreeDataType {
     children?: TreeDataType[]
 }
 
+export interface baseAudienceDataType {
+    audienceBaseId: number,
+    delFlag: string,
+    des: string,
+    name: string,
+    active?: boolean,
+    type: '0' | '1' | '2' | '3'
+}
 
-export interface CrowdStateType{
-    crowdsList: Array<AudienceModelDataType>
+
+export interface CrowdStateType {
+    customCrowd: Array<AudienceModelDataType>,
+    baseCrowd: Array<baseAudienceDataType>,
+    title: string,
+    allCrowds: {
+        custom: Array<AudienceModelDataType>,
+        base: Array<baseAudienceDataType>,
+    },
+    kinds: 'all' | 'custom' | 'base'
 }

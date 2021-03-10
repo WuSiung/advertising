@@ -6,3 +6,10 @@ export async function queryInterestList(params: any) {
         params: params
     })
 }
+
+export async function queryBaseCrowd(params: any) {
+    return request('/ads/advaudiencebase/page', {
+        method: 'get',
+        params: params
+    })
+}

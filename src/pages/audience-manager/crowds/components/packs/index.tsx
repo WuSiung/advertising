@@ -2,21 +2,27 @@ import { AudienceModelDataType } from '@/pages/audience-manager/data'
 import { Spin } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { connect, Dispatch, history } from 'umi'
-import { CrowdStateType } from '../../data'
+import { baseAudienceDataType, CrowdStateType } from '../../data'
 
 import styles from './index.less'
 
 interface PacksProps {
     title?: string,
-    crowdList: Array<AudienceModelDataType>,
+    customCrowd: Array<AudienceModelDataType>,
+    baseCrowd: Array<baseAudienceDataType>,
     dispatch: Dispatch,
-    toCreateType?: () => void
+    toCreateType?: () => void,
+    kinds: 'all' | 'custom' | 'base',
     loading: boolean
 }
 
 type OnePackProps = {
     onClick(id: number): void,
 } & AudienceModelDataType
+
+type basePackProps = {
+    onClick(id: number): void,
+} & baseAudienceDataType
 
 const Pack: FC<OnePackProps> = (props) => {
     let count: number = 0;
@@ -37,15 +43,16 @@ const Pack: FC<OnePackProps> = (props) => {
     </div>
 }
 
+const BasePack: FC<basePackProps> = (props) => {
+    return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audienceBaseId)}>
+        {props.name}
+    </div>
+}
+
+
 const Packs: FC<PacksProps> = (props) => {
-    const { title, crowdList, dispatch, loading, toCreateType } = props
-    useEffect(() => {
-        dispatch({
-            type: 'crowds/fetchCrowdsList',
-            payload: { size: 1000 }
-        })
-    }, [])
-    const newset = crowdList.slice(0, 5)
+    const { title, customCrowd, dispatch, loading, toCreateType, baseCrowd, kinds } = props
+    const newset = customCrowd.slice(0, 5)
 
     const toCreateCrowd = () => {
         if (toCreateType) {
@@ -56,7 +63,7 @@ const Packs: FC<PacksProps> = (props) => {
     }
 
     const choose = (id: number) => {
-        const newArr = crowdList.map(crowd => {
+        const newArr = customCrowd.map(crowd => {
             if (crowd.audId == id) {
                 if (crowd.active) {
                     crowd.active = false
@@ -67,8 +74,8 @@ const Packs: FC<PacksProps> = (props) => {
             return crowd
         })
         dispatch({
-            type: 'crowds/saveCrowdsList',
-            payload: { crowdsList: newArr }
+            type: 'crowds/saveCustomCrowd',
+            payload: { customCrowd: newArr }
         })
     }
     return <>
@@ -80,7 +87,7 @@ const Packs: FC<PacksProps> = (props) => {
                     <div className={styles.packList}>
                         <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
                             +
-                         <div className={styles.popover} style={{textAlign: 'center', fontSize: 16}}>
+                         <div className={styles.popover} style={{ textAlign: 'center', fontSize: 16 }}>
                                 点击前往创建新的人群包
                          </div>
                         </div>
@@ -91,16 +98,30 @@ const Packs: FC<PacksProps> = (props) => {
                         }
                     </div>
                 </div>
-                <div className={styles.packs}>
-                    <div className={styles.title}>人群包</div>
-                    <div className={styles.packList}>
-                        {
-                            crowdList.map(crowd => {
-                                return <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
-                            })
-                        }
+                {
+                    kinds != 'base' && <div className={styles.packs}>
+                        <div className={styles.title}>自定义人群包</div>
+                        <div className={styles.packList}>
+                            {
+                                customCrowd.map(crowd => {
+                                    return <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
+                                })
+                            }
+                        </div>
                     </div>
-                </div>
+                }
+                {
+                    kinds != 'custom' && <div className={styles.packs}>
+                        <div className={styles.title}>官方人群包</div>
+                        <div className={styles.packList}>
+                            {
+                                baseCrowd.map(crowd => {
+                                    return <BasePack {...crowd} key={crowd.name} onClick={choose}></BasePack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
             </div>
         </Spin>
     </>
@@ -111,6 +132,9 @@ Packs.defaultProps = {
 }
 
 export default connect(({ crowds, loading }: { crowds: CrowdStateType, loading: { effects: { [key: string]: boolean } } }) => ({
-    crowdList: crowds.crowdsList,
-    loading: loading.effects['crowds/fetchCrowdsList']
+    customCrowd: crowds.customCrowd,
+    baseCrowd: crowds.baseCrowd,
+    loading: loading.effects['crowds/fetchCrowdsList'],
+    title: crowds.title,
+    kinds: crowds.kinds
 }))(Packs)
