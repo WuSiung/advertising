@@ -3,11 +3,12 @@ import { Input, Tree } from 'antd'
 import { CrowdStateType, TreeDataType } from '../../data'
 import { DataNode, EventDataNode } from 'antd/lib/tree'
 import { connect, Dispatch } from 'umi'
+import { Key } from 'antd/lib/table/interface'
 
 interface FilterTreeProps {
     treeData?: Array<TreeDataType>,
     dispatch: Dispatch,
-    allCrowds: CrowdStateType['allCrowds'],
+    treeCheck: number[]
 }
 
 const mockTreeData: Array<TreeDataType> = [
@@ -36,52 +37,49 @@ const mockTreeData: Array<TreeDataType> = [
  * 树节点搜索代码可参考 
  * */
 const FilterTree: FC<FilterTreeProps> = (props) => {
-    const { dispatch, allCrowds } = props
+    const { dispatch, treeData, treeCheck } = props
 
     useEffect(() => {
         dispatch({
             type: 'crowds/fetchCrowdsList',
             payload: { size: 1000 }
         })
+        if (treeCheck.length <= 0) {
+            dispatch({
+                type: 'crowds/saveTreeCheck',
+                payload: { treeCheck: [1, 2, 11, 4, 5, 6, 7, 15, 16, 17] }
+            })
+        }
     }, [])
 
-    const selectTree = (selectedKeys: (string | number)[], info: {
-        event: "select";
-        selected: boolean;
+    const checkTree = (checked: React.ReactText[] | {
+        checked: React.ReactText[];
+        halfChecked: React.ReactText[];
+    }, info: {
+        event: 'check';
         node: EventDataNode;
-        selectedNodes: DataNode[];
+        checked: boolean;
         nativeEvent: MouseEvent;
+        checkedNodes: DataNode[];
+        checkedNodesPositions?: {
+            node: DataNode;
+            pos: string;
+        }[];
+        halfCheckedKeys?: Key[];
     }) => {
-        let kinds: 'all' | 'base' | 'custom' = 'all'
-        if (selectedKeys[0] == 1) {
-            kinds = 'all'
-        } else if (selectedKeys[0] > 10) { // 大于10是半成品包菜单栏
-            kinds = 'base'
-            const newArr = allCrowds.custom.map(crowd => {
-                console.log(crowd)
-            })
-        } else {
-            const newArr = allCrowds.custom.map(crowd => {
-                console.log(crowd)
-            })
-            kinds = 'custom'
-        }
-
         dispatch({
-            type: 'crowds/setKinds',
-            payload: { kinds }
-        })
-        dispatch({
-            type: 'crowds/setTitle',
-            payload: { title: info.node.title }
+            type: 'crowds/saveTreeCheck',
+            payload: { treeCheck: checked }
         })
     }
     return <>
         <Input.Search placeholder='搜索' style={{ marginBottom: 10 }} />
         <Tree
-            onSelect={selectTree}
+            checkable
+            defaultCheckedKeys={[1, 2, 11, 4, 5, 6, 7, 15, 16, 17]}
+            onCheck={checkTree}
             defaultExpandAll
-            treeData={props.treeData}
+            treeData={treeData}
         />
     </>
 }
@@ -92,6 +90,5 @@ FilterTree.defaultProps = {
 
 export default connect(({ crowds, loading }: { crowds: CrowdStateType, loading: { effects: { [key: string]: boolean } } }) => ({
     loading: loading.effects['crowds/fetchCrowdsList'],
-    title: crowds.title,
-    allCrowds: crowds.allCrowds
+    treeCheck: crowds.treeCheck
 }))(FilterTree)

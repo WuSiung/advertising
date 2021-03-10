@@ -12,9 +12,7 @@ export interface ManagerModelType {
     reducers: {
         saveCustomCrowd: Reducer<CrowdStateType['customCrowd']>,
         saveBaseCrowd: Reducer<CrowdStateType['baseCrowd']>,
-        setTitle: Reducer<CrowdStateType>,
-        saveAllCrowd: Reducer<CrowdStateType['allCrowds']>,
-        setKinds: Reducer<CrowdStateType>,
+        saveTreeCheck: Reducer<CrowdStateType>,
     }
 }
 
@@ -23,12 +21,7 @@ const CrowdsModel: ManagerModelType = {
     state: {
         customCrowd: [],
         baseCrowd: [],
-        title: '全部',
-        allCrowds: {
-            custom: [],
-            base: [],
-        },
-        kinds: 'all'
+        treeCheck: []
     },
     effects: {
         *fetchCrowdsList({ payload }, { call, put }) {
@@ -42,10 +35,6 @@ const CrowdsModel: ManagerModelType = {
                 type: 'saveBaseCrowd',
                 payload: { baseCrowd: baseRes.data.records }
             })
-            yield put({
-                type: 'saveAllCrowd',
-                payload: { allCrowds: { custom: res.data.records, base: baseRes.data.records } }
-            })
         }
     },
     reducers: {
@@ -55,15 +44,9 @@ const CrowdsModel: ManagerModelType = {
         saveBaseCrowd(state, { payload }) {
             return { ...state, ...payload }
         },
-        setTitle(state, { payload }) {
+        saveTreeCheck(state, { payload }) {
             return { ...state, ...payload }
-        },
-        saveAllCrowd(state, { payload }) {
-            return { ...state, ...payload }
-        },
-        setKinds(state, { payload }) {
-            return { ...state, ...payload }
-        },
+        }
 
     }
 }

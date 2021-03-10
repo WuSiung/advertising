@@ -4,7 +4,7 @@ export type TextDataType = {
     textId: number,
     title: string,
     data?: AdvDataType
-} 
+}
 
 export type ImgDataType = {
     fileId: string,
@@ -46,6 +46,7 @@ export interface PreviewAdvType {
     type?: number | string,
     checked?: boolean,
     audsInfo?: { audId: number; audName: string; }[],
+    bassInfo?: { audienceBaseId: number, type: '0' | '1' | '2' | '3' }[],
     facebookSetting?: SaveFacebookSettingType,
     setName?: string,
     advName?: string,
@@ -61,7 +62,10 @@ export interface SaveFacebookSettingType {
     market_type: string,
     position: string[],
     sex: number,
-    target_type: string
+    target_type: string,
+    retentionDays: number,
+    ratioStart: number,
+    ratioEnd: number
 }
 
 export interface TemplateDetailDataType {

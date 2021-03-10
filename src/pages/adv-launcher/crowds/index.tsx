@@ -4,7 +4,7 @@ import { Card, Button, message } from 'antd'
 import { AppInfo, connect, Dispatch, UserModelState } from 'umi'
 import Steps from '../components/Steps'
 import type { PreviewAdvType, WorkbenchDataType } from '../workbench/data'
-import type { CrowdStateType } from '@/pages/audience-manager/crowds/data'
+import type { baseAudienceDataType, CrowdStateType } from '@/pages/audience-manager/crowds/data'
 import type { AudienceModelDataType } from '@/pages/audience-manager/data'
 import RenderAdvs from '../components/RenderAdvs'
 import AudienceManager from '@/pages/audience-manager/manager'
@@ -13,13 +13,14 @@ import styles from './index.less'
 
 interface BindCrowdsProps {
     previewAdvs: PreviewAdvType[],
-    crowdsList: Array<AudienceModelDataType>,
+    baseCrowd: Array<baseAudienceDataType>,
+    customCrowd: Array<AudienceModelDataType>,
     appInfo?: AppInfo,
     dispatch: Dispatch
 }
 
 const BindCrowds: FC<BindCrowdsProps> = (props) => {
-    const { previewAdvs, crowdsList, dispatch } = props
+    const { previewAdvs, baseCrowd, customCrowd, dispatch } = props
     const [showType, setShowType] = useState(false)
     // 是否全选了
     let isCheckAll = previewAdvs.every(adv => adv.checked);
@@ -39,7 +40,8 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         } else {
             editAdvs.map((adv, advIndex) => {
                 if (i == advIndex) {
-                    setCrowds(dispatch, adv.audsInfo, crowdsList)
+                    setCrowds(dispatch, adv.audsInfo, customCrowd)
+                    setBaseCrowds(dispatch, adv.bassInfo, baseCrowd)
                     editAdvs[i].checked = true;
                 } else {
                     editAdvs[advIndex].checked = false
@@ -66,8 +68,9 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         setAdvs(dispatch, editAdvs)
     }
     const saveCrowd = () => {
-        const crowdIds = crowdsList.filter(crowd => { return crowd.active }).map(item => { return { audId: item.audId, audName: item.audName } })
-        if (crowdIds.length <= 0) {
+        const crowdIds = customCrowd.filter(crowd => { return crowd.active }).map(item => { return { audId: item.audId, audName: item.audName } })
+        const baseCrowds = baseCrowd.filter(crowd => { return crowd.active }).map(item => { return { audienceBaseId: item.audienceBaseId, type: item.type } })
+        if (crowdIds.length <= 0 && baseCrowds.length <= 0) {
             message.warning('请选择人群包')
             return
         }
@@ -81,6 +84,7 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         editAdvs = editAdvs.map((adv, index) => {
             if (adv.checked) {
                 adv.audsInfo = crowdIds;
+                adv.bassInfo = baseCrowds;
                 adv.checked = false;
                 autoNextIndex = index + 1
             }
@@ -90,6 +94,7 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         if (autoNextIndex < editAdvs.length) {
             editAdvs[autoNextIndex].checked = true
         }
+        console.log(editAdvs)
         setAdvs(dispatch, editAdvs)
         message.success('保存成功啦~')
     }
@@ -117,12 +122,12 @@ const setAdvs = (dispatch: Dispatch, params: PreviewAdvType[]) => {
 }
 
 
-const setCrowds = (dispatch: Dispatch, auds: { audId: number; audName: string }[] | undefined, crowdsList: Array<AudienceModelDataType>) => {
+const setCrowds = (dispatch: Dispatch, auds: { audId: number; audName: string }[] | undefined, customCrowd: Array<AudienceModelDataType>) => {
     auds = auds || []
     let newAuds = auds.map(aud => {
         return aud.audId
     })
-    const newCrowds = crowdsList.map(crowd => {
+    const newCrowds = customCrowd.map(crowd => {
         if (newAuds.includes(crowd.audId)) {
             crowd.active = true
         } else {
@@ -132,12 +137,32 @@ const setCrowds = (dispatch: Dispatch, auds: { audId: number; audName: string }[
     })
     dispatch({
         type: 'crowds/saveCrowdsList',
-        payload: { crowdsList: JSON.parse(JSON.stringify(newCrowds)) }
+        payload: { customCrowd: JSON.parse(JSON.stringify(newCrowds)) }
+    })
+}
+
+const setBaseCrowds = (dispatch: Dispatch, auds: { audienceBaseId: number; type: "0" | "1" | "2" | "3"; }[] | undefined, baseCrowd: Array<baseAudienceDataType>) => {
+    auds = auds || []
+    let newAuds = auds.map(aud => {
+        return aud.audienceBaseId
+    })
+    const newCrowds = baseCrowd.map(crowd => {
+        if (newAuds.includes(crowd.audienceBaseId)) {
+            crowd.active = true
+        } else {
+            crowd.active = false
+        }
+        return crowd
+    })
+    dispatch({
+        type: 'crowds/saveBaseCrowd',
+        payload: { baseCrowd: JSON.parse(JSON.stringify(newCrowds)) }
     })
 }
 
 export default connect(({ crowds, workbench, user }: { crowds: CrowdStateType, workbench: WorkbenchDataType, user: UserModelState }) => ({
     previewAdvs: workbench.previewAdvs,
-    crowdsList: crowds.crowdsList,
+    customCrowd: crowds.customCrowd,
+    baseCrowd: crowds.baseCrowd,
     appInfo: user.appInfo
 }))(BindCrowds)

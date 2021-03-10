@@ -12,6 +12,6 @@ export interface AudienceModelDataType {
     audId: number,
     audName: string,
     active?: boolean,
-    stype: number,
+    stype: number | string,
     advAudLoveList: Array<ModelListLoveType>
 }
