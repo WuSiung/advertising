@@ -15,14 +15,14 @@ export interface baseAudienceDataType {
     type: '0' | '1' | '2' | '3'
 }
 
+export interface AllCrowdsType {
+    custom: Array<AudienceModelDataType>,
+    base: Array<baseAudienceDataType>,
+}
+
 
 export interface CrowdStateType {
     customCrowd: Array<AudienceModelDataType>,
     baseCrowd: Array<baseAudienceDataType>,
-    title: string,
-    allCrowds: {
-        custom: Array<AudienceModelDataType>,
-        base: Array<baseAudienceDataType>,
-    },
-    kinds: 'all' | 'custom' | 'base'
+    treeCheck: number[]
 }

@@ -34,10 +34,29 @@ const RenderFacebookBox: FC<RenderFacebookBoxProps> = (props) => {
 
 const SetFacebook: FC<SetFacebookProps> = (props) => {
     const { dispatch, previewAdvs, compaignParams, targetList, countryList, marketList } = props
-    // 是否全选了
-    let isCheckAll = previewAdvs.every(adv => adv.checked);
-    let checkCount = 0
-    let isFinished = previewAdvs.every(adv => { if (adv.checked) { checkCount++ } return adv.facebookSetting });
+
+    let count = 0;
+    let setCount = 0;
+    let isCheckAll: boolean = false;// 是否全选了
+    let isFinished: boolean = false;// 是否设置完成
+    let isNeedSetCrowd: boolean = false;// 是否需要设置相似度和新近度
+    previewAdvs.map(adv => {
+        if (adv.checked) {
+            count++
+        }
+        if (adv.checked && adv.bassInfo?.length) {
+            isNeedSetCrowd = true
+        }
+        if (adv.facebookSetting) {
+            setCount++
+        }
+        if (count == previewAdvs.length) {
+            isCheckAll = true
+        }
+        if (setCount == previewAdvs.length) {
+            isFinished = true
+        }
+    })
 
     const [spendNum, setSpendNum] = useState<string>('')
     const [defaultTarget, setTarget] = useState<TargetType>(targetList[0]);
@@ -47,6 +66,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
     const [defaultPosition, setPosition] = useState<string[]>(advPosition.map(position => position.label))
     const [includeArea, setIncludeArea] = useState<string[]>([])
     const [excludeArea, setExcludeArea] = useState<string[]>([])
+    const [newProcess, setNewProcess] = useState<number>(1)
 
     useEffect(() => {
         dispatch({ type: 'facebook/fetchCountry' })
@@ -63,6 +83,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         setSex(params.sex)
         setIncludeArea(params.include)
         setExcludeArea(params.exclude)
+        setNewProcess(params.retentionDays)
     }
 
     const checkAdv = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, i: number) => {
@@ -133,6 +154,16 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         setExcludeArea(newExclude)
     }
 
+    const setCrowdsDay = (value: string) => {
+        if (Number(value) > 365) {
+            setNewProcess(365)
+        } else if (Number(value) < 1) {
+            setNewProcess(1)
+        } else {
+            setNewProcess(Number(value))
+        }
+    }
+
     const saveFacebook = () => {
         let params: SaveFacebookSettingType = {
             age: defaultAge,
@@ -142,7 +173,10 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
             market_type: defaultMarket?.value || '',
             position: defaultPosition || [],
             sex: defaultSex,
-            target_type: defaultTarget?.value || ''
+            target_type: defaultTarget?.value || '',
+            retentionDays: newProcess,
+            ratioStart: 0.0,
+            ratioEnd: 0.0
         }
         // 检测数据完整性
         if (params.budget == '' && !Boolean(compaignParams.budget)) {
@@ -196,13 +230,23 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
             onCheckAll={checkAll} type='facebook'></RenderAdvs>
         <div className={styles.setting}>
             <div className={styles.tips}>
-                <div className={styles.name}>Facebook流量<span>选中 {checkCount}</span></div>
+                <div className={styles.name}>Facebook流量<span>选中 {count}</span></div>
                 <Button type='primary' onClick={saveFacebook}>保存更改</Button>
             </div>
             <div className={styles.settingls}>
                 {
                     compaignParams.budget == 0 && <RenderFacebookBox title='广告集预算设置'>
                         <Input placeholder='请输入预算' value={spendNum} onChange={e => setSpendNum(e.target.value)}></Input>
+                    </RenderFacebookBox>
+                }
+                {
+                    isNeedSetCrowd && <RenderFacebookBox title='新近度设置'>
+                        <Input style={{marginBottom: 10}} placeholder='请输入新近度(1-365天)' type='number' value={newProcess} onChange={e => setCrowdsDay(e.target.value)}></Input>
+                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(30)}>30天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(60)}>60天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(90)}>90天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(180)}>180天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(360)}>360天</Tag>
                     </RenderFacebookBox>
                 }
                 <RenderFacebookBox title='选择转换类型'>

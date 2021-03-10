@@ -7,12 +7,11 @@ import { baseAudienceDataType, CrowdStateType } from '../../data'
 import styles from './index.less'
 
 interface PacksProps {
-    title?: string,
     customCrowd: Array<AudienceModelDataType>,
     baseCrowd: Array<baseAudienceDataType>,
     dispatch: Dispatch,
     toCreateType?: () => void,
-    kinds: 'all' | 'custom' | 'base',
+    treeCheck: number[],
     loading: boolean
 }
 
@@ -51,7 +50,7 @@ const BasePack: FC<basePackProps> = (props) => {
 
 
 const Packs: FC<PacksProps> = (props) => {
-    const { title, customCrowd, dispatch, loading, toCreateType, baseCrowd, kinds } = props
+    const { customCrowd, dispatch, loading, toCreateType, baseCrowd, treeCheck } = props
     const newset = customCrowd.slice(0, 5)
 
     const toCreateCrowd = () => {
@@ -64,59 +63,129 @@ const Packs: FC<PacksProps> = (props) => {
 
     const choose = (id: number) => {
         const newArr = customCrowd.map(crowd => {
-            if (crowd.audId == id) {
-                if (crowd.active) {
-                    crowd.active = false
+            let cloneObj: AudienceModelDataType = JSON.parse(JSON.stringify(crowd))
+            if (cloneObj.audId == id) {
+                if (cloneObj.active) {
+                    cloneObj.active = false
                 } else {
-                    crowd.active = true
+                    cloneObj.active = true
                 }
             }
-            return crowd
+            return cloneObj
         })
         dispatch({
-            type: 'crowds/saveCustomCrowd',
+            type: 'crowds/saveBaseCrowd',
             payload: { customCrowd: newArr }
         })
     }
+    const chooseBase = (id: number) => {
+        const newArr = baseCrowd.map(crowd => {
+            let cloneObj = JSON.parse(JSON.stringify(crowd))
+            if (cloneObj.audienceBaseId == id) {
+                if (cloneObj.active) {
+                    cloneObj.active = false
+                } else {
+                    cloneObj.active = true
+                }
+            }
+            return cloneObj
+        })
+        dispatch({
+            type: 'crowds/saveCustomCrowd',
+            payload: { baseCrowd: newArr }
+        })
+    }
     return <>
-        <div className={styles.navname}>{title}</div>
+        <div className={styles.navname}>全部</div>
         <Spin spinning={loading}>
             <div className={styles.crowdPack}>
-                <div className={styles.packs}>
-                    <div className={styles.title}>最新人群包</div>
-                    <div className={styles.packList}>
-                        <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
-                            +
-                         <div className={styles.popover} style={{ textAlign: 'center', fontSize: 16 }}>
-                                点击前往创建新的人群包
-                         </div>
-                        </div>
-                        {
-                            newset.map((crowd, index) => {
-                                return <Pack {...crowd} key={crowd.audId} onClick={() => choose(crowd.audId)}></Pack>
-                            })
-                        }
-                    </div>
-                </div>
                 {
-                    kinds != 'base' && <div className={styles.packs}>
-                        <div className={styles.title}>自定义人群包</div>
+                    treeCheck.includes(4) && newset.length > 0 && <div className={styles.packs}>
+                        <div className={styles.title}>最新人群包</div>
+                        <div className={styles.packList}>
+                            <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
+                                +
+                         <div className={styles.popover} style={{ textAlign: 'center', fontSize: 16 }}>
+                                    点击前往创建新的人群包
+                         </div>
+                            </div>
+                            {
+                                newset.map((crowd, index) => {
+                                    return <Pack {...crowd} key={crowd.audId} onClick={() => choose(crowd.audId)}></Pack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+                <div className={styles.navname}>自定义</div>
+                {
+                    treeCheck.includes(5) && customCrowd.length > 0 && <div className={styles.packs}>
+                        <div className={styles.title}>兴趣人群包</div>
                         <div className={styles.packList}>
                             {
                                 customCrowd.map(crowd => {
-                                    return <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
+                                    return crowd.stype == '1' && <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
                                 })
                             }
                         </div>
                     </div>
                 }
                 {
-                    kinds != 'custom' && <div className={styles.packs}>
-                        <div className={styles.title}>官方人群包</div>
+                    treeCheck.includes(6) && customCrowd.length > 0 && <div className={styles.packs}>
+                        <div className={styles.title}>自定义人群包</div>
+                        <div className={styles.packList}>
+                            {
+                                customCrowd.map(crowd => {
+                                    return crowd.stype == '2' && <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+                {
+                    treeCheck.includes(7) && customCrowd.length > 0 && <div className={styles.packs}>
+                        <div className={styles.title}>混合人群包</div>
+                        <div className={styles.packList}>
+                            {
+                                customCrowd.map(crowd => {
+                                    return crowd.stype == '0' && <Pack {...crowd} key={crowd.audId} onClick={choose}></Pack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+                <div className={styles.navname}>官方包</div>
+                {
+                    treeCheck.includes(15) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                        <div className={styles.title}>重新定位</div>
                         <div className={styles.packList}>
                             {
                                 baseCrowd.map(crowd => {
-                                    return <BasePack {...crowd} key={crowd.name} onClick={choose}></BasePack>
+                                    return crowd.type == '2' && <BasePack {...crowd} key={crowd.name} onClick={chooseBase}></BasePack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+                {
+                    treeCheck.includes(16) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                        <div className={styles.title}>重新参与</div>
+                        <div className={styles.packList}>
+                            {
+                                baseCrowd.map(crowd => {
+                                    return crowd.type == '1' && <BasePack {...crowd} key={crowd.name} onClick={chooseBase}></BasePack>
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+                {
+                    treeCheck.includes(17) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                        <div className={styles.title}>保留</div>
+                        <div className={styles.packList}>
+                            {
+                                baseCrowd.map(crowd => {
+                                    return crowd.type == '3' && <BasePack {...crowd} key={crowd.name} onClick={chooseBase}></BasePack>
                                 })
                             }
                         </div>
@@ -127,14 +196,9 @@ const Packs: FC<PacksProps> = (props) => {
     </>
 }
 
-Packs.defaultProps = {
-    title: '自定义'
-}
-
 export default connect(({ crowds, loading }: { crowds: CrowdStateType, loading: { effects: { [key: string]: boolean } } }) => ({
     customCrowd: crowds.customCrowd,
     baseCrowd: crowds.baseCrowd,
     loading: loading.effects['crowds/fetchCrowdsList'],
-    title: crowds.title,
-    kinds: crowds.kinds
+    treeCheck: crowds.treeCheck
 }))(Packs)
