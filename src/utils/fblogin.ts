@@ -12,7 +12,7 @@ async function loadFbSDK(d: Document, s: string, id: string) {
     fjs.parentNode?.insertBefore(js, fjs);
 }
 async function initFacebook() {
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
             appId: '1671575193015707',
             version: 'v9.0',
@@ -30,7 +30,7 @@ async function loadAndInitFB() {
 }
 
 async function logInWithFacebook() {
-    return new Promise((resolve: (value: fb.StatusResponse)=> void, reject) => {
+    return new Promise((resolve: (value: fb.StatusResponse) => void, reject) => {
         try {
             FB.login((res: fb.StatusResponse) => {
                 if (res.authResponse) {
@@ -41,7 +41,7 @@ async function logInWithFacebook() {
             }, {
                 scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups',
             })
-            
+
         } catch (err) {
             notification.error({
                 message: `Facebook插件加载失败`,
