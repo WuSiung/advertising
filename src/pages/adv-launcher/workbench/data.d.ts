@@ -2,16 +2,18 @@ export type TextDataType = {
     content: string,
     md5: number | string,
     textId: number,
-    title: string
-} & AdvDataType
+    title: string,
+    data?: AdvDataType
+} 
 
 export type ImgDataType = {
     fileId: string,
     imgId: number,
     type: string | number,
     url: string,
-    url2: string
-} & AdvDataType
+    url2: string,
+    data?: AdvDataType
+}
 
 export interface PostMediaDataType {
     id: string,
@@ -70,8 +72,9 @@ export interface TemplateDetailDataType {
 
 export type HasAdvs = {
     ads: number,
-    total: number
-} & AdvDataType
+    total: number,
+    data?: AdvDataType
+}
 
 export interface WorkbenchDataType {
     uploadImgList: ImgDataType[],
