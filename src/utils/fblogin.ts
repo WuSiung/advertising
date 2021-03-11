@@ -39,7 +39,7 @@ async function logInWithFacebook() {
                     reject("")
                 }
             }, {
-                scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups,pages_manage_engagement,read_insights',
+                scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups,pages_manage_engagement,read_insights,instagram_basic,instagram_content_publish,instagram_manage_comments,instagram_manage_insights,attribution_read,email,leads_retrieval,pages_manage_ads,pages_manage_metadata,pages_read_user_content,pages_show_list,public_profile',
             })
 
         } catch (err) {
