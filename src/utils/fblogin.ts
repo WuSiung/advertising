@@ -51,5 +51,17 @@ async function logInWithFacebook() {
     })
 }
 
+async function getFbAccounts() {
+    FB.api(
+        '/me/adaccounts',
+        'GET',
+        {},
+        function (response) {
+            console.log(response)
+            // Insert your code here
+        }
+    )
+}
+
 export default logInWithFacebook
-export { loadAndInitFB }
+export { loadAndInitFB, getFbAccounts }

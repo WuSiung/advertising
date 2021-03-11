@@ -96,7 +96,7 @@ const Packs: FC<PacksProps> = (props) => {
         })
     }
     return <>
-        <div className={styles.navname}>全部</div>
+        {/* <div className={styles.navname}>全部</div> */}
         <Spin spinning={loading}>
             <div className={styles.crowdPack}>
                 {
@@ -117,7 +117,7 @@ const Packs: FC<PacksProps> = (props) => {
                         </div>
                     </div>
                 }
-                <div className={styles.navname}>自定义</div>
+                {/* <div className={styles.navname}>自定义</div> */}
                 {
                     treeCheck.includes(5) && customCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>兴趣人群包</div>
@@ -154,9 +154,9 @@ const Packs: FC<PacksProps> = (props) => {
                         </div>
                     </div>
                 }
-                <div className={styles.navname}>官方包</div>
+                {/* <div className={styles.navname}>官方包</div> */}
                 {
-                    treeCheck.includes(15) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                    treeCheck.includes(15) && baseCrowd.some(crowd => crowd.type == '2')  && baseCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>重新定位</div>
                         <div className={styles.packList}>
                             {
@@ -168,7 +168,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(16) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                    treeCheck.includes(16) && baseCrowd.some(crowd => crowd.type == '1') && baseCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>重新参与</div>
                         <div className={styles.packList}>
                             {
@@ -180,7 +180,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(17) && baseCrowd.length > 0 &&<div className={styles.packs}>
+                    treeCheck.includes(17) && baseCrowd.some(crowd => crowd.type == '3')  && baseCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>保留</div>
                         <div className={styles.packList}>
                             {

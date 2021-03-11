@@ -1,6 +1,6 @@
 import countryData from 'country-codes-list'
 
-interface CountryType{
+export interface CountryType{
     code: string,
     value: string
 }
