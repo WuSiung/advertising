@@ -1,6 +1,7 @@
 import { Card, Button, Empty, Modal, Image, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
 import DateRange from '../components/DateRange';
+import moment from 'moment';
 import { AdvPreview } from "../components/AdvPreview";
 import { allCountry } from '@/utils/countrys'
 
@@ -54,7 +55,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
             type: 'advertising/fetchAdvList',
             payload: {
                 current: 1,
-                size: pageSize
+                size: pageSize,
+                start: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
+                startT: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
+                end: moment().format('YYYY-MM-DD'),
+                endT: moment().format('YYYY-MM-DD'),
             }
         });
     }, [])
@@ -120,6 +125,24 @@ const Advertising: FC<AdvPropsType> = (props) => {
         } else {
             history.push('/advlauncher/compaign')
         }
+    }
+
+    const changeDate = (value: [string, string]) => {
+        setDate(value);
+        setDateT(value)
+        setPageIndex(1);
+        console.log(222)
+        dispatch({
+            type: 'advertising/fetchAdvList',
+            payload: {
+                current: 1,
+                start: value[0],
+                startT: value[0],
+                end: value[1],
+                endT: value[1],
+                size: pageSize
+            }
+        });
     }
 
     return (
@@ -194,7 +217,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;最小花费 :&nbsp;
                             <Space><InputNumber defaultValue={0} /><Button type="primary">确定</Button></Space>
-                            <Button style={{marginLeft: 10}} type='primary' onClick={toCompaign}>创建广告</Button>
+                            <Button style={{ marginLeft: 10 }} type='primary' onClick={toCompaign}>创建广告</Button>
                         </div>
                     </Col>
                     <Col xxl={12} span={24}>
@@ -308,32 +331,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             </div>} trigger="click">
                                 <Button type="link">筛选器</Button>
                             </Popover>
-                            <span className={styles.date}>发布范围筛选： <DateRange onChange={(dateStr) => {
-                                setDate(dateStr);
-                                setPageIndex(1);
-                                dispatch({
-                                    type: 'advertising/fetchAdvList',
-                                    payload: {
-                                        current: 1,
-                                        start: dateStr[0],
-                                        end: dateStr[1],
-                                        size: pageSize
-                                    }
-                                });
-                            }} /></span>
-                            <span className={styles.date}>统计数据过滤： <DateRange onChange={(dateStr) => {
-                                setDateT(dateStr);
-                                setPageIndex(1);
-                                dispatch({
-                                    type: 'advertising/fetchAdvList',
-                                    payload: {
-                                        current: 1,
-                                        startT: dateStr[0],
-                                        endT: dateStr[1],
-                                        size: pageSize
-                                    }
-                                });
-                            }} /></span>
+                            <span className={styles.date}><DateRange onChange={changeDate} defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]} /></span>
                         </div>
                     </Col>
                 </Row>
