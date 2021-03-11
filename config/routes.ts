@@ -112,12 +112,6 @@
                 component: './adv-manager',
               },
               {
-                path: '/automation',
-                name: 'automation',
-                icon: 'AlertOutlined',
-                component: './automation',
-              },
-              {
                 path: '/audience',
                 name: 'audience',
                 icon: 'TeamOutlined',
