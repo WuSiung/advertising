@@ -12,10 +12,10 @@ import React, {FC, useState} from 'react'
 import styles from './index.less';
 
 export interface StaticsItemValueType{
-    staticMetricValue?:number;
-    value?:number;
-    lastDays?:string|number;
-    mertricType?:number;
+    staticMetricValue?:number;//静态指标值
+    value?:number;//动态指标值
+    lastDays?:string|number;//动态指标最近天数
+    mertricType?:number;//1选中静态指标,2选中动态指标
 }
 
 
