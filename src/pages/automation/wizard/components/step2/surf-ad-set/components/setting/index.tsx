@@ -14,6 +14,7 @@ import {TSurfadSetLevelAction} from "@/pages/automation/wizard/components/step2/
 const {Option} = Select;
 
 interface ISetting {
+  options: Record<string, string>;
   settingData?: TSurfadSetLevelAction;
   onChange: (payload: any) => void;
 };
@@ -21,12 +22,12 @@ interface ISetting {
 const Setting: FC<ISetting> = (props) => {
   const { settingData } = props;
   const [ target, setTarget ] = useState(2)
-  console.log('setting', JSON.stringify(settingData));
+  // console.log('setting', JSON.stringify(settingData));
   const format = 'HH:mm';
   const title1 = (
     <Space direction="vertical">
       <span>触发SURF并增加广告集支出</span>
-      <span>如果广告组达到3出站点击的，只要支出最少超过$0今天。</span>
+      <span>如果广告组达到{settingData?.InsertCount}{props.options[settingData?.Target]}的，只要支出最少超过${settingData?.CostValue}今天。</span>
     </Space>
   );
 
@@ -44,7 +45,7 @@ const Setting: FC<ISetting> = (props) => {
   ];
 
   const handleListChange = (i: number, j: number, value: number) => {
-    const list = settingData.AdvEffectLv?.concat([]);
+    const list = settingData?.AdvEffectLv?.concat([]);
     if (list) {
       list[i][j] = value;
     }
@@ -52,6 +53,28 @@ const Setting: FC<ISetting> = (props) => {
       AdvEffectLv: list
     })
   }
+
+  const optionList: {value: string, title: string}[] = [];
+
+  Object.entries(props.options).forEach(o => {
+    optionList.push({value: o[0], title: o[1]});
+  });
+
+  // const optionList = [
+  //   {
+  //     value: '0',
+  //     title: '点击'
+  //   },
+  //   {
+  //     value: '1',
+  //     title: '出站点击'
+  //   }
+  // ];
+  //
+  // const optionMap = {
+  //   '0': '点击',
+  //   '1': '出站点击'
+  // };
   return (
     <div>
       <SettingHeadCard
@@ -68,12 +91,16 @@ const Setting: FC<ISetting> = (props) => {
           <SvgLine2 />
           <Space direction="vertical" size="large">
             <Space>
-              <Select value="0" style={{width: 100}}>
-                <Option value="0">点击</Option>
-                <Option value="1">出站点击</Option>
+              <Select value={settingData?.Target} style={{width: 100}} onChange={value => props.onChange({Target: value, TargetName: props.options[value]})}>
+                {
+                  optionList.map(o => {
+                    return <Option key={o.value} value={o.value}>{o.title}</Option>
+                  })
+                }
+
               </Select>
               <span>{'>='}</span>
-              <InputNumber style={{width: 100}} value={settingData.InsertCount} onChange={value => props.onChange({InsertCount: value})}/>
+              <InputNumber style={{width: 100}} value={settingData?.InsertCount} onChange={value => props.onChange({InsertCount: value})}/>
             </Space>
             <Space>
               <span>花费</span>
@@ -101,7 +128,7 @@ const Setting: FC<ISetting> = (props) => {
                     <Radio style={radioStyle} value={2}>
                       静态指标 <span>$</span>
                     </Radio>
-                    <InputNumber prefix="$" style={{width: 100}} value={settingData.CostValue} onChange={value => props.onChange({CostValue: value})} />
+                    <InputNumber prefix="$" style={{width: 100}} value={settingData?.CostValue} onChange={value => props.onChange({CostValue: value})} />
                   </Space>
                 </Space>
               </Radio.Group>
@@ -111,7 +138,7 @@ const Setting: FC<ISetting> = (props) => {
 
       </StepCard>
       <StepCard title="广告集的预算将根据该算法增加。">
-        <div>冲浪极限： <InputNumber value={settingData.LimitPerCheck} onChange={value => props.onChange({LimitPerCheck: value})} /></div>
+        <div>冲浪极限： <InputNumber value={settingData?.LimitPerCheck} onChange={value => props.onChange({LimitPerCheck: value})} /></div>
         <div>
           <Row justify="center">
             <Col span={3}></Col>
@@ -120,13 +147,13 @@ const Setting: FC<ISetting> = (props) => {
             <Col span={2}>每日预算高</Col>
           </Row>
           {
-            settingData.AdvEffectLv && settingData.AdvEffectLv.map((list, i) => {
+            settingData?.AdvEffectLv && settingData?.AdvEffectLv.map((list, i) => {
               return <Row justify="center" key={i}>
                 <Col span={3}><p style={{lineHeight: '32px', backgroundColor: '#c4dfe2'}}>{labels[i]}</p></Col>
                 {
                   list.map((d, j) => {
                     return <Col span={2} key={j}><InputNumber
-                        value={d[j]}
+                        value={d}
                         min={0}
                         max={100}
                         formatter={value => `${value}%`}
@@ -142,9 +169,9 @@ const Setting: FC<ISetting> = (props) => {
 
       </StepCard>
       <StepCard
-        title="预算将在当地时间00:00 (亚洲/上海) 自动重置"
+        title={`预算将在当地时间${settingData?.ResetBudgetTime?.format(format)} (亚洲/上海) 自动重置"`}
       >
-        <Space><label>重置时间表： </label><TimePicker value={settingData.ResetBudgetTime} format={format} onChange={value => props.onChange({ResetBudgetTime: value})} /></Space>
+        <Space><label>重置时间表： </label><TimePicker value={settingData?.ResetBudgetTime} format={format} onChange={value => props.onChange({ResetBudgetTime: value})} /></Space>
       </StepCard>
     </div>
   );

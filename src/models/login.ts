@@ -61,6 +61,10 @@ const Model: LoginModelType = {
       if (response.access_token) {
         Store.SetToken(response.access_token)
         Store.SetRefreshToken(response.refresh_token)
+        Store.SetTokenId(response.token_id);
+        Store.SetUserId(response.user_id);
+        Store.SetUserName(response.username);
+        Store.SetExpiresIn(response.expires_in);
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         message.success('🎉 🎉 🎉  登录成功！');

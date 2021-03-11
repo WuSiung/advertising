@@ -6,16 +6,21 @@
  * https://pro.ant.design/docs/deploy
  */
 const allApiStr = ['/code', '/admin', '/ads', '/auth', '/file']
-const api2Str = [{ key: '/subApi', rewrite: '/subApi' }]
+const api2Str = [{ key: '/subApi', rewrite: '/subApi' }, { key: '/autoTactic', rewrite: '/autoTactic'}]
 const apiProxyConfig = {}
 const urls = {
   'dev': 'https://dev.tanwanai.com/',
-  'local': 'http://192.168.31.24:9999/', //http://192.168.43.66:9999/
+  'local': 'http://192.168.43.66:9999/', //http://192.168.31.24:9999/
   'test': 'https://dev.tanwanai.com/'
 }
 
+// const localTestConfig = {
+//   url: 'http://119.8.237.139:9191/'
+// }
+
 const localTestConfig = {
-  url: 'http://119.8.237.139:9191/'
+  subApi: 'http://119.8.237.139:9191/',
+  autoTactic: 'http://34.96.168.247:31222/'
 }
 
 allApiStr.map(str => {
@@ -25,9 +30,17 @@ allApiStr.map(str => {
     pathRewrite: { '^/': '/' },
   }
 })
+// api2Str.map(str => {
+//   return apiProxyConfig[str.key] = {
+//     target: localTestConfig.url,
+//     changeOrigin: true,
+//     pathRewrite: { ['^' + str.key]: '/' },
+//   }
+// })
+
 api2Str.map(str => {
   return apiProxyConfig[str.key] = {
-    target: localTestConfig.url,
+    target: localTestConfig[str.key.replace('/', '')],
     changeOrigin: true,
     pathRewrite: { ['^' + str.key]: '/' },
   }

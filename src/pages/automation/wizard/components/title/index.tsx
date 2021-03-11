@@ -51,7 +51,7 @@ const Title: FC<ITitle> = (props) => {
         { props.current === 2 && props.level === 0 && <h3>请选择广告</h3>}
         { props.current === 2 && props.level === 1 && <h3>请选择广告集</h3>}
         { props.current === 2 && props.level === 2 && <h3>请选择活动</h3>}
-        <Button disabled={ !props.tactic } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>
+        <Button type="primary" disabled={ !props.tactic } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>
       </Row>
       <Row style={{marginTop: 20}}>
         <Steps current={props.current}>
