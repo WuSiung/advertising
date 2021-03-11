@@ -1,8 +1,14 @@
-import { Card } from 'antd'
-import React, { FC } from 'react'
+import React, {FC} from 'react';
 
-const Automation: FC = (props) => {
-    return <Card>自动化策略</Card>
+interface AutomationProps {
+
 }
 
-export default Automation
+const Automation: FC<AutomationProps> = (props) => {
+  const { children } = props;
+  return (
+    <div>{children}</div>
+  )
+}
+
+export default Automation;

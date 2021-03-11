@@ -14,6 +14,7 @@ import { TARGET_LIST } from './targets';
 
 import styles from './index.less';
 import Loading from '@/components/Loading';
+import moment from 'moment';
 
 export type DashboardProps = {
   dispatch: Dispatch;
@@ -128,7 +129,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       width: 120,
     },
     {
-      title: '费用/前次',
+      title: '费用/千次',
       dataIndex: 'cpm',
       key: 'cpm',
       width: 120,
@@ -371,6 +372,16 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
               value={dashboard.rangeValues}
               onChange={handleRangeChange}
               onOpenChange={handleOpenChange}
+              ranges={{
+                '今天': [moment(), moment()],
+                '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
+                '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
+                '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
+                '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
+                '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
+                '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
+                '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
+              }}
             />
           }
         >
