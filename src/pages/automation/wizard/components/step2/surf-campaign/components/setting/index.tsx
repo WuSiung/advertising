@@ -22,7 +22,6 @@ interface ISetting {
 const Setting: FC<ISetting> = (props) => {
   const {ActionInfo} = props;
   const format = 'HH:mm';
-  console.log('Setting', props);
   // const [values, setValues] = useState([26, 37, 48]);
   // const marks = {
   //   0: {
@@ -45,7 +44,7 @@ const Setting: FC<ISetting> = (props) => {
   // }
 
   // const [values, setValues] = useState([26, 37, 48]);
-  const [checkRoas, setCheckRoas] = useState(true);
+  const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoints.length === 6);
   const marks = {
     0: {
       label: <strong>00:00<br/>初始点</strong>,
@@ -103,8 +102,6 @@ const Setting: FC<ISetting> = (props) => {
     //   }
     // }
 
-
-    console.log(value);
     props.onChange({
       CheckPoints: value
     })

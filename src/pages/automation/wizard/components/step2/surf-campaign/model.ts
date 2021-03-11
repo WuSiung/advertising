@@ -61,7 +61,7 @@ const SurfCampaignModel: TSurfCampaignModel = {
       }
 
       if (res.ActionInfo?.CheckPoints.length === 3) {
-        res.ActionInfo?.CheckPoint.forEach((c, idx) => {
+        res.ActionInfo?.CheckPoints.forEach((c, idx) => {
           if (res.ActionInfo) {
             res.ActionInfo.CheckPoint[idx].CheckPoint = res.ActionInfo?.CheckPoints[idx];
             res.ActionInfo.CheckPoint[idx].DoubleCheck = 0;
@@ -70,10 +70,17 @@ const SurfCampaignModel: TSurfCampaignModel = {
       }
 
       if (res.ActionInfo?.CheckPoints.length === 6) {
-        res.ActionInfo?.CheckPoint.forEach((c, idx) => {
+        res.ActionInfo?.CheckPoints.forEach((c, idx) => {
           if (res.ActionInfo && idx % 2 === 0) {
-            res.ActionInfo.CheckPoint[idx].CheckPoint = res.ActionInfo?.CheckPoints[idx];
-            res.ActionInfo.CheckPoint[idx + 1].DoubleCheck = res.ActionInfo?.CheckPoints[idx + 1];
+            let index = 0
+            if (idx === 2) {
+              index = 1;
+            }
+            if (idx === 4) {
+              index = 2;
+            }
+            res.ActionInfo.CheckPoint[index].CheckPoint = res.ActionInfo?.CheckPoints[idx];
+            res.ActionInfo.CheckPoint[index].DoubleCheck = res.ActionInfo?.CheckPoints[idx + 1];
           }
         });
       }
