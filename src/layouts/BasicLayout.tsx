@@ -21,6 +21,8 @@ import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
 import { includeRoutes } from '@/utils/menuConfirmRoutes';
 import { ConfirmProps, showConfirm } from '@/components/Confrim';
+import { SiderMenuProps } from '@ant-design/pro-layout/lib/components/SiderMenu/SiderMenu';
+var pjson = require('../../package.json');
 
 const noMatch = (
   <Result
@@ -126,11 +128,23 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     if (includeRoutes.includes(pathname)) {
       e.preventDefault()
       const params: ConfirmProps = {
-        content: '广告创建中，是否确认离开',
+        content: '你有未保存的更改，如果离开此页面，更改将丢失',
         onOk: () => { history.push(to) }
       }
       showConfirm({ ...params })
     }
+  }
+
+  const menuFooterRender = (props: SiderMenuProps | undefined) => {
+    return <Link to={'/version'} style={{
+      lineHeight: 24,
+      display: 'flex',
+      height: 24,
+      paddingBottom: 40,
+      color: 'rgba(255, 255, 255, 0.65)',
+      paddingLeft: 16,
+      alignItems: 'center',
+    }}>{!props?.collapsed && 'v' + pjson.version}</Link>
   }
 
   return (
@@ -173,6 +187,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         menuDataRef.current = menuData || [];
         return menuData || [];
       }}
+      menuFooterRender={menuFooterRender}
     >
       <Authorized authority={authorized!.authority} noMatch={noMatch}>
         {children}

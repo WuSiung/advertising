@@ -1,5 +1,6 @@
 import { Effect, Reducer } from 'umi'
-import { queryMediaList, queryTextList, uploadText } from './service'
+import { MaterialStateType } from './data';
+import { getAllTag, queryMediaList, queryTextList, uploadText } from './service'
 
 interface MediaModelType {
     namespace: string,
@@ -7,11 +8,13 @@ interface MediaModelType {
     effects: {
         fetchMedias: Effect,
         fetchTexts: Effect,
+        fetchTags: Effect,
         uploadTexts: Effect,
     },
     reducers: {
         saveMedias: Reducer<MaterialStateType['mediaList']>,
         saveTexts: Reducer<MaterialStateType['textList']>,
+        saveTagList: Reducer<MaterialStateType['tagList']>,
     }
 }
 
@@ -19,7 +22,8 @@ const MediaModel: MediaModelType = {
     namespace: 'material',
     state: {
         mediaList: [],
-        textList: []
+        textList: [],
+        tagList: [],
     },
     effects: {
         *fetchMedias({ payload }, { call, put, select }) {
@@ -50,6 +54,13 @@ const MediaModel: MediaModelType = {
                 payload: { textList: concatArr }
             })
         },
+        *fetchTags(_, { call, put }) {
+            const res = yield call(getAllTag)
+            yield put({
+                type: 'saveTagList',
+                payload: { tagList: res.value }
+            })
+        },
         *uploadTexts({ payload }, { call }) {
             yield call(uploadText, payload);
         },
@@ -59,6 +70,9 @@ const MediaModel: MediaModelType = {
             return { ...state, ...payload }
         },
         saveTexts(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveTagList(state, { payload }) {
             return { ...state, ...payload }
         }
     }

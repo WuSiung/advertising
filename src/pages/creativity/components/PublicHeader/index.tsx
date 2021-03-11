@@ -6,9 +6,13 @@ import { RcFile } from 'antd/lib/upload';
 
 import styles from './index.less'
 import UploadTextFile from '@/pages/adv-launcher/components/UploadTextFile';
+import DateRange from '@/pages/adv-launcher/components/DateRange';
+import { TagType } from '../../data';
 
 interface PublicHeaderProps {
     type: 'media' | 'text',
+    clearDisable: boolean,
+    tags: TagType[],
     onUpload?: (e: RcCustomRequestOptions, allLenth: number) => void,
     onUploadText?: (values: string[]) => void
     onClear: () => void,
@@ -17,6 +21,7 @@ interface PublicHeaderProps {
     openFolder?: () => void,
     onSort?: (type: string) => void,
     openText?: (visible: boolean) => void,
+    onChangeDate?: (value: [string, string]) => void,
     onSource?: (type: string) => void,
     textVisible?: boolean
     uploading: boolean
@@ -47,7 +52,8 @@ const mediaSortType = [
 ]
 
 const PublicHeader: FC<PublicHeaderProps> = (props) => {
-    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench, onSort, onSource } = props
+    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench,
+        onSort, onSource, onChangeDate, openFolder, clearDisable, tags } = props
     const [uploadLenth, setLength] = useState(0)
     const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
         setLength(fileList.length)
@@ -57,23 +63,31 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
     let sortType = type == 'media' ? mediaSortType : mediaSortType
 
     return <Row className={styles.top}>
-        <Col className={styles.btns} span={24}>
+        <Col className={styles.btns} span={12}>
             {
                 type == 'media' && <div className={styles.uploadBtns}>
                     <Upload multiple customRequest={e => onUpload!(e, uploadLenth)} showUploadList={false} beforeUpload={setUploadLength}>
-                        <Button type="primary" disabled={uploading}>上传资源</Button>
+                        <Button type="primary" disabled={uploading}>新增资源</Button>
                     </Upload>
                 </div>
             }
             {
-                type == 'text' && <Button type='primary' style={{ marginRight: 10 }} onClick={() => openText!(true)}>上传文本</Button>
+                type == 'text' && <Button type='primary' style={{ marginRight: 10 }} onClick={() => openText!(true)}>新增文本</Button>
             }
-            <Button type='primary' style={{ marginRight: 10 }} onClick={onClear}>清空选择</Button>
-            <Button type='primary' style={{ marginRight: 10 }} onClick={onAddToWorkbench}>添加至工作台</Button>
-            <FolderOutlined className={styles.folder} title='标签库' />
+            <Button type='primary' style={{ marginRight: 10 }} onClick={onClear} disabled={!clearDisable}>清空选择</Button>
+            <Button type='primary' style={{ marginRight: 10 }} onClick={onAddToWorkbench} disabled={!clearDisable}>添加至工作台</Button>
+            <FolderOutlined className={styles.folder} title='标签库' onClick={openFolder} />
         </Col >
-        <Col className={styles.filter}>
-            <Select style={{ minWidth: 160, marginRight: 10 }} placeholder='标签筛选' defaultValue='所有' onChange={(value) => onSource && onSource(value)}>
+        <Col className={styles.filter} span={12}>
+            <DateRange onChange={onChangeDate} />
+            <Select style={{ minWidth: 160, marginRight: 10, marginLeft: 10 }} placeholder='标签筛选' onChange={(value) => onSource && onSource(value)} showSearch>
+                {
+                    tags.map(tag => {
+                        return <Select.Option value={tag.name} key={tag.id}>{tag.name}</Select.Option>
+                    })
+                }
+            </Select>
+            <Select style={{ minWidth: 160, marginRight: 10, marginLeft: 10 }} placeholder='类型筛选' defaultValue='所有' onChange={(value) => onSource && onSource(value)}>
                 {
                     souceType.map(souce => {
                         return <Select.Option value={souce.type} key={souce.type}>{souce.text}</Select.Option>

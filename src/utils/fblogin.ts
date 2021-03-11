@@ -12,7 +12,7 @@ async function loadFbSDK(d: Document, s: string, id: string) {
     fjs.parentNode?.insertBefore(js, fjs);
 }
 async function initFacebook() {
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
             appId: '1671575193015707',
             version: 'v9.0',
@@ -30,7 +30,7 @@ async function loadAndInitFB() {
 }
 
 async function logInWithFacebook() {
-    return new Promise((resolve: (value: fb.StatusResponse)=> void, reject) => {
+    return new Promise((resolve: (value: fb.StatusResponse) => void, reject) => {
         try {
             FB.login((res: fb.StatusResponse) => {
                 if (res.authResponse) {
@@ -39,9 +39,9 @@ async function logInWithFacebook() {
                     reject("")
                 }
             }, {
-                scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups',
+                scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups,pages_manage_engagement,read_insights,instagram_basic,instagram_content_publish,instagram_manage_comments,instagram_manage_insights,attribution_read,email,leads_retrieval,pages_manage_ads,pages_manage_metadata,pages_read_user_content,pages_show_list,public_profile',
             })
-            
+
         } catch (err) {
             notification.error({
                 message: `Facebook插件加载失败`,
@@ -51,5 +51,17 @@ async function logInWithFacebook() {
     })
 }
 
+async function getFbAccounts() {
+    FB.api(
+        '/me/adaccounts',
+        'GET',
+        {},
+        function (response) {
+            console.log(response)
+            // Insert your code here
+        }
+    )
+}
+
 export default logInWithFacebook
-export { loadAndInitFB }
+export { loadAndInitFB, getFbAccounts }

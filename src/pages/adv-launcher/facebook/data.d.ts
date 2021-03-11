@@ -24,7 +24,7 @@ export interface CountryRecordType{
 }
 
 export interface FacebookStateType{
-    countryList: CountryRecordType[],
+    countryList: CountryType[],
     marketList: MarketType[],
     targetList: TargetType[]
 }

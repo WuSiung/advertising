@@ -22,7 +22,8 @@ interface ActionBtnsProps {
 }
 let uploadSucessValue: Array<Promise<unknown>> = []
 let uploadFileLength = 0;
-let uploadedLenth: number = 0
+let uploadedLenth: number = 0;
+let uploadFileSize = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
 
     const { dispatch, upFileloading, upTextLoading, workbench, saveTempLoading, queryTempLoading } = props
@@ -33,6 +34,10 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
     const [selectTempLoading, setSelectTempLoading] = useState<boolean>(false)
 
     const fileChange = async (e: RcCustomRequestOptions, dispatch: Dispatch) => {
+        if (uploadFileSize > 150 * 1024 * 1024) {
+            uploadFileSize = 0;
+            message.error('选择的素材超过150M,请分次上传')
+        }
         const formData: FormData = new FormData()
         formData.append('media', e.file)
         const type: 0 | 1 | undefined = fileType(e.file.type)
@@ -167,6 +172,7 @@ const submitText = async (value: string[], dispatch: Dispatch, handleModalVisibl
 }
 
 const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
+    uploadFileSize += file.size
     uploadFileLength = fileList.length
     return true
 }

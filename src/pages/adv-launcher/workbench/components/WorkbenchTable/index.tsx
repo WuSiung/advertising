@@ -3,7 +3,7 @@ import { CopyOutlined, DeleteFilled, EditOutlined } from '@ant-design/icons'
 import { Button, message } from 'antd'
 import React, { FC, useState } from 'react'
 import { connect, Dispatch } from 'umi'
-import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType } from '../../data.d'
+import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
 import { deleteMedia, deleteText } from '../../service'
 import HoverPopover from '../HoverPopover'
 
@@ -13,6 +13,7 @@ interface WorkbenchTableProps {
     imgList: ImgDataType[],
     textList: TextDataType[],
     previewAdvs: PreviewAdvType[],
+    hasAdvs: Array<Array<HasAdvs>>,
     dispatch: Dispatch
 }
 
@@ -79,7 +80,7 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
 }
 
 const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
-    const { imgList, textList, previewAdvs, dispatch } = props
+    const { imgList, textList, previewAdvs, dispatch, hasAdvs } = props
     let tenBlock = 10 - imgList.length > 0 ? new Array(10 - imgList.length) : [];
     tenBlock = Array.apply(null, tenBlock)
 
@@ -167,9 +168,16 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                             return <tr key={text.textId}>
                                 <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
                                 {
-                                    imgList.map((img, X) => (
-                                        <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
-                                            createAdv={saveToPreviewAdvs} key={img.imgId + ' ' + text.textId} X={X} Y={Y} />)
+                                    imgList.map((img, X) => {
+                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
+                                            <div>
+                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
+                                                    createAdv={saveToPreviewAdvs} X={X} Y={Y} />
+                                            </div>
+                                        </HoverPopover>
+                                            : <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
+                                                createAdv={saveToPreviewAdvs} key={img.imgId + ' ' + text.textId} X={X} Y={Y} />
+                                    }
                                     )
                                 }
                             </tr>
@@ -206,5 +214,6 @@ const saveAdvs = (previewAdvs: PreviewAdvType[], addAdv: PreviewAdvType): Previe
 export default connect(({ workbench }: { workbench: WorkbenchDataType }) => ({
     imgList: workbench.uploadImgList,
     textList: workbench.uploadTextList,
+    hasAdvs: workbench.hasAdvs,
     previewAdvs: workbench.previewAdvs,
 }))(WorkbenchTable)

@@ -80,11 +80,6 @@
                     component: './adv-launcher/advertising',
                   },
                   {
-                    path: '/advlauncher/media',
-                    name: 'media',
-                    component: './adv-launcher/media',
-                  },
-                  {
                     path: '/advlauncher/compaign',
                     name: 'compaign',
                     hideInMenu: true,
@@ -111,6 +106,18 @@
                 ],
               },
               {
+                path: '/advmanager',
+                name: 'advmanager',
+                icon: 'TableOutlined',
+                component: './adv-manager',
+              },
+              {
+                path: '/automation',
+                name: 'automation',
+                icon: 'AlertOutlined',
+                component: './automation',
+              },
+              {
                 path: '/audience',
                 name: 'audience',
                 icon: 'TeamOutlined',
@@ -133,18 +140,30 @@
                 ],
               },
               {
+                path: '/creativity',
+                name: 'creativity',
+                icon: 'CoffeeOutlined',
+                component: './creativity',
+              },
+              {
+                path: '/setting',
+                name: 'setting',
+                icon: 'SettingOutlined',
+                component: './setting',
+              },
+              {
+                path: '/version',
+                name: 'version',
+                hideInMenu: true,
+                component: './version',
+              },
+              {
                 path: '/admin',
                 name: 'admin',
                 icon: 'crown',
                 component: './Admin',
                 authority: ['admin'],
                 routes: [],
-              },
-              {
-                path: '/advmanager',
-                name: 'advmanager',
-                icon: 'TableOutlined',
-                component: './adv-manager',
               },
               {
                 component: './404',
