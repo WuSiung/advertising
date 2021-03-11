@@ -14,7 +14,7 @@ const crowdTip = '覆盖尽可能多的不同受众群体可帮助您定位最�
 
 const Crowds: FC<CrowdsProps> = (props) => {
     const { onToCreate } = props
-    return <div>
+    return <div className={styles.crowdsContainer}>
         {
             !Boolean(onToCreate) ? <PageContainer content={crowdTip} breadcrumb={undefined}>
                 <Card>

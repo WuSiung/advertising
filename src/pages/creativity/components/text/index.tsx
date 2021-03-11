@@ -18,7 +18,7 @@ type PublicTextProps = {
     userInfo?: CurrentUser,
     textGetLoading: boolean,
     textUploading: boolean
-} & Pick<MaterialStateType, 'textList'>
+} & Omit<MaterialStateType, 'mediaList'>
 
 interface PageProps {
     page: number,
@@ -26,7 +26,7 @@ interface PageProps {
 }
 
 const TextCreativity: FC<PublicTextProps> = (props) => {
-    const { textList, dispatch, userInfo, textGetLoading, textUploading } = props
+    const { textList, dispatch, userInfo, textGetLoading, textUploading, tagList } = props
 
 
     const [textToWorkbenchLoading, setTextToWorkbenchLoading] = useState(false)
@@ -180,7 +180,8 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib}
+        <PublicHeader clearDisable={textList.some(text => text.checked)} onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench}
+            onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib} tags={tagList || []}
             onUploadText={submitTexts} uploading={textUploading} openText={setTextModelVisible} textVisible={textModelVisible} onChangeDate={setFilterDate} />
         <Spin spinning={!!textGetLoading}>
             <div className={`${styles.mediaContent} ${styles.textList}`} onScroll={scrollText} ref={textRef}>
@@ -231,6 +232,7 @@ const generateUUID = (): string => {
 
 export default connect(({ material, user, loading }: { material: MaterialStateType, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     textList: material.textList,
+    tagList: material.tagList,
     textGetLoading: loading.effects['material/fetchTexts'],
     textUploading: loading.effects['material/uploadTexts'],
     userInfo: user.currentUser

@@ -1,22 +1,22 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Button, Card, Input, message, Select, Slider, Table, Tag } from 'antd'
 import { AppInfo, connect, Dispatch, UserModelState } from 'umi'
-import { allCountry } from '@/utils/countrys'
 import { PreviewAdvType, SaveFacebookSettingType, WorkbenchDataType } from '../workbench/data'
 import { CompaignsData, SaveChooseCompaignDataType } from '../compaign/data'
-import { CountryRecordType, FacebookStateType, MarketType, TargetType } from './data'
+import { FacebookStateType, MarketType, TargetType } from './data'
 import { sex, advPosition } from './static'
 import Steps from '../components/Steps'
 import RenderAdvs from '../components/RenderAdvs'
 
 import styles from './index.less'
+import { CountryType } from '@/utils/countrys'
 
 interface SetFacebookProps {
     previewAdvs: PreviewAdvType[],
     dispatch: Dispatch,
     appInfo?: AppInfo,
     compaignParams: SaveChooseCompaignDataType,
-    countryList: CountryRecordType[],
+    countryList: CountryType[],
     marketList: MarketType[],
     targetList: TargetType[]
 }
@@ -280,7 +280,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                 <RenderFacebookBox title='选择地区'>
                     <Select style={{ display: 'block' }} placeholder='选择包含地区' onSelect={selectInclude} showSearch>
                         {
-                            allCountry.map(country => {
+                            countryList.map(country => {
                                 return <Select.Option key={country.code} value={country.value}>{country.value}</Select.Option>
                             })
                         }
@@ -295,7 +295,7 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                     </div>
                     <Select style={{ display: 'block' }} placeholder='选择排除地区' onSelect={selectExclude} showSearch>
                         {
-                            allCountry.map(country => {
+                            countryList.map(country => {
                                 return <Select.Option key={country.code} value={country.value}>{country.value}</Select.Option>
                             })
                         }

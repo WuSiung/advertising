@@ -20,4 +20,5 @@ export interface TagType {
 interface MaterialStateType {
     mediaList: Array<PublicMaterialDataType>,
     textList: Array<PublicMaterialDataType>,
+    tagList: Array<TagType>,
 }

@@ -19,7 +19,7 @@ type MediaCreativityProps = {
     dispatch: Dispatch,
     userInfo?: CurrentUser,
     mediaGetLoading: boolean,
-} & Pick<MaterialStateType, 'mediaList'>
+} & Omit<MaterialStateType, 'textList'>
 
 interface PageProps {
     page: number,
@@ -29,7 +29,7 @@ interface PageProps {
 let promistUploadFileArray: Array<Promise<unknown>> = [];
 let uploadProcess: number = 0
 const MediaCreativity: FC<MediaCreativityProps> = (props) => {
-    const { mediaList, dispatch, userInfo, mediaGetLoading } = props
+    const { mediaList, dispatch, userInfo, mediaGetLoading, tagList } = props
 
     const mediaRef = useRef<HTMLDivElement>(null)
     const [mediaToWorkbenchLoading, setMediaToWorkbenchLoading] = useState(false)
@@ -52,6 +52,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                 }
             })
         }
+        dispatch({
+            type: 'material/fetchTags'
+        })
     }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate])
 
     const clearMediaCheck = () => {
@@ -131,11 +134,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     const handleAiLib = () => {
-        getAllTag().then(res => {
-            setTagName('')
-            setTagParams({ id: 'all', tagList: res.value })
-            setTagVisible(true)
-        })
+        setTagParams({ id: 'all', tagList: tagList })
+        setTagName('')
+        setTagVisible(true)
     }
 
     const editTag = (i: number) => {
@@ -158,6 +159,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })
         setTagName('')
         updateTag()
+        dispatch({
+            type: 'material/fetchTags'
+        })
         message.success('添加成功')
     }
 
@@ -190,9 +194,8 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     return <div>
-        <div className={styles.rangeDate}>
-        </div>
-        <PublicHeader onClear={clearMediaCheck} type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
+        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={tagList}
+            type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
             openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
         <Spin spinning={!!mediaGetLoading}>
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
@@ -236,6 +239,7 @@ const uploadFunction = async (value: string, media: FormData) => {
 
 export default connect(({ material, user, loading }: { material: MaterialStateType, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     mediaList: material.mediaList,
+    tagList: material.tagList,
     mediaGetLoading: loading.effects['material/fetchMedias'],
     userInfo: user.currentUser
 }))(MediaCreativity)

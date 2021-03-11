@@ -11,7 +11,7 @@ export default {
   'menu.audience': '观众工作室',
   'menu.audience.crowds': '人群包列表',
   'menu.audience.manager': '人群包管理',
-  'menu.creativity': '创意工作室',
+  'menu.creativity': '公共素材库',
   'menu.setting': '系统设置',
   'menu.automation': '自动化策略',
   'menu.version': '版本更新详情',

@@ -113,7 +113,8 @@ const dispatchChangeAccount = (dispatch: Dispatch | undefined, changeAccount: Fa
         }).then(async () => {
             // 切换成功后获取所有账号列表
             // await dispatch({ type: 'user/refreshToken' })
-            dispatch({ type: 'user/fetchFbAccounts' })
+            await dispatch({ type: 'user/fetchFbAccounts' })
+            window.location.reload()
         }).catch(() => {
         })
     }
