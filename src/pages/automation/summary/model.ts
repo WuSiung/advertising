@@ -21,7 +21,7 @@ const TacticSummaryModel: TModelTacticSummary = {
       yield put({
         type: 'updateTacticList',
         payload: {
-          tacticList: response,
+          tacticList: response.data.tacticList,
         },
       });
     }
