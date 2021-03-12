@@ -14,6 +14,7 @@ import EditTag from '../EditTag';
 
 import styles from './index.less'
 import { showConfirm } from '@/components/Confrim';
+import Store from '@/utils/store';
 
 type MediaCreativityProps = {
     dispatch: Dispatch,
@@ -37,6 +38,8 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     const [mediaQueryParams, setMediaQuery] = useState<PageProps>({ page: 1, size: 10 })
     const [filterDate, setFilterDate] = useState<[string, string]>(['', ''])
     const [mediaSort, setMediaSort] = useState('Default')
+    const [filterTagId, setFilterTagId] = useState<string[]>([])
+    const [filterTagSearch, setFilterTagSearch] = useState('')
     const [mediaSouceFilter, setmediaSouceFilte] = useState('All')
     const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
     const [tagVisible, setTagVisible] = useState(false)
@@ -48,12 +51,15 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                 type: 'material/fetchMedias',
                 payload: {
                     ...mediaQueryParams, id: userInfo.userId, resourceType: mediaSouceFilter, sortForResource: mediaSort,
-                    sortForTag: 'Default', beginTime: filterDate[0], endTime: filterDate[1]
+                    tagIds: filterTagId, beginTime: filterDate[0], endTime: filterDate[1]
                 }
             })
         }
-        dispatch({ type: 'material/fetchMediaTags', payload: { rows: 10, page: 1 } })
-    }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate])
+    }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate, filterTagId])
+
+    useEffect(() => {
+        dispatch({ type: 'material/fetchMediaTags' })
+    }, [])
 
     const clearMediaCheck = () => {
         let editList = mediaList.map(media => {
@@ -167,6 +173,16 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         showConfirm({ onOk: delTag.bind(null, id) }).then(() => { message.success('删除成功'); updateTag() })
     }
 
+    const chooseTagId = (value: string[], options: any) => {
+        const storageValue: { key?: string; label: React.ReactNode; value: string | number }[] = []
+        const allIds = options?.map((item: any) => {
+            storageValue.push({ key: item.key,label: item.name, value: item.value })
+            return item.key
+        })
+        setFilterTagId(allIds)
+        Store.SetMediaTagIds(storageValue)
+    }
+
     const updateTag = () => {
         getSouceTag(tagParams.id).then(res => {
             setTagParams({ ...tagParams, tagList: res.value.tags })
@@ -192,9 +208,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={mediaTags}
-            type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
-            openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
+        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={mediaTags} onSelectTag={chooseTagId} type='media'
+            onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte} fetchTag={getMediaTag}
+            openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} onFilterTagValue={setFilterTagSearch} />
         <Spin spinning={!!mediaGetLoading}>
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
                 {
