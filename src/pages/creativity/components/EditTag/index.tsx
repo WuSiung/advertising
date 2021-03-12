@@ -1,7 +1,6 @@
 import { Modal, Tag } from 'antd'
 import React, { FC } from 'react'
 import { TagType } from '../../data'
-import { getAllTag } from '../../service'
 import DebounceSelect from '../DebounceSearch';
 
 
@@ -14,15 +13,16 @@ interface EditTagProps {
     setTagName: (value: string) => void,
     onAdd: () => void,
     onChangeResult: (value: string, options: any) => void,
-    onDelete: (id: string) => void
+    onDelete: (id: string) => void,
+    fetchTags: () => Promise<any>
 }
 
 const EditTag: FC<EditTagProps> = (props) => {
-    const { visible, tagList, onCancel, setTagName, onAdd, onDelete, tagName, onChangeResult, type } = props
+    const { visible, tagList, onCancel, setTagName, onAdd, onDelete, tagName, onChangeResult, type, fetchTags } = props
 
     return <Modal visible={visible} title={type != 'all' ? '编辑素材标签' : '查看所有标签'} onCancel={onCancel} onOk={onCancel}>
         {
-            type != 'all' && <DebounceSelect fetchOptions={getAllTag} style={{ flex: 1 }} showSearch defaultActiveFirstOption={false} value={tagName}
+            type != 'all' && <DebounceSelect fetchOptions={fetchTags} style={{ flex: 1 }} showSearch defaultActiveFirstOption={false} value={tagName}
                 setValue={setTagName} onChange={onChangeResult} onAdd={onAdd}></DebounceSelect>
         }
         {
