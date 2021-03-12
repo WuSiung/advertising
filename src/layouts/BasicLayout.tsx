@@ -8,7 +8,7 @@ import type {
   BasicLayoutProps as ProLayoutProps,
   Settings,
 } from '@ant-design/pro-layout';
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout, { DefaultFooter, getPageTitle } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
 import type { Dispatch } from 'umi';
 import { Link, useIntl, connect, history } from 'umi';
@@ -22,6 +22,7 @@ import logo from '../assets/logo.svg';
 import { includeRoutes } from '@/utils/menuConfirmRoutes';
 import { ConfirmProps, showConfirm } from '@/components/Confrim';
 import { SiderMenuProps } from '@ant-design/pro-layout/lib/components/SiderMenu/SiderMenu';
+import { GetPageTitleProps } from '@ant-design/pro-layout/lib/getPageTitle';
 var pjson = require('../../package.json');
 
 const noMatch = (
@@ -135,6 +136,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
   }
 
+  const renderPageTitle = (props: GetPageTitleProps, defaultPageTitle?: string | undefined, info?: {
+    title: string;
+    id: string;
+    pageName: string;
+  } | undefined): string => {
+    return props.title || '智能广告平台'
+  }
+
   const menuFooterRender = (props: SiderMenuProps | undefined) => {
     return <Link to={'/version'} style={{
       lineHeight: 24,
@@ -188,6 +197,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return menuData || [];
       }}
       menuFooterRender={menuFooterRender}
+      pageTitleRender={renderPageTitle}
     >
       <Authorized authority={authorized!.authority} noMatch={noMatch}>
         {children}
