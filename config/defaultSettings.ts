@@ -13,7 +13,7 @@ const proSettings: DefaultSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '智能广告平台',
+  title: '贪玩智投',
   pwa: false,
   iconfontUrl: '',
 };

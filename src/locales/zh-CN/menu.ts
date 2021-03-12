@@ -25,7 +25,7 @@ export default {
   'menu.dashboard': '仪表盘',
   'menu.automation': '自动化',
   'menu.automation.summary': '自动化概述',
-  'menu.automation.wizard': '创造战术',
+  'menu.automation.wizard': '创建策略',
   'menu.dashboard.analysis': '分析页',
   'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',

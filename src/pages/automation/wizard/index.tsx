@@ -90,7 +90,7 @@ const Wizard: FC<WizardProps> = (props) => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer header={{title: '创建策略', breadcrumb: {}}}>
       <Card
         className={`${styles.totalCard}`}
         title={<Title current={current} tactic={tactic} level={level} handleClick={handleClick}></Title>}
@@ -100,7 +100,7 @@ const Wizard: FC<WizardProps> = (props) => {
         {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current}></SurfAdSet>}
         {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet step={current}></StopLossAdvSet>}
         {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv step={current}></StopLossAdvAdv>}
-        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet step={current}></ReviveAdvSet>}
+        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current}></ReviveAdvSet>}
         {tactic === EActionType.AAT_Revive_AdLevel && <ReviveAdvAdv step={current}></ReviveAdvAdv>}
       </Card>
       { isLoading && <Loading size="large" showMask tips="提交数据中，请稍等..." />}

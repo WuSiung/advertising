@@ -135,7 +135,7 @@ const Summary: FC<SummaryProps> = (props) => {
   )
 
   return (
-    <PageContainer>
+    <PageContainer header={{title: '自动化概述', breadcrumb: {}}}>
       <Card
         className={`${styles.totalCard}`}
         title={title}

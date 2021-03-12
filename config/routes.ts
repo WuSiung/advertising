@@ -41,6 +41,7 @@
               {
                 path: '/automation',
                 name: 'automation',
+                icon: 'AndroidOutlined',
                 component: './automation',
                 routes: [
                   {

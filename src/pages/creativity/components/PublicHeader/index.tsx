@@ -8,6 +8,8 @@ import styles from './index.less'
 import UploadTextFile from '@/pages/adv-launcher/components/UploadTextFile';
 import DateRange from '@/pages/adv-launcher/components/DateRange';
 import { TagType } from '../../data';
+import DebounceSelect from '../DebounceSearch';
+import Store from '@/utils/store';
 
 interface PublicHeaderProps {
     type: 'media' | 'text',
@@ -22,7 +24,10 @@ interface PublicHeaderProps {
     onSort?: (type: string) => void,
     openText?: (visible: boolean) => void,
     onChangeDate?: (value: [string, string]) => void,
+    fetchTag: () => Promise<any>,
     onSource?: (type: string) => void,
+    onFilterTagValue: (value: string) => void
+    onSelectTag?: (id: string[], option: any) => void
     textVisible?: boolean
     uploading: boolean
 }
@@ -53,7 +58,7 @@ const mediaSortType = [
 
 const PublicHeader: FC<PublicHeaderProps> = (props) => {
     const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench,
-        onSort, onSource, onChangeDate, openFolder, clearDisable, tags } = props
+        onSort, onSource, onChangeDate, openFolder, clearDisable, fetchTag, onFilterTagValue, onSelectTag } = props
     const [uploadLenth, setLength] = useState(0)
     const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
         setLength(fileList.length)
@@ -61,6 +66,8 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
     }
     let souceType = type == 'media' ? mediaSorceType : textSourceType
     let sortType = type == 'media' ? mediaSortType : mediaSortType
+
+    const defaultSelectOptions = type == 'media' ? JSON.parse(Store.GetMediaTagIds() || '[]') : JSON.parse(Store.GetTextTagIds() || '[]')
 
     return <Row className={styles.top}>
         <Col className={styles.btns} span={12}>
@@ -80,13 +87,8 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
         </Col >
         <Col className={styles.filter} span={12}>
             <DateRange onChange={onChangeDate} />
-            <Select style={{ minWidth: 160, marginRight: 10, marginLeft: 10 }} placeholder='标签筛选' onChange={(value) => onSource && onSource(value)} showSearch>
-                {
-                    tags.map(tag => {
-                        return <Select.Option value={tag.name} key={tag.id}>{tag.name}</Select.Option>
-                    })
-                }
-            </Select>
+            <DebounceSelect fetchOptions={fetchTag} mode="multiple" placeholder='标签筛选' style={{ minWidth: 200, marginLeft: 10 }} showSearch
+                defaultActiveFirstOption={false} setValue={onFilterTagValue} onChange={onSelectTag} defaultOptions={defaultSelectOptions}></DebounceSelect>
             <Select style={{ minWidth: 160, marginRight: 10, marginLeft: 10 }} placeholder='类型筛选' defaultValue='所有' onChange={(value) => onSource && onSource(value)}>
                 {
                     souceType.map(souce => {
