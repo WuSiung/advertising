@@ -4,7 +4,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
-import { addTag, createContainer, deletResource, delTag, getAllTag, getSouceTag, uploadMedia } from '../../service'
+import { addTag, createContainer, deletResource, delTag, getMediaTag, getSouceTag, uploadMedia } from '../../service'
 import MaterialBox from '../Box'
 import PublicHeader from '../PublicHeader'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data';
@@ -29,7 +29,7 @@ interface PageProps {
 let promistUploadFileArray: Array<Promise<unknown>> = [];
 let uploadProcess: number = 0
 const MediaCreativity: FC<MediaCreativityProps> = (props) => {
-    const { mediaList, dispatch, userInfo, mediaGetLoading, tagList } = props
+    const { mediaList, dispatch, userInfo, mediaGetLoading, mediaTags } = props
 
     const mediaRef = useRef<HTMLDivElement>(null)
     const [mediaToWorkbenchLoading, setMediaToWorkbenchLoading] = useState(false)
@@ -52,9 +52,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                 }
             })
         }
-        dispatch({
-            type: 'material/fetchTags'
-        })
+        dispatch({ type: 'material/fetchMediaTags', payload: { rows: 10, page: 1 } })
     }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate])
 
     const clearMediaCheck = () => {
@@ -134,7 +132,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     const handleAiLib = () => {
-        setTagParams({ id: 'all', tagList: tagList })
+        setTagParams({ id: 'all', tagList: mediaTags })
         setTagName('')
         setTagVisible(true)
     }
@@ -160,7 +158,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         setTagName('')
         updateTag()
         dispatch({
-            type: 'material/fetchTags'
+            type: 'material/fetchMediaTags'
         })
         message.success('添加成功')
     }
@@ -194,7 +192,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={tagList}
+        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={mediaTags}
             type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
             openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
         <Spin spinning={!!mediaGetLoading}>
@@ -209,7 +207,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         {
             (mediaUploading || mediaToWorkbenchLoading) && <Loading showMask tips='上传中，请稍后...' />
         }
-        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk}
+        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk} fetchTags={getMediaTag}
             onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
     </div>
 }
@@ -239,7 +237,7 @@ const uploadFunction = async (value: string, media: FormData) => {
 
 export default connect(({ material, user, loading }: { material: MaterialStateType, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     mediaList: material.mediaList,
-    tagList: material.tagList,
+    mediaTags: material.mediaTags,
     mediaGetLoading: loading.effects['material/fetchMedias'],
     userInfo: user.currentUser
 }))(MediaCreativity)

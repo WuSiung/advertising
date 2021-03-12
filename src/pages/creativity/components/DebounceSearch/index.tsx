@@ -10,7 +10,7 @@ interface SearchResult {
 
 export interface DebounceSelectProps<ValueType = any>
     extends Omit<SelectProps<ValueType>, 'options' | 'children'> {
-    fetchOptions: (search: string) => Promise<{ value: SearchResult[] }>;
+    fetchOptions: (search: string) => Promise<{ value: { data: SearchResult[] } }>;
     debounceTimeout?: number;
     setValue: (value: string) => void;
     onAdd: () => void,
@@ -39,7 +39,7 @@ function DebounceSelect<
                     return;
                 }
 
-                let newArr: ValueType[] = newOptions.value.map(item => {
+                let newArr: ValueType[] = newOptions.value.data.map(item => {
                     return { key: item.id || '', label: item.name, value: item.name } as ValueType
                 })
 

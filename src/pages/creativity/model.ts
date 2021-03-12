@@ -1,6 +1,6 @@
 import { Effect, Reducer } from 'umi'
 import { MaterialStateType } from './data';
-import { getAllTag, queryMediaList, queryTextList, uploadText } from './service'
+import { getMediaTag, getTextTag, queryMediaList, queryTextList, uploadText } from './service'
 
 interface MediaModelType {
     namespace: string,
@@ -8,13 +8,15 @@ interface MediaModelType {
     effects: {
         fetchMedias: Effect,
         fetchTexts: Effect,
-        fetchTags: Effect,
+        fetchMediaTags: Effect,
+        fetchTextTags: Effect,
         uploadTexts: Effect,
     },
     reducers: {
         saveMedias: Reducer<MaterialStateType['mediaList']>,
         saveTexts: Reducer<MaterialStateType['textList']>,
-        saveTagList: Reducer<MaterialStateType['tagList']>,
+        saveMediaTags: Reducer<MaterialStateType['mediaTags']>,
+        saveTextTags: Reducer<MaterialStateType['textTags']>,
     }
 }
 
@@ -23,7 +25,8 @@ const MediaModel: MediaModelType = {
     state: {
         mediaList: [],
         textList: [],
-        tagList: [],
+        mediaTags: [],
+        textTags: [],
     },
     effects: {
         *fetchMedias({ payload }, { call, put, select }) {
@@ -54,11 +57,18 @@ const MediaModel: MediaModelType = {
                 payload: { textList: concatArr }
             })
         },
-        *fetchTags(_, { call, put }) {
-            const res = yield call(getAllTag)
+        *fetchMediaTags({ payload }, { call, put }) {
+            const res = yield call(getMediaTag, payload)
             yield put({
-                type: 'saveTagList',
-                payload: { tagList: res.value }
+                type: 'saveMediaTags',
+                payload: { mediaTags: res.value.data || [] }
+            })
+        },
+        *fetchTextTags({ payload }, { call, put }) {
+            const res = yield call(getTextTag, payload)
+            yield put({
+                type: 'saveTextTags',
+                payload: { textTags: res.value.data || [] }
             })
         },
         *uploadTexts({ payload }, { call }) {
@@ -72,7 +82,10 @@ const MediaModel: MediaModelType = {
         saveTexts(state, { payload }) {
             return { ...state, ...payload }
         },
-        saveTagList(state, { payload }) {
+        saveMediaTags(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        saveTextTags(state, { payload }) {
             return { ...state, ...payload }
         }
     }
