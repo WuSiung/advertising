@@ -1,6 +1,7 @@
 import { queryAdvAdv } from '@/pages/adv-manager/service';
 import { Effect, Reducer } from 'umi';
 import { AdvModelStateType } from './data';
+import { queryAdvList } from './service';
 
 interface AdverModelType {
     namespace: string,
@@ -23,21 +24,21 @@ const AdverModel: AdverModelType = {
     },
     effects: {
         *fetchAdvList({payload}, { call, put }) {
-            const res = yield call(queryAdvAdv, payload)
+            const res = yield call(queryAdvList, payload)
             yield put({
                 type: 'saveAdvLis',
-                payload: {advertisingList: res.data.records}
+                payload: {advertisingList: res.data}
             })
-            yield put({
-                type: 'saveAdvLis',
-                payload: {count: res.data.total}
-            })
+            // yield put({
+            //     type: 'saveAdvLis',
+            //     payload: {count: res.data.total}
+            // })
         },
         *fetchAdvListAddMore({payload}, { call, put }) {
-            const res = yield call(queryAdvAdv, payload)
+            const res = yield call(queryAdvList, payload)
             yield put({
                 type: 'saveAdvListAddMore',
-                payload: {advertisingList: res.data.records}
+                payload: {advertisingList: res.data}
             });
             yield put({
                 type: 'saveAdvLis',
