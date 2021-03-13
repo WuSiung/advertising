@@ -153,6 +153,24 @@
                 component: './version',
               },
               {
+                path: '/terms',
+                name: 'terms',
+                hideInMenu: true,
+                component: './other/terms',
+              },
+              {
+                path: '/PrivacyPolicy',
+                name: 'PrivacyPolicy',
+                hideInMenu: true,
+                component: './other/PrivacyPolicy',
+              },
+              {
+                path: '/cookie',
+                name: 'cookie',
+                hideInMenu: true,
+                component: './other/cookie',
+              },
+              {
                 path: '/admin',
                 name: 'admin',
                 icon: 'crown',
