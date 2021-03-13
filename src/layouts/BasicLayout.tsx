@@ -190,7 +190,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       //     <span>{route.breadcrumbName}</span>
       //   );
       // }}
-      footerRender={() => { return <DefaultFooter /> }}
+      // footerRender={() => { return <DefaultFooter /> }}
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
