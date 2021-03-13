@@ -17,6 +17,21 @@
             path: '/user/register',
             component: './User/register',
           },
+          {
+            path: '/user/terms',
+            name: 'terms',
+            component: './other/terms',
+          },
+          {
+            path: '/user/PrivacyPolicy',
+            name: 'PrivacyPolicy',
+            component: './other/PrivacyPolicy',
+          },
+          {
+            path: '/user/cookie',
+            name: 'cookie',
+            component: './other/cookie',
+          },
         ],
       },
       {
@@ -151,24 +166,6 @@
                 name: 'version',
                 hideInMenu: true,
                 component: './version',
-              },
-              {
-                path: '/terms',
-                name: 'terms',
-                hideInMenu: true,
-                component: './other/terms',
-              },
-              {
-                path: '/PrivacyPolicy',
-                name: 'PrivacyPolicy',
-                hideInMenu: true,
-                component: './other/PrivacyPolicy',
-              },
-              {
-                path: '/cookie',
-                name: 'cookie',
-                hideInMenu: true,
-                component: './other/cookie',
               },
               {
                 path: '/admin',
