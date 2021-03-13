@@ -20,7 +20,7 @@ type MediaCreativityProps = {
     dispatch: Dispatch,
     userInfo?: CurrentUser,
     mediaGetLoading: boolean,
-} & Omit<MaterialStateType, 'textList'>
+} & Omit<MaterialStateType, 'textList' | "textTags">
 
 interface PageProps {
     page: number,
@@ -176,7 +176,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     const chooseTagId = (value: string[], options: any) => {
         const storageValue: { key?: string; label: React.ReactNode; value: string | number }[] = []
         const allIds = options?.map((item: any) => {
-            storageValue.push({ key: item.key,label: item.name, value: item.value })
+            storageValue.push({ key: item.key, label: item.name, value: item.value })
             return item.key
         })
         setFilterTagId(allIds)

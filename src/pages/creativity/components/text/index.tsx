@@ -19,7 +19,7 @@ type PublicTextProps = {
     userInfo?: CurrentUser,
     textGetLoading: boolean,
     textUploading: boolean
-} & Omit<MaterialStateType, 'mediaList'>
+} & Omit<MaterialStateType, 'mediaList' | 'mediaTags'>
 
 interface PageProps {
     page: number,
@@ -161,7 +161,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const chooseTagId = (value: string[], options: any) => {
         const storageValue: { key?: string; label: React.ReactNode; value: string | number }[] = []
         const allIds = options?.map((item: any) => {
-            storageValue.push({ key: item.key,label: item.name, value: item.value })
+            storageValue.push({ key: item.key, label: item.name, value: item.value })
             return item.key
         })
         setFilterTagId(allIds)
