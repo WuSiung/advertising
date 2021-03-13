@@ -6,10 +6,8 @@ import styles from './index.less'
 
 const Version = () => {
     const versionDetail: string[] = [
-        '底部新增服务条款、隐私政策',
-        '更换logo、平台名称',
-        '公共素材库标签筛选',
-        '去除国际化语言选择'
+        '新增服务条款、隐私政策、cookie政策对应页面',
+        '已有广告接口变更',
     ]
     return <Card>
         <div className={styles.title}>最新版本{pjson.version}更新说明</div>
