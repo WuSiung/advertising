@@ -45,6 +45,9 @@ const Pack: FC<OnePackProps> = (props) => {
 const BasePack: FC<basePackProps> = (props) => {
     return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audienceBaseId)}>
         {props.name}
+        <div className={styles.popover}>
+            {props.des}
+        </div>
     </div>
 }
 
@@ -100,6 +103,9 @@ const Packs: FC<PacksProps> = (props) => {
         <Spin spinning={loading}>
             <div className={styles.crowdPack}>
                 {
+                    customCrowd.length > 0 && <div className={styles.navname}>自定义</div>
+                }
+                {
                     treeCheck.includes(4) && newset.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>最新人群包</div>
                         <div className={styles.packList}>
@@ -117,9 +123,8 @@ const Packs: FC<PacksProps> = (props) => {
                         </div>
                     </div>
                 }
-                {/* <div className={styles.navname}>自定义</div> */}
                 {
-                    treeCheck.includes(5) && customCrowd.length > 0 && <div className={styles.packs}>
+                    treeCheck.includes(5) && customCrowd.some(crowd => crowd.stype == '1') && customCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>兴趣人群包</div>
                         <div className={styles.packList}>
                             {
@@ -131,7 +136,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(6) && customCrowd.length > 0 && <div className={styles.packs}>
+                    treeCheck.includes(6) && customCrowd.some(crowd => crowd.stype == '2') && customCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>自定义人群包</div>
                         <div className={styles.packList}>
                             {
@@ -143,7 +148,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(7) && customCrowd.length > 0 && <div className={styles.packs}>
+                    treeCheck.includes(7) && customCrowd.some(crowd => crowd.stype == '0') && customCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>混合人群包</div>
                         <div className={styles.packList}>
                             {
@@ -154,9 +159,12 @@ const Packs: FC<PacksProps> = (props) => {
                         </div>
                     </div>
                 }
-                {/* <div className={styles.navname}>官方包</div> */}
+
                 {
-                    treeCheck.includes(15) && baseCrowd.some(crowd => crowd.type == '2')  && baseCrowd.length > 0 && <div className={styles.packs}>
+                    baseCrowd.length > 0 && <div className={styles.navname}>官方库</div>
+                }
+                {
+                    treeCheck.includes(15) && baseCrowd.some(crowd => crowd.type == '2') && baseCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>重新定位</div>
                         <div className={styles.packList}>
                             {
@@ -180,7 +188,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(17) && baseCrowd.some(crowd => crowd.type == '3')  && baseCrowd.length > 0 && <div className={styles.packs}>
+                    treeCheck.includes(17) && baseCrowd.some(crowd => crowd.type == '3') && baseCrowd.length > 0 && <div className={styles.packs}>
                         <div className={styles.title}>保留</div>
                         <div className={styles.packList}>
                             {

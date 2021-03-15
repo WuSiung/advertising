@@ -40,15 +40,7 @@ const WorkbenchModal: WorkbenchModalType = {
             const response = yield call(queryAllList)
             yield put({
                 type: 'saveImgList',
-                payload: { uploadImgList: response.data.img || [] }
-            })
-            yield put({
-                type: 'saveTextList',
-                payload: { uploadTextList: response.data.text || [] }
-            })
-            yield put({
-                type: 'saveHasAdvs',
-                payload: { hasAdvs: response.data.pair || [] }
+                payload: { uploadImgList: response.data.img || [], uploadTextList: response.data.text || [], hasAdvs: response.data.pair || [] }
             })
         },
         *uploadFile({ payload }, { call }) {
