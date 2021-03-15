@@ -1,5 +1,5 @@
 import Store from '@/utils/store';
-import { Button, Select, Spin } from 'antd';
+import { Button, message, Select, Spin } from 'antd';
 import { SelectProps } from 'antd/es/select';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -41,6 +41,10 @@ function DebounceSelect<
                 if (fetchId !== fetchRef.current) {
                     // for fetch callback order
                     return;
+                }
+
+                if (newOptions.value.data.length <= 0) {
+                    message.warning('暂无匹配标签')
                 }
 
                 let newArr: ValueType[] = newOptions.value.data.map(item => {

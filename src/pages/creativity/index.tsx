@@ -5,6 +5,8 @@ import MediaCreativity from './components/media'
 import TextCreativity from './components/text'
 import { history } from 'umi'
 
+import styles from './index.less'
+
 
 interface CreativityProps {
     location: {
@@ -23,7 +25,7 @@ const Creativity: FC<CreativityProps> = (props) => {
     }
 
     return <PageContainer content={pageTip} title='公共素材库'>
-        <Card>
+        <Card className={styles.creativity}>
             <Tabs defaultActiveKey={location.query.key} onTabClick={tabClick}>
                 <Tabs.TabPane tab="媒体素材库" key="1">
                     <MediaCreativity />
