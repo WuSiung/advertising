@@ -81,11 +81,11 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                 <FacebookFilled className={styles.iconlogo} style={{ color: "#3b5998" }} /> 添加Facebook账号
             </div>
         </Menu.Item>
-        <Menu.Item key='addGoogleAccount'>
+        {/* <Menu.Item key='addGoogleAccount'>
             <div className={styles.addAccount}>
                 <GoogleCircleFilled className={styles.iconlogo} style={{ color: "#dd4b39" }} /> 添加Google账号
             </div>
-        </Menu.Item>
+        </Menu.Item> */}
     </Menu >
     return (
         <div>
