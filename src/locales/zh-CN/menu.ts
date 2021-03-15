@@ -3,7 +3,7 @@ export default {
   'menu.advlauncher': '广告创作',
   'menu.more-blocks': '更多区块',
   'menu.advlauncher.workbench': '工作台',
-  'menu.advlauncher.advertising': '已有广告',
+  'menu.advlauncher.advertising': '广告创意',
   'menu.advlauncher.compaign': '广告系列',
   'menu.advlauncher.crowds': '绑定人群包',
   'menu.advlauncher.facebook': 'Facebook基础设置',
