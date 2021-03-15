@@ -3,7 +3,6 @@ import moment from 'moment';
 
 const TACTIC_NAME = '冲浪 CBO || 检查';
 const DOUBEL_CHECK = ' w\\二次检查'
-const OPERATOR = '>= '
 const FORMAT = 'HH:mm';
 
 const SurfCampaignModel: TSurfCampaignModel = {
@@ -52,14 +51,13 @@ const SurfCampaignModel: TSurfCampaignModel = {
   },
   reducers: {
     updateActionInfo(state, { payload }) {
-      // console.log('updateActionInfo', JSON.stringify(payload));
       const res: TStateSurfCampaign = {
         ActionInfo: {
           ...state?.ActionInfo,
           ...payload
         }
       }
-
+      // 更新CheckPoint
       if (res.ActionInfo?.CheckPoints.length === 3) {
         res.ActionInfo?.CheckPoints.forEach((c, idx) => {
           if (res.ActionInfo) {
@@ -84,7 +82,7 @@ const SurfCampaignModel: TSurfCampaignModel = {
           }
         });
       }
-      // todo: 更新CheckPoint
+
       res.Name = `${TACTIC_NAME} @{${res.ActionInfo?.CheckPoint[0].CheckPoint}, ${res.ActionInfo?.CheckPoint[1].CheckPoint}, ${res.ActionInfo?.CheckPoint[2].CheckPoint}}`;
       if (res.ActionInfo?.CheckPoints.length === 6) {
         res.Name += DOUBEL_CHECK;

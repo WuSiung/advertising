@@ -123,586 +123,586 @@ const SvgStopLossPic: FC<{ }> = (props) => {
         <filter id="Rectangle_20330" x="54.392" y="112.607" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-2" x="62.283" y="112.607" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-2"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-2"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-3" x="54.392" y="120.498" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-3"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-3"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-4" x="62.283" y="120.498" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-4"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-4"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-5" x="130.392" y="39.556" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-5"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-5"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-6" x="138.283" y="39.556" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-6"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-6"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-7" x="130.392" y="47.446" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-7"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-7"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-8" x="138.283" y="47.446" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-8"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-8"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-9" x="208.392" y="62.568" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-9"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-9"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-10" x="216.283" y="62.568" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-10"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-10"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-11" x="208.392" y="70.458" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-11"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-11"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-12" x="216.283" y="70.458" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-12"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-12"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-13" x="284.392" y="110.593" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-13"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-13"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-14" x="292.283" y="110.593" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-14"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-14"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-15" x="284.392" y="118.484" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-15"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-15"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-16" x="292.283" y="118.484" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-16"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-16"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-17" x="361.392" y="83.579" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-17"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-17"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-18" x="369.283" y="83.579" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-18"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-18"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-19" x="361.392" y="91.469" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-19"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-19"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-20" x="369.283" y="91.469" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-20"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-20"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-21" x="438.392" y="50.562" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-21"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-21"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-22" x="446.283" y="50.562" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-22"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-22"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-23" x="438.392" y="58.452" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-23"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-23"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
         <filter id="Rectangle_20330-24" x="446.283" y="58.452" width="24.576" height="24.576" filterUnits="userSpaceOnUse">
           <feOffset dy="3" input="SourceAlpha"></feOffset>
           <feGaussianBlur stdDeviation="3" result="blur-24"></feGaussianBlur>
-          <feFlood flood-color="#3f65b7" flood-opacity="0.251"></feFlood>
+          <feFlood floodColor="#3f65b7" floodOpacity="0.251"></feFlood>
           <feComposite operator="in" in2="blur-24"></feComposite>
           <feComposite in="SourceGraphic"></feComposite>
         </filter>
       </defs>
-      <g id="Group_7621" dataName="Group 7621" transform="translate(-4786.608 -7045.926)">
-        <path id="Path_3490" dataName="Path 3490" d="M0,0H512V160H0Z" transform="translate(4787 7045.926)" fill="#fff"></path>
-        <g id="Group_4224" dataName="Group 4224" transform="translate(4786.608 7056.226)">
-          <text id="Ad_Set_1" dataName="Ad Set 1" transform="translate(31.757 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+      <g id="Group_7621" dataname="Group 7621" transform="translate(-4786.608 -7045.926)">
+        <path id="Path_3490" dataname="Path 3490" d="M0,0H512V160H0Z" transform="translate(4787 7045.926)" fill="#fff"></path>
+        <g id="Group_4224" dataname="Group 4224" transform="translate(4786.608 7056.226)">
+          <text id="Ad_Set_1" dataname="Ad Set 1" transform="translate(31.757 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="22.785" y="8">Ad Set 1</tspan>
           </text>
-          <text id="Ad_Set_2" dataName="Ad Set 2" transform="translate(108.529 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+          <text id="Ad_Set_2" dataname="Ad Set 2" transform="translate(108.529 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="21.552" y="8">Ad Set 2</tspan>
           </text>
-          <text id="Ad_Set_3" dataName="Ad Set 3" transform="translate(185.302 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+          <text id="Ad_Set_3" dataname="Ad Set 3" transform="translate(185.302 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="21.723" y="8">Ad Set 3</tspan>
           </text>
-          <text id="Ad_Set_4" dataName="Ad Set 4" transform="translate(262.074 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+          <text id="Ad_Set_4" dataname="Ad Set 4" transform="translate(262.074 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="21.736" y="8">Ad Set 4</tspan>
           </text>
-          <g id="Group_4227" dataName="Group 4227" transform="translate(28.415 6.2)">
-            <line id="Line_287" dataName="Line 287" y2="123.311" transform="translate(3.052)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_289" dataName="Line 289" x1="5.816" transform="translate(0 102.647)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_290" dataName="Line 290" x1="5.816" transform="translate(0 81.751)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_291" dataName="Line 291" x1="5.816" transform="translate(0 60.867)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_292" dataName="Line 292" x1="5.816" transform="translate(0 39.983)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_293" dataName="Line 293" x1="5.816" transform="translate(0 19.088)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+          <g id="Group_4227" dataname="Group 4227" transform="translate(28.415 6.2)">
+            <line id="Line_287" dataname="Line 287" y2="123.311" transform="translate(3.052)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_289" dataname="Line 289" x1="5.816" transform="translate(0 102.647)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_290" dataname="Line 290" x1="5.816" transform="translate(0 81.751)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_291" dataname="Line 291" x1="5.816" transform="translate(0 60.867)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_292" dataname="Line 292" x1="5.816" transform="translate(0 39.983)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_293" dataname="Line 293" x1="5.816" transform="translate(0 19.088)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
           </g>
           <g id="roas" transform="translate(0 19.948)">
-            <text id="_0.5x" dataName="0.5x" transform="translate(0 83.068)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+            <text id="_0.5x" dataname="0.5x" transform="translate(0 83.068)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
               <tspan x="9.381" y="8">0.5x</tspan>
             </text>
-            <text id="_1.0x" dataName="1.0x" transform="translate(0 62.614)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+            <text id="_1.0x" dataname="1.0x" transform="translate(0 62.614)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
               <tspan x="11.415" y="8">1.0x</tspan>
             </text>
-            <text id="_1.5x" dataName="1.5x" transform="translate(0 41.743)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+            <text id="_1.5x" dataname="1.5x" transform="translate(0 41.743)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
               <tspan x="11.757" y="8">1.5x</tspan>
             </text>
-            <text id="_2.0x" dataName="2.0x" transform="translate(0 20.871)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+            <text id="_2.0x" dataname="2.0x" transform="translate(0 20.871)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
               <tspan x="8.949" y="8">2.0x</tspan>
             </text>
-            <text id="_2.5x" dataName="2.5x" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+            <text id="_2.5x" dataname="2.5x" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
               <tspan x="9.291" y="8">2.5x</tspan>
             </text>
           </g>
-          <text id="Ad_Set_5" dataName="Ad Set 5" transform="translate(338.846 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+          <text id="Ad_Set_5" dataname="Ad Set 5" transform="translate(338.846 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="21.552" y="8">Ad Set 5</tspan>
           </text>
-          <text id="Ad_Set_6" dataName="Ad Set 6" transform="translate(415.619 133.894)" fill="#0d182f" font-size="9" font-family="ProximaNova-Light, Proxima Nova" font-weight="300">
+          <text id="Ad_Set_6" dataname="Ad Set 6" transform="translate(415.619 133.894)" fill="#0d182f" fontSize="9" fontFamily="ProximaNova-Light, Proxima Nova" font-weight="300">
             <tspan x="21.543" y="8">Ad Set 6</tspan>
           </text>
-          <g id="Group_6752" dataName="Group 6752" transform="translate(59.391 104.774)">
-            <g id="Rectangle_20373" dataName="Rectangle 20373" fill="#ffa8b9" stroke="#a0aabe" strokeWidth="0.1">
+          <g id="Group_6752" dataname="Group 6752" transform="translate(59.391 104.774)">
+            <g id="Rectangle_20373" dataname="Rectangle 20373" fill="#ffa8b9" stroke="#a0aabe" strokeWidth="0.1">
               <rect width="22" height="22" rx="11" stroke="none"></rect>
               <rect x="0.05" y="0.05" width="21.9" height="21.9" rx="10.95" fill="none"></rect>
             </g>
-            <g id="Group_6742" dataName="Group 6742" transform="translate(4 3.533)">
+            <g id="Group_6742" dataname="Group 6742" transform="translate(4 3.533)">
               <g transform="matrix(1, 0, 0, 1, -63.39, -118.61)" filter="url(#Rectangle_20330)">
-                <rect id="Rectangle_20330-25" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(63.39 118.61)" fill="#fff"></rect>
+                <rect id="Rectangle_20330-25" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(63.39 118.61)" fill="#fff"></rect>
               </g>
-              <rect id="Rectangle_20337" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-              <g id="Ellipse_1029" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <rect id="Rectangle_20337" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+              <g id="Ellipse_1029" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
-              <g id="Ellipse_1030" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <g id="Ellipse_1030" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
               <g transform="matrix(1, 0, 0, 1, -63.39, -118.61)" filter="url(#Rectangle_20330-2)">
-                <rect id="Rectangle_20330-26" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(71.28 118.61)" fill="#fff"></rect>
+                <rect id="Rectangle_20330-26" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(71.28 118.61)" fill="#fff"></rect>
               </g>
-              <rect id="Rectangle_20337-2" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-              <g id="Ellipse_1029-2" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <rect id="Rectangle_20337-2" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+              <g id="Ellipse_1029-2" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
-              <g id="Ellipse_1030-2" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <g id="Ellipse_1030-2" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
               <g transform="matrix(1, 0, 0, 1, -63.39, -118.61)" filter="url(#Rectangle_20330-3)">
-                <rect id="Rectangle_20330-27" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(63.39 126.5)" fill="#fff"></rect>
+                <rect id="Rectangle_20330-27" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(63.39 126.5)" fill="#fff"></rect>
               </g>
-              <rect id="Rectangle_20337-3" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-              <g id="Ellipse_1029-3" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <rect id="Rectangle_20337-3" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+              <g id="Ellipse_1029-3" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
-              <g id="Ellipse_1030-3" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <g id="Ellipse_1030-3" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
               <g transform="matrix(1, 0, 0, 1, -63.39, -118.61)" filter="url(#Rectangle_20330-4)">
-                <rect id="Rectangle_20330-28" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(71.28 126.5)" fill="#fff"></rect>
+                <rect id="Rectangle_20330-28" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(71.28 126.5)" fill="#fff"></rect>
               </g>
-              <rect id="Rectangle_20337-4" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-              <g id="Ellipse_1029-4" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <rect id="Rectangle_20337-4" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+              <g id="Ellipse_1029-4" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
-              <g id="Ellipse_1030-4" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+              <g id="Ellipse_1030-4" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
                 <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
                 <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
               </g>
             </g>
           </g>
-          <g id="Group_4228" dataName="Group 4228" transform="translate(31.466 127.721)">
-            <line id="Line_288" dataName="Line 288" x2="463.425" transform="translate(0 1.79)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_295" dataName="Line 295" y1="3.339" transform="translate(38.677)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_296" dataName="Line 296" y1="3.339" transform="translate(115.449)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_297" dataName="Line 297" y1="3.339" transform="translate(192.222)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_298" dataName="Line 298" y1="3.339" transform="translate(268.994)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_299" dataName="Line 299" y1="3.339" transform="translate(345.767)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
-            <line id="Line_300" dataName="Line 300" y1="3.339" transform="translate(422.539)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+          <g id="Group_4228" dataname="Group 4228" transform="translate(31.466 127.721)">
+            <line id="Line_288" dataname="Line 288" x2="463.425" transform="translate(0 1.79)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_295" dataname="Line 295" y1="3.339" transform="translate(38.677)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_296" dataname="Line 296" y1="3.339" transform="translate(115.449)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_297" dataname="Line 297" y1="3.339" transform="translate(192.222)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_298" dataname="Line 298" y1="3.339" transform="translate(268.994)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_299" dataname="Line 299" y1="3.339" transform="translate(345.767)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
+            <line id="Line_300" dataname="Line 300" y1="3.339" transform="translate(422.539)" fill="none" stroke="#b4b9c4" strokeWidth="0.5"></line>
           </g>
-          <g id="Group_4229" dataName="Group 4229" transform="translate(37.864 48.915)">
-            <line id="Line_294" dataName="Line 294" x2="450.747" transform="translate(0 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
-            <line id="Line_301" dataName="Line 301" y1="18.089" transform="translate(32.57 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
-            <line id="Line_302" dataName="Line 302" y1="39.238" transform="translate(109.342)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
-            <line id="Line_303" dataName="Line 303" y1="15.862" transform="translate(186.115 23.377)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
-            <line id="Line_305" dataName="Line 305" y1="30.89" transform="translate(416.432 8.349)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
-            <line id="Line_356" dataName="Line 356" y1="21.289" transform="translate(262.887 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+          <g id="Group_4229" dataname="Group 4229" transform="translate(37.864 48.915)">
+            <line id="Line_294" dataname="Line 294" x2="450.747" transform="translate(0 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+            <line id="Line_301" dataname="Line 301" y1="18.089" transform="translate(32.57 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+            <line id="Line_302" dataname="Line 302" y1="39.238" transform="translate(109.342)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+            <line id="Line_303" dataname="Line 303" y1="15.862" transform="translate(186.115 23.377)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+            <line id="Line_305" dataname="Line 305" y1="30.89" transform="translate(416.432 8.349)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
+            <line id="Line_356" dataname="Line 356" y1="21.289" transform="translate(262.887 39.239)" fill="none" stroke="#b4b9c4" strokeWidth="1" strokeDasharray="4"></line>
           </g>
           <g id="scissors" transform="translate(65.385 108.945) rotate(-90)">
-            <path id="Path_1494" dataName="Path 1494" d="M14.927,0,0,21.22l2.049,1.463L5.268,18l1.9.585A1.082,1.082,0,0,0,8.488,18l7.9-14.927Z" transform="translate(7.967)" fill="#a0aabe" stroke="#707070" strokeWidth="0.1"></path>
-            <path id="Path_1495" dataName="Path 1495" d="M10.309,0A3.455,3.455,0,0,1,8.992,1.171a3.277,3.277,0,0,1-2.634.146,4.6,4.6,0,0,0-6,2.341,4.244,4.244,0,0,0,.878,4.683A4.409,4.409,0,0,0,8.114,7.9L12.5,1.61ZM3.138,7.317a2.492,2.492,0,0,1-.585-3.366,2.36,2.36,0,0,1,3.366-.585A2.36,2.36,0,0,1,6.5,6.732,2.25,2.25,0,0,1,3.138,7.317Z" transform="translate(0 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
-            <path id="Path_1496" dataName="Path 1496" d="M1.463,0,16.39,21.22l-2.049,1.463L11.122,18l-1.9.585A1.082,1.082,0,0,1,7.9,18L0,3.073Z" transform="translate(5.041)" fill="#f6f6f8" stroke="#707070" strokeWidth="0.1"></path>
-            <path id="Path_1497" dataName="Path 1497" d="M0,1.61,4.39,7.9a4.424,4.424,0,0,0,6.878.439,4.642,4.642,0,0,0,.878-4.683,4.55,4.55,0,0,0-6-2.341,3.111,3.111,0,0,1-2.78-.146A4.741,4.741,0,0,1,2.049,0ZM6.146,6.732a2.519,2.519,0,0,1,.585-3.366,2.519,2.519,0,0,1,3.366.585,2.519,2.519,0,0,1-.585,3.366A2.36,2.36,0,0,1,6.146,6.732Z" transform="translate(16.748 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
-            <circle id="Ellipse_649" dataName="Ellipse 649" cx="0.878" cy="0.878" r="0.878" transform="translate(13.528 14.927)" fill="#adb3ba"></circle>
+            <path id="Path_1494" dataname="Path 1494" d="M14.927,0,0,21.22l2.049,1.463L5.268,18l1.9.585A1.082,1.082,0,0,0,8.488,18l7.9-14.927Z" transform="translate(7.967)" fill="#a0aabe" stroke="#707070" strokeWidth="0.1"></path>
+            <path id="Path_1495" dataname="Path 1495" d="M10.309,0A3.455,3.455,0,0,1,8.992,1.171a3.277,3.277,0,0,1-2.634.146,4.6,4.6,0,0,0-6,2.341,4.244,4.244,0,0,0,.878,4.683A4.409,4.409,0,0,0,8.114,7.9L12.5,1.61ZM3.138,7.317a2.492,2.492,0,0,1-.585-3.366,2.36,2.36,0,0,1,3.366-.585A2.36,2.36,0,0,1,6.5,6.732,2.25,2.25,0,0,1,3.138,7.317Z" transform="translate(0 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
+            <path id="Path_1496" dataname="Path 1496" d="M1.463,0,16.39,21.22l-2.049,1.463L11.122,18l-1.9.585A1.082,1.082,0,0,1,7.9,18L0,3.073Z" transform="translate(5.041)" fill="#f6f6f8" stroke="#707070" strokeWidth="0.1"></path>
+            <path id="Path_1497" dataname="Path 1497" d="M0,1.61,4.39,7.9a4.424,4.424,0,0,0,6.878.439,4.642,4.642,0,0,0,.878-4.683,4.55,4.55,0,0,0-6-2.341,3.111,3.111,0,0,1-2.78-.146A4.741,4.741,0,0,1,2.049,0ZM6.146,6.732a2.519,2.519,0,0,1,.585-3.366,2.519,2.519,0,0,1,3.366.585,2.519,2.519,0,0,1-.585,3.366A2.36,2.36,0,0,1,6.146,6.732Z" transform="translate(16.748 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
+            <circle id="Ellipse_649" dataname="Ellipse 649" cx="0.878" cy="0.878" r="0.878" transform="translate(13.528 14.927)" fill="#adb3ba"></circle>
           </g>
-          <g id="Path_3493" dataName="Path 3493" transform="translate(27.535 0)" fill="#b4b9c4">
+          <g id="Path_3493" dataname="Path 3493" transform="translate(27.535 0)" fill="#b4b9c4">
             <path d="M 7.573709011077881 6.841799259185791 L 0.4297752976417542 6.841799259185791 L 4.031389713287354 0.5088804364204407 L 7.573709011077881 6.841799259185791 Z" stroke="none"></path>
             <path d="M 4.029586791992188 1.01776647567749 L 0.8595609664916992 6.591799259185791 L 7.147422790527344 6.591799259185791 L 4.029586791992188 1.01776647567749 M 4.033199787139893 -9.5367431640625e-07 L 8 7.091799259185791 L -4.76837158203125e-07 7.091799259185791 L 4.033199787139893 -9.5367431640625e-07 Z" stroke="none" fill="#b4b9c4"></path>
           </g>
-          <g id="Path_3494" dataName="Path 3494" transform="translate(501.081 125.62) rotate(90)" fill="#b4b9c4">
+          <g id="Path_3494" dataname="Path 3494" transform="translate(501.081 125.62) rotate(90)" fill="#b4b9c4">
             <path d="M 7.573709011077881 6.841799259185791 L 0.4297752976417542 6.841799259185791 L 4.031389713287354 0.5088804364204407 L 7.573709011077881 6.841799259185791 Z" stroke="none"></path>
             <path d="M 4.029586791992188 1.01776647567749 L 0.8595609664916992 6.591799259185791 L 7.147422790527344 6.591799259185791 L 4.029586791992188 1.01776647567749 M 4.033199787139893 -9.5367431640625e-07 L 8 7.091799259185791 L -4.76837158203125e-07 7.091799259185791 L 4.033199787139893 -9.5367431640625e-07 Z" stroke="none" fill="#b4b9c4"></path>
           </g>
-          <g id="scissors_2" dataName="scissors 2" transform="translate(296.385 112.947) rotate(-90)">
-            <path id="Path_1494-2" dataName="Path 1494" d="M14.927,0,0,21.22l2.049,1.463L5.268,18l1.9.585A1.082,1.082,0,0,0,8.488,18l7.9-14.927Z" transform="translate(7.967)" fill="#a0aabe" stroke="#707070" strokeWidth="0.1"></path>
-            <path id="Path_1495-2" dataName="Path 1495" d="M10.309,0A3.455,3.455,0,0,1,8.992,1.171a3.277,3.277,0,0,1-2.634.146,4.6,4.6,0,0,0-6,2.341,4.244,4.244,0,0,0,.878,4.683A4.409,4.409,0,0,0,8.114,7.9L12.5,1.61ZM3.138,7.317a2.492,2.492,0,0,1-.585-3.366,2.36,2.36,0,0,1,3.366-.585A2.36,2.36,0,0,1,6.5,6.732,2.25,2.25,0,0,1,3.138,7.317Z" transform="translate(0 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
-            <path id="Path_1496-2" dataName="Path 1496" d="M1.463,0,16.39,21.22l-2.049,1.463L11.122,18l-1.9.585A1.082,1.082,0,0,1,7.9,18L0,3.073Z" transform="translate(5.041)" fill="#f6f6f8" stroke="#707070" strokeWidth="0.1"></path>
-            <path id="Path_1497-2" dataName="Path 1497" d="M0,1.61,4.39,7.9a4.424,4.424,0,0,0,6.878.439,4.642,4.642,0,0,0,.878-4.683,4.55,4.55,0,0,0-6-2.341,3.111,3.111,0,0,1-2.78-.146A4.741,4.741,0,0,1,2.049,0ZM6.146,6.732a2.519,2.519,0,0,1,.585-3.366,2.519,2.519,0,0,1,3.366.585,2.519,2.519,0,0,1-.585,3.366A2.36,2.36,0,0,1,6.146,6.732Z" transform="translate(16.748 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
-            <circle id="Ellipse_649-2" dataName="Ellipse 649" cx="0.878" cy="0.878" r="0.878" transform="translate(13.528 14.927)" fill="#adb3ba"></circle>
+          <g id="scissors_2" dataname="scissors 2" transform="translate(296.385 112.947) rotate(-90)">
+            <path id="Path_1494-2" dataname="Path 1494" d="M14.927,0,0,21.22l2.049,1.463L5.268,18l1.9.585A1.082,1.082,0,0,0,8.488,18l7.9-14.927Z" transform="translate(7.967)" fill="#a0aabe" stroke="#707070" strokeWidth="0.1"></path>
+            <path id="Path_1495-2" dataname="Path 1495" d="M10.309,0A3.455,3.455,0,0,1,8.992,1.171a3.277,3.277,0,0,1-2.634.146,4.6,4.6,0,0,0-6,2.341,4.244,4.244,0,0,0,.878,4.683A4.409,4.409,0,0,0,8.114,7.9L12.5,1.61ZM3.138,7.317a2.492,2.492,0,0,1-.585-3.366,2.36,2.36,0,0,1,3.366-.585A2.36,2.36,0,0,1,6.5,6.732,2.25,2.25,0,0,1,3.138,7.317Z" transform="translate(0 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
+            <path id="Path_1496-2" dataname="Path 1496" d="M1.463,0,16.39,21.22l-2.049,1.463L11.122,18l-1.9.585A1.082,1.082,0,0,1,7.9,18L0,3.073Z" transform="translate(5.041)" fill="#f6f6f8" stroke="#707070" strokeWidth="0.1"></path>
+            <path id="Path_1497-2" dataname="Path 1497" d="M0,1.61,4.39,7.9a4.424,4.424,0,0,0,6.878.439,4.642,4.642,0,0,0,.878-4.683,4.55,4.55,0,0,0-6-2.341,3.111,3.111,0,0,1-2.78-.146A4.741,4.741,0,0,1,2.049,0ZM6.146,6.732a2.519,2.519,0,0,1,.585-3.366,2.519,2.519,0,0,1,3.366.585,2.519,2.519,0,0,1-.585,3.366A2.36,2.36,0,0,1,6.146,6.732Z" transform="translate(16.748 17.415)" fill="#0d182f" stroke="#0d182f" strokeWidth="0.5"></path>
+            <circle id="Ellipse_649-2" dataname="Ellipse 649" cx="0.878" cy="0.878" r="0.878" transform="translate(13.528 14.927)" fill="#adb3ba"></circle>
           </g>
         </g>
-        <g id="Group_6753" dataName="Group 6753" transform="translate(4922 7087.948)">
-          <g id="Rectangle_20373-2" dataName="Rectangle 20373" fill="#8abfc5" stroke="#a0aabe" strokeWidth="0.1">
+        <g id="Group_6753" dataname="Group 6753" transform="translate(4922 7087.948)">
+          <g id="Rectangle_20373-2" dataname="Rectangle 20373" fill="#8abfc5" stroke="#a0aabe" strokeWidth="0.1">
             <rect width="22" height="22" rx="11" stroke="none"></rect>
             <rect x="0.05" y="0.05" width="21.9" height="21.9" rx="10.95" fill="none"></rect>
           </g>
-          <g id="Group_6742-2" dataName="Group 6742" transform="translate(4 3.533)">
+          <g id="Group_6742-2" dataname="Group 6742" transform="translate(4 3.533)">
             <g transform="matrix(1, 0, 0, 1, -139.39, -45.56)" filter="url(#Rectangle_20330-5)">
-              <rect id="Rectangle_20330-29" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(139.39 45.56)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-29" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(139.39 45.56)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-5" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-5" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-5" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-5" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-5" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-5" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -139.39, -45.56)" filter="url(#Rectangle_20330-6)">
-              <rect id="Rectangle_20330-30" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(147.28 45.56)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-30" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(147.28 45.56)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-6" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-6" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-6" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-6" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-6" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-6" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -139.39, -45.56)" filter="url(#Rectangle_20330-7)">
-              <rect id="Rectangle_20330-31" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(139.39 53.45)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-31" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(139.39 53.45)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-7" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-7" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-7" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-7" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-7" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-7" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -139.39, -45.56)" filter="url(#Rectangle_20330-8)">
-              <rect id="Rectangle_20330-32" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(147.28 53.45)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-32" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(147.28 53.45)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-8" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-8" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-8" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-8" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-8" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-8" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
           </g>
         </g>
-        <g id="Group_6754" dataName="Group 6754" transform="translate(5000 7110.96)">
-          <g id="Rectangle_20373-3" dataName="Rectangle 20373" fill="#c0dadd" stroke="#a0aabe" strokeWidth="0.1">
+        <g id="Group_6754" dataname="Group 6754" transform="translate(5000 7110.96)">
+          <g id="Rectangle_20373-3" dataname="Rectangle 20373" fill="#c0dadd" stroke="#a0aabe" strokeWidth="0.1">
             <rect width="22" height="22" rx="11" stroke="none"></rect>
             <rect x="0.05" y="0.05" width="21.9" height="21.9" rx="10.95" fill="none"></rect>
           </g>
-          <g id="Group_6742-3" dataName="Group 6742" transform="translate(4 3.533)">
+          <g id="Group_6742-3" dataname="Group 6742" transform="translate(4 3.533)">
             <g transform="matrix(1, 0, 0, 1, -217.39, -68.57)" filter="url(#Rectangle_20330-9)">
-              <rect id="Rectangle_20330-33" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(217.39 68.57)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-33" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(217.39 68.57)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-9" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-9" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-9" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-9" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-9" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-9" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -217.39, -68.57)" filter="url(#Rectangle_20330-10)">
-              <rect id="Rectangle_20330-34" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(225.28 68.57)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-34" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(225.28 68.57)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-10" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-10" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-10" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-10" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-10" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-10" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -217.39, -68.57)" filter="url(#Rectangle_20330-11)">
-              <rect id="Rectangle_20330-35" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(217.39 76.46)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-35" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(217.39 76.46)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-11" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-11" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-11" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-11" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-11" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-11" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -217.39, -68.57)" filter="url(#Rectangle_20330-12)">
-              <rect id="Rectangle_20330-36" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(225.28 76.46)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-36" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(225.28 76.46)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-12" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-12" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-12" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-12" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-12" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-12" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
           </g>
         </g>
-        <g id="Group_6755" dataName="Group 6755" transform="translate(5076 7158.986)">
-          <rect id="Rectangle_20373-4" dataName="Rectangle 20373" width="22" height="22" rx="11" fill="#ffa8b9"></rect>
-          <g id="Group_6742-4" dataName="Group 6742" transform="translate(4 3.533)">
+        <g id="Group_6755" dataname="Group 6755" transform="translate(5076 7158.986)">
+          <rect id="Rectangle_20373-4" dataname="Rectangle 20373" width="22" height="22" rx="11" fill="#ffa8b9"></rect>
+          <g id="Group_6742-4" dataname="Group 6742" transform="translate(4 3.533)">
             <g transform="matrix(1, 0, 0, 1, -293.39, -116.59)" filter="url(#Rectangle_20330-13)">
-              <rect id="Rectangle_20330-37" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(293.39 116.59)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-37" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(293.39 116.59)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-13" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-13" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-13" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-13" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-13" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-13" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -293.39, -116.59)" filter="url(#Rectangle_20330-14)">
-              <rect id="Rectangle_20330-38" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(301.28 116.59)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-38" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(301.28 116.59)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-14" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-14" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-14" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-14" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-14" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-14" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -293.39, -116.59)" filter="url(#Rectangle_20330-15)">
-              <rect id="Rectangle_20330-39" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(293.39 124.48)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-39" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(293.39 124.48)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-15" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-15" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-15" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-15" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-15" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-15" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -293.39, -116.59)" filter="url(#Rectangle_20330-16)">
-              <rect id="Rectangle_20330-40" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(301.28 124.48)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-40" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(301.28 124.48)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-16" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-16" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-16" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-16" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-16" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-16" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
           </g>
         </g>
-        <g id="Group_6756" dataName="Group 6756" transform="translate(5153 7131.971)">
-          <g id="Rectangle_20373-5" dataName="Rectangle 20373" fill="#fff" stroke="#a0aabe" strokeWidth="0.2">
+        <g id="Group_6756" dataname="Group 6756" transform="translate(5153 7131.971)">
+          <g id="Rectangle_20373-5" dataname="Rectangle 20373" fill="#fff" stroke="#a0aabe" strokeWidth="0.2">
             <rect width="22" height="22" rx="11" stroke="none"></rect>
             <rect x="0.1" y="0.1" width="21.8" height="21.8" rx="10.9" fill="none"></rect>
           </g>
-          <g id="Group_6742-5" dataName="Group 6742" transform="translate(4 3.533)">
+          <g id="Group_6742-5" dataname="Group 6742" transform="translate(4 3.533)">
             <g transform="matrix(1, 0, 0, 1, -370.39, -89.58)" filter="url(#Rectangle_20330-17)">
-              <rect id="Rectangle_20330-41" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(370.39 89.58)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-41" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(370.39 89.58)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-17" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-17" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-17" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-17" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-17" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-17" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -370.39, -89.58)" filter="url(#Rectangle_20330-18)">
-              <rect id="Rectangle_20330-42" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(378.28 89.58)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-42" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(378.28 89.58)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-18" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-18" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-18" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-18" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-18" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-18" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -370.39, -89.58)" filter="url(#Rectangle_20330-19)">
-              <rect id="Rectangle_20330-43" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(370.39 97.47)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-43" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(370.39 97.47)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-19" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-19" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-19" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-19" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-19" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-19" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -370.39, -89.58)" filter="url(#Rectangle_20330-20)">
-              <rect id="Rectangle_20330-44" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(378.28 97.47)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-44" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(378.28 97.47)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-20" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-20" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-20" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-20" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-20" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-20" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
           </g>
         </g>
-        <g id="Group_6757" dataName="Group 6757" transform="translate(5230 7098.954)">
-          <g id="Rectangle_20373-6" dataName="Rectangle 20373" fill="#8abfc5" stroke="#a0aabe" strokeWidth="0.1">
+        <g id="Group_6757" dataname="Group 6757" transform="translate(5230 7098.954)">
+          <g id="Rectangle_20373-6" dataname="Rectangle 20373" fill="#8abfc5" stroke="#a0aabe" strokeWidth="0.1">
             <rect width="22" height="22" rx="11" stroke="none"></rect>
             <rect x="0.05" y="0.05" width="21.9" height="21.9" rx="10.95" fill="none"></rect>
           </g>
-          <g id="Group_6742-6" dataName="Group 6742" transform="translate(4 3.533)">
+          <g id="Group_6742-6" dataname="Group 6742" transform="translate(4 3.533)">
             <g transform="matrix(1, 0, 0, 1, -447.39, -56.56)" filter="url(#Rectangle_20330-21)">
-              <rect id="Rectangle_20330-45" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(447.39 56.56)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-45" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(447.39 56.56)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-21" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-21" dataName="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-21" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-21" dataname="Ellipse 1029" transform="translate(3.945 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-21" dataName="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-21" dataname="Ellipse 1030" transform="translate(5.261 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -447.39, -56.56)" filter="url(#Rectangle_20330-22)">
-              <rect id="Rectangle_20330-46" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(455.28 56.56)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-46" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(455.28 56.56)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-22" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-22" dataName="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-22" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 1.315)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-22" dataname="Ellipse 1029" transform="translate(11.836 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-22" dataName="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-22" dataname="Ellipse 1030" transform="translate(13.152 0.329)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -447.39, -56.56)" filter="url(#Rectangle_20330-23)">
-              <rect id="Rectangle_20330-47" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(447.39 64.45)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-47" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(447.39 64.45)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-23" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-23" dataName="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-23" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(0.658 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-23" dataname="Ellipse 1029" transform="translate(3.945 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-23" dataName="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-23" dataname="Ellipse 1030" transform="translate(5.261 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
             <g transform="matrix(1, 0, 0, 1, -447.39, -56.56)" filter="url(#Rectangle_20330-24)">
-              <rect id="Rectangle_20330-48" dataName="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(455.28 64.45)" fill="#fff"></rect>
+              <rect id="Rectangle_20330-48" dataname="Rectangle 20330" width="6.576" height="6.576" rx="1" transform="translate(455.28 64.45)" fill="#fff"></rect>
             </g>
-            <rect id="Rectangle_20337-24" dataName="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
-            <g id="Ellipse_1029-24" dataName="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <rect id="Rectangle_20337-24" dataname="Rectangle 20337" width="5.261" height="4.603" rx="1" transform="translate(8.548 9.206)" fill="#7655c9" opacity="0.5"></rect>
+            <g id="Ellipse_1029-24" dataname="Ellipse 1029" transform="translate(11.836 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>
-            <g id="Ellipse_1030-24" dataName="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
+            <g id="Ellipse_1030-24" dataname="Ellipse 1030" transform="translate(13.152 8.22)" fill="#c7d9ff" stroke="#7655c9" strokeWidth="1" opacity="0.5">
               <circle cx="0.329" cy="0.329" r="0.329" stroke="none"></circle>
               <circle cx="0.329" cy="0.329" r="0.171" fill="none"></circle>
             </g>

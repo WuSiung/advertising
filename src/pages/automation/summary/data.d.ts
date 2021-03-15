@@ -5,7 +5,9 @@ export type TTactic = {
   Name: string;
   PlatformId: number;
   ActionType: string;
+  ActionTypeName: string;
   AdvID: string;
+  Status: string;
   PreProcessMsg: string[];
 }
 

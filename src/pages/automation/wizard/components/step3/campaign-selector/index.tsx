@@ -1,8 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
-import {Card, Input, Space, Checkbox, Tag, Row, Col, Table, Switch, Menu, Badge, Dropdown} from "antd";
-import { DownOutlined } from '@ant-design/icons';
-import {TSelectorData} from "@/pages/automation/wizard/components/step2/surf-ad-set/data";
+import {Card, Input, Space, Checkbox, Tag, Table } from "antd";
 import {TStateCampaignSelector} from "@/pages/automation/wizard/components/step3/campaign-selector/data";
 
 // const CheckboxGroup = Checkbox.Group;
@@ -13,12 +11,10 @@ interface ICampaignSelector {
   Name?: string;
   ActionObj?: string[];
   onChange: (payload: any) => void;
+  onActionObjChange: (isSelected: boolean) => void;
 };
 
 const CampaignSelector: FC<ICampaignSelector> = (props) => {
-  // function onChange(checkedValues: any) {
-  //   console.log('checked = ', checkedValues);
-  // }
   const {dispatch, campaignSelector} = props;
   useEffect(() => {
     if (dispatch) {
@@ -28,28 +24,13 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
       });
     }
   }, []);
-  console.log('selector props', props.Name);
-  // todo: checkbox的value属性绑定广告集的id
-  // todo: checkbox的checked属性={id是否在传进来的列表里面}
-
-  interface DataType {
-    key: React.Key;
-    title: string;
-    dataIndex: number;
-  }
 
   const columns = [
     { title: '适用于所有收购活动', dataIndex: 'appName', key: 'appName' },
-    // { title: 'Platform', dataIndex: 'platform', key: 'platform' },
-    // { title: 'Version', dataIndex: 'version', key: 'version' },
-    // { title: 'Upgraded', dataIndex: 'upgradeNum', key: 'upgradeNum' },
-    // { title: 'Creator', dataIndex: 'creator', key: 'creator' },
-    // { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
-    // { title: 'Action', key: 'operation', render: () => <a>Publish</a> },
   ];
 
   const data = [];
-  for (let i = 0; i < 3; ++i) {
+  for (let i = 0; i < 3; i += 1) {
     data.push({
       key: String(i),
       name: 'Screem',
@@ -62,16 +43,28 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
   }
 
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    onChange: (selectedRowKeys: React.Key[]) => {
+      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       props.onChange({ActionObj: selectedRowKeys});
+
+      let isChanged = false;
+      if (props.ActionObj?.length !== selectedRowKeys.length) {
+        isChanged = true
+      }
+
+      if (!isChanged) {
+        props.ActionObj?.forEach(k => {
+          if (selectedRowKeys.indexOf(k) === -1) {
+            isChanged = true
+          }
+        });
+      }
+
+      if (isChanged) {
+        props.onActionObjChange(selectedRowKeys.length > 0);
+      }
     },
     selectedRowKeys: props.ActionObj
-
-    // getCheckboxProps: (record: DataType) => ({
-    //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    //   name: record.name,
-    // }),
   };
 
   const title = (

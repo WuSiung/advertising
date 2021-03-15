@@ -1,12 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {Card, Input, Space, Checkbox, Tag, Table } from "antd";
-import {TStateAdSetSelector} from "@/pages/automation/wizard/components/step3/ad-set-selector/data";
+import {TAd, TStateAdSelector} from "@/pages/automation/wizard/components/step3/ad-selector/data";
+import {ColumnsType} from "antd/es/table";
 
 // const CheckboxGroup = Checkbox.Group;
-interface IAdSetSelector {
+interface IAdSelector {
   isLoading?: boolean;
-  adSetSelector?: TStateAdSetSelector,
+  adSelector?: TStateAdSelector,
   dispatch?: Dispatch,
   Name?: string;
   ActionObj?: string[];
@@ -14,19 +15,19 @@ interface IAdSetSelector {
   onActionObjChange: (isSelected: boolean) => void;
 };
 
-const AdSetSelector: FC<IAdSetSelector> = (props) => {
-  const {dispatch, adSetSelector} = props;
+const AdSelector: FC<IAdSelector> = (props) => {
+  const {dispatch, adSelector} = props;
   useEffect(() => {
     if (dispatch) {
       dispatch({
-        type: 'adSetSelector/getAdSetList',
+        type: 'adSelector/getAdList',
         payload: {}
       });
     }
   }, []);
 
-  const columns = [
-    { title: '套用至所有[揽客]广告', dataIndex: 'setName', key: 'setName' },
+  const columns: ColumnsType<TAd> = [
+    { title: '适用于所有收购活动', dataIndex: 'advName', key: 'advName' },
   ];
 
   const data = [];
@@ -44,7 +45,6 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[]) => {
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       props.onChange({ActionObj: selectedRowKeys});
 
       let isChanged = false;
@@ -65,21 +65,16 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
       }
     },
     selectedRowKeys: props.ActionObj
-
-    // getCheckboxProps: (record: DataType) => ({
-    //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    //   name: record.name,
-    // }),
   };
 
   const title = (
     <Space>
-      <h4 style={{marginBottom: 0}}>适用于：</h4>
+      <h4 style={{marginBottom: 0}}>选择收购活动：</h4>
       <div>
         <Checkbox checked={true}> 已选</Checkbox>
-        <Checkbox disabled={true}> 所选广告集和新广告集将自动添加</Checkbox>
+        <Checkbox disabled={true}> 选定的和新的CBO广告系列将自动添加</Checkbox>
         <Checkbox disabled={true}> 未选中的</Checkbox>
-        <Tag>{props.ActionObj ? props.ActionObj.length : 0}个选定的广告集</Tag>
+        <Tag>{props.ActionObj ? props.ActionObj.length : 0}个选定的广告</Tag>
       </div>
     </Space>
   )
@@ -92,17 +87,16 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
         <Table
           className="components-table-demo-nested"
           columns={columns}
-          dataSource={adSetSelector?.adSetList}
+          dataSource={adSelector?.adList}
           rowSelection={rowSelection}
-          rowKey="setId"
+          rowKey="advId"
         />
       </Card>
     </div>
   );
 }
 
-// export default AdSetSelector;
-export default connect(({adSetSelector, loading}: {adSetSelector: TStateAdSetSelector, loading: any}) => ({
-  isLoading: loading['adSetSelector/getAdSetList'],
-  adSetSelector
-}))(AdSetSelector);
+export default connect(({adSelector, loading}: {adSelector: TStateAdSelector, loading: any}) => ({
+  isLoading: loading['adSelector/getAdList'],
+  adSelector
+}))(AdSelector);

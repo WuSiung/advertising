@@ -1,14 +1,11 @@
 import React, {FC, useState} from 'react';
 import SettingHeadCard from "@/pages/automation/wizard/components/setting-head-card";
-import line from '@/assets/automation/line.svg';
 import SvgChartAds
   from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-chart-ads";
 import StepCard from "@/pages/automation/wizard/components/step-card";
-import {Space, Select, Input, Radio, Row, Col, InputNumber, TimePicker} from "antd";
-import SvgGrid from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-grid";
+import {Space, Select, Radio, Row, Col, InputNumber, TimePicker, Tag} from "antd";
 import SvgSurf from "@/pages/automation/wizard/components/svg-surf";
 import SvgLine2 from "@/pages/automation/wizard/components/svg-line2";
-import moment from "moment";
 import {TSurfadSetLevelAction} from "@/pages/automation/wizard/components/step2/surf-ad-set/data";
 
 const {Option} = Select;
@@ -21,13 +18,12 @@ interface ISetting {
 
 const Setting: FC<ISetting> = (props) => {
   const { settingData } = props;
-  const [ target, setTarget ] = useState(2)
-  // console.log('setting', JSON.stringify(settingData));
+  const [ target ] = useState(2);
   const format = 'HH:mm';
   const title1 = (
     <Space direction="vertical">
       <span>触发SURF并增加广告集支出</span>
-      <span>如果广告组达到{settingData?.InsertCount}{props.options[settingData?.Target]}的，只要支出最少超过${settingData?.CostValue}今天。</span>
+      <span>如果广告组达到{settingData?.InsertCount}{settingData?.Target ? props.options[settingData?.Target] : 0}的，只要支出最少超过${settingData?.CostValue}今天。</span>
     </Space>
   );
 
@@ -60,21 +56,6 @@ const Setting: FC<ISetting> = (props) => {
     optionList.push({value: o[0], title: o[1]});
   });
 
-  // const optionList = [
-  //   {
-  //     value: '0',
-  //     title: '点击'
-  //   },
-  //   {
-  //     value: '1',
-  //     title: '出站点击'
-  //   }
-  // ];
-  //
-  // const optionMap = {
-  //   '0': '点击',
-  //   '1': '出站点击'
-  // };
   return (
     <div>
       <SettingHeadCard
@@ -99,12 +80,12 @@ const Setting: FC<ISetting> = (props) => {
                 }
 
               </Select>
-              <span>{'>='}</span>
+              <Tag color="rgb(208 208 208)">&nbsp; &gt;= &nbsp;</Tag>
               <InputNumber style={{width: 100}} value={settingData?.InsertCount} onChange={value => props.onChange({InsertCount: value})}/>
             </Space>
             <Space>
               <span>花费</span>
-              <span>{'<='}</span>
+              <Tag color="rgb(208 208 208)">&nbsp; &lt;= &nbsp;</Tag>
               <Radio.Group value={target}>
                 <Space direction="vertical" size="small">
                   <Space size="small">
@@ -157,7 +138,7 @@ const Setting: FC<ISetting> = (props) => {
                         min={0}
                         max={100}
                         formatter={value => `${value}%`}
-                        parser={value => value.replace('%', '')}
+                        parser={value => value ? parseInt(value.replace('%', ''), 10) : 0}
                         onChange={value => handleListChange(i, j, value)}
                       /></Col>
                   })

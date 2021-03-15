@@ -1,7 +1,7 @@
 import React, {FC, useState, useRef} from 'react';
 import { connect, Dispatch, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import {Button, Card, Col, Row, Select, Slider, Space, Table} from 'antd';
+import { Card } from 'antd';
 import Title from './components/title';
 import Step1 from './components/step1';
 import styles from "@/pages/dashboard/index.less";
@@ -15,15 +15,21 @@ import Loading from '@/components/Loading';
 import {TAdvAutoActionReq} from "@/pages/automation/wizard/data";
 import {EActionType} from "@/pages/automation/wizard/data.d";
 import {createTactic} from "@/pages/automation/wizard/service";
+import {TTactic} from "@/pages/automation/summary/data";
 
-const { Option } = Select;
 interface WizardProps {
   dispatch: Dispatch
   isLoading: boolean;
+  location: {
+    pathname: string;
+    state: {
+      record: TTactic
+    }
+  }
 }
 
 const Wizard: FC<WizardProps> = (props) => {
-  const { isLoading, dispatch } = props
+  const { isLoading, location } = props
 
   // const title = (
   //   <div>
@@ -44,13 +50,41 @@ const Wizard: FC<WizardProps> = (props) => {
   //   </Row>
   // )
 
+  // console.log('wizard', JSON.stringify(location.state));
+  let defaultCurrent = 0;
+  let defautTactic = '';
+  let defaultLevel = -1;
+
+  if (location.state && location.state.record) {
+    defaultCurrent = 1;
+    defautTactic = location.state.record.ActionType;
+    // todo: 根据actionType设置level
+    switch (defautTactic) {
+      case 'Surf_CampaignLevel':
+        defaultLevel = 2;
+        break;
+      case 'Surf_AdSetLevel':
+      case 'StopLoss_AdSetLevel':
+      case 'Revive_AdSetLevel':
+        defaultLevel = 1;
+        break;
+      case 'StopLoss_AdLevel':
+      case 'Revive_AdLevel':
+        defaultLevel = 0;
+        break;
+      default:
+    }
+  }
+
   const childRef: React.MutableRefObject<any> = useRef()
 
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(defaultCurrent)
 
-  const [tactic, setTactic] = useState('');
+  const [tactic, setTactic] = useState(defautTactic);
 
-  const [level, setLevel] = useState(-1);
+  const [level, setLevel] = useState(defaultLevel);
+
+  const [isActionObjSelected, setIsActionObjSelected] = useState(false);
 
   const handleTactic = (tt: string, lvl: number) => {
     // console.log('handleTactic', tt);
@@ -67,6 +101,7 @@ const Wizard: FC<WizardProps> = (props) => {
     if (step === 3) {
       if (childRef && childRef.current) {
         const data = childRef.current.submit();
+        console.log('createTactic');
         await createTactic({
           Name: data.Name,
           ActionInfo: data.ActionInfo,
@@ -89,19 +124,23 @@ const Wizard: FC<WizardProps> = (props) => {
     }
   }
 
+  const handleDataChange = (isSelected: boolean) => {
+    setIsActionObjSelected(isSelected)
+  }
+
   return (
     <PageContainer header={{title: '创建策略', breadcrumb: {}}}>
       <Card
         className={`${styles.totalCard}`}
-        title={<Title current={current} tactic={tactic} level={level} handleClick={handleClick}></Title>}
+        title={<Title isActionObjSelected={isActionObjSelected} current={current} tactic={tactic} level={level} handleClick={handleClick}></Title>}
       >
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
-        {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current}></SurfCampaign>}
-        {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current}></SurfAdSet>}
-        {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet step={current}></StopLossAdvSet>}
-        {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv step={current}></StopLossAdvAdv>}
-        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current}></ReviveAdvSet>}
-        {tactic === EActionType.AAT_Revive_AdLevel && <ReviveAdvAdv step={current}></ReviveAdvAdv>}
+        {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current} onActionObjChange={handleDataChange}></SurfCampaign>}
+        {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current} onActionObjChange={handleDataChange}></SurfAdSet>}
+        {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvSet>}
+        {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvAdv>}
+        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></ReviveAdvSet>}
+        {tactic === EActionType.AAT_Revive_AdLevel && <ReviveAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></ReviveAdvAdv>}
       </Card>
       { isLoading && <Loading size="large" showMask tips="提交数据中，请稍等..." />}
     </PageContainer>

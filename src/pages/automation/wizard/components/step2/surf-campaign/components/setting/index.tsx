@@ -1,15 +1,11 @@
 import React, {FC, useState} from 'react';
-import {Card, Col, Input, InputNumber, Row, Select, Slider, Space, Switch, TimePicker} from 'antd';
+import {Card, InputNumber, Select, Slider, Space, Switch, TimePicker} from 'antd';
 import StepCard from "@/pages/automation/wizard/components/step-card";
 import SvgLine from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-line";
 import SvgGrid from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-grid";
 import SvgChartCampaign
   from "@/pages/automation/wizard/components/step2/surf-campaign/components/setting/components/svg-chart-campaign";
-
-import TacticCardHead from "@/pages/automation/wizard/components/tactic-card-head";
-// import surf from '../../../../../../assets/automation/surf.svg';
 import surf from '@/assets/automation/surf.svg';
-import moment from 'moment';
 import SettingHeadCard from "@/pages/automation/wizard/components/setting-head-card";
 import {TSurfCampaignLevelAction} from "@/pages/automation/wizard/components/step2/surf-campaign/data";
 
@@ -22,28 +18,7 @@ interface ISetting {
 const Setting: FC<ISetting> = (props) => {
   const {ActionInfo} = props;
   const format = 'HH:mm';
-  // const [values, setValues] = useState([26, 37, 48]);
-  // const marks = {
-  //   0: {
-  //     label: <strong>00:00<br />初始点</strong>,
-  //   },
-  //   [values[0]]: '第一次检查',
-  //   [values[1]]: '第二次检查',
-  //   [values[2]]: '第三次检查',
-  //   100: {
-  //     style: {
-  //       // color: '#f50',
-  //     },
-  //     label: <strong>00:00<br />结束日</strong>,
-  //   }
-  // };
 
-  // const handleChange = (value: any) => {
-  //   console.log(value);
-  //   setValues(value);
-  // }
-
-  // const [values, setValues] = useState([26, 37, 48]);
   const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoints.length === 6);
   const marks = {
     0: {
@@ -81,51 +56,32 @@ const Setting: FC<ISetting> = (props) => {
 
 
   const handleChange = (value: number[]) => {
-    // todo: 2个点重合不更新
-    // for (let i = 0; i < value.length - 1; i++) {
-    //   for (let j = i + 1; j < value.length; j++) {
-    //     if (value[i] === value[j]) {
-    //       return;
-    //     }
-    //   }
-    // }
-    // // todo: 如果有1个以上的值跟原始值对不上，就不更新了
-    // if (ActionInfo) {
-    //   let diffCount = 0;
-    //   value.forEach((v, i) => {
-    //     if (v !== ActionInfo.CheckPoints[i]) {
-    //       diffCount += 1;
-    //     }
-    //   });
-    //   if (diffCount > 1) {
-    //     return;
-    //   }
-    // }
-
     props.onChange({
       CheckPoints: value
     })
   }
 
-  const handleSwitchChange = (value => {
-    const list: number[] = [];
+  const handleSwitchChange = ((value: boolean) => {
+    let list: number[] = [];
     if (value) {
       if (ActionInfo?.CheckPoints.length === 3) {
-        // todo: 增加2个检查点
-        list[0] = ActionInfo.CheckPoints[0];
-        list[1] = Math.round((ActionInfo.CheckPoints[0] + ActionInfo.CheckPoints[1]) / 2);
-        list[2] = ActionInfo.CheckPoints[1];
-        list[3] = Math.round((ActionInfo?.CheckPoints[1] + ActionInfo.CheckPoints[2]) / 2);
-        list[4] = ActionInfo.CheckPoints[2];
-        list[5] = Math.round((ActionInfo?.CheckPoints[2] + 300) / 2);
+        // 增加2个检查点
+        list = [
+          ActionInfo.CheckPoints[0],
+          Math.round((ActionInfo.CheckPoints[0] + ActionInfo.CheckPoints[1]) / 2),
+          ActionInfo.CheckPoints[1],
+          Math.round((ActionInfo?.CheckPoints[1] + ActionInfo.CheckPoints[2]) / 2),
+          ActionInfo.CheckPoints[2],
+          Math.round((ActionInfo?.CheckPoints[2] + 300) / 2)
+          ];
       }
-    } else {
-      if (ActionInfo?.CheckPoints.length === 6) {
-        // todo: 去掉2个检查点
-        list[0] = ActionInfo.CheckPoints[0];
-        list[1] = ActionInfo.CheckPoints[2];
-        list[2] = ActionInfo.CheckPoints[4];
-      }
+    } else if (ActionInfo?.CheckPoints.length === 6) {
+        // 去掉2个检查点
+        list = [
+          ActionInfo.CheckPoints[0],
+          ActionInfo.CheckPoints[2],
+          ActionInfo.CheckPoints[4]
+        ];
     }
 
     setCheckRoas(value);
@@ -178,7 +134,7 @@ const Setting: FC<ISetting> = (props) => {
       />
 
       <Card type="inner">
-        <Slider max={300} range marks={marks} value={ActionInfo?.CheckPoints} onChange={handleChange}
+        <Slider max={300} range marks={marks} value={ActionInfo?.CheckPoints as [number, number]} onChange={handleChange}
                 tooltipVisible={true} />
       </Card>
       <StepCard
@@ -189,7 +145,7 @@ const Setting: FC<ISetting> = (props) => {
           min={0}
           max={100}
           formatter={value => `${value}%`}
-          parser={value => value.replace('%', '')}
+          parser={value => value ? parseInt(value.replace('%', ''), 10) : 0}
           onChange={value => props.onChange({DoubleCheckRoasWeb: value})}
         /></label>
       </StepCard>
@@ -211,7 +167,7 @@ const Setting: FC<ISetting> = (props) => {
                     value={rwi.Increase}
                     min={0}
                     formatter={value => `${value}%`}
-                    parser={value => value.replace('%', '')}
+                    parser={value => value ? parseInt(value.replace('%', ''), 10) : 0}
                     onChange={value => handleListChange(idx, 'Increase', value)}
                   /></span>
                 </Space>)

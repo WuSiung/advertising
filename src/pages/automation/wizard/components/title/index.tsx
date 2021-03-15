@@ -10,6 +10,7 @@ import TacticCardHead from "@/pages/automation/wizard/components/tactic-card-hea
 const { Step } = Steps;
 
 interface ITitle {
+  isActionObjSelected: boolean;
   current: number;
   level: number; // 等级（广告，广告集，活动）
   tactic: string;
@@ -52,6 +53,7 @@ const Title: FC<ITitle> = (props) => {
         { props.current === 2 && props.level === 1 && <h3>请选择广告集</h3>}
         { props.current === 2 && props.level === 2 && <h3>请选择活动</h3>}
         <Button type="primary" disabled={ !props.tactic } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>
+        {/*<Button type="primary" disabled={ !props.tactic || (props.current === 2 && !props.isActionObjSelected) } onClick={() => props.handleClick(props.current + 1)}>下一步</Button>*/}
       </Row>
       <Row style={{marginTop: 20}}>
         <Steps current={props.current}>

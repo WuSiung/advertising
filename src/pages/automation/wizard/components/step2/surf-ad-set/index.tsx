@@ -12,9 +12,9 @@ interface ISurfAdSetBase {
 }
 
 interface ISurfAdSet extends ISurfAdSetBase{
-  step: number;
-  refInstance: React.MutableRefObject<any>
-  surfAdSet: TState
+  refInstance: React.MutableRefObject<any>;
+  surfAdSet: TState;
+  onActionObjChange: (isSelected: boolean) => void;
 }
 
 interface ISurfAdSetForwardRef extends ISurfAdSetBase {
@@ -22,13 +22,9 @@ interface ISurfAdSetForwardRef extends ISurfAdSetBase {
 }
 
 const SurfAdSet: FC<ISurfAdSet> = (props) => {
-  // console.log(props.step);
   const {surfAdSet, refInstance, dispatch} = props;
-  console.log(JSON.stringify(props));
-  // console.log(JSON.stringify(ref));
   useImperativeHandle(refInstance, () => ({
     submit: () => {
-      // console.log('surf-ad-set commit');
       const actionInfo: any = {...surfAdSet.settingData};
       actionInfo.ResetBudgetTime = actionInfo.ResetBudgetTime.format('HH:mm');
       actionInfo.InsertCount = String(actionInfo.InsertCount);
@@ -38,7 +34,6 @@ const SurfAdSet: FC<ISurfAdSet> = (props) => {
         ActionObj: surfAdSet.ActionObj?.map(o => String(o)),
         ActionInfo: JSON.stringify(actionInfo)
       };
-      // console.log(JSON.stringify(obj));
       return obj;
     }
   }))
@@ -60,12 +55,11 @@ const SurfAdSet: FC<ISurfAdSet> = (props) => {
   return (
     <>
       {props.step === 1 && <Setting options={OPTIONS} settingData={surfAdSet.settingData} onChange={handleSettingChange} />}
-      {props.step === 2 && <AdSetSelector Name={surfAdSet.Name} ActionObj={surfAdSet.ActionObj} onChange={handleSelectorChange}/>}
+      {props.step === 2 && <AdSetSelector Name={surfAdSet.Name} ActionObj={surfAdSet.ActionObj} onChange={handleSelectorChange} onActionObjChange={props.onActionObjChange} />}
     </>
   )
 };
 
-// export default SurfAdSet;
 const Component = connect(({surfAdSet}: {surfAdSet: TState}) => ({
   surfAdSet
 }))(SurfAdSet);

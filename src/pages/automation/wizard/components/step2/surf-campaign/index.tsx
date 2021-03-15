@@ -12,6 +12,7 @@ interface ISurfCampaignBase {
 interface ISurfCampaign extends ISurfCampaignBase {
   refInstance: React.MutableRefObject<any>;
   surfCampaign: TStateSurfCampaign;
+  onActionObjChange: (isSelected: boolean) => void;
 }
 
 interface  ISurfCampaignForwardRef extends ISurfCampaignBase {
@@ -52,7 +53,7 @@ const SurfCampaign: FC<ISurfCampaign> = (props) => {
   return (
     <>
     { props.step === 1 && <Setting ActionInfo={surfCampaign.ActionInfo} onChange={handleActionInfoChange} /> }
-      { props.step === 2 && <CampaignSelector Name={surfCampaign.Name} ActionObj={surfCampaign.ActionObj} onChange={handleSelectorChange} /> }
+      { props.step === 2 && <CampaignSelector Name={surfCampaign.Name} ActionObj={surfCampaign.ActionObj} onChange={handleSelectorChange} onActionObjChange={props.onActionObjChange} /> }
     </>
   )
 };

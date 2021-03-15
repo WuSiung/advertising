@@ -1,4 +1,5 @@
 import { Effect } from 'umi';
+
 export enum EActionType {
   AAT_Surf_AdSetLevel = 'Surf_AdSetLevel', //
   AAT_Surf_CampaignLevel = 'Surf_CampaignLevel',
