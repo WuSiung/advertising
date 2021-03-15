@@ -12,6 +12,7 @@ import { AdvAdvListType } from "@/pages/adv-manager/data";
 import { Dispatch, UserModelState } from "@@/plugin-dva/connect";
 import PreviewContainer from '../components/PreviewContainer';
 import { PreviewAdvType, WorkbenchDataType } from '../workbench/data';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 interface AdvPropsType {
     advertisingList: AdvedDataType[],
@@ -319,8 +320,10 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             }
                             return (<div key={advImg.imgId + '&' + advText.textId} style={{ border: "1px solid #d9d9d9" }}
                                 className={`${styles.advPreviewWrap} ${advertings.checked ? styles.active : ''}`} onClick={() => createAdv(i)}>
-
-                                <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...params} />
+                                {
+                                    advertings.checked && <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...params} />
+                                }
+                                <span className={styles.finished}><CheckCircleOutlined /></span>
                                 <div className={styles.mask}>
                                     <div className={styles.top}>
                                         消费金额 : {data.spend || 0} 点击率 ：{data.octr || 0} <br /> 广告支出回报率
