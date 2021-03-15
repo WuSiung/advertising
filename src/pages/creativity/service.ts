@@ -64,9 +64,16 @@ export async function getSouceTag(id: string) {
     })
 }
 
-export async function getAllTag(name?: string) {
-    return request(`/subApi/resources/permanent/tag`, {
+export async function getMediaTag(title?: string) {
+    return request(`/subApi/resources/permanent/tag/media`, {
         method: 'get',
-        params: { name: name }
+        params: { page: 1, rows: 10, title: title }
+    })
+}
+
+export async function getTextTag(title?: string) {
+    return request(`/subApi/resources/permanent/tag/text`, {
+        method: 'get',
+        params: { page: 1, rows: 10, title: title }
     })
 }

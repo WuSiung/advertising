@@ -1,12 +1,13 @@
 import type { MenuDataItem } from '@ant-design/pro-layout';
-import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
+import { getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import type { ConnectProps } from 'umi';
 import { Link, SelectLang, useIntl, connect, FormattedMessage } from 'umi';
 import React from 'react';
 import type { ConnectState } from '@/models/connect';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import styles from './UserLayout.less';
+import DefaultFooter from './Footer';
 
 export type UserLayoutProps = {
   breadcrumbNameMap: Record<string, MenuDataItem>;
@@ -41,19 +42,16 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
       </Helmet>
 
       <div className={styles.container}>
-        <div className={styles.lang}>
-          <SelectLang />
-        </div>
         <div className={styles.content}>
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>智能广告平台</span>
+                <span className={styles.title}>贪玩智投</span>
               </Link>
             </div>
             <div className={styles.desc}>
-              {/* <FormattedMessage id="pages.layouts.userLayout.title" defaultMessage="智能广告平台" /> */}
+              {/* <FormattedMessage id="pages.layouts.userLayout.title" defaultMessage="贪玩智投" /> */}
             </div>
           </div>
           {children}

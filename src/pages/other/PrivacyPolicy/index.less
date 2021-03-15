@@ -1,0 +1,24 @@
+@import '~antd/es/style/themes/default.less';
+
+.article{
+    padding: 0 30px;
+    :global(.ant-card-body){
+        margin: 0 auto;
+    }
+    ul, ol{
+        list-style: revert;
+        li{
+            padding: 5px 0;
+        }
+        ul{
+            list-style: inside;
+        }
+    }
+}
+
+.smallTitle{
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

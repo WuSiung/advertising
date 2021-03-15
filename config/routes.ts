@@ -17,6 +17,21 @@
             path: '/user/register',
             component: './User/register',
           },
+          {
+            path: '/user/terms',
+            name: 'terms',
+            component: './other/terms',
+          },
+          {
+            path: '/user/PrivacyPolicy',
+            name: 'PrivacyPolicy',
+            component: './other/PrivacyPolicy',
+          },
+          {
+            path: '/user/cookie',
+            name: 'cookie',
+            component: './other/cookie',
+          },
         ],
       },
       {

@@ -4,7 +4,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
-import { addTag, createContainer, deletResource, delTag, getAllTag, getSouceTag, uploadMedia } from '../../service'
+import { addTag, createContainer, deletResource, delTag, getMediaTag, getSouceTag, uploadMedia } from '../../service'
 import MaterialBox from '../Box'
 import PublicHeader from '../PublicHeader'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data';
@@ -14,12 +14,13 @@ import EditTag from '../EditTag';
 
 import styles from './index.less'
 import { showConfirm } from '@/components/Confrim';
+import Store from '@/utils/store';
 
 type MediaCreativityProps = {
     dispatch: Dispatch,
     userInfo?: CurrentUser,
     mediaGetLoading: boolean,
-} & Omit<MaterialStateType, 'textList'>
+} & Omit<MaterialStateType, 'textList' | "textTags">
 
 interface PageProps {
     page: number,
@@ -29,7 +30,7 @@ interface PageProps {
 let promistUploadFileArray: Array<Promise<unknown>> = [];
 let uploadProcess: number = 0
 const MediaCreativity: FC<MediaCreativityProps> = (props) => {
-    const { mediaList, dispatch, userInfo, mediaGetLoading, tagList } = props
+    const { mediaList, dispatch, userInfo, mediaGetLoading, mediaTags } = props
 
     const mediaRef = useRef<HTMLDivElement>(null)
     const [mediaToWorkbenchLoading, setMediaToWorkbenchLoading] = useState(false)
@@ -37,6 +38,8 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     const [mediaQueryParams, setMediaQuery] = useState<PageProps>({ page: 1, size: 10 })
     const [filterDate, setFilterDate] = useState<[string, string]>(['', ''])
     const [mediaSort, setMediaSort] = useState('Default')
+    const [filterTagId, setFilterTagId] = useState<string[]>([])
+    const [filterTagSearch, setFilterTagSearch] = useState('')
     const [mediaSouceFilter, setmediaSouceFilte] = useState('All')
     const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
     const [tagVisible, setTagVisible] = useState(false)
@@ -48,14 +51,15 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                 type: 'material/fetchMedias',
                 payload: {
                     ...mediaQueryParams, id: userInfo.userId, resourceType: mediaSouceFilter, sortForResource: mediaSort,
-                    sortForTag: 'Default', beginTime: filterDate[0], endTime: filterDate[1]
+                    tagIds: filterTagId, beginTime: filterDate[0], endTime: filterDate[1]
                 }
             })
         }
-        dispatch({
-            type: 'material/fetchTags'
-        })
-    }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate])
+    }, [userInfo?.userId, mediaQueryParams, mediaSort, mediaSouceFilter, filterDate, filterTagId])
+
+    useEffect(() => {
+        dispatch({ type: 'material/fetchMediaTags' })
+    }, [])
 
     const clearMediaCheck = () => {
         let editList = mediaList.map(media => {
@@ -134,7 +138,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     const handleAiLib = () => {
-        setTagParams({ id: 'all', tagList: tagList })
+        setTagParams({ id: 'all', tagList: mediaTags })
         setTagName('')
         setTagVisible(true)
     }
@@ -160,13 +164,23 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         setTagName('')
         updateTag()
         dispatch({
-            type: 'material/fetchTags'
+            type: 'material/fetchMediaTags'
         })
         message.success('添加成功')
     }
 
     const deleteTag = async (id: string) => {
         showConfirm({ onOk: delTag.bind(null, id) }).then(() => { message.success('删除成功'); updateTag() })
+    }
+
+    const chooseTagId = (value: string[], options: any) => {
+        const storageValue: { key?: string; label: React.ReactNode; value: string | number }[] = []
+        const allIds = options?.map((item: any) => {
+            storageValue.push({ key: item.key, label: item.name, value: item.value })
+            return item.key
+        })
+        setFilterTagId(allIds)
+        Store.SetMediaTagIds(storageValue)
     }
 
     const updateTag = () => {
@@ -194,9 +208,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={tagList}
-            type='media' onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte}
-            openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} />
+        <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={mediaTags} onSelectTag={chooseTagId} type='media'
+            onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte} fetchTag={getMediaTag}
+            openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} onFilterTagValue={setFilterTagSearch} />
         <Spin spinning={!!mediaGetLoading}>
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
                 {
@@ -209,7 +223,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         {
             (mediaUploading || mediaToWorkbenchLoading) && <Loading showMask tips='上传中，请稍后...' />
         }
-        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk}
+        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk} fetchTags={getMediaTag}
             onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
     </div>
 }
@@ -239,7 +253,7 @@ const uploadFunction = async (value: string, media: FormData) => {
 
 export default connect(({ material, user, loading }: { material: MaterialStateType, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     mediaList: material.mediaList,
-    tagList: material.tagList,
+    mediaTags: material.mediaTags,
     mediaGetLoading: loading.effects['material/fetchMedias'],
     userInfo: user.currentUser
 }))(MediaCreativity)

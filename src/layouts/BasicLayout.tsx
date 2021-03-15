@@ -8,7 +8,7 @@ import type {
   BasicLayoutProps as ProLayoutProps,
   Settings,
 } from '@ant-design/pro-layout';
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout, {  getPageTitle } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
 import type { Dispatch } from 'umi';
 import { Link, useIntl, connect, history } from 'umi';
@@ -18,10 +18,12 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import type { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import { includeRoutes } from '@/utils/menuConfirmRoutes';
 import { ConfirmProps, showConfirm } from '@/components/Confrim';
 import { SiderMenuProps } from '@ant-design/pro-layout/lib/components/SiderMenu/SiderMenu';
+import { GetPageTitleProps } from '@ant-design/pro-layout/lib/getPageTitle';
+import DefaultFooter from './Footer';
 var pjson = require('../../package.json');
 
 const noMatch = (
@@ -58,31 +60,31 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
   });
 
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
+// const defaultFooterDom = (
+//   <DefaultFooter
+//     copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
+//     links={[
+//       {
+//         key: 'Ant Design Pro',
+//         title: 'Ant Design Pro',
+//         href: 'https://pro.ant.design',
+//         blankTarget: true,
+//       },
+//       {
+//         key: 'github',
+//         title: <GithubOutlined />,
+//         href: 'https://github.com/ant-design/ant-design-pro',
+//         blankTarget: true,
+//       },
+//       {
+//         key: 'Ant Design',
+//         title: 'Ant Design',
+//         href: 'https://ant.design',
+//         blankTarget: true,
+//       },
+//     ]}
+//   />
+// );
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const {
@@ -135,6 +137,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     }
   }
 
+  const renderPageTitle = (props: GetPageTitleProps, defaultPageTitle?: string | undefined, info?: {
+    title: string;
+    id: string;
+    pageName: string;
+  } | undefined): string => {
+    return props.title || '贪玩智投'
+  }
+
   const menuFooterRender = (props: SiderMenuProps | undefined) => {
     return <Link to={'/version'} style={{
       lineHeight: 24,
@@ -180,7 +190,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       //     <span>{route.breadcrumbName}</span>
       //   );
       // }}
-      // footerRender={() => defaultFooterDom}
+      // footerRender={() => { return <DefaultFooter /> }}
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
@@ -188,6 +198,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return menuData || [];
       }}
       menuFooterRender={menuFooterRender}
+      pageTitleRender={renderPageTitle}
     >
       <Authorized authority={authorized!.authority} noMatch={noMatch}>
         {children}

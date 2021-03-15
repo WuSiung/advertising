@@ -72,6 +72,12 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
         dispatch({ type: 'facebook/fetchCountry' })
         dispatch({ type: 'facebook/fetchMarket' })
         dispatch({ type: 'facebook/fetchTarget' })
+        let checkedAdv = previewAdvs.filter(adv => adv.checked)
+        if (checkedAdv.length > 0) {
+            if (checkedAdv[0].facebookSetting) {
+                initData(checkedAdv[0].facebookSetting)
+            }
+        }
     }, [])
 
     const initData = (params: SaveFacebookSettingType) => {

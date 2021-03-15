@@ -1,7 +1,7 @@
 import { showConfirm } from '@/components/Confrim'
-import { CopyOutlined, DeleteFilled, EditOutlined } from '@ant-design/icons'
+import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
 import { Button, message } from 'antd'
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
 import { deleteMedia, deleteText } from '../../service'
@@ -35,13 +35,21 @@ type RenderTextListProps = {
 } & TextDataType
 
 const RenderImgList: FC<RenderImgListProps> = (props) => {
+    const video = useRef<HTMLVideoElement>(null)
+    const [isPlay, setIsPlay] = useState(false)
     return <th key={props.imgId} className={styles.container}>
         <HoverPopover {...props}>
             <div className={styles.mediaBox}>
                 <span className={styles.delText} onClick={() => props.onDelete && props.onDelete(props)}><DeleteFilled /></span>
                 {
                     props.type == 0 ? <img src={props.url} className="img-item" v-if="item.type==0" />
-                        : <video src={props.url} />
+                        : <video src={props.url} ref={video} />
+                }
+                {
+                    props.type != 0 && !isPlay && <span className={styles.videoBtn}><PlayCircleOutlined className={styles.play} onClick={() => { video.current?.play(); setIsPlay(true) }} /></span>
+                }
+                {
+                    props.type != 0 && isPlay && <span className={styles.videoBtn}><PauseCircleOutlined className={styles.pause} onClick={() => { video.current?.pause(); setIsPlay(false) }} /></span>
                 }
                 {
                     props.type == 1 && <i className="el-icon-video-play" v-if="item.type == 1" onClick={() => "playVideo(item.fileId)"}></i>

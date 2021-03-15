@@ -189,7 +189,7 @@ const Launcher: FC<LuancherProps> = (props) => {
         postLauncherAdv({ data: JSON.stringify(params) }).then(res => {
             setSubmitting(false)
             message.success('广告创建成功')
-            history.replace('/advlauncher/workbench')
+            history.replace('/advlauncher/advertising')
         }).catch(() => {
             setSubmitting(false)
         })

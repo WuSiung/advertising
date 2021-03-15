@@ -5,6 +5,7 @@ import { PreviewAdvType } from '../../workbench/data'
 
 import styles from './index.less'
 import type { AppInfo } from '@/models/user'
+import { PlayCircleOutlined } from '@ant-design/icons'
 
 type AdvPreviewProps = {
     appInfo?: AppInfo,
@@ -27,6 +28,9 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
             <div className={styles.media}>
                 {
                     type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url}></video>
+                }
+                {
+                    type != 0 && <PlayCircleOutlined />
                 }
             </div>
         </div>

@@ -1,12 +1,13 @@
 import { showConfirm } from '@/components/Confrim'
 import Loading from '@/components/Loading'
 import { postOneTextsToWorkbench } from '@/pages/adv-launcher/workbench/service'
+import Store from '@/utils/store'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data'
-import { addTag, deletResource, delTag, getAllTag, getSouceTag } from '../../service'
+import { addTag, deletResource, delTag, getTextTag, getSouceTag } from '../../service'
 import MaterialBox from '../Box'
 import EditTag from '../EditTag'
 import PublicHeader from '../PublicHeader'
@@ -18,7 +19,7 @@ type PublicTextProps = {
     userInfo?: CurrentUser,
     textGetLoading: boolean,
     textUploading: boolean
-} & Omit<MaterialStateType, 'mediaList'>
+} & Omit<MaterialStateType, 'mediaList' | 'mediaTags'>
 
 interface PageProps {
     page: number,
@@ -26,7 +27,7 @@ interface PageProps {
 }
 
 const TextCreativity: FC<PublicTextProps> = (props) => {
-    const { textList, dispatch, userInfo, textGetLoading, textUploading, tagList } = props
+    const { textList, dispatch, userInfo, textGetLoading, textUploading, textTags } = props
 
 
     const [textToWorkbenchLoading, setTextToWorkbenchLoading] = useState(false)
@@ -35,7 +36,9 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const [textQueryParams, setTextQuery] = useState<PageProps>({ page: 1, size: 100 })
     const [textModelVisible, setTextModelVisible] = useState(false)
     const [textSort, setTextSort] = useState('Default')
+    const [filterTagId, setFilterTagId] = useState<string[]>([])
     const [textFilter, setTextFilter] = useState('All')
+    const [filterTagSearch, setFilterTagSearch] = useState('')
     const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
     const [tagVisible, setTagVisible] = useState(false)
     const [tagName, setTagName] = useState('')
@@ -45,12 +48,15 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
             dispatch({
                 type: 'material/fetchTexts',
                 payload: {
-                    ...textQueryParams, id: userInfo.userId, titleType: textFilter, sortForResource: textSort,
+                    ...textQueryParams, id: userInfo.userId, titleType: textFilter, sortForResource: textSort, tagIds: filterTagId,
                     sortForTag: 'Default', beginTime: filterDate[0], endTime: filterDate[1]
                 }
             })
         }
-    }, [userInfo?.userId, textQueryParams, textSort, textFilter, filterDate])
+    }, [userInfo?.userId, textQueryParams, textSort, textFilter, filterDate, filterTagId])
+    useEffect(() => {
+        dispatch({ type: 'material/fetchTextTags' })
+    }, [])
 
     const clearTextCheck = () => {
         let editList = textList.map(text => {
@@ -121,11 +127,9 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     }
 
     const handleAiLib = () => {
-        getAllTag().then(res => {
-            setTagName('')
-            setTagParams({ id: 'all', tagList: res.value })
-            setTagVisible(true)
-        })
+        setTagParams({ id: 'all', tagList: textTags })
+        setTagName('')
+        setTagVisible(true)
     }
 
     const editTag = (i: number) => {
@@ -148,7 +152,20 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
         await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })
         setTagName('')
         updateTag()
+        dispatch({
+            type: 'material/fetchTextTags'
+        })
         message.success('添加成功')
+    }
+
+    const chooseTagId = (value: string[], options: any) => {
+        const storageValue: { key?: string; label: React.ReactNode; value: string | number }[] = []
+        const allIds = options?.map((item: any) => {
+            storageValue.push({ key: item.key, label: item.name, value: item.value })
+            return item.key
+        })
+        setFilterTagId(allIds)
+        Store.SetTextTagIds(storageValue)
     }
 
     const deleteTag = async (id: string) => {
@@ -180,8 +197,8 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader clearDisable={textList.some(text => text.checked)} onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench}
-            onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib} tags={tagList || []}
+        <PublicHeader clearDisable={textList.some(text => text.checked)} onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} fetchTag={getTextTag}
+            onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib} tags={textTags || []} onSelectTag={chooseTagId} onFilterTagValue={setFilterTagSearch}
             onUploadText={submitTexts} uploading={textUploading} openText={setTextModelVisible} textVisible={textModelVisible} onChangeDate={setFilterDate} />
         <Spin spinning={!!textGetLoading}>
             <div className={`${styles.mediaContent} ${styles.textList}`} onScroll={scrollText} ref={textRef}>
@@ -195,7 +212,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
         {
             textToWorkbenchLoading && <Loading showMask tips='上传中，请稍后...' />
         }
-        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk}
+        <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk} fetchTags={getTextTag}
             onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
     </div>
 }
@@ -232,7 +249,7 @@ const generateUUID = (): string => {
 
 export default connect(({ material, user, loading }: { material: MaterialStateType, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({
     textList: material.textList,
-    tagList: material.tagList,
+    textTags: material.textTags,
     textGetLoading: loading.effects['material/fetchTexts'],
     textUploading: loading.effects['material/uploadTexts'],
     userInfo: user.currentUser

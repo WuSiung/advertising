@@ -1,6 +1,6 @@
 import Store from '@/utils/store';
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { Context, extend } from 'umi-request';
+import { Context, extend, ResponseError } from 'umi-request';
 import { history } from 'umi'
 import { notification } from 'antd';
 
@@ -22,27 +22,14 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-interface Headers {
-  isToken: Boolean,
-  Authorization: String
-}
-
 /** 异常处理程序 */
-const errorHandler = (error: { response: Response }): Response => {
-  const { response } = error;
-  if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
-
+const errorHandler = (error: ResponseError): Response => {
+  const { response, type } = error;
+  if (type == 'Timeout') {
     notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
+      message: `请求超时,本程序使用谷歌云存储文件，请优化网络`,
     });
-  } else if (!response) {
-    notification.error({
-      description: '您的网络发生异常，无法连接服务器',
-      message: '网络异常',
-    });
+    throw Error('请求超时');
   }
   return response;
 };
@@ -51,9 +38,9 @@ const { NODE_ENV } = process.env;
 /** 配置request请求时的默认参数 */
 const request = extend({
   // headers,
-  // errorHandler,
+  errorHandler,
   credentials: 'include', // 默认请求是否带上cookie
-  timeout: 15000,
+  timeout: 60000,
 });
 /** 中间件对请求前后做处理 */
 request.use(async (ctx: Context, next: Function): Promise<void> => {
@@ -88,22 +75,23 @@ request.interceptors.response.use(async (response: Response) => {
     if (status == 401) {
       notification.error({
         message: '登陆过期，请重新登陆',
+        key: 'errorOne'
       })
       history.replace('/user/login')
       throw new Error(String(status));
-    } else if (codeMessage[status]) {
+    } else if (res.code == 1) {
+      notification.error({
+        message: res.msg,
+        key: 'errorOne'
+      })
+      throw new Error(JSON.stringify(res));
+    }else if (codeMessage[status]) {
       notification.error({
         message: codeMessage[status],
+        key: 'errorOne'
       })
       throw new Error(String(status));
     }
-    // throw new Error(JSON.stringify(res));
-  } else if (res.code == 1) {
-    notification.error({
-      message: res.msg,
-    })
-    // return res
-    throw new Error(JSON.stringify(res));
   }
   return response;
 });

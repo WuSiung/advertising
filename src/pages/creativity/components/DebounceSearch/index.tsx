@@ -1,4 +1,5 @@
-import { Button, Select, Spin } from 'antd';
+import Store from '@/utils/store';
+import { Button, message, Select, Spin } from 'antd';
 import { SelectProps } from 'antd/es/select';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -10,17 +11,19 @@ interface SearchResult {
 
 export interface DebounceSelectProps<ValueType = any>
     extends Omit<SelectProps<ValueType>, 'options' | 'children'> {
-    fetchOptions: (search: string) => Promise<{ value: SearchResult[] }>;
+    fetchOptions: (search: string) => Promise<{ value: { data: SearchResult[] } }>;
     debounceTimeout?: number;
     setValue: (value: string) => void;
-    onAdd: () => void,
+    onAdd?: () => void,
+    defaultOptions?: []
 }
 
 function DebounceSelect<
     ValueType extends { key?: string; label: React.ReactNode; value: string | number } = any
 >({ fetchOptions, debounceTimeout = 500, ...props }: DebounceSelectProps) {
-    const { setValue, onAdd, ...otherProps } = props
+    const { setValue, onAdd, defaultOptions, ...otherProps } = props
     const [fetching, setFetching] = React.useState(false);
+    const [isFetched, setIsFetched] = React.useState(false);
     const [options, setOptions] = React.useState<ValueType[]>([]);
     const fetchRef = React.useRef(0);
 
@@ -32,6 +35,7 @@ function DebounceSelect<
             const fetchId = fetchRef.current;
             setOptions([]);
             setFetching(true);
+            setIsFetched(true)
 
             fetchOptions(value).then(newOptions => {
                 if (fetchId !== fetchRef.current) {
@@ -39,7 +43,11 @@ function DebounceSelect<
                     return;
                 }
 
-                let newArr: ValueType[] = newOptions.value.map(item => {
+                if (newOptions.value.data.length <= 0) {
+                    message.warning('暂无匹配标签')
+                }
+
+                let newArr: ValueType[] = newOptions.value.data.map(item => {
                     return { key: item.id || '', label: item.name, value: item.name } as ValueType
                 })
 
@@ -52,7 +60,7 @@ function DebounceSelect<
     }, [fetchOptions, debounceTimeout]);
 
     return (
-        <div style={{ display: 'flex', marginBottom: 10 }}>
+        <div style={{ display: 'flex' }}>
             <Select<ValueType>
                 filterOption={false}
                 onSearch={debounceFetcher}
@@ -60,9 +68,11 @@ function DebounceSelect<
                 defaultActiveFirstOption={false}
                 notFoundContent={fetching ? <Spin size="small" /> : null}
                 {...otherProps}
-                options={options}
+                options={isFetched ? options : defaultOptions}
             />
-            <Button type='primary' onClick={onAdd} disabled={fetching}>添加</Button>
+            {
+                onAdd && <Button type='primary' onClick={onAdd} disabled={fetching}>添加</Button>
+            }
         </div>
     );
 }

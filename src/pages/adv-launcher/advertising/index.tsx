@@ -7,14 +7,15 @@ import { allCountry } from '@/utils/countrys'
 
 import styles from './index.less'
 import { connect, AppInfo, history } from "umi";
-import { AdvModelStateType } from "./data";
+import { AdvedDataType, AdvModelStateType } from "./data";
 import { AdvAdvListType } from "@/pages/adv-manager/data";
 import { Dispatch, UserModelState } from "@@/plugin-dva/connect";
 import PreviewContainer from '../components/PreviewContainer';
 import { PreviewAdvType, WorkbenchDataType } from '../workbench/data';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 interface AdvPropsType {
-    advertisingList: AdvAdvListType[],
+    advertisingList: AdvedDataType[],
     loadingAdvList: boolean,
     dispatch: Dispatch,
     appInfo: AppInfo | undefined,
@@ -46,20 +47,15 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [device, setDevice] = useState<CheckboxValueType[] | undefined>();
     const [publishLocation, setPublishLocation] = useState<CheckboxValueType[] | undefined>();
     const [country, setCountry] = useState<SelectValueType[] | undefined>();
-    const [activeAdv, setActiveAdv] = useState<AdvAdvListType & { showPreviewModal: boolean }>();
-    const actImgtext = activeAdv?.imgTextList[0] ? activeAdv?.imgTextList[0] : null;
+    const [activeAdv, setActiveAdv] = useState<PreviewAdvType & { showPreviewModal: boolean }>();
     const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
 
     useEffect(() => {
         dispatch({
             type: 'advertising/fetchAdvList',
             payload: {
-                current: 1,
-                size: pageSize,
                 start: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
-                startT: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
                 end: moment().format('YYYY-MM-DD'),
-                endT: moment().format('YYYY-MM-DD'),
             }
         });
     }, [])
@@ -79,21 +75,20 @@ const Advertising: FC<AdvPropsType> = (props) => {
     }, [loadingAdvListAddMore])
 
     const createAdv = (i: number) => {
-        let editList: AdvAdvListType[] = JSON.parse(JSON.stringify(advertisingList));
+        let editList: AdvedDataType[] = JSON.parse(JSON.stringify(advertisingList));
         editList[i].checked = !editList[i].checked;
         if (editList[i].checked) {
-            if (!editList[i].imgTextList[0]) {
+            if (!editList[i].advImg.url) {
                 message.warning('素材缺失，无法添加创建广告')
                 return
             }
             const createParams: PreviewAdvType = {
-                imgId: editList[i].imgTextList[0].advImg.imgId as number,
-                content: editList[i].imgTextList[0].advText.content,
-                title: editList[i].imgTextList[0].advText.title,
-                textId: editList[i].imgTextList[0].advText.textId,
-                type: editList[i].imgTextList[0].advImg.type,
-                url: editList[i].imgTextList[0].advImg.url,
-                advId: editList[i].advId
+                imgId: editList[i].advImg.imgId as number,
+                content: editList[i].advText.content,
+                title: editList[i].advText.title,
+                textId: editList[i].advText.textId,
+                type: editList[i].advImg.type,
+                url: editList[i].advImg.url
             }
             previews.push(createParams)
             dispatch({
@@ -101,15 +96,15 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 payload: { previewAdvs: previews }
             })
         } else {
-            let emptyArr: PreviewAdvType[] = []
-            previews.map(adv => {
-                if (adv.advId != editList[i].advId) {
-                    emptyArr.push(adv)
-                }
-            })
+            // let emptyArr: PreviewAdvType[] = []
+            // previews.map(adv => {
+            //     if (adv.advId != editList[i].advId) {
+            //         emptyArr.push(adv)
+            //     }
+            // })
             dispatch({
                 type: 'workbench/savePreviewAdvs',
-                payload: { previewAdvs: emptyArr }
+                payload: { previewAdvs: previews }
             })
         }
         dispatch({
@@ -131,16 +126,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
         setDate(value);
         setDateT(value)
         setPageIndex(1);
-        console.log(222)
         dispatch({
             type: 'advertising/fetchAdvList',
             payload: {
-                current: 1,
                 start: value[0],
-                startT: value[0],
                 end: value[1],
-                endT: value[1],
-                size: pageSize
             }
         });
     }
@@ -168,29 +158,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 }}
                 okText="确认"
             >
-                <div className={`${styles.previewAdv}`}>
-                    <div className={styles.header}>
-                        <Image src={appInfo?.logo} preview={false} width={28} />
-                        <div className={styles.info}>
-                            <span className={styles.appName}>{appInfo?.appName}</span>
-                        </div>
-                    </div>
-                    {actImgtext ? <div className={styles.content}>
-                        <div className={styles.contentText}>
-                            {actImgtext?.advText.content}
-                        </div>
-                        <div className={styles.media}>
-                            {
-                                actImgtext?.advImg.type == 0 ? <Image src={actImgtext?.advImg.url} preview={false} /> :
-                                    <video src={actImgtext.advImg.url}></video>
-                            }
-                        </div>
-                    </div> : <></>}
-                    {actImgtext ? <div className={styles.footer}>
-                        <span className={styles.title}>{actImgtext?.advText.title}</span>
-                        <Button className={styles.download}>下载</Button>
-                    </div> : <></>}
-                </div>
+                <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...activeAdv} />
             </Modal> : <></>}
             <div className={styles.filter}>
                 <Row>
@@ -340,22 +308,30 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 <div className={styles.advWarp} >
                     {
                         advertisingList.length > 0 ? advertisingList.map((advertings, i) => {
-                            const imgtext = advertings.imgTextList[0] ? advertings.imgTextList[0] : null;
-                            return (<div key={advertings.advId} style={{ border: "1px solid #d9d9d9" }}
+                            // const imgtext = advertings.imgTextList[0] ? advertings.imgTextList[0] : null;
+                            const { data, advImg, advText } = advertings
+                            const params = {
+                                title: advText.title,
+                                content: advText.content,
+                                textId: advText.textId,
+                                imgId: advImg.imgId,
+                                type: advImg.type,
+                                url: advImg.url
+                            }
+                            return (<div key={advImg.imgId + '&' + advText.textId} style={{ border: "1px solid #d9d9d9" }}
                                 className={`${styles.advPreviewWrap} ${advertings.checked ? styles.active : ''}`} onClick={() => createAdv(i)}>
-
-                                <AdvPreview appInfo={appInfo} classNames={styles.advPreview} url={imgtext?.advImg.url}
-                                    content={imgtext?.advText.content}
-                                    title={imgtext?.advText.title} type={imgtext?.advImg.type}
-                                    imgId={imgtext?.advImg.imgId} textId={imgtext?.advText.textId} />
+                                {
+                                    advertings.checked && <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...params} />
+                                }
+                                <span className={styles.finished}><CheckCircleOutlined /></span>
                                 <div className={styles.mask}>
                                     <div className={styles.top}>
-                                        消费金额 : {advertings.spent} 点击率 ：{advertings.ctr} <br /> 广告支出回报率
-                                        : {advertings.approas}
+                                        消费金额 : {data.spend || 0} 点击率 ：{data.octr || 0} <br /> 广告支出回报率
+                                        : {data.roas || 0}
                                     </div>
                                     <div className={styles.bottom} onClick={e => {
                                         e.stopPropagation()
-                                        setActiveAdv({ ...advertings, showPreviewModal: true });
+                                        setActiveAdv({ ...params, showPreviewModal: true });
                                     }}>
                                         预览广告
                                     </div>
@@ -389,12 +365,8 @@ const Advertising: FC<AdvPropsType> = (props) => {
                         dispatch({
                             type: 'advertising/fetchAdvListAddMore',
                             payload: {
-                                startT: dateT ? dateT[0] : "",
-                                endT: dateT ? dateT[1] : "",
                                 start: date ? date[0] : "",
                                 end: date ? date[1] : "",
-                                current: pageIndex + 1,
-                                size: pageSize
                             }
                         });
                         setPageIndex(pageIndex + 1);
