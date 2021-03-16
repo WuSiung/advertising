@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { Button, Image } from 'antd'
 
 import { PreviewAdvType } from '../../workbench/data'
 
 import styles from './index.less'
 import type { AppInfo } from '@/models/user'
-import { PlayCircleOutlined } from '@ant-design/icons'
+import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
 type AdvPreviewProps = {
     appInfo?: AppInfo,
@@ -14,6 +14,8 @@ type AdvPreviewProps = {
 
 const AdvPreview: FC<AdvPreviewProps> = (props) => {
     const { appInfo, classNames, type, ...ohterProps } = props
+    const video = useRef<HTMLVideoElement>(null)
+    const [isPlay, setIsPlay] = useState(false)
     return <div className={`${styles.previewAdv} ${classNames || ''}`}>
         <div className={styles.header}>
             <Image src={appInfo?.logo} preview={false} width={28} />
@@ -27,10 +29,17 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
             </div>
             <div className={styles.media}>
                 {
-                    type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url}></video>
+                    type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url} ref={video}></video>
                 }
                 {
-                    type != 0 && <PlayCircleOutlined />
+                    type != 0 && !isPlay && <span className={styles.videoBtn}>
+                        <PlayCircleOutlined className={styles.play} onClick={() => { video.current?.play(); setIsPlay(true) }} />
+                    </span>
+                }
+                {
+                    type != 0 && isPlay && <span className={styles.videoBtn}>
+                        <PauseCircleOutlined className={styles.pause} onClick={() => { video.current?.pause(); setIsPlay(false) }} />
+                    </span>
                 }
             </div>
         </div>
