@@ -1,5 +1,5 @@
 import { formatterPersonNum } from '@/utils/countTrans'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { Button, Input, message, Modal, Select, Spin } from 'antd'
 import React, { FC, useState } from 'react'
 import { Dispatch } from 'umi'
@@ -158,6 +158,7 @@ const CheckInfoShow: FC<CheckInfoShowPropsType> = (props) => {
                     }
                 </div>
             </div>
+            <div className={styles.and}><ShareAltOutlined /></div>
             <div className={styles.excludeList} style={{ marginLeft: 20 }}>
                 <div className={styles.title}>排除人群</div>
                 <div className={styles.listContent}>
