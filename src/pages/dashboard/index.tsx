@@ -10,7 +10,7 @@ import { TData, TState } from './data';
 import { ColumnsType } from 'antd/es/table';
 import { Moment } from 'moment';
 import type { RangeValue } from './data';
-import { TARGET_LIST } from './targets';
+import {EMPTY_CFG, TARGET_LIST} from './targets';
 
 import styles from './index.less';
 import Loading from '@/components/Loading';
@@ -172,10 +172,10 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     },
   ];
 
-  const config = {
+  const configSum = {
     // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
     data: [],
-    height: 400,
+    height: 300,
     xField: 'x',
     yField: 'y',
     seriesField: 'target',
@@ -190,6 +190,51 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     areaStyle: {
       fill: 'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff',
     },
+    yAxis: {
+      tickCount: 8
+    },
+    xAxis: {
+      tickCount: 3,
+      label: {
+        rotate: - Math.PI / 4,
+        offset: 30
+      }
+    }
+  };
+
+  const config = {
+    // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
+    data: [],
+    height: 300,
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'target',
+    smooth: true,
+    loading: isLoading,
+    area: {
+      shape: 'smooth',
+    },
+    // style: {
+    //   backgroundColor: '#fff',
+    // },
+    areaStyle: {
+      fill: 'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff',
+    },
+    yAxis: {
+      tickCount: 8
+    },
+    xAxis: {
+      tickCount: 15,
+      label: {
+        autoRotate: true,
+        offset: 30
+      }
+    },
+    legend: {
+      position: 'right',
+      offsetX: 30,
+      itemHeight: 20
+    }
   };
 
   const roiData =
@@ -200,7 +245,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const configRoi = {
     data: roiData,
-    height: 400,
+    height: 300,
     xField: 'x',
     yField: 'y',
     seriesField: 'target',
@@ -208,6 +253,16 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       size: 5,
       shape: 'diamond',
     },
+    yAxis: {
+      tickCount: 8
+    },
+    xAxis: {
+      tickCount: 15,
+      label: {
+        autoRotate: true,
+        offset: 30
+      }
+    }
   };
 
   // todo: 根据dashboard.detailDataList 和target1, target2 生成summaryDataList
@@ -240,14 +295,20 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     // }
 
     // 策略概述2个图表一行的布局
-    let span = 12;
-    if (idx === numList - 1 && numList % 2 === 1) {
-      span = 24;
-    }
+    // let span = 12;
+    // if (idx === numList - 1 && numList % 2 === 1) {
+    //   span = 24;
+    // }
+
+    // 策略概述4个图表一行的布局
+    const span = 6;
 
     return (
       <Col key={idx} span={span} style={{ marginTop: '12px' }}>
-        <Area {...config} data={d} />
+        <p style={{textAlign: 'center'}}>{dashboard.tabList ? dashboard.tabList[idx].tab : ''}</p>
+        <div>
+          { d.length ? <Area {...configSum} data={d} /> : <Area {...EMPTY_CFG} /> }
+        </div>
       </Col>
     );
   });
@@ -362,7 +423,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
   return (
     <PageContainer>
-      <div className={styles.main} style={{ paddingLeft: 100, paddingRight: 100 }}>
+      <div className={styles.main}>
         <Card
           className={`${styles.totalCard}`}
           title="综合统计"
@@ -386,6 +447,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           }
         >
           <Table
+            pagination={false}
             columns={columns}
             rowKey="id"
             dataSource={dashboard.totalList}

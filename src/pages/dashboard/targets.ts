@@ -1,3 +1,7 @@
+import moment from 'moment';
+import {TData} from "@/pages/dashboard/data";
+import {AreaConfig} from "@ant-design/charts/es/area";
+
 export const TARGET_LIST = [
   {
     name: '结果数',
@@ -75,3 +79,52 @@ export const ROI_TARGET_LIST = [
     name: '支出',
   },
 ];
+
+const EMPTY_DATA: TData[] = [];
+
+for (let i = moment().subtract(30, 'days'); new Date(i.format('YYYY-MM-DD')).getTime() < Date.now(); i.add(1, 'days')) {
+  EMPTY_DATA.push({
+    x: i.format('YYYY-MM-DD'),
+    y: 10000,
+    target: 'target',
+    targetValue: 'target'
+  })
+}
+
+export const EMPTY_CFG: AreaConfig = {
+  // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
+  data: EMPTY_DATA,
+  height: 300,
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'target',
+  smooth: true,
+  area: {
+    shape: 'smooth',
+  },
+  // style: {
+  //   backgroundColor: '#fff',
+  // },
+  areaStyle: {
+    fill: 'l(270) 0:#ffffff 0.5:#ffffff 1:#ffffff',
+    opacity: 0
+  },
+  line: {
+    color: '#ededed',
+  },
+  yAxis: {
+    tickCount: 8
+  },
+  xAxis: {
+    tickCount: 3,
+    label: {
+      rotate: -Math.PI / 4,
+      offset: 30
+    }
+  },
+  tooltip: {
+    customContent: () => ''
+  },
+  label: null,
+  legend: false
+};
