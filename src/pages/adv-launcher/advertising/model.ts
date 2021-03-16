@@ -27,7 +27,7 @@ const AdverModel: AdverModelType = {
             const res = yield call(queryAdvList, payload)
             yield put({
                 type: 'saveAdvLis',
-                payload: {advertisingList: res.data}
+                payload: {advertisingList: res.data.records}
             })
             // yield put({
             //     type: 'saveAdvLis',

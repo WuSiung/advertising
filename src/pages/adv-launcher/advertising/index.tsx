@@ -42,10 +42,13 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [date, setDate] = useState<[string, string]>();
     const [dateT, setDateT] = useState<[string, string]>();
+    const [cost, setCost] = useState<number>(0)
     const [age, setAge] = useState<CheckboxValueType[] | undefined>();
     const [sex, setSex] = useState<CheckboxValueType[] | undefined>();
     const [device, setDevice] = useState<CheckboxValueType[] | undefined>();
     const [publishLocation, setPublishLocation] = useState<CheckboxValueType[] | undefined>();
+    const [orderType, setOrderType] = useState('')
+    const [searchTime, setSearchTime] = useState(0)
     const [country, setCountry] = useState<SelectValueType[] | undefined>();
     const [activeAdv, setActiveAdv] = useState<PreviewAdvType & { showPreviewModal: boolean }>();
     const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
@@ -56,9 +59,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
             payload: {
                 start: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
                 end: moment().format('YYYY-MM-DD'),
+                cost,
+                order: orderType
             }
         });
-    }, [])
+    }, [searchTime])
     useEffect(() => {
         if (loadingAdvList) {
             hideLoading = success();
@@ -164,7 +169,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 <Row>
                     <Col xxl={12} span={24}>
                         <div style={{ minWidth: "525px", marginBottom: "10px" }}>
-                            评分排序 :&nbsp;
+                            排序 :&nbsp;
                             <Select
                                 showSearch
                                 style={{ width: 200 }}
@@ -173,18 +178,21 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 filterOption={(input: string, option) =>
                                     option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
+                                onChange={e => setOrderType(e as string)}
                             >
-                                <Select.Option value="approas">广告回报率</Select.Option>
-                                <Select.Option value="ctr">点击率</Select.Option>
+                                <Select.Option value="mobileAppPurchaseRoas">广告回报率</Select.Option>
+                                <Select.Option value="octr">点击率</Select.Option>
                                 <Select.Option value="frequency">频率</Select.Option>
-                                <Select.Option value="impression">展示数</Select.Option>
+                                <Select.Option value="impressions">展示数</Select.Option>
                                 <Select.Option value="cpc">每次点击费用</Select.Option>
                                 <Select.Option value="cpm">费用/千次</Select.Option>
                                 <Select.Option value="installs">安装次数</Select.Option>
-                                <Select.Option value="installfee">每次安装费用</Select.Option>
+                                <Select.Option value="cpa">每次安装费用</Select.Option>
                             </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;最小花费 :&nbsp;
-                            <Space><InputNumber defaultValue={0} /><Button type="primary">确定</Button></Space>
+                            <Space><InputNumber defaultValue={cost} type='number' min={0} onChange={e => setCost(e as number)} />
+                                <Button type="primary" onClick={() => setSearchTime(searchTime + 1)}>确定</Button>
+                            </Space>
                             <Button style={{ marginLeft: 10 }} type='primary' onClick={toCompaign}>创建广告</Button>
                         </div>
                     </Col>
@@ -309,7 +317,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                     {
                         advertisingList.length > 0 ? advertisingList.map((advertings, i) => {
                             // const imgtext = advertings.imgTextList[0] ? advertings.imgTextList[0] : null;
-                            const { data, advImg, advText } = advertings
+                            const { dataVO, advImg, advText } = advertings
                             const params = {
                                 title: advText.title,
                                 content: advText.content,
@@ -321,13 +329,14 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             return (<div key={advImg.imgId + '&' + advText.textId} style={{ border: "1px solid #d9d9d9" }}
                                 className={`${styles.advPreviewWrap} ${advertings.checked ? styles.active : ''}`} onClick={() => createAdv(i)}>
                                 {
-                                    advertings.checked && <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...params} />
+                                    advertings.checked && <span className={styles.finished}><CheckCircleOutlined /></span>
                                 }
-                                <span className={styles.finished}><CheckCircleOutlined /></span>
+                                <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...params} />
+
                                 <div className={styles.mask}>
                                     <div className={styles.top}>
-                                        消费金额 : {data.spend || 0} 点击率 ：{data.octr || 0} <br /> 广告支出回报率
-                                        : {data.roas || 0}
+                                        消费金额 : {dataVO.spend || 0} 点击率 ：{dataVO.octr || 0} <br /> 广告支出回报率
+                                        : {dataVO.roas || 0}
                                     </div>
                                     <div className={styles.bottom} onClick={e => {
                                         e.stopPropagation()

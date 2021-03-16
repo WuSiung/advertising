@@ -4,7 +4,7 @@ import type { ImgDataType, TextDataType, HasAdvs, AdvDataType } from '@/pages/ad
 export interface AdvedDataType {
     advImg: ImgDataType,
     advText: TextDataType,
-    data: AdvDataType,
+    dataVO: AdvDataType,
     checked?: boolean
 }
 
