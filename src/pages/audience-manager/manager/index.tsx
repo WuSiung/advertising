@@ -102,7 +102,7 @@ const InterestTable: FC<InterestTableProps> = (props) => {
                         <td>{interest.loveName}</td>
                         <td>{formatterPersonNum(Number(interest.count))}</td>
                         <td>{interest.type}</td>
-                        <td className={styles.path}>{interest.path}</td>
+                        <td className={styles.path}>{interest.path.replaceAll(',', '>')}</td>
                     </tr>
                 })
             }
@@ -144,6 +144,10 @@ const AudienceTable: FC<AudienceTableProps> = (props) => {
             payload: { excludeList: JSON.parse(JSON.stringify(newExcludes)) }
         })
     }
+    const typeText = {
+        0: '新近度',
+        1: '相似人群'
+    }
     return <table className={styles.tables}>
         <thead>
             <tr>
@@ -178,8 +182,8 @@ const AudienceTable: FC<AudienceTableProps> = (props) => {
                             </span>
                         </td>
                         <td>{interest.audienceName}</td>
-                        <td>{interest.type}</td>
-                        <td>{interest.retention || 0}</td>
+                        <td>{typeText[interest.type]}</td>
+                        <td>${interest.retention || 0}</td>
                         <td>{interest.retention || 0}</td>
                         <td>{interest.retention || 0}</td>
                         <td>{interest.retention || 0}</td>
