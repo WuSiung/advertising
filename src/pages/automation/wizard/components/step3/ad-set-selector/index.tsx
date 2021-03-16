@@ -23,6 +23,12 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
         payload: {}
       });
     }
+
+    let isSelected = false;
+    if (props.ActionObj && props.ActionObj.length) {
+      isSelected = true;
+    }
+    props.onActionObjChange(isSelected);
   }, []);
 
   const columns = [

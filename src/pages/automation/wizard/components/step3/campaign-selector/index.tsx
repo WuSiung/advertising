@@ -23,6 +23,12 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
         payload: {}
       });
     }
+
+    let isSelected = false;
+    if (props.ActionObj && props.ActionObj.length) {
+      isSelected = true;
+    }
+    props.onActionObjChange(isSelected);
   }, []);
 
   const columns = [

@@ -24,6 +24,13 @@ const AdSelector: FC<IAdSelector> = (props) => {
         payload: {}
       });
     }
+
+    let isSelected = false;
+    if (props.ActionObj && props.ActionObj.length) {
+      isSelected = true;
+    }
+    props.onActionObjChange(isSelected);
+
   }, []);
 
   const columns: ColumnsType<TAd> = [
