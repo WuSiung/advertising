@@ -7,6 +7,8 @@
     margin-top: 20px;
 }
 .crowdPack{
+    max-height: 700px;
+    overflow-y: scroll;
     .packs{
         // display: flex;
         border-bottom: 1px solid rgba(0,0,0,.1);
@@ -63,7 +65,7 @@
         }
         .popover{
             position: absolute;
-            box-shadow: 0 2px 6px 0 rgb(0 0 0 / 10%);
+            box-shadow: @shadow-2;
             top: 110px;
             left: 50%;
             transform: translateX(-50%);
@@ -74,6 +76,9 @@
             font-size: 12px;
             background: #fff;
             display: none;
+            &.base{
+                color: @primary-color;
+            }
         }
     }
 }

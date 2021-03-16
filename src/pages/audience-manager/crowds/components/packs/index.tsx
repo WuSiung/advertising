@@ -45,7 +45,7 @@ const Pack: FC<OnePackProps> = (props) => {
 const BasePack: FC<basePackProps> = (props) => {
     return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audienceBaseId)}>
         {props.name}
-        <div className={styles.popover}>
+        <div className={`${styles.popover} ${styles.base}`}>
             {props.des}
         </div>
     </div>
