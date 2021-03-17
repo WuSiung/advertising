@@ -52,6 +52,7 @@ const SurfCampaignModel: TSurfCampaignModel = {
   reducers: {
     updateActionInfo(state, { payload }) {
       const res: TStateSurfCampaign = {
+        ...state,
         ActionInfo: {
           ...state?.ActionInfo,
           ...payload

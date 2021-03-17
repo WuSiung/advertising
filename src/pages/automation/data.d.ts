@@ -6,3 +6,10 @@ export enum EActionTypeName {
   Revive_AdSetLevel = '复活-广告集',
   Revive_AdLevel = '复活-广告'
 }
+
+export type TTacticEditInfo = {
+  objectID: string;
+  actionName: string;
+  actionInfo: string;
+  actionObj: number[];
+};

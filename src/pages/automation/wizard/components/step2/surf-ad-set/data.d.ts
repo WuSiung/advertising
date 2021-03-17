@@ -12,8 +12,9 @@ export type TSurfadSetLevelAction  = {
 }
 
 export type TState = {
+  ObjectID?: string;
   Name?: string;
-  settingData?: TSurfadSetLevelAction,
+  ActionInfo?: TSurfadSetLevelAction,
   ActionObj?: string[]
 }
 
@@ -23,6 +24,7 @@ export type TSurfAdSetModel = {
   reducers: {
     updateSettingData: Reducer<TState>;
     updateSelectorData: Reducer<TState>;
+    init: Reducer<TState>;
   }
 }
 

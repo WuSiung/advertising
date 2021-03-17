@@ -91,7 +91,42 @@ for (let i = moment().subtract(30, 'days'); new Date(i.format('YYYY-MM-DD')).get
   })
 }
 
-export const EMPTY_CFG: AreaConfig = {
+export const EMPTY_CFG_SUM: AreaConfig = {
+  // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
+  data: EMPTY_DATA,
+  height: 200,
+  appendPadding: [0, 20, 0, 20],
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'target',
+  smooth: true,
+  // style: {
+  //   backgroundColor: '#fff',
+  // },
+  areaStyle: {
+    fill: 'l(270) 0:#ffffff 0.5:#ffffff 1:#ffffff',
+    opacity: 0
+  },
+  line: {
+    color: '#ededed',
+  },
+  yAxis: {
+    tickCount: 5
+  },
+  xAxis: {
+    tickCount: 3,
+    label: {
+      // autoRotate: true
+    }
+  },
+  tooltip: {
+    customContent: () => ''
+  },
+  label: undefined,
+  legend: false
+};
+
+export const EMPTY_CFG_DETAIL: AreaConfig = {
   // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
   data: EMPTY_DATA,
   height: 300,
@@ -99,9 +134,6 @@ export const EMPTY_CFG: AreaConfig = {
   yField: 'y',
   seriesField: 'target',
   smooth: true,
-  area: {
-    shape: 'smooth',
-  },
   // style: {
   //   backgroundColor: '#fff',
   // },
@@ -116,15 +148,40 @@ export const EMPTY_CFG: AreaConfig = {
     tickCount: 8
   },
   xAxis: {
-    tickCount: 3,
+    tickCount: 30,
     label: {
-      rotate: -Math.PI / 4,
-      offset: 30
+      autoRotate: true
     }
   },
   tooltip: {
     customContent: () => ''
   },
-  label: null,
+  label: undefined,
+  legend: false
+};
+
+export const EMPTY_CFG_ROI = {
+  data: EMPTY_DATA,
+  height: 300,
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'target',
+  point: null,
+  yAxis: {
+    tickCount: 8
+  },
+  xAxis: {
+    tickCount: 30,
+    label: {
+      autoRotate: true,
+    }
+  },
+  lineStyle: {
+    stroke: '#ededed',
+  },
+  tooltip: {
+    customContent: () => ''
+  },
+  label: undefined,
   legend: false
 };
