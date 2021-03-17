@@ -7,7 +7,7 @@ import {ColumnsType} from "antd/es/table";
 import { history, Link } from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
 import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTwoTone} from "@ant-design/icons";
-import {deleteTactic} from "@/pages/automation/summary/service";
+import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
 
@@ -33,7 +33,7 @@ const Summary: FC<SummaryProps> = (props) => {
   }, []);
 
   const handleDelete = (recored: TTactic, rowIndex: number) => {
-    console.log('recored', recored, 'rowIndex: ', rowIndex);
+    // console.log('recored', recored, 'rowIndex: ', rowIndex);
     Modal.confirm({
       title: '提示',
       icon: <ExclamationCircleOutlined />,
@@ -56,6 +56,28 @@ const Summary: FC<SummaryProps> = (props) => {
         //     payload: { mediaList: JSON.parse(JSON.stringify(setArr)) }
         //   })
         // })
+      }
+    });
+  }
+
+  const handlePause = async (record: TTactic, rowIndex: number) => {
+    await pauseTactic(record);
+    tacticSummary.tacticList[rowIndex].Status = '0';
+    dispatch({
+      type: 'tacticSummary/updateTacticList',
+      payload: {
+        ...tacticSummary
+      }
+    })
+  }
+
+  const handleRestore = async (record: TTactic, rowIndex: number) => {
+    await restoreTactic(record);
+    tacticSummary.tacticList[rowIndex].Status = '1';
+    dispatch({
+      type: 'tacticSummary/updateTacticList',
+      payload: {
+        ...tacticSummary
       }
     });
   }
@@ -103,10 +125,10 @@ const Summary: FC<SummaryProps> = (props) => {
       render: (text, record, index) => {
         return (
           <Space>
-          <PlayCircleTwoTone disabled={record.Status === '0'} twoToneColor={record.Status === '1' ? '#9d9d9d' : ''} />
-          <PauseCircleTwoTone disabled={record.Status === '1'} twoToneColor={record.Status === '0' ? '#9d9d9d' : ''} />
-            <EditTwoTone />
-            {/*<Link to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone /></Link>*/}
+          <PlayCircleTwoTone onClick={() => handleRestore(record, index)} disabled={record.Status === '0'} twoToneColor={record.Status === '1' ? '#9d9d9d' : ''} />
+          <PauseCircleTwoTone onClick={() => handlePause(record, index)} disabled={record.Status === '1'} twoToneColor={record.Status === '0' ? '#9d9d9d' : ''} />
+            {/*<EditTwoTone />*/}
+            <Link to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone /></Link>
           <DeleteTwoTone onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f" />
           </Space>
         )

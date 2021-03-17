@@ -89,3 +89,9 @@ export type TState = {
   detailDataList?: TData[][];
   roiDataRecord?: Record<string, TData[]>;
 };
+
+export type TColumnOption = {
+  dataIndex: string;
+  titleString: string | undefined;
+  show: boolean;
+}

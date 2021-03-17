@@ -15,7 +15,7 @@ import Loading from '@/components/Loading';
 import {TAdvAutoActionReq} from "@/pages/automation/wizard/data";
 import {EActionType} from "@/pages/automation/wizard/data.d";
 import {createTactic} from "@/pages/automation/wizard/service";
-import {TTactic} from "@/pages/automation/summary/data";
+import {TTacticEditInfo} from "@/pages/automation/data";
 
 interface WizardProps {
   dispatch: Dispatch
@@ -23,7 +23,13 @@ interface WizardProps {
   location: {
     pathname: string;
     state: {
-      record: TTactic
+      record: {
+        ObjectID: string;
+        Name: string;
+        ActionType: string;
+        ActionInfo: string;
+        AdvObjs: any[];
+      }
     }
   }
 }
@@ -55,6 +61,8 @@ const Wizard: FC<WizardProps> = (props) => {
   let defautTactic = '';
   let defaultLevel = -1;
 
+  let editInfo;
+
   if (location.state && location.state.record) {
     defaultCurrent = 1;
     defautTactic = location.state.record.ActionType;
@@ -73,6 +81,14 @@ const Wizard: FC<WizardProps> = (props) => {
         defaultLevel = 0;
         break;
       default:
+    }
+    const {record} = location.state;
+
+    editInfo = {
+      objectID: record.ObjectID,
+      actionName: record.Name,
+      actionInfo: record.ActionInfo,
+      actionObj: record.AdvObjs.map(o => parseInt(o.AdvID, 10))
     }
   }
 
@@ -101,8 +117,9 @@ const Wizard: FC<WizardProps> = (props) => {
     if (step === 3) {
       if (childRef && childRef.current) {
         const data = childRef.current.submit();
-        console.log('createTactic');
+        // console.log('createTactic');
         await createTactic({
+          ObjectID: data.ObjectID,
           Name: data.Name,
           ActionInfo: data.ActionInfo,
           ActionObj: data.ActionObj,
@@ -136,7 +153,7 @@ const Wizard: FC<WizardProps> = (props) => {
       >
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
         {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current} onActionObjChange={handleDataChange}></SurfCampaign>}
-        {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current} onActionObjChange={handleDataChange}></SurfAdSet>}
+        {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></SurfAdSet>}
         {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvSet>}
         {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvAdv>}
         {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></ReviveAdvSet>}

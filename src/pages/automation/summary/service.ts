@@ -17,7 +17,9 @@ export async function getTacticList(payload: any) {
     method: 'POST',
     data: {
       access: tokenInfo,
-      requestInfo: String(platformId)
+      requestInfo: {
+        PlatformId: String(platformId)
+      }
     }
   });
 }
@@ -33,6 +35,44 @@ export async function deleteTactic(payload: TTactic) {
     Expires_in: Store.GetExpiresIn()
   }
   return request('/autoTactic/api/stopautotactic', {
+    method: 'POST',
+    data: {
+      access: tokenInfo,
+      requestInfo: payload
+    }
+  });
+}
+
+export async function pauseTactic(payload: TTactic) {
+  const platformId = Store.GetTokenId();
+  const tokenInfo: TAdvAccessTokenInfo = {
+    Access_token: Store.GetToken(),
+    Token_id: platformId,
+    User_id: Store.GetUserId(),
+    Username: Store.GetUserName(),
+    Refresh_token: Store.GetRefreshToken(),
+    Expires_in: Store.GetExpiresIn()
+  }
+  return request('/autoTactic/api/pauseautotactic', {
+    method: 'POST',
+    data: {
+      access: tokenInfo,
+      requestInfo: payload
+    }
+  });
+}
+
+export async function restoreTactic(payload: TTactic) {
+  const platformId = Store.GetTokenId();
+  const tokenInfo: TAdvAccessTokenInfo = {
+    Access_token: Store.GetToken(),
+    Token_id: platformId,
+    User_id: Store.GetUserId(),
+    Username: Store.GetUserName(),
+    Refresh_token: Store.GetRefreshToken(),
+    Expires_in: Store.GetExpiresIn()
+  }
+  return request('/autoTactic/api/continueautotactic', {
     method: 'POST',
     data: {
       access: tokenInfo,

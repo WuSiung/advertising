@@ -15,7 +15,7 @@ const SurfAdSetModel: TSurfAdSetModel = {
   namespace: 'surfAdSet',
   state: {
     Name: TACTIC_NAME + OPTIONS['cpa'] + OPERATOR + 1,
-    settingData: {
+    ActionInfo: {
       Target: 'cpa',
       TargetName: OPTIONS['cpa'],
       InsertCount: 1,
@@ -35,15 +35,23 @@ const SurfAdSetModel: TSurfAdSetModel = {
     updateSettingData(state, { payload }) {
       // 生成Name
       const res: TState = {
-        settingData: {
-          ...state?.settingData,
+        ...state,
+        ActionInfo: {
+          ...state?.ActionInfo,
           ...payload
         }
       }
-      res.Name = TACTIC_NAME + res.settingData?.TargetName + OPERATOR + res.settingData?.InsertCount
+      res.Name = TACTIC_NAME + res.ActionInfo?.TargetName + OPERATOR + res.ActionInfo?.InsertCount
       return res;
     },
     updateSelectorData(state, { payload }) {
+      return {
+        ...state,
+        ...payload
+      }
+    },
+    init(state, { payload }) {
+      // console.log('init', payload);
       return {
         ...state,
         ...payload

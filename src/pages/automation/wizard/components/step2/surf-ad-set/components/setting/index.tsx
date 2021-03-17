@@ -12,18 +12,18 @@ const {Option} = Select;
 
 interface ISetting {
   options: Record<string, string>;
-  settingData?: TSurfadSetLevelAction;
+  ActionInfo?: TSurfadSetLevelAction;
   onChange: (payload: any) => void;
 };
 
 const Setting: FC<ISetting> = (props) => {
-  const { settingData } = props;
+  const { ActionInfo } = props;
   const [ target ] = useState(2);
   const format = 'HH:mm';
   const title1 = (
     <Space direction="vertical">
       <span>触发SURF并增加广告集支出</span>
-      <span>如果广告组达到{settingData?.InsertCount}{settingData?.Target ? props.options[settingData?.Target] : 0}的，只要支出最少超过${settingData?.CostValue}今天。</span>
+      <span>如果广告组达到{ActionInfo?.InsertCount}{ActionInfo?.Target ? props.options[ActionInfo?.Target] : 0}的，只要支出最少超过${ActionInfo?.CostValue}今天。</span>
     </Space>
   );
 
@@ -41,7 +41,7 @@ const Setting: FC<ISetting> = (props) => {
   ];
 
   const handleListChange = (i: number, j: number, value: number) => {
-    const list = settingData?.AdvEffectLv?.concat([]);
+    const list = ActionInfo?.AdvEffectLv?.concat([]);
     if (list) {
       list[i][j] = value;
     }
@@ -72,7 +72,7 @@ const Setting: FC<ISetting> = (props) => {
           <SvgLine2 />
           <Space direction="vertical" size="large">
             <Space>
-              <Select value={settingData?.Target} style={{width: 100}} onChange={value => props.onChange({Target: value, TargetName: props.options[value]})}>
+              <Select value={ActionInfo?.Target} style={{width: 100}} onChange={value => props.onChange({Target: value, TargetName: props.options[value]})}>
                 {
                   optionList.map(o => {
                     return <Option key={o.value} value={o.value}>{o.title}</Option>
@@ -81,7 +81,7 @@ const Setting: FC<ISetting> = (props) => {
 
               </Select>
               <Tag color="rgb(208 208 208)">&nbsp; &gt;= &nbsp;</Tag>
-              <InputNumber style={{width: 100}} value={settingData?.InsertCount} onChange={value => props.onChange({InsertCount: value})}/>
+              <InputNumber style={{width: 100}} value={ActionInfo?.InsertCount} onChange={value => props.onChange({InsertCount: value})}/>
             </Space>
             <Space>
               <span>花费</span>
@@ -109,7 +109,7 @@ const Setting: FC<ISetting> = (props) => {
                     <Radio style={radioStyle} value={2}>
                       静态指标 <span>$</span>
                     </Radio>
-                    <InputNumber prefix="$" style={{width: 100}} value={settingData?.CostValue} onChange={value => props.onChange({CostValue: value})} />
+                    <InputNumber prefix="$" style={{width: 100}} value={ActionInfo?.CostValue} onChange={value => props.onChange({CostValue: value})} />
                   </Space>
                 </Space>
               </Radio.Group>
@@ -119,7 +119,7 @@ const Setting: FC<ISetting> = (props) => {
 
       </StepCard>
       <StepCard title="广告集的预算将根据该算法增加。">
-        <div>冲浪极限： <InputNumber value={settingData?.LimitPerCheck} onChange={value => props.onChange({LimitPerCheck: value})} /></div>
+        <div>冲浪极限： <InputNumber value={ActionInfo?.LimitPerCheck} onChange={value => props.onChange({LimitPerCheck: value})} /></div>
         <div>
           <Row justify="center">
             <Col span={3}></Col>
@@ -128,7 +128,7 @@ const Setting: FC<ISetting> = (props) => {
             <Col span={2}>每日预算高</Col>
           </Row>
           {
-            settingData?.AdvEffectLv && settingData?.AdvEffectLv.map((list, i) => {
+            ActionInfo?.AdvEffectLv && ActionInfo?.AdvEffectLv.map((list, i) => {
               return <Row justify="center" key={i}>
                 <Col span={3}><p style={{lineHeight: '32px', backgroundColor: '#c4dfe2'}}>{labels[i]}</p></Col>
                 {
@@ -150,9 +150,9 @@ const Setting: FC<ISetting> = (props) => {
 
       </StepCard>
       <StepCard
-        title={`预算将在当地时间${settingData?.ResetBudgetTime?.format(format)} (亚洲/上海) 自动重置"`}
+        title={`预算将在当地时间${ActionInfo?.ResetBudgetTime?.format(format)} (亚洲/上海) 自动重置"`}
       >
-        <Space><label>重置时间表： </label><TimePicker value={settingData?.ResetBudgetTime} format={format} onChange={value => props.onChange({ResetBudgetTime: value})} /></Space>
+        <Space><label>重置时间表： </label><TimePicker value={ActionInfo?.ResetBudgetTime} format={format} onChange={value => props.onChange({ResetBudgetTime: value})} /></Space>
       </StepCard>
     </div>
   );
