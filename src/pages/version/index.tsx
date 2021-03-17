@@ -7,14 +7,14 @@ import styles from './index.less'
 const Version = () => {
     const versionDetail: string[] = [
         '人群包列表滚动调整及样式修改',
-        '已有广告接口再次变更',
+        '广告创意接口再次变更',
         '公共素材库样式修改',
         '修复若干bug'
     ]
     const now: string[] = [
         '新增服务条款、隐私政策、cookie政策对应页面',
-        '已有广告接口变更',
-        '广告发布成功跳转已有广告',
+        '广告创意接口变更',
+        '广告发布成功跳转广告创意',
         '修复若干bug'
     ]
     return <Card>

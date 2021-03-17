@@ -58,9 +58,14 @@
         z-index: 20;
         background-color: #ffffff;
         bottom: 0;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        .previewTitle{
+            margin-bottom: 10px;
+        }
+        .container{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
         &.showContent{
             right: 0;
         }
@@ -73,6 +78,7 @@
             -o-box-flex: 1;
             box-flex: 1;
             position: relative;
+            border: 1px solid #ccc;
             .delete{
                 position: absolute;
                 right: 12px;

@@ -85,12 +85,20 @@ request.interceptors.response.use(async (response: Response) => {
         key: 'errorOne'
       })
       throw new Error(JSON.stringify(res));
-    }else if (codeMessage[status]) {
+    } else if (codeMessage[status]) {
       notification.error({
         message: codeMessage[status],
         key: 'errorOne'
       })
       throw new Error(String(status));
+    }
+  } else {
+    if (res.code == 1) {
+      notification.error({
+        message: res.msg,
+        key: 'errorOne'
+      })
+      throw new Error(JSON.stringify(res));
     }
   }
   return response;

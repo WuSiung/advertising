@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import { Button, Col, Row, Select, Upload } from 'antd'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { FolderOutlined } from '@ant-design/icons'
+import { DeleteOutlined, FolderOutlined } from '@ant-design/icons'
 import { RcFile } from 'antd/lib/upload';
 
 import styles from './index.less'
@@ -20,6 +20,7 @@ interface PublicHeaderProps {
     onClear: () => void,
     onAddToWorkbench: () => void,
     onDelete?: () => void,
+    onDeleteAll?: () => void,
     openFolder?: () => void,
     onSort?: (type: string) => void,
     openText?: (visible: boolean) => void,
@@ -57,7 +58,7 @@ const mediaSortType = [
 ]
 
 const PublicHeader: FC<PublicHeaderProps> = (props) => {
-    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench,
+    const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench, onDeleteAll,
         onSort, onSource, onChangeDate, openFolder, clearDisable, fetchTag, onFilterTagValue, onSelectTag } = props
     const [uploadLenth, setLength] = useState(0)
     const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
@@ -70,7 +71,7 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
     const defaultSelectOptions = type == 'media' ? JSON.parse(Store.GetMediaTagIds() || '[]') : JSON.parse(Store.GetTextTagIds() || '[]')
 
     return <Row className={styles.top}>
-        <Col className={styles.btns} span={12}>
+        <Col className={styles.btns} span={10}>
             {
                 type == 'media' && <div className={styles.uploadBtns}>
                     <Upload multiple customRequest={e => onUpload!(e, uploadLenth)} showUploadList={false} beforeUpload={setUploadLength}>
@@ -85,7 +86,8 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
             <Button type='primary' style={{ marginRight: 10 }} onClick={onAddToWorkbench} disabled={!clearDisable}>添加至工作台</Button>
             <FolderOutlined className={styles.folder} title='标签库' onClick={openFolder} />
         </Col >
-        <Col className={styles.filter} span={12}>
+        <Col className={styles.filter} span={14}>
+            <DeleteOutlined onClick={onDeleteAll} size={16} style={{ marginRight: 10, color: '#1890ff' }} />
             <DateRange onChange={onChangeDate} />
             <DebounceSelect fetchOptions={fetchTag} mode="multiple" placeholder='标签筛选' style={{ minWidth: 200, marginLeft: 10 }} showSearch
                 defaultActiveFirstOption={false} setValue={onFilterTagValue} onChange={onSelectTag} defaultOptions={defaultSelectOptions}></DebounceSelect>

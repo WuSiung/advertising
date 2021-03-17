@@ -1,7 +1,7 @@
 import { isVideo, isImage } from '@/utils/fileType'
 import React, { FC } from 'react'
 import { Image, Tag } from 'antd'
-import { CheckOutlined, CloseCircleOutlined, EditOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import styles from './index.less'
 import { PublicMaterialDataType, TagType } from '../../data'
@@ -30,7 +30,7 @@ const MaterialBox: FC<MaterialBox> = (props) => {
             type == 'text' && <div className={styles.text}>{props.description + '&&' + props.title}</div>
         }
         <span className={styles.edit} onClick={e => { e.stopPropagation(); onEdit && onEdit(index) }}><EditOutlined /></span>
-        <span className={styles.close} onClick={e => { e.stopPropagation(); onDelete && onDelete(index) }}><CloseCircleOutlined /></span>
+        <span className={styles.close} onClick={e => { e.stopPropagation(); onDelete && onDelete(index) }}><DeleteOutlined /></span>
         <div className={styles.tag}>
             {
                 tags.map((tag, index) => {

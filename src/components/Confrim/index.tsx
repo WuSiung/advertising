@@ -17,8 +17,10 @@ export const showConfirm = (params: ConfirmProps) => {
             icon: <ExclamationCircleOutlined />,
             content: content || '你确定删除？',
             onOk: async () => {
-                return onOk && onOk()?.then(() => {
-                    resolve(true)
+                return onOk && onOk()?.then((res: any) => {
+                    if (res) {
+                        resolve(true)
+                    }
                 })
             },
             onCancel() {

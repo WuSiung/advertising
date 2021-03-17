@@ -36,14 +36,28 @@ const PreviewContainer: FC<PreviewContainerProps> = (props) => {
             <span className={styles.text}>广告选择预览({previewAdvs?.length})</span>
         </div>
         <div className={`${styles.preivewContent}  ${visible ? styles.showContent : ''}`}>
-            {
-                previewAdvs?.map((adv, index) => {
-                    return <div className={styles.previewItem} key={adv.imgId + '&' + adv.textId}>
-                        <CloseCircleOutlined className={styles.delete} onClick={() => deletePreviewAdvs(index)} />
-                        <AdvPreview {...adv} appInfo={appInfo} />
-                    </div>
-                })
-            }
+            <div className={styles.previewTitle}>工作台</div>
+            <div className={styles.container}>
+                {
+                    previewAdvs?.map((adv, index) => {
+                        return !adv.kinds && <div className={styles.previewItem} key={adv.imgId + '&' + adv.textId + '&' + index}>
+                            <CloseCircleOutlined className={styles.delete} onClick={() => deletePreviewAdvs(index)} />
+                            <AdvPreview {...adv} appInfo={appInfo} />
+                        </div>
+                    })
+                }
+            </div>
+            <div className={styles.previewTitle}>广告创意</div>
+            <div className={styles.container}>
+                {
+                    previewAdvs?.map((adv, index) => {
+                        return adv.kinds && <div className={styles.previewItem} key={adv.imgId + '&' + adv.textId + '&' + index}>
+                            <CloseCircleOutlined className={styles.delete} onClick={() => deletePreviewAdvs(index)} />
+                            <AdvPreview {...adv} appInfo={appInfo} />
+                        </div>
+                    })
+                }
+            </div>
         </div>
         {
             visible && <div className={styles.modal} onClick={() => handleVisible(false)}></div>

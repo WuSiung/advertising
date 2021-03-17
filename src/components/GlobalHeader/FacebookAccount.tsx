@@ -49,7 +49,8 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                         await dispatch({
                             type: 'user/fetchFbOnlineAccounts',
                             payload: params
-                        }).then(() => { setShowModal(true) })
+                        })
+                        setShowModal(true)
                         message.destroy(params.access_token)
                     }
                 })

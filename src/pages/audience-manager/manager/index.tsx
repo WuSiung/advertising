@@ -1,4 +1,4 @@
-import { Card, Tabs, Input, Button, Spin } from 'antd'
+import { Card, Tabs, Input, Button, Spin, Empty } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { connect, Dispatch } from 'umi'
 import { InterestDataType, AudienceDataType, ManagerDataType } from './data'
@@ -308,7 +308,12 @@ const AudienceManager: FC<AudienceManagerProps> = (props) => {
                 <Tabs.TabPane key='audiences' tab='人群受众'>
                     <Input.Search placeholder="关键词搜索" allowClear onSearch={onSearchAudience} style={{ width: 300, marginBottom: 10 }} />
                     <Spin spinning={gettingInterest}>
-                        <div className={styles.tableContainer}><AudienceTable list={audiences} dispatch={dispatch} excludeList={excludeList} includeList={includeList} /></div>
+                        <div className={styles.tableContainer}>
+                            <AudienceTable list={audiences} dispatch={dispatch} excludeList={excludeList} includeList={includeList} />
+                            {
+                                audiences.length <= 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='没有人群受众' />
+                            }
+                        </div>
                     </Spin>
                 </Tabs.TabPane>
             </Tabs>
