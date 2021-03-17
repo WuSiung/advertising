@@ -7,7 +7,7 @@ import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data'
-import { addTag, deletResource, delTag, getTextTag, getSouceTag } from '../../service'
+import { addTag, deletResource, delTag, getTextTag, getSouceTag, deletManyResource } from '../../service'
 import MaterialBox from '../Box'
 import EditTag from '../EditTag'
 import PublicHeader from '../PublicHeader'
@@ -92,6 +92,8 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
             let str = value.split('&&')
             return { title: str[1] || '', text: str[0] || '', id: generateUUID() }
         })
+        console.log(uploadParams)
+        return
         await dispatch({
             type: 'material/uploadTexts',
             payload: { userId: userInfo?.userId || 1, arr: uploadParams }
@@ -115,6 +117,25 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
         const newArr = textList
         newArr.splice(i, 1)
         showDeleteConfirm(dispatch, deleteInfo, 'text', newArr)
+    }
+
+    const deleteManySource = () => {
+        const deleteCheckMedia = textList.filter(text => text.checked)
+        if (deleteCheckMedia.length <= 0) {
+            message.warning('请选择资源再删除！')
+            return
+        }
+        let ids = deleteCheckMedia.map(text => text.id)
+
+        showConfirm({
+            onOk: deletManyResource.bind(null, { resourceIds: ids })
+        }).then(() => {
+            const now = textList.filter(text => !ids.includes(text.id))
+            dispatch({
+                type: 'material/saveTexts',
+                payload: { textList: JSON.parse(JSON.stringify(now)) }
+            })
+        })
     }
 
     const checkText = (i: number) => {
@@ -197,8 +218,9 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     }
 
     return <div>
-        <PublicHeader clearDisable={textList.some(text => text.checked)} onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench} fetchTag={getTextTag}
-            onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib} tags={textTags || []} onSelectTag={chooseTagId} onFilterTagValue={setFilterTagSearch}
+        <PublicHeader clearDisable={textList.some(text => text.checked)} onClear={clearTextCheck} type='text' onAddToWorkbench={addTextToWorkbench}
+            fetchTag={getTextTag} onDeleteAll={deleteManySource} onSort={setTextSort} onSource={setTextFilter} openFolder={handleAiLib}
+            tags={textTags || []} onSelectTag={chooseTagId} onFilterTagValue={setFilterTagSearch}
             onUploadText={submitTexts} uploading={textUploading} openText={setTextModelVisible} textVisible={textModelVisible} onChangeDate={setFilterDate} />
         <Spin spinning={!!textGetLoading}>
             <div className={`${styles.mediaContent} ${styles.textList}`} onScroll={scrollText} ref={textRef}>

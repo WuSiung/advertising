@@ -20,7 +20,7 @@ interface EditTagProps {
 const EditTag: FC<EditTagProps> = (props) => {
     const { visible, tagList, onCancel, setTagName, onAdd, onDelete, tagName, onChangeResult, type, fetchTags } = props
 
-    return <Modal visible={visible} title={type != 'all' ? '编辑素材标签' : '查看所有标签'} onCancel={onCancel} onOk={onCancel}>
+    return <Modal visible={visible} title={type != 'all' ? '编辑素材标签' : '查看所有标签'} onCancel={onCancel} onOk={onCancel} footer={<i></i>}>
         {
             type != 'all' && <DebounceSelect fetchOptions={fetchTags} style={{ flex: 1, marginBottom: 10 }} showSearch defaultActiveFirstOption={false} value={tagName}
                 setValue={setTagName} onChange={onChangeResult} onAdd={onAdd}></DebounceSelect>

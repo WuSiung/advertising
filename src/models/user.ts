@@ -117,7 +117,7 @@ const UserModel: UserModelType = {
       const response = yield call(queryFbOnlineAccounts, { ...payload })
       yield put({
         type: 'saveFbOnlineAccounts',
-        payload: response.data.data
+        payload: response?.data?.data || []
       })
     },
     *refreshToken({ payload }, { call, put }) {
@@ -136,7 +136,7 @@ const UserModel: UserModelType = {
         currentUser: action.payload || {},
       };
     },
-    saveAppInfo(state, {payload}) {
+    saveAppInfo(state, { payload }) {
       return {
         ...state,
         appInfo: payload || {}

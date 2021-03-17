@@ -213,7 +213,7 @@ const Compaign: FC<CompaignProps> = (props) => {
                         onSetCbo={e => { setAutoParams({ ...autoParams, budget: e, appName: e ? autoParams.appName + ' CBO' : autoParams.appName.replace(' CBO', '') }) }}
                         onSetSpend={e => { setAutoParams({ ...autoParams, spendNum: e as string }) }} />
                 </RenderCompaign>
-                <RenderCompaign className={styles.compaignBox} title='选择已有广告系列发布' onClick={() => setChooseType(1)}
+                <RenderCompaign className={styles.compaignBox} title='选择广告创意系列发布' onClick={() => setChooseType(1)}
                     dec='将所有广告投放到一个广告系列' isChecked={chooseType == 1} >
                     <SelectHasCompaign length={previewAds.length} compaignsList={compaignsList} {...hasParams} onSetParams={e => { setHasPramas({ ...hasParams, ...e }) }} />
                 </RenderCompaign>

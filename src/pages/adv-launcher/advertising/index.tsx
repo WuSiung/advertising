@@ -1,4 +1,4 @@
-import { Card, Button, Empty, Modal, Image, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space } from 'antd'
+import { Card, Button, Empty, Modal, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
 import DateRange from '../components/DateRange';
 import moment from 'moment';
@@ -8,7 +8,6 @@ import { allCountry } from '@/utils/countrys'
 import styles from './index.less'
 import { connect, AppInfo, history } from "umi";
 import { AdvedDataType, AdvModelStateType } from "./data";
-import { AdvAdvListType } from "@/pages/adv-manager/data";
 import { Dispatch, UserModelState } from "@@/plugin-dva/connect";
 import PreviewContainer from '../components/PreviewContainer';
 import { PreviewAdvType, WorkbenchDataType } from '../workbench/data';
@@ -36,12 +35,10 @@ type CheckboxValueType = string | number | boolean;
 
 type SelectValueType = string | number;
 
-const pageSize: number = 20;
 const Advertising: FC<AdvPropsType> = (props) => {
     const { dispatch, advertisingList, appInfo, loadingAdvList, count, loadingAdvListAddMore, previews } = props;
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [date, setDate] = useState<[string, string]>();
-    const [dateT, setDateT] = useState<[string, string]>();
     const [cost, setCost] = useState<number>(0)
     const [age, setAge] = useState<CheckboxValueType[] | undefined>();
     const [sex, setSex] = useState<CheckboxValueType[] | undefined>();
@@ -93,7 +90,8 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 title: editList[i].advText.title,
                 textId: editList[i].advText.textId,
                 type: editList[i].advImg.type,
-                url: editList[i].advImg.url
+                url: editList[i].advImg.url,
+                kinds: 1
             }
             previews.push(createParams)
             dispatch({
@@ -101,15 +99,15 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 payload: { previewAdvs: previews }
             })
         } else {
-            // let emptyArr: PreviewAdvType[] = []
-            // previews.map(adv => {
-            //     if (adv.advId != editList[i].advId) {
-            //         emptyArr.push(adv)
-            //     }
-            // })
+            let emptyArr: PreviewAdvType[] = []
+            previews.map(adv => {
+                if (adv.imgId != editList[i].advImg.imgId || adv.textId != editList[i].advText.textId) {
+                    emptyArr.push(adv)
+                }
+            })
             dispatch({
                 type: 'workbench/savePreviewAdvs',
-                payload: { previewAdvs: previews }
+                payload: { previewAdvs: emptyArr }
             })
         }
         dispatch({
@@ -129,7 +127,6 @@ const Advertising: FC<AdvPropsType> = (props) => {
 
     const changeDate = (value: [string, string]) => {
         setDate(value);
-        setDateT(value)
         setPageIndex(1);
         dispatch({
             type: 'advertising/fetchAdvList',
@@ -143,27 +140,12 @@ const Advertising: FC<AdvPropsType> = (props) => {
     return (
         <Card>
             {activeAdv ? <Modal
-                width={402}
+                className={styles.previewModdal}
                 visible={!!activeAdv?.showPreviewModal}
-                onOk={() => {
-                    setActiveAdv(adv => {
-                        if (adv)
-                            return { ...adv, showPreviewModal: false };
-                        else
-                            return;
-                    })
-                }}
-                onCancel={() => {
-                    setActiveAdv(adv => {
-                        if (adv)
-                            return { ...adv, showPreviewModal: false };
-                        else
-                            return;
-                    })
-                }}
-                okText="确认"
+                onCancel={() => setActiveAdv({ ...activeAdv, showPreviewModal: false })}
+                footer={null}
             >
-                <AdvPreview appInfo={appInfo} classNames={styles.advPreview} {...activeAdv} />
+                <AdvPreview appInfo={appInfo} classNames={styles.bigPreviews} {...activeAdv} />
             </Modal> : <></>}
             <div className={styles.filter}>
                 <Row>

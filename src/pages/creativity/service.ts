@@ -12,6 +12,10 @@ export async function deletResource(id: string) {
     return request(`/subApi/resources/permanent/${id}`, { method: 'DELETE' })
 }
 
+export async function deletManyResource(ids: any) {
+    return request(`/subApi/resources/permanent`, { method: 'DELETE', params: ids })
+}
+
 export async function createContainer(params: { id: number, description: string, title: string }) {
     const { id, ...ohterParams } = params
     return request(`/subApi//resources/permanent/${id}`, {

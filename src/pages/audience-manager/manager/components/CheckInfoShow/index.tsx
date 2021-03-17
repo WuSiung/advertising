@@ -1,6 +1,6 @@
 import { formatterPersonNum } from '@/utils/countTrans'
 import { DeleteOutlined, ShareAltOutlined } from '@ant-design/icons'
-import { Button, Input, message, Modal, Select, Spin } from 'antd'
+import { Button, Empty, Input, message, Modal, Select, Spin } from 'antd'
 import React, { FC, useState } from 'react'
 import { Dispatch } from 'umi'
 import { AudienceDataType, InterestDataType } from '../../data'
@@ -156,6 +156,9 @@ const CheckInfoShow: FC<CheckInfoShowPropsType> = (props) => {
                             </div>
                         })
                     }
+                    {
+                        includeList.length <= 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无数据，请从上方列表选择'/>
+                    }
                 </div>
             </div>
             <div className={styles.and}><ShareAltOutlined /></div>
@@ -170,6 +173,9 @@ const CheckInfoShow: FC<CheckInfoShowPropsType> = (props) => {
                                 <DeleteOutlined className={styles.delete} onClick={() => deleteEx(item)} />
                             </div>
                         })
+                    }
+                    {
+                        excludeList.length <= 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无数据，请从上方列表选择'/>
                     }
                 </div>
             </div>

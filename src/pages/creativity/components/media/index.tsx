@@ -4,7 +4,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import { message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
-import { addTag, createContainer, deletResource, delTag, getMediaTag, getSouceTag, uploadMedia } from '../../service'
+import { addTag, createContainer, deletManyResource, deletResource, delTag, getMediaTag, getSouceTag, uploadMedia } from '../../service'
 import MaterialBox from '../Box'
 import PublicHeader from '../PublicHeader'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data';
@@ -137,6 +137,25 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         showDeleteConfirm(dispatch, deleteInfo, newArr)
     }
 
+    const deleteManySource = () => {
+        const deleteCheckMedia = mediaList.filter(media => media.checked)
+        if (deleteCheckMedia.length <= 0) {
+            message.warning('请选择资源再删除！')
+            return
+        }
+        let ids = deleteCheckMedia.map(media => media.id)
+
+        showConfirm({
+            onOk: deletManyResource.bind(null, { resourceIds: ids })
+        }).then(res => {
+            const now = mediaList.filter(media => !ids.includes(media.id))
+            dispatch({
+                type: 'material/saveMedias',
+                payload: { mediaList: JSON.parse(JSON.stringify(now)) }
+            })
+        })
+    }
+
     const handleAiLib = () => {
         setTagParams({ id: 'all', tagList: mediaTags })
         setTagName('')
@@ -209,7 +228,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
 
     return <div>
         <PublicHeader onClear={clearMediaCheck} clearDisable={mediaList.some(media => media.checked)} tags={mediaTags} onSelectTag={chooseTagId} type='media'
-            onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte} fetchTag={getMediaTag}
+            onAddToWorkbench={addMediaToWorkbench} onSort={setMediaSort} onSource={setmediaSouceFilte} fetchTag={getMediaTag} onDeleteAll={deleteManySource}
             openFolder={handleAiLib} onUpload={onUploadMedias} uploading={mediaUploading} onChangeDate={setFilterDate} onFilterTagValue={setFilterTagSearch} />
         <Spin spinning={!!mediaGetLoading}>
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
