@@ -54,28 +54,6 @@
                 component: './dashboard',
               },
               {
-                path: '/automation',
-                name: 'automation',
-                icon: 'AndroidOutlined',
-                component: './automation',
-                routes: [
-                  {
-                    path: '/automation',
-                    redirect: '/automation/summary',
-                  },
-                  {
-                    path: '/automation/summary',
-                    name: 'summary',
-                    component: './automation/summary',
-                  },
-                  {
-                    path: '/automation/wizard',
-                    name: 'wizard',
-                    component: './automation/wizard'
-                  }
-                ],
-              },
-              {
                 path: '/advlauncher',
                 name: 'advlauncher',
                 icon: 'RocketOutlined',
@@ -126,6 +104,28 @@
                 name: 'advmanager',
                 icon: 'TableOutlined',
                 component: './adv-manager',
+              },
+              {
+                path: '/automation',
+                name: 'automation',
+                icon: 'AndroidOutlined',
+                component: './automation',
+                routes: [
+                  {
+                    path: '/automation',
+                    redirect: '/automation/summary',
+                  },
+                  {
+                    path: '/automation/summary',
+                    name: 'summary',
+                    component: './automation/summary',
+                  },
+                  {
+                    path: '/automation/wizard',
+                    name: 'wizard',
+                    component: './automation/wizard'
+                  }
+                ],
               },
               {
                 path: '/audience',
