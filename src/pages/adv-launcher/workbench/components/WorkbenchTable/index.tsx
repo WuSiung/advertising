@@ -1,6 +1,6 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import { Button, message } from 'antd'
+import { Button, Empty, message } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
@@ -191,8 +191,14 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                             </tr>
                         })
                     }
+
                 </tbody>
             </table>
+            {
+                textList.length <= 0 && <div style={{ padding: 30 }}>
+                    {/* <Button onClick={ }>新增标题</Button> */}
+                </div>
+            }
         </div>
     )
 }
