@@ -34,7 +34,7 @@ const UploadTextFile: FC<UploadTextFileProps> = (props) => {
     }
     const renderFooter: React.ReactElement[] = [
         <div className={styles.footerActions} key="back">
-            <Upload showUploadList={false} customRequest={getTextFile}><Button>上传资源</Button></Upload>
+            <Upload showUploadList={false} customRequest={getTextFile}><Button>打开文本文件</Button></Upload>
         </div>,
         <Button key="submit" type="primary" loading={loading} onClick={e => submit(readFileContent)}>提交</Button>,
     ]
