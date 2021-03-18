@@ -62,7 +62,7 @@ const AdvLauncher: FC<AdvLauncher> = (props) => {
     return (
         <div className={styles.advlauncher}>
             {
-                isTabPage ? <PageContainer header={header} content={tabContent[tableKey]} tabList={tabList} tabActiveKey={tableKey} onTabChange={handleTabChange}>
+                isTabPage ? <PageContainer header={header} content={tabContent[tableKey]} onTabChange={handleTabChange}>
                     {children}
                 </PageContainer>
                     : <div>{children}</div>
