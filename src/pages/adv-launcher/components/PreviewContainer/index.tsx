@@ -6,6 +6,7 @@ import type { AppInfo, UserModelState } from '@/models/user'
 
 import styles from './index.less'
 import { Dispatch, connect } from 'umi'
+import { Empty } from 'antd'
 
 interface PreviewContainerProps {
     visible: boolean,
@@ -36,8 +37,8 @@ const PreviewContainer: FC<PreviewContainerProps> = (props) => {
             <span className={styles.text}>广告选择预览({previewAdvs?.length})</span>
         </div>
         <div className={`${styles.preivewContent}  ${visible ? styles.showContent : ''}`}>
-            <div className={styles.previewTitle}>工作台</div>
-            <div className={styles.container}>
+            <div className={styles.previewTitle} style={{ background: '#7655c9' }}>工作台</div>
+            <div className={styles.container} style={{borderBottom: '1px dashed #ccc', marginBottom: 20,paddingBottom: 10}}>
                 {
                     previewAdvs?.map((adv, index) => {
                         return !adv.kinds && <div className={styles.previewItem} key={adv.imgId + '&' + adv.textId + '&' + index}>
@@ -46,8 +47,13 @@ const PreviewContainer: FC<PreviewContainerProps> = (props) => {
                         </div>
                     })
                 }
+                {
+                    previewAdvs?.filter(adv => !adv.kinds).length == 0 && <div style={{ width: '100%', margin: '20px 0' }}>
+                        <Empty description='暂无预览，请在左边选择图文素材'></Empty>
+                    </div>
+                }
             </div>
-            <div className={styles.previewTitle}>广告创意</div>
+            <div className={styles.previewTitle} style={{ background: '#c481eb' }}>广告创意</div>
             <div className={styles.container}>
                 {
                     previewAdvs?.map((adv, index) => {
@@ -56,6 +62,11 @@ const PreviewContainer: FC<PreviewContainerProps> = (props) => {
                             <AdvPreview {...adv} appInfo={appInfo} />
                         </div>
                     })
+                }
+                {
+                    previewAdvs?.filter(adv => adv.kinds).length == 0 && <div style={{ width: '100%', margin: '20px 0' }}>
+                        <Empty description='暂无预览，请在左边选择图文素材'></Empty>
+                    </div>
                 }
             </div>
         </div>
