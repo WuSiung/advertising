@@ -11,27 +11,45 @@
   th{
     position:relative;
   }
-  .th-title{
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    .th-icon{
-      position:absolute;
-      bottom:30%;
-      right:2px;
-    }
-  }
+  
 }
 .advManager{
   .advTb{
     min-width: 800px;
+    tr{
+      th:first-of-type{
+        .thTitle{
+          justify-content:flex-start !important;
+        }
+      }
+      th{
+        .thTitle{
+          width:100%;
+          display:flex;
+          justify-content:center;
+          align-items: center;
+          // .th-icon{
+          //   position:absolute;
+          //   bottom:30%;
+          //   right:2px;
+          // }
+        }
+      }
+    }
     tr>td{
       white-space: nowrap;
+      text-align: center;
     }
   }
   .advName{
     display:flex;
     justify-content: space-between;
+    .name{
+      flex: 1;
+      text-align: left;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
   .advTabs{
     :global{
