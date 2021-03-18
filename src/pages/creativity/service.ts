@@ -13,7 +13,7 @@ export async function deletResource(id: string) {
 }
 
 export async function deletManyResource(ids: any) {
-    return request(`/subApi/resources/permanent`, { method: 'DELETE', params: ids })
+    return request(`/subApi/resources/permanent/`, { method: 'DELETE', params: ids })
 }
 
 export async function createContainer(params: { id: number, description: string, title: string }) {

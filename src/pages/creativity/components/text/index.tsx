@@ -40,6 +40,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const [textFilter, setTextFilter] = useState('All')
     const [filterTagSearch, setFilterTagSearch] = useState('')
     const [tagParams, setTagParams] = useState<{ id: string, tagList: TagType[] }>({ id: '', tagList: [] })
+    const [editTextInfo, setEditInfo] = useState({ title: '', content: '' })
     const [tagVisible, setTagVisible] = useState(false)
     const [tagName, setTagName] = useState('')
 
@@ -92,8 +93,6 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
             let str = value.split('&&')
             return { title: str[1] || '', text: str[0] || '', id: generateUUID() }
         })
-        console.log(uploadParams)
-        return
         await dispatch({
             type: 'material/uploadTexts',
             payload: { userId: userInfo?.userId || 1, arr: uploadParams }
@@ -156,7 +155,33 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const editTag = (i: number) => {
         let editInfo = textList[i]
         setTagParams({ id: editInfo.id, tagList: editInfo.tags })
+        setEditInfo({ title: editInfo.title, content: editInfo.description })
         setTagVisible(true)
+    }
+
+    const changeT = (value: string) => {
+        const strs = value.split('&&')
+        setEditInfo({ title: strs[1], content: strs[0] })
+    }
+
+    const editText = async () => {
+        await dispatch({
+            type: 'material/uploadTexts',
+            payload: { userId: userInfo?.userId || 1, arr: [{ id: tagParams.id, text: editTextInfo.content, title: editTextInfo.title }] }
+        })
+        let newList = textList.map(text => {
+            if (text.id == tagParams.id) {
+                text.description = editTextInfo.content;
+                text.title = editTextInfo.title
+            }
+            return text
+        })
+        message.success('修改成功')
+        dispatch({
+            type: 'material/saveTexts',
+            payload: { textList: JSON.parse(JSON.stringify(newList)) }
+        })
+
     }
 
     const editTagOk = async () => {
@@ -235,7 +260,8 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
             textToWorkbenchLoading && <Loading showMask tips='上传中，请稍后...' />
         }
         <EditTag visible={tagVisible} tagList={tagParams.tagList} tagName={tagName} setTagName={setTagName} onAdd={editTagOk} fetchTags={getTextTag}
-            onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch} />
+            onCancel={() => setTagVisible(false)} onDelete={deleteTag} type={tagParams.id} onChangeResult={changeSearch}
+            textInfo={editTextInfo.content + '&&' + editTextInfo.title} onChangeTextInfo={changeT} onEditText={editText} />
     </div>
 }
 
