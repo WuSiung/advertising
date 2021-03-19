@@ -26,8 +26,24 @@ const Version = () => {
       '修改冲浪广告集水平设置页面文字描述错误'
     ]
 
+  const v_1_1_37: string[] = [
+    '策略管理页面增加创建时间列',
+    '完善所有策略的编辑功能',
+  ]
+
     return <Card>
         <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-19 18:39</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_37.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.36更新说明</div>
       <div className={styles.time}>2021-03-19 09:16</div>
       <div className={styles.detail}>
         <ol>
