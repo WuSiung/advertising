@@ -19,6 +19,7 @@ export type TTactic = {
   Status: string;
   IsLoaded: boolean;
   PreProcessMsg: string[];
+  CreateTime: string;
 }
 
 export type TColumn = {

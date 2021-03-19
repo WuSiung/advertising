@@ -120,6 +120,12 @@ const Summary: FC<SummaryProps> = (props) => {
       width: 160,
     },
     {
+      title: '创建时间',
+      dataIndex: 'CreateTime',
+      key: 'CreateTime',
+      width: 200,
+    },
+    {
       title: '操作',
       key: 'operation',
       width: 120,
