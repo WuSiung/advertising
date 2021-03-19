@@ -125,7 +125,7 @@ const Summary: FC<SummaryProps> = (props) => {
       width: 120,
       render: (text, record, index) => {
         return (
-          <Space>
+          <Space size="middle">
             <PlayCircleTwoTone title="恢复" onClick={() => handleRestore(record, index)} disabled={record.Status === '0'}
                                twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
             <PauseCircleTwoTone title="暂停" onClick={() => handlePause(record, index)} disabled={record.Status === '1'}

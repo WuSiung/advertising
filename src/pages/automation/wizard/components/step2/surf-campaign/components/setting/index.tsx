@@ -190,7 +190,7 @@ const Setting: FC<ISetting> = (props) => {
             }
           }
 
-          per2 = Math.min(0.5, (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (300 - ActionInfo.CheckPoint[idx]));
+          per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (300 - ActionInfo.CheckPoint[idx]);
           if (per2 >= 0.8) {
             per2 -= deltaPer;
           }
