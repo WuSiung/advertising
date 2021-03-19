@@ -5,7 +5,7 @@ import { TState } from './data'
 const TACTIC_NAME = '冲浪-广告集水平 触发 -> ';
 const OPERATOR = '>= '
 export const OPTIONS = {
-  'cpa': '每次安装费用',
+  'installs': '移动应用安装数',
   // '0': '点击',
   // '1': '出站点击'
 };
@@ -14,10 +14,10 @@ const format = 'HH:mm';
 const SurfAdSetModel: TSurfAdSetModel = {
   namespace: 'surfAdSet',
   state: {
-    Name: TACTIC_NAME + OPTIONS['cpa'] + OPERATOR + 1,
+    Name: TACTIC_NAME + OPTIONS['installs'] + OPERATOR + 1,
     ActionInfo: {
-      Target: 'cpa',
-      TargetName: OPTIONS['cpa'],
+      Target: 'installs',
+      TargetName: OPTIONS['installs'],
       InsertCount: 1,
       CostValue: 100,
       AdvEffectLv: [

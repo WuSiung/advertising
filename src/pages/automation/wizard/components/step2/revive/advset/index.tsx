@@ -2,9 +2,9 @@ import {
   Card,
   TimePicker,
   InputNumber,
-  Switch
+  Switch, Space
 } from 'antd'
-import React, {FC, forwardRef, ForwardRefExoticComponent, useImperativeHandle, useState} from 'react';
+import React, {FC, forwardRef, ForwardRefExoticComponent, useEffect, useImperativeHandle, useState} from 'react';
 import { connect } from 'umi';
 import {StaticsSetUp,StaticsItemValueType} from "../components/StaticsSetUp";
 import SettingHeadCard from "../../../setting-head-card"
@@ -50,21 +50,19 @@ const Setting: FC<ISetting> = (props) => {
      }} /> 移动安装次数</div>
    </Card>
      <div className={styles.swichWrap}>
-        <Switch onChange={(value)=>{
-          onChange({checked: value})
-        }} defaultChecked={ActionInfo?.checked} title="和"></Switch>
+       <Space>
+         <Switch onChange={(value)=>{
+           onChange({AndCondition: value})
+         }} defaultChecked={ActionInfo?.AndCondition} title="和"></Switch>
+         <span>和</span>
+       </Space>
      </div>
-    <div  style={{opacity: ActionInfo?.checked?"1":"0.5",pointerEvents:ActionInfo?.checked?"inherit":"none"}} >
+    <div  style={{opacity: ActionInfo?.AndCondition?"1":"0.5",pointerEvents:ActionInfo?.AndCondition?"inherit":"none"}} >
     <StaticsSetUp title=""
                   ActionInfo={ActionInfo}
                   onChange={onChange}
     />
     </div>
-    <Card>
-      <div><span className="em">该广告集</span> 将被自动取消暂停在当地时间</div>
-      <div>重置时间表:<TimePicker value={ActionInfo?.ResetBudgetTime} format={format}
-                             onChange={value => props.onChange({ResetBudgetTime: value})}/></div>
-    </Card>
   </>);
 }
 const ReviveAdvSet: FC<ITactic<TActionInfoReviveAdvSet>> = (props) => {
@@ -75,14 +73,43 @@ const ReviveAdvSet: FC<ITactic<TActionInfoReviveAdvSet>> = (props) => {
       const actionInfo: any = {...tacticInfo.ActionInfo};
       actionInfo.ResetBudgetTime = actionInfo.ResetBudgetTime.format('HH:mm');
       const obj = {
+        ObjectID: props.editInfo?.objectID,
         Name: tacticInfo.Name,
         ActionObj: tacticInfo.ActionObj?.map(o => String(o)),
-        ActionInfo: JSON.stringify(actionInfo)
+        ActionInfo: JSON.stringify({
+          AndCondition: actionInfo.AndCondition,
+          InsertCount: actionInfo.installs,
+          InsertOneCost: actionInfo.installfeeValue.staticMetricValue
+        })
       }
       // console.log('revive advset commit');
       return obj;
     }
   }));
+
+  useEffect(() => {
+    if (props.editInfo) {
+      const actionInfo = JSON.parse(props.editInfo.actionInfo);
+
+      dispatch({
+        type: 'reviveAdvSet/init',
+        payload: {
+          ObjectID: props.editInfo.objectID,
+          Name: props.editInfo.actionName,
+          ActionInfo: {
+            ...tacticInfo.ActionInfo,
+            AndCondition: actionInfo.AndCondition,
+            installs: actionInfo.InsertCount,
+            installfeeValue: {
+              ...tacticInfo.ActionInfo?.installfeeValue,
+              staticMetricValue: actionInfo.InsertOneCost
+            }
+          },
+          ActionObj: props.editInfo.actionObj
+        }
+      });
+    }
+  }, []);
 
   const handleActionInfoChange = (payload: any) => {
     dispatch({

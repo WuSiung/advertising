@@ -6,7 +6,7 @@ const TACTIC_NAME = '止损-广告水平 触发 -> ';
 
 function createName(obj: any) {
   obj.Name = `${TACTIC_NAME}(安装数 < ${obj.ActionInfo.installValue} && 花费 > ${obj.ActionInfo.spendFeeValue.staticMetricValue})`;
-  if (obj.ActionInfo.checked) {
+  if (obj.ActionInfo.OrCondition) {
     obj.Name = `${obj.Name} || (每应用安装费 > ${obj.ActionInfo.installfeeValue.staticMetricValue} && 花费 > ${obj.ActionInfo.spendFeeValuePer.staticMetricValue})`
   }
 }
@@ -44,7 +44,8 @@ const StopLossAdvModel: TModelStopLossAdv = {
         lastDays: '28',
         mertricType: 1
       },
-      checked: false,
+      // checked: false,
+      OrCondition: false,
       ResetBudgetTime: moment('00:00', FORMAT)
     },
     ActionObj: [],
@@ -52,6 +53,7 @@ const StopLossAdvModel: TModelStopLossAdv = {
   reducers: {
     updateActionInfo (state, { payload }) {
       const res: any = {
+        ...state,
         ActionInfo: {
           ...state?.ActionInfo,
           ...payload
@@ -68,6 +70,12 @@ const StopLossAdvModel: TModelStopLossAdv = {
       return {
         ...state,
         ...payload
+      }
+    },
+    init (state, { payload }) {
+      return {
+        ...state,
+        ...JSON.parse(JSON.stringify(payload))
       }
     }
   }

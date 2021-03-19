@@ -64,30 +64,30 @@ const Step1: FC<IStep1> = (props) => {
             onSelected={props.onTactic}
           />
         </Col>
-        {/*<Col span={8}>*/}
-        {/*  <TacticCard*/}
-        {/*    tactic={EActionType.AAT_Revive_AdSetLevel}*/}
-        {/*    level={1}*/}
-        {/*    icon={<SvgRevive fill="#7655c9" />}*/}
-        {/*    color="#7655c9"*/}
-        {/*    title="复活"*/}
-        {/*    subTitle="广告集级别"*/}
-        {/*    remark="Revive在检测到任何积极的活动表明该广告集已再次获利时，会自动重新激活所有已暂停的广告集。"*/}
-        {/*    onSelected={props.onTactic}*/}
-        {/*  />*/}
-        {/*</Col>*/}
-        {/*<Col span={8}>*/}
-        {/*  <TacticCard*/}
-        {/*    tactic={EActionType.AAT_Revive_AdLevel}*/}
-        {/*    level={0}*/}
-        {/*    icon={<SvgRevive fill="#d964c5" />}*/}
-        {/*    color="#d964c5"*/}
-        {/*    title="复活"*/}
-        {/*    subTitle="广告等级"*/}
-        {/*    remark="Revive在检测到任何积极的活动表明该广告已再次获利时，会自动重新激活任何已暂停的广告"*/}
-        {/*    onSelected={props.onTactic}*/}
-        {/*  />*/}
-        {/*</Col>*/}
+        <Col span={8}>
+          <TacticCard
+            tactic={EActionType.AAT_Revive_AdSetLevel}
+            level={1}
+            icon={<SvgRevive fill="#7655c9" />}
+            color="#7655c9"
+            title="复活"
+            subTitle="广告集级别"
+            remark="Revive在检测到任何积极的活动表明该广告集已再次获利时，会自动重新激活所有已暂停的广告集。"
+            onSelected={props.onTactic}
+          />
+        </Col>
+        <Col span={8}>
+          <TacticCard
+            tactic={EActionType.AAT_Revive_AdLevel}
+            level={0}
+            icon={<SvgRevive fill="#d964c5" />}
+            color="#d964c5"
+            title="复活"
+            subTitle="广告等级"
+            remark="Revive在检测到任何积极的活动表明该广告已再次获利时，会自动重新激活任何已暂停的广告"
+            onSelected={props.onTactic}
+          />
+        </Col>
       </Row>
     </div>
   )

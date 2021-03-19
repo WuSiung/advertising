@@ -1,10 +1,10 @@
 import moment from 'moment';
 import { Reducer } from 'umi';
 
-export type TSCFCheckPoint = {
-  CheckPoint?: number; // 检查的值
-  DoubleCheck?: number;  // 二次检查的值
-}
+// export type TSCFCheckPoint = {
+//   CheckPoint?: number; // 检查的值
+//   DoubleCheck?: number;  // 二次检查的值
+// }
 
 export type TSCFRoasWebIncre = {
   MinX: number; // 最小值
@@ -13,8 +13,9 @@ export type TSCFRoasWebIncre = {
 }
 
 export type TSurfCampaignLevelAction = {
-  CheckPoints: number[];
-  CheckPoint: TSCFCheckPoint[]; // 检查金额
+  FullCheck: boolean
+  CheckPoint: number[];
+  // CheckPoint: TSCFCheckPoint[]; // 检查金额
   DoubleCheckRoasWeb: number; // 低于增加前预算，则降低的值
   RoasWebIncres: TSCFRoasWebIncre[]; // 预算增加阶梯
   LimitPerCheck: number; // 单次操作增加金额上限
@@ -34,5 +35,6 @@ export type TSurfCampaignModel = {
   reducers: {
     updateActionInfo: Reducer<TStateSurfCampaign>;
     updateActionObj: Reducer<TStateSurfCampaign>;
+    init: Reducer<TStateSurfCampaign>;
   }
 }

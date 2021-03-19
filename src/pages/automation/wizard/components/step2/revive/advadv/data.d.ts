@@ -8,7 +8,8 @@ export type TActionInfoReviveAdv = {
   installValue?: number;
   installfeeValue?: TStaticItemValue;
   spendFeeValue?: TStaticItemValue;
-  checked?: boolean;
+  // checked?: boolean;
+  AndCondition: boolean;
   installs?: number;
   ResetBudgetTime?: moment.Moment;
 }
@@ -19,5 +20,6 @@ export type TModelReviveAdv = {
   reducers: {
     updateActionInfo: Reducer<TStateTactic<TActionInfoReviveAdv>>;
     updateActionObj: Reducer<TStateTactic<TActionInfoReviveAdv>>;
+    init: Reducer<TStateTactic<TActionInfoReviveAdv>>;
   }
 }

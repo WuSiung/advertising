@@ -62,7 +62,7 @@ const Setting: FC<ISetting> = (props) => {
         size="small"
         icon={<SvgSurf fill="#7655c9" />}
         pictrue={<SvgChartAds/>}
-        title="SURF广告水平"
+        title="SURF广告集水平"
         subTitle="奖励强者"
         remark="SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头。预算将在选定的本地时间自动重置。"
       />
@@ -72,7 +72,7 @@ const Setting: FC<ISetting> = (props) => {
           <SvgLine2 />
           <Space direction="vertical" size="large">
             <Space>
-              <Select value={ActionInfo?.Target} style={{width: 100}} onChange={value => props.onChange({Target: value, TargetName: props.options[value]})}>
+              <Select value={ActionInfo?.Target} style={{width: 150}} onChange={value => props.onChange({Target: value, TargetName: props.options[value]})}>
                 {
                   optionList.map(o => {
                     return <Option key={o.value} value={o.value}>{o.title}</Option>
@@ -98,7 +98,7 @@ const Setting: FC<ISetting> = (props) => {
                     <InputNumber style={{width: 100}} disabled={true}/>
                     <span>$ 0.00 </span>
                     <Select style={{width: 150}} disabled={true}>
-                      <Option value="1">每次点击的费用（购买）</Option>
+                      <Option value="1">移动应用安装数</Option>
                     </Select>
                     <Select style={{width: 150}} disabled={true}>
                       <Option value="1">最后一天</Option>
