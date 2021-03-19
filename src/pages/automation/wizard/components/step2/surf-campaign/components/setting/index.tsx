@@ -19,7 +19,7 @@ const Setting: FC<ISetting> = (props) => {
   const {ActionInfo} = props;
   const format = 'HH:mm';
 
-  const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoints.length === 6);
+  const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoint.length === 6);
   const marks = {
     0: {
       label: <strong>00:00<br/>初始点</strong>,
@@ -32,12 +32,12 @@ const Setting: FC<ISetting> = (props) => {
     }
   };
 
-  ActionInfo?.CheckPoints.forEach((p, idx) => {
+  ActionInfo?.CheckPoint.forEach((p, idx) => {
     let tag = `第${idx + 1}次检查`
-    // if (ActionInfo.CheckPoints.length === 5 && idx < 4 && idx % 2 !== 0) {
+    // if (ActionInfo.CheckPoint.length === 5 && idx < 4 && idx % 2 !== 0) {
     //   tag = '二次检查'
     // }
-    if (ActionInfo.CheckPoints.length === 6) {
+    if (ActionInfo.CheckPoint.length === 6) {
       if (idx % 2 !== 0) {
         if (idx === 1) {
           tag = '二次检查1';
@@ -59,17 +59,17 @@ const Setting: FC<ISetting> = (props) => {
     // todo: 如果有二次检查，二次检查的检查点随动
     // todo: 确定当前移动的点是不是第一次检查的点，看数组长度，和点在数组中的位置
     const values = [...value];
-    if (ActionInfo?.CheckPoints && ActionInfo?.CheckPoints.length === 6) {
+    if (ActionInfo?.CheckPoint && ActionInfo?.CheckPoint.length === 6) {
       let idx = -1;
       let direction = 0;
       for (let i = 0; i < value.length; i += 1) {
-        if (value[i] !== ActionInfo?.CheckPoints[i]) {
+        if (value[i] !== ActionInfo?.CheckPoint[i]) {
           idx = i;
-          if (value[i] > ActionInfo?.CheckPoints[i]) {
+          if (value[i] > ActionInfo?.CheckPoint[i]) {
             direction = 1;
           }
 
-          if (value[i] < ActionInfo?.CheckPoints[i]) {
+          if (value[i] < ActionInfo?.CheckPoint[i]) {
             direction = -1
           }
           break;
@@ -82,7 +82,7 @@ const Setting: FC<ISetting> = (props) => {
         const delta = 1;
         const deltaPer = 0.02;
         if (idx === 0) {
-          per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+          per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (ActionInfo.CheckPoint[idx + 2] - ActionInfo.CheckPoint[idx]);
 
           if (per2 > 0.8) {
             per2 -= deltaPer;
@@ -109,7 +109,7 @@ const Setting: FC<ISetting> = (props) => {
         }
 
         if (idx === 2) {
-          per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+          per1 = (ActionInfo.CheckPoint[idx - 1] - ActionInfo.CheckPoint[idx - 2]) / (ActionInfo.CheckPoint[idx] - ActionInfo.CheckPoint[idx - 2]);
           if (per1 > 0.8) {
             per1 -= deltaPer;
           }
@@ -136,7 +136,7 @@ const Setting: FC<ISetting> = (props) => {
             }
           }
 
-          per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+          per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (ActionInfo.CheckPoint[idx + 2] - ActionInfo.CheckPoint[idx]);
 
           if (per2 > 0.8) {
             per2 -= deltaPer;
@@ -164,7 +164,7 @@ const Setting: FC<ISetting> = (props) => {
         }
 
         if (idx === 4) {
-          per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+          per1 = (ActionInfo.CheckPoint[idx - 1] - ActionInfo.CheckPoint[idx - 2]) / (ActionInfo.CheckPoint[idx] - ActionInfo.CheckPoint[idx - 2]);
           if (per1 > 0.8) {
             per1 -= deltaPer;
           }
@@ -190,7 +190,7 @@ const Setting: FC<ISetting> = (props) => {
             }
           }
 
-          per2 = Math.min(0.5, (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (300 - ActionInfo.CheckPoints[idx]));
+          per2 = Math.min(0.5, (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (300 - ActionInfo.CheckPoint[idx]));
           if (per2 >= 0.8) {
             per2 -= deltaPer;
           }
@@ -226,7 +226,7 @@ const Setting: FC<ISetting> = (props) => {
       //   let per2 = 0; // 移动点右边的二次检查点的当前占比
       //   const delta = 1;
       //   if (idx === 0) {
-      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+      //     per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (ActionInfo.CheckPoint[idx + 2] - ActionInfo.CheckPoint[idx]);
       //     if (per2 > 0) {
       //       if (direction === -1) {
       //         let v = Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2)
@@ -242,7 +242,7 @@ const Setting: FC<ISetting> = (props) => {
       //   }
       //
       //   if (idx === 2) {
-      //     per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+      //     per1 = (ActionInfo.CheckPoint[idx - 1] - ActionInfo.CheckPoint[idx - 2]) / (ActionInfo.CheckPoint[idx] - ActionInfo.CheckPoint[idx - 2]);
       //     if (per1 > 0) {
       //       if (direction === -1) {
       //         values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
@@ -256,7 +256,7 @@ const Setting: FC<ISetting> = (props) => {
       //       }
       //     }
       //
-      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+      //     per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (ActionInfo.CheckPoint[idx + 2] - ActionInfo.CheckPoint[idx]);
       //     if (per2 > 0) {
       //       if (direction === -1) {
       //         let v = Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2);
@@ -272,7 +272,7 @@ const Setting: FC<ISetting> = (props) => {
       //   }
       //
       //   if (idx === 4) {
-      //     per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+      //     per1 = (ActionInfo.CheckPoint[idx - 1] - ActionInfo.CheckPoint[idx - 2]) / (ActionInfo.CheckPoint[idx] - ActionInfo.CheckPoint[idx - 2]);
       //     if (per1 > 0) {
       //       if (direction === -1) {
       //         values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
@@ -286,7 +286,7 @@ const Setting: FC<ISetting> = (props) => {
       //       }
       //     }
       //
-      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (300 - ActionInfo.CheckPoints[idx]);
+      //     per2 = (ActionInfo.CheckPoint[idx + 1] - ActionInfo.CheckPoint[idx]) / (300 - ActionInfo.CheckPoint[idx]);
       //     if (per2 > 0) {
       //       if (direction === -1) {
       //         let v = Math.floor(value[idx] + (300 - value[idx]) * per2);
@@ -304,30 +304,30 @@ const Setting: FC<ISetting> = (props) => {
     }
 
     props.onChange({
-      CheckPoints: values
+      CheckPoint: values
     })
   }
 
   const handleSwitchChange = ((value: boolean) => {
     let list: number[] = [];
     if (value) {
-      if (ActionInfo?.CheckPoints.length === 3) {
+      if (ActionInfo?.CheckPoint.length === 3) {
         // 增加2个检查点
         list = [
-          ActionInfo.CheckPoints[0],
-          ActionInfo.CheckPoint[0].DoubleCheck ? ActionInfo.CheckPoint[0].DoubleCheck : Math.round((ActionInfo.CheckPoints[0] + ActionInfo.CheckPoints[1]) / 2),
-          ActionInfo.CheckPoints[1],
-          ActionInfo.CheckPoint[1].DoubleCheck ? ActionInfo.CheckPoint[1].DoubleCheck : Math.round((ActionInfo?.CheckPoints[1] + ActionInfo.CheckPoints[2]) / 2),
-          ActionInfo.CheckPoints[2],
-          ActionInfo.CheckPoint[2].DoubleCheck ? ActionInfo.CheckPoint[2].DoubleCheck : Math.round((ActionInfo?.CheckPoints[2] + 300) / 2)
+          ActionInfo.CheckPoint[0],
+          Math.round((ActionInfo.CheckPoint[0] + ActionInfo.CheckPoint[1]) / 2),
+          ActionInfo.CheckPoint[1],
+          Math.round((ActionInfo?.CheckPoint[1] + ActionInfo.CheckPoint[2]) / 2),
+          ActionInfo.CheckPoint[2],
+          Math.round((ActionInfo?.CheckPoint[2] + 300) / 2)
           ];
       }
-    } else if (ActionInfo?.CheckPoints.length === 6) {
+    } else if (ActionInfo?.CheckPoint.length === 6) {
         // 去掉2个检查点
         list = [
-          ActionInfo.CheckPoints[0],
-          ActionInfo.CheckPoints[2],
-          ActionInfo.CheckPoints[4]
+          ActionInfo.CheckPoint[0],
+          ActionInfo.CheckPoint[2],
+          ActionInfo.CheckPoint[4]
         ];
     }
 
@@ -381,7 +381,7 @@ const Setting: FC<ISetting> = (props) => {
       />
 
       <Card type="inner">
-        <Slider max={300} range marks={marks} value={ActionInfo?.CheckPoints as [number, number]} onChange={handleChange}
+        <Slider max={300} range marks={marks} value={ActionInfo?.CheckPoint as [number, number]} onChange={handleChange}
                 tooltipVisible={true} />
       </Card>
       <StepCard
