@@ -50,11 +50,10 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
                 <span className={styles.title}>贪玩智投</span>
               </Link>
             </div>
-            <div className={styles.desc}>
-              {/* <FormattedMessage id="pages.layouts.userLayout.title" defaultMessage="贪玩智投" /> */}
-            </div>
           </div>
-          {children}
+          <div className={styles.loginBox}>
+            {children}
+          </div>
         </div>
         <DefaultFooter />
       </div>
