@@ -75,6 +75,7 @@ export interface AdvPackListType{
 
 export interface AdvSetListType{
     setId:number,
+    packId: number,
     setName: string,
     appName:string,
     brandName: string,
@@ -98,6 +99,7 @@ export interface AdvSetListType{
 export interface AdvAdvListType{
     advName: string,
     advId: number,
+    packId: number,
     approas: number,
     brandName: string,
     brandVal: string,
