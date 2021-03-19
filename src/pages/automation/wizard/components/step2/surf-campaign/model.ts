@@ -10,6 +10,7 @@ const SurfCampaignModel: TSurfCampaignModel = {
   state: {
     Name: `${TACTIC_NAME} @{25, 75, 125}${DOUBEL_CHECK}`,
     ActionInfo: {
+      FullCheck: true,
       CheckPoint: [25, 50, 75, 100, 125, 150],
       // CheckPoint: [
       //   {

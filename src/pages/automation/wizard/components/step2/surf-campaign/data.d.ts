@@ -13,6 +13,7 @@ export type TSCFRoasWebIncre = {
 }
 
 export type TSurfCampaignLevelAction = {
+  FullCheck: boolean
   CheckPoint: number[];
   // CheckPoint: TSCFCheckPoint[]; // 检查金额
   DoubleCheckRoasWeb: number; // 低于增加前预算，则降低的值

@@ -42,6 +42,7 @@ const SurfCampaign: FC<ISurfCampaign> = (props) => {
 
   useEffect(() => {
     if (props.editInfo) {
+      // console.log(props.editInfo);
       const actionInfo = JSON.parse(props.editInfo.actionInfo);
       actionInfo.ResetBudgetTime = moment(actionInfo.ResetBudgetTime, 'HH:mm');
       dispatch({
@@ -54,7 +55,7 @@ const SurfCampaign: FC<ISurfCampaign> = (props) => {
         }
       })
     }
-  })
+  }, []);
 
   const handleActionInfoChange = (payload: any) => {
     dispatch({

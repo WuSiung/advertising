@@ -105,7 +105,7 @@ export async function getActionObjList(payload: any) {
       key = 'setName';
       break;
     case 'Surf_CampaignLevel':
-      path = 'ads/advpack';
+      path = '/ads/advpack';
       key = 'appName';
       break;
     default:

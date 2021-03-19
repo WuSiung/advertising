@@ -19,7 +19,7 @@ const Setting: FC<ISetting> = (props) => {
   const {ActionInfo} = props;
   const format = 'HH:mm';
 
-  const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoint.length === 6);
+  // const [checkRoas, setCheckRoas] = useState(ActionInfo?.CheckPoint.length === 6);
   const marks = {
     0: {
       label: <strong>00:00<br/>初始点</strong>,
@@ -331,8 +331,13 @@ const Setting: FC<ISetting> = (props) => {
         ];
     }
 
-    setCheckRoas(value);
-    handleChange(list);
+    props.onChange({
+      FullCheck: value,
+      CheckPoint: list
+    })
+
+    // setCheckRoas(value);
+    // handleChange(list);
   });
 
   const handleListChange = (i: number, key: string, value: number) => {
@@ -348,7 +353,7 @@ const Setting: FC<ISetting> = (props) => {
 
   const campaignTitle = (
     <Space>
-      <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={checkRoas} onChange={handleSwitchChange}/>
+      <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={ActionInfo?.FullCheck} onChange={handleSwitchChange}/>
       <span>仔细检查广告支出回报率（应用安装）是否低于增加前的预算-将预算降低{ActionInfo?.DoubleCheckRoasWeb}%</span>
     </Space>
   )
