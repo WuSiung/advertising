@@ -283,14 +283,16 @@ const Summary: FC<SummaryProps> = (props) => {
                 //   })
                 //   r.IsLoaded = true;
                 // }
-                dispatch({
-                  type: 'tacticSummary/getObjInfo',
-                  payload: {
-                    objectID: record.ObjectID,
-                    actionType: record.ActionType,
-                    objIds: record.AdvObjs.map(o => o.AdvID),
-                  }
-                });
+                if (!record.IsLoaded) {
+                  dispatch({
+                    type: 'tacticSummary/getObjInfo',
+                    payload: {
+                      objectID: record.ObjectID,
+                      actionType: record.ActionType,
+                      objIds: record.AdvObjs.map(o => o.AdvID),
+                    }
+                  });
+                }
               }
             }
           }}
