@@ -20,7 +20,7 @@ const urls = {
 
 const localTestConfig = {
   subApi: 'http://119.8.237.139:9191/',
-  autoTactic: 'http://34.96.168.247:31222/'
+  autoTactic: 'http://119.8.237.139:11223/' //  34.96.168.247:31222
 }
 
 allApiStr.map(str => {

@@ -2,7 +2,7 @@ import {
   Card, Space, Switch,
   TimePicker
 } from 'antd'
-import React, {FC, forwardRef, useImperativeHandle} from 'react'
+import React, {FC, forwardRef, useEffect, useImperativeHandle} from 'react'
 import {connect} from 'umi';
 import {StaticsSetUp, StaticsSetUp2} from "../components/StaticsSetUp";
 import SettingHeadCard from "../../../setting-head-card"
@@ -10,6 +10,7 @@ import SvgStopLoss, {SvgStopLossPicAds} from "../../../svg-stop-loss"
 import AdSetSelector from "@/pages/automation/wizard/components/step3/ad-set-selector";
 import {ITactic, ITacticForwardRef, TStateTactic} from "@/pages/automation/wizard/components/step2/data";
 import {TActionInfoStopLossAdvSet} from "@/pages/automation/wizard/components/step2/stoploss/advset/data";
+import moment from 'moment';
 import styles from "@/pages/automation/wizard/components/step2/revive/advset/index.less";
 
 // interface StopLossAdvSetProps {
@@ -55,13 +56,13 @@ const Setting: FC<ISetting> = (props) => {
     <div className={styles.swichWrap}>
       <Space>
         <Switch onChange={(value) => {
-          onChange({checked: value})
-        }} defaultChecked={ActionInfo?.checked} title="和"></Switch>
+          onChange({OrCondition: value})
+        }} defaultChecked={ActionInfo?.OrCondition} title="和"></Switch>
         <span>要么</span>
       </Space>
 
     </div>
-    <div style={{opacity: ActionInfo?.checked ? "1" : "0.5", pointerEvents: ActionInfo?.checked ? "inherit" : "none"}}>
+    <div style={{opacity: ActionInfo?.OrCondition ? "1" : "0.5", pointerEvents: ActionInfo?.OrCondition ? "inherit" : "none"}}>
       <StaticsSetUp2 title=""
                      ActionInfo={ActionInfo}
                      onChange={onChange}
@@ -85,9 +86,11 @@ const StopLossAdvSet: FC<ITactic<TActionInfoStopLossAdvSet>> = ((props) => {
       const actionInfo: any = {...tacticInfo.ActionInfo};
       actionInfo.ResetBudgetTime = actionInfo.ResetBudgetTime.format('HH:mm');
       const obj = {
+        ObjectID: props.editInfo?.objectID,
         Name: tacticInfo.Name,
         ActionObj: tacticInfo.ActionObj?.map(o => String(o)),
         ActionInfo: JSON.stringify({
+          OrCondition: actionInfo.OrCondition,
           InsertCount: actionInfo.installValue,
           ICCostedValue: actionInfo.spendFeeValue.staticMetricValue,
           InsertOneCost: actionInfo.installfeeValue.staticMetricValue,
@@ -98,7 +101,40 @@ const StopLossAdvSet: FC<ITactic<TActionInfoStopLossAdvSet>> = ((props) => {
       // console.log('stopLoss advset commit');
       return obj;
     }
-  }))
+  }));
+
+  useEffect(() => {
+    if (props.editInfo) {
+      const actionInfo = JSON.parse(props.editInfo.actionInfo);
+      // console.log(actionInfo);
+      dispatch({
+        type: 'stopLossAdvSet/init',
+        payload: {
+          ObjectID: props.editInfo.objectID,
+          Name: props.editInfo.actionName,
+          ActionInfo: {
+            ...tacticInfo.ActionInfo,
+            OrCondition: actionInfo.OrCondition,
+            installValue: actionInfo.InsertCount,
+            ResetBudgetTime: moment(actionInfo.ResetInfoTime, 'HH:mm'),
+            spendFeeValue: {
+              ...tacticInfo.ActionInfo?.spendFeeValue,
+              staticMetricValue: actionInfo.ICCostedValue,
+            },
+            installfeeValue: {
+              ...tacticInfo.ActionInfo?.installfeeValue,
+              staticMetricValue: actionInfo.InsertOneCost,
+            },
+            spendFeeValuePer: {
+              ...tacticInfo.ActionInfo?.spendFeeValuePer,
+              staticMetricValue: actionInfo.IOCCostValue
+            }
+          },
+          ActionObj: props.editInfo.actionObj
+        }
+      })
+    }
+  }, []);
 
   const handleActionInfoChange = (payload: any) => {
     dispatch({

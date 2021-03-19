@@ -28,7 +28,7 @@ interface StaticsItemProps {
 const StaticsItem: FC<StaticsItemProps> = (props) => {
   // const [metricType, setMetricType] = useState<number|undefined>(props.initValues?.mertricType);
   const {initValues} = props;
-  return <Radio.Group defaultValue={initValues?.mertricType} onChange={(event) => {
+  return <Radio.Group value={initValues?.mertricType} onChange={(event) => {
     const value = event.target.value;
     props.onChange && props.onChange({...initValues, mertricType: value});
     return value;
@@ -41,7 +41,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
           </Radio>
         </Tooltip>
         &nbsp;
-        <InputNumber defaultValue={props.initValues?.staticMetricValue} onChange={(value) => {
+        <InputNumber value={props.initValues?.staticMetricValue} onChange={(value) => {
           const obj = {staticMetricValue: value as number | undefined};
           props.onChange && props.onChange({...initValues, ...obj});
         }}/> 元
@@ -58,7 +58,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
         $ 0.00
         [
 
-        <InputNumber disabled={true} defaultValue={props.initValues?.value} onChange={(value) => {
+        <InputNumber disabled={true} value={props.initValues?.value} onChange={(value) => {
           const obj = {value: value as number | undefined};
           props.onChange && props.onChange({...initValues, ...obj});
         }}/> 倍
@@ -70,7 +70,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
         每次安装费用
         &nbsp;
         &nbsp;
-        <Select disabled={true} defaultValue={props.initValues?.lastDays} onChange={value => {
+        <Select disabled={true} value={props.initValues?.lastDays} onChange={value => {
           const obj = {lastDays: value as number | undefined};
           props.onChange && props.onChange({...initValues, ...obj});
         }} style={{width: 120}}>
@@ -120,7 +120,7 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
     node: <InputNumber onChange={(value) => {
       props.onChange({installValue: value})
     }
-    } defaultValue={ActionInfo?.installValue}/>
+    } value={ActionInfo?.installValue}/>
   },
     // {
     //   field: "installfee",
@@ -149,7 +149,7 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
         </svg>
         <Select onChange={(value) => {
           props.onChange({staticsIdx: statics.findIndex(item => item.field === value)});
-        }} defaultValue={statics[ActionInfo?.staticsIdx].label} style={{width: 160}}>
+        }} value={statics[ActionInfo?.staticsIdx].label} style={{width: 160}}>
           {
             statics.map(item => {
               return <Select.Option key={item.field} value={item.field}>
@@ -198,7 +198,7 @@ const StaticsSetUp2: FC<ISetUp> = (props) => {
     //   node: <InputNumber onChange={(value)=>{
     //     props.onChange({installValue: value})
     //   }
-    //   } defaultValue={ActionInfo?.installValue}/>
+    //   } value={ActionInfo?.installValue}/>
     // },
     {
       field: "installfee",
@@ -227,7 +227,7 @@ const StaticsSetUp2: FC<ISetUp> = (props) => {
         </svg>
         <Select onChange={(value) => {
           props.onChange({staticsIdxPer: statics.findIndex(item => item.field === value)});
-        }} defaultValue={statics[ActionInfo?.staticsIdxPer].label} style={{width: 160}}>
+        }} value={statics[ActionInfo?.staticsIdxPer].label} style={{width: 160}}>
           {
             statics.map(item => {
               return <Select.Option key={item.field} value={item.field}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dispatch } from "@@/plugin-dva/connect";
+import {TTacticEditInfo} from "@/pages/automation/data";
 
 export type TStateTactic<T> = {
   Name?: string;
@@ -10,6 +11,7 @@ export type TStateTactic<T> = {
 export interface ITacticBase {
   dispatch: Dispatch;
   step: number;
+  editInfo: TTacticEditInfo;
 }
 
 export interface ITactic<T> extends ITacticBase {

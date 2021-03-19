@@ -12,7 +12,8 @@ export type TActionInfoStopLossAdvSet = {
   // installValuePer?: number;
   installfeeValuePer?: TStaticItemValue;
   spendFeeValuePer?: TStaticItemValue;
-  checked?: boolean;
+  // checked?: boolean;
+  OrCondition: boolean;
   ResetBudgetTime: moment.Moment;
 }
 
@@ -22,5 +23,6 @@ export type TModelStopLossAdvSet = {
   reducers: {
     updateActionInfo: Reducer<TStateTactic<TActionInfoStopLossAdvSet>>;
     updateActionObj: Reducer<TStateTactic<TActionInfoStopLossAdvSet>>;
+    init: Reducer<TStateTactic<TActionInfoStopLossAdvSet>>;
   }
 }

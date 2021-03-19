@@ -112,10 +112,10 @@ export async function getActionObjList(payload: any) {
   }
 
   const list: Promise<any>[] = [];
-  objIds.forEach(o => {
+  objIds.forEach((o: string) => {
     list.push(request(`${path}/${o}`))
   });
 
   const res = await Promise.all(list);
-  return res.map((r, idx) => res ? r.data[key] : objIds[idx])
+  return res.map((r, idx) => (r && r.data) ? r.data[key] : objIds[idx])
 }

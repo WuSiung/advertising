@@ -154,10 +154,10 @@ const Wizard: FC<WizardProps> = (props) => {
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
         {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></SurfCampaign>}
         {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></SurfAdSet>}
-        {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvSet>}
-        {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvAdv>}
-        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></ReviveAdvSet>}
-        {tactic === EActionType.AAT_Revive_AdLevel && <ReviveAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></ReviveAdvAdv>}
+        {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></StopLossAdvSet>}
+        {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></StopLossAdvAdv>}
+        {tactic === EActionType.AAT_Revive_AdSetLevel && <ReviveAdvSet ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></ReviveAdvSet>}
+        {tactic === EActionType.AAT_Revive_AdLevel && <ReviveAdvAdv ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></ReviveAdvAdv>}
       </Card>
       { isLoading && <Loading size="large" showMask tips="提交数据中，请稍等..." />}
     </PageContainer>

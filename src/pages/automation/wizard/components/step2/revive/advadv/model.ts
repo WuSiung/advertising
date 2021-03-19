@@ -6,8 +6,8 @@ const TACTIC_NAME = '复活-广告水平 触发 -> ';
 
 function createName(obj: any) {
   obj.Name = `${TACTIC_NAME}(安装数 >= ${obj.ActionInfo.installs})`;
-  if (obj.ActionInfo.checked) {
-    obj.Name = `${obj.Name} || (每应用安装费 <= ${obj.ActionInfo.installfeeValue.staticMetricValue})`
+  if (obj.ActionInfo.AndCondition) {
+    obj.Name = `${obj.Name} && (每应用安装费 <= ${obj.ActionInfo.installfeeValue.staticMetricValue})`
   }
 }
 const ReviveAdvModel: TModelReviveAdv = {
@@ -29,7 +29,8 @@ const ReviveAdvModel: TModelReviveAdv = {
         lastDays: '',
         mertricType: 1
       },
-      checked: false,
+      AndCondition: false,
+      // checked: false,
       installs: 0,
       ResetBudgetTime: moment('00:00', FORMAT)
     },
@@ -48,6 +49,12 @@ const ReviveAdvModel: TModelReviveAdv = {
       return res;
     },
     updateActionObj (state, { payload }) {
+      return {
+        ...state,
+        ...payload
+      }
+    },
+    init (state, { payload }) {
       return {
         ...state,
         ...payload
