@@ -1,27 +1,28 @@
 import React, {FC, useState, useEffect} from 'react';
-import { connect, Dispatch } from 'umi';
-import { PageContainer } from '@ant-design/pro-layout';
-import {Card, Table, Button, Select, Input, Row, Col, Space, Modal} from 'antd';
+import {connect, Dispatch} from 'umi';
+import {PageContainer} from '@ant-design/pro-layout';
+import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List} from 'antd';
 import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
-import { history, Link } from 'umi';
+import {history, Link} from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
 import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTwoTone} from "@ant-design/icons";
-import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
+import {deleteTactic, getActionObjList, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
 
-const { Search } = Input;
-const { Option } = Select;
+const {Search} = Input;
+const {Option} = Select;
 
 interface SummaryProps {
   dispatch: Dispatch;
   isLoading: boolean;
+  isExpandLoading: boolean;
   tacticSummary: TStateTacticSummary;
 }
 
 const Summary: FC<SummaryProps> = (props) => {
-  const { isLoading, dispatch, tacticSummary } = props;
+  const {isLoading, isExpandLoading, dispatch, tacticSummary} = props;
   const [searchTxt, setSearchTxt] = useState('');
   const [actionType, setActionType] = useState('all');
   const [status, setStatus] = useState('all');
@@ -36,7 +37,7 @@ const Summary: FC<SummaryProps> = (props) => {
     // console.log('recored', recored, 'rowIndex: ', rowIndex);
     Modal.confirm({
       title: '提示',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined/>,
       content: '是否确认删除？',
       okText: '确认',
       okType: 'primary',
@@ -94,18 +95,18 @@ const Summary: FC<SummaryProps> = (props) => {
       dataIndex: 'Name',
       key: 'Name',
     },
-    {
-      title: '检查次数',
-      dataIndex: 'checkCount',
-      key: 'checkCount',
-      width: 120,
-    },
-    {
-      title: '执行次数',
-      dataIndex: 'executeCount',
-      key: 'executeCount',
-      width: 120,
-    },
+    // {
+    //   title: '检查次数',
+    //   dataIndex: 'checkCount',
+    //   key: 'checkCount',
+    //   width: 120,
+    // },
+    // {
+    //   title: '执行次数',
+    //   dataIndex: 'executeCount',
+    //   key: 'executeCount',
+    //   width: 120,
+    // },
     {
       title: '作者',
       dataIndex: 'PlatformId',
@@ -125,11 +126,12 @@ const Summary: FC<SummaryProps> = (props) => {
       render: (text, record, index) => {
         return (
           <Space>
-          <PlayCircleTwoTone onClick={() => handleRestore(record, index)} disabled={record.Status === '0'} twoToneColor={record.Status === '1' ? '#9d9d9d' : ''} />
-          <PauseCircleTwoTone onClick={() => handlePause(record, index)} disabled={record.Status === '1'} twoToneColor={record.Status === '0' ? '#9d9d9d' : ''} />
-            {/*<EditTwoTone />*/}
-            <Link to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone /></Link>
-          <DeleteTwoTone onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f" />
+            <PlayCircleTwoTone title="恢复" onClick={() => handleRestore(record, index)} disabled={record.Status === '0'}
+                               twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
+            <PauseCircleTwoTone title="暂停" onClick={() => handlePause(record, index)} disabled={record.Status === '1'}
+                                twoToneColor={record.Status === '0' ? '#9d9d9d' : ''}/>
+            <Link title="编辑" to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone/></Link>
+            <DeleteTwoTone title="删除" onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f"/>
           </Space>
         )
       }
@@ -212,13 +214,15 @@ const Summary: FC<SummaryProps> = (props) => {
     tacticList = tacticList.filter(t => t.Status === status)
   }
 
+  // const [tacticListShow, setTacticListShow] = useState([...tacticList]);
+  // console.log('tacticListShow', tacticListShow);
 
   const title = (
     <div>
       <Row justify="space-between">
         <Col>
           <Space size="large">
-            <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)} />
+            <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)}/>
             <label>
               类型：
               <Select style={{width: 120}} value={actionType} onChange={value => setActionType(value)}>
@@ -255,8 +259,40 @@ const Summary: FC<SummaryProps> = (props) => {
           dataSource={tacticList}
           rowKey="ObjectID"
           expandable={{
-            expandedRowRender: (record: TTactic) => <p style={{ margin: 0 }}>{record.PreProcessMsg}</p>,
+            expandedRowRender: (record: TTactic) => {
+              return (
+                <List loading={isExpandLoading}>
+                  {
+                    record.AdvObjs.map(a =>
+                      <List.Item key={a.AdvID} style={{marginLeft: 55}}>
+                        <Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>
+                      </List.Item>
+                    )
+                  }
+                </List>
+              )
+            },
             rowExpandable: record => record.Name !== 'Not Expandable',
+            onExpand: async (expanded, record) => {
+              if (expanded && !record.IsLoaded && record.AdvObjs && record.AdvObjs.length) {
+                // const res = await getActionObjList(record.ActionType, record.AdvObjs.map(o => o.AdvID));
+                // const r = tacticSummary.tacticList.find(t => t.ObjectID === record.ObjectID);
+                // if (r) {
+                //   r.AdvObjs.forEach((o, idx) => {
+                //     r.AdvObjs[idx].ObjName = res[idx]
+                //   })
+                //   r.IsLoaded = true;
+                // }
+                dispatch({
+                  type: 'tacticSummary/getObjInfo',
+                  payload: {
+                    objectID: record.ObjectID,
+                    actionType: record.ActionType,
+                    objIds: record.AdvObjs.map(o => o.AdvID),
+                  }
+                });
+              }
+            }
           }}
         />
       </Card>
@@ -265,7 +301,8 @@ const Summary: FC<SummaryProps> = (props) => {
 }
 
 // export default Summary;
-export default connect(({tacticSummary, loading}: {tacticSummary: TStateTacticSummary, loading: any}) => ({
-  isLoading: loading['tacticSummary/getTacticList'],
+export default connect(({tacticSummary, loading}: { tacticSummary: TStateTacticSummary, loading: any }) => ({
+  isExpandLoading: loading.effects['tacticSummary/getObjInfo'],
+  isLoading: loading.effects['tacticSummary/getTacticList'],
   tacticSummary
 }))(Summary);

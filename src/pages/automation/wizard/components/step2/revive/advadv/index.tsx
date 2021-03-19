@@ -76,7 +76,10 @@ const ReviveAdvAdv: FC<ITactic<TActionInfoReviveAdv>> = (props) => {
       const obj = {
         Name: tacticInfo.Name,
         ActionObj: tacticInfo.ActionObj?.map(o => String(o)),
-        ActionInfo: JSON.stringify(actionInfo)
+        ActionInfo: JSON.stringify({
+          InsertCount: actionInfo.installs,
+          InsertOneCost: actionInfo.installfeeValue.staticMetricValue
+        })
       }
       // console.log('revive adv commit');
       return obj;

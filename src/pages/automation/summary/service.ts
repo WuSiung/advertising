@@ -80,3 +80,42 @@ export async function restoreTactic(payload: TTactic) {
     }
   });
 }
+
+// AAT_Surf_AdSetLevel = 'Surf_AdSetLevel', //
+//   AAT_Surf_CampaignLevel = 'Surf_CampaignLevel',
+//   AAT_StopLoss_AdSetLevel = 'StopLoss_AdSetLevel',
+//   AAT_StopLoss_AdLevel = 'StopLoss_AdLevel',
+//   AAT_Revive_AdSetLevel = 'Revive_AdSetLevel',
+//   AAT_Revive_AdLevel = 'Revive_AdLevel'
+
+export async function getActionObjList(payload: any) {
+  const {actionType, objIds} = payload;
+  let path = '';
+  let key = '';
+  switch (actionType) {
+    case 'StopLoss_AdLevel':
+    case 'Revive_AdLevel':
+      path = '/ads/advadv';
+      key = 'advName';
+      break;
+    case 'Surf_AdSetLevel':
+    case 'StopLoss_AdSetLevel':
+    case 'Revive_AdSetLevel':
+      path = '/ads/advset';
+      key = 'setName';
+      break;
+    case 'Surf_CampaignLevel':
+      path = 'ads/advpack';
+      key = 'appName';
+      break;
+    default:
+  }
+
+  const list: Promise<any>[] = [];
+  objIds.forEach(o => {
+    list.push(request(`${path}/${o}`))
+  });
+
+  const res = await Promise.all(list);
+  return res.map((r, idx) => res ? r.data[key] : objIds[idx])
+}

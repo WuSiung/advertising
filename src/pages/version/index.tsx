@@ -17,8 +17,27 @@ const Version = () => {
         '广告发布成功跳转广告创意',
         '修复若干bug'
     ]
+
+    const v_1_1_36: string[] = [
+      '仪表盘表格固定头2列不参与列切换',
+      '广告与广告集复活页面对接服务端数据',
+      '自动化策略主页，策略展开时，异步加载策略作用对象，并展示，操作按钮，鼠标悬停显示文字',
+      '冲浪广告活动等级设置页面滑动输入条的联动功能'
+    ]
+
     return <Card>
         <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-19 09:16</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_36.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.35更新说明</div>
         <div className={styles.time}>2021-03-16 18:24</div>
         <div className={styles.detail}>
             <ol>

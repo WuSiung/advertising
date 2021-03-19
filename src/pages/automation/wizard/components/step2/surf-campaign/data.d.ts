@@ -34,5 +34,6 @@ export type TSurfCampaignModel = {
   reducers: {
     updateActionInfo: Reducer<TStateSurfCampaign>;
     updateActionObj: Reducer<TStateSurfCampaign>;
+    init: Reducer<TStateSurfCampaign>;
   }
 }

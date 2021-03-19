@@ -95,6 +95,12 @@ const SurfCampaignModel: TSurfCampaignModel = {
         ...state,
         ...payload
       }
+    },
+    init(state, { payload }) {
+      return {
+        ...state,
+        ...payload
+      }
     }
   }
 }

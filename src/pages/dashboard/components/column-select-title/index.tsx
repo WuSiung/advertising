@@ -11,11 +11,9 @@ export interface SearchColsPopoverPropsType {
 }
 
 const SearchColsPopover: FC<SearchColsPopoverPropsType> = props => {
-  console.log(props.columns);
   const options = props.columns.filter(col => !col.show).map(col => {
     return {label: col.titleString, value: col.dataIndex ? col.dataIndex : "1"};
   });
-  console.log(options);
   return (<>
     <Select
       onSelect={

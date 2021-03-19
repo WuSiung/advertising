@@ -56,8 +56,255 @@ const Setting: FC<ISetting> = (props) => {
 
 
   const handleChange = (value: number[]) => {
+    // todo: 如果有二次检查，二次检查的检查点随动
+    // todo: 确定当前移动的点是不是第一次检查的点，看数组长度，和点在数组中的位置
+    const values = [...value];
+    if (ActionInfo?.CheckPoints && ActionInfo?.CheckPoints.length === 6) {
+      let idx = -1;
+      let direction = 0;
+      for (let i = 0; i < value.length; i += 1) {
+        if (value[i] !== ActionInfo?.CheckPoints[i]) {
+          idx = i;
+          if (value[i] > ActionInfo?.CheckPoints[i]) {
+            direction = 1;
+          }
+
+          if (value[i] < ActionInfo?.CheckPoints[i]) {
+            direction = -1
+          }
+          break;
+        }
+      }
+
+      if ([0, 2, 4].indexOf(idx) > -1) {
+        let per1 = 0; // 移动点左边的二次检查点当前的占比
+        let per2 = 0; // 移动点右边的二次检查点的当前占比
+        const delta = 1;
+        const deltaPer = 0.02;
+        if (idx === 0) {
+          per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+
+          if (per2 > 0.8) {
+            per2 -= deltaPer;
+          }
+          if (per2 < 0.5) {
+            per2 += deltaPer;
+          }
+          if (per2 > 0) {
+            if (direction === -1) {
+
+              // let v = Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2)
+              // if (v >= value[idx + 2]) {
+              //   v = value[idx + 2] - delta
+              // }
+              values[idx + 1] = Math.max(Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx] + delta);
+            }
+            if (direction === 1) {
+              // if (per2 < 0.2) {
+              //   per2 += deltaPer;
+              // }
+              values[idx + 1] = Math.min(Math.round(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx + 2] - delta);
+            }
+          }
+        }
+
+        if (idx === 2) {
+          per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+          if (per1 > 0.8) {
+            per1 -= deltaPer;
+          }
+          if (per1 < 0.5) {
+            per1 += deltaPer;
+          }
+
+          if (per1 > 0) {
+            if (direction === -1) {
+              // if (per1 >= 0.8) {
+              //   per1 -= deltaPer;
+              // }
+              values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
+            }
+            if (direction === 1) {
+              // if (per1 < 0.5) {
+              //   per1 += deltaPer;
+              // }
+              // let v = Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1);
+              // if (v <= value[idx - 2]) {
+              //   v = value[idx - 2] + delta;
+              // }
+              values[idx - 1] = Math.min(Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx] - delta);
+            }
+          }
+
+          per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+
+          if (per2 > 0.8) {
+            per2 -= deltaPer;
+          }
+          if (per2 < 0.5) {
+            per2 += deltaPer
+          }
+          if (per2 > 0) {
+            if (direction === -1) {
+              // if (per2 > 0.8) {
+              //   per2 -= deltaPer;
+              // }
+              // if (per2 < 0.5) {
+              //   per2 += deltaPer
+              // }
+              values[idx + 1] = Math.max(Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx] + delta);
+            }
+            if (direction === 1) {
+              // if (per2 < 0.2) {
+              //   per2 += deltaPer;
+              // }
+              values[idx + 1] = Math.min(Math.round(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx + 2] - delta);
+            }
+          }
+        }
+
+        if (idx === 4) {
+          per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+          if (per1 > 0.8) {
+            per1 -= deltaPer;
+          }
+          if (per1 < 0.5) {
+            per1 += deltaPer;
+          }
+          if (per1 > 0) {
+            if (direction === -1) {
+              // if (per1 >= 0.8) {
+              //   per1 -= deltaPer;
+              // }
+              values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
+            }
+            if (direction === 1) {
+              // if (per1 < 0.5) {
+              //   per1 += deltaPer;
+              // }
+              // let v = Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1);
+              // if (v <= value[idx - 2]) {
+              //   v = value[idx - 2] + delta;
+              // }
+              values[idx - 1] = Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1);
+            }
+          }
+
+          per2 = Math.min(0.5, (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (300 - ActionInfo.CheckPoints[idx]));
+          if (per2 >= 0.8) {
+            per2 -= deltaPer;
+          }
+          if (per2 < 0.5) {
+            per2 += deltaPer
+          }
+          if (per2 > 0) {
+            if (direction === -1) {
+              // if (per2 >= 0.8) {
+              //   per2 -= deltaPer;
+              // }
+              // if (per2 < 0.5) {
+              //   per2 += deltaPer
+              // }
+              // let v = Math.round(value[idx] + (300 - value[idx]) * per2);
+              // if (v >= 300) {
+              //   v = 300 - delta;
+              // }
+              values[idx + 1] = Math.max(Math.round(value[idx] + (300 - value[idx]) * per2), value[idx] + delta);
+            }
+            if (direction === 1) {
+              if (per2 < 0.2) {
+                per2 += deltaPer;
+              }
+              values[idx + 1] = Math.round(value[idx] + (300 - value[idx]) * per2);
+            }
+          }
+        }
+      }
+
+      // if ([0, 2, 4].indexOf(idx) > -1) {
+      //   let per1 = 0; // 移动点左边的二次检查点当前的占比
+      //   let per2 = 0; // 移动点右边的二次检查点的当前占比
+      //   const delta = 1;
+      //   if (idx === 0) {
+      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+      //     if (per2 > 0) {
+      //       if (direction === -1) {
+      //         let v = Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2)
+      //         if (v >= value[idx + 2]) {
+      //           v = value[idx + 2] - delta
+      //         }
+      //         values[idx + 1] = v;
+      //       }
+      //       if (direction === 1) {
+      //         values[idx + 1] = Math.min(Math.round(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx + 2] - delta);
+      //       }
+      //     }
+      //   }
+      //
+      //   if (idx === 2) {
+      //     per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+      //     if (per1 > 0) {
+      //       if (direction === -1) {
+      //         values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
+      //       }
+      //       if (direction === 1) {
+      //         let v = Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1);
+      //         if (v <= value[idx - 2]) {
+      //           v = value[idx - 2] + delta;
+      //         }
+      //         values[idx - 1] = v;
+      //       }
+      //     }
+      //
+      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (ActionInfo.CheckPoints[idx + 2] - ActionInfo.CheckPoints[idx]);
+      //     if (per2 > 0) {
+      //       if (direction === -1) {
+      //         let v = Math.floor(value[idx] + (value[idx + 2] - value[idx]) * per2);
+      //         if (v >= value[idx + 2]) {
+      //           v = value[idx + 2] -delta;
+      //         }
+      //         values[idx + 1] = v;
+      //       }
+      //       if (direction === 1) {
+      //         values[idx + 1] = Math.min(Math.round(value[idx] + (value[idx + 2] - value[idx]) * per2), value[idx + 2] - delta);
+      //       }
+      //     }
+      //   }
+      //
+      //   if (idx === 4) {
+      //     per1 = (ActionInfo.CheckPoints[idx - 1] - ActionInfo.CheckPoints[idx - 2]) / (ActionInfo.CheckPoints[idx] - ActionInfo.CheckPoints[idx - 2]);
+      //     if (per1 > 0) {
+      //       if (direction === -1) {
+      //         values[idx - 1] = Math.max(Math.floor(value[idx - 2] + (value[idx] - value[idx - 2]) * per1), value[idx - 2] + delta);
+      //       }
+      //       if (direction === 1) {
+      //         let v = Math.round(value[idx - 2] + (value[idx] - value[idx - 2]) * per1);
+      //         if (v <= value[idx - 2]) {
+      //           v = value[idx - 2] + delta;
+      //         }
+      //         values[idx - 1] = v;
+      //       }
+      //     }
+      //
+      //     per2 = (ActionInfo.CheckPoints[idx + 1] - ActionInfo.CheckPoints[idx]) / (300 - ActionInfo.CheckPoints[idx]);
+      //     if (per2 > 0) {
+      //       if (direction === -1) {
+      //         let v = Math.floor(value[idx] + (300 - value[idx]) * per2);
+      //         if (v >= 300) {
+      //           v = 300 - delta;
+      //         }
+      //         values[idx + 1] = v;
+      //       }
+      //       if (direction === 1) {
+      //         values[idx + 1] = Math.min(Math.round(value[idx] + (300 - value[idx]) * per2), 300 -delta);
+      //       }
+      //     }
+      //   }
+      // }
+    }
+
     props.onChange({
-      CheckPoints: value
+      CheckPoints: values
     })
   }
 
@@ -68,11 +315,11 @@ const Setting: FC<ISetting> = (props) => {
         // 增加2个检查点
         list = [
           ActionInfo.CheckPoints[0],
-          Math.round((ActionInfo.CheckPoints[0] + ActionInfo.CheckPoints[1]) / 2),
+          ActionInfo.CheckPoint[0].DoubleCheck ? ActionInfo.CheckPoint[0].DoubleCheck : Math.round((ActionInfo.CheckPoints[0] + ActionInfo.CheckPoints[1]) / 2),
           ActionInfo.CheckPoints[1],
-          Math.round((ActionInfo?.CheckPoints[1] + ActionInfo.CheckPoints[2]) / 2),
+          ActionInfo.CheckPoint[1].DoubleCheck ? ActionInfo.CheckPoint[1].DoubleCheck : Math.round((ActionInfo?.CheckPoints[1] + ActionInfo.CheckPoints[2]) / 2),
           ActionInfo.CheckPoints[2],
-          Math.round((ActionInfo?.CheckPoints[2] + 300) / 2)
+          ActionInfo.CheckPoint[2].DoubleCheck ? ActionInfo.CheckPoint[2].DoubleCheck : Math.round((ActionInfo?.CheckPoints[2] + 300) / 2)
           ];
       }
     } else if (ActionInfo?.CheckPoints.length === 6) {

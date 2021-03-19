@@ -52,6 +52,7 @@ const StopLossAdvModel: TModelStopLossAdv = {
   reducers: {
     updateActionInfo (state, { payload }) {
       const res: any = {
+        ...state,
         ActionInfo: {
           ...state?.ActionInfo,
           ...payload

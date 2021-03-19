@@ -50,7 +50,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
     <div style={{fontSize: "14px", marginTop: "8px"}}>
       <Space>
         <Tooltip placement="bottomRight" title="可以根据所选指标随时间变化进行设置">
-          <Radio value={2}>
+          <Radio disabled={true} value={2}>
             动态指标
           </Radio>
         </Tooltip>
@@ -58,7 +58,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
         $ 0.00
         [
 
-        <InputNumber defaultValue={props.initValues?.value} onChange={(value) => {
+        <InputNumber disabled={true} defaultValue={props.initValues?.value} onChange={(value) => {
           const obj = {value: value as number | undefined};
           props?.onChange && props.onChange({...initValues, ...obj});
         }}/> 倍
@@ -70,7 +70,7 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
         每次安装费用
         &nbsp;
         &nbsp;
-        <Select defaultValue={props.initValues?.lastDays} onChange={value => {
+        <Select disabled={true} defaultValue={props.initValues?.lastDays} onChange={value => {
           const obj = {lastDays: value as number | undefined};
           props.onChange && props.onChange({...initValues, ...obj});
         }} style={{width: 120}}>

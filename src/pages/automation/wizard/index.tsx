@@ -152,7 +152,7 @@ const Wizard: FC<WizardProps> = (props) => {
         title={<Title isActionObjSelected={isActionObjSelected} current={current} tactic={tactic} level={level} handleClick={handleClick}></Title>}
       >
         {current === 0 && <Step1 onTactic={handleTactic}></Step1>}
-        {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current} onActionObjChange={handleDataChange}></SurfCampaign>}
+        {tactic === EActionType.AAT_Surf_CampaignLevel && <SurfCampaign ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></SurfCampaign>}
         {tactic === EActionType.AAT_Surf_AdSetLevel && <SurfAdSet ref={childRef} step={current} editInfo={editInfo} onActionObjChange={handleDataChange}></SurfAdSet>}
         {tactic === EActionType.AAT_StopLoss_AdSetLevel && <StopLossAdvSet ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvSet>}
         {tactic === EActionType.AAT_StopLoss_AdLevel && <StopLossAdvAdv ref={childRef} step={current} onActionObjChange={handleDataChange}></StopLossAdvAdv>}
