@@ -37,8 +37,8 @@ type SelectValueType = string | number;
 
 const Advertising: FC<AdvPropsType> = (props) => {
     const { dispatch, advertisingList, appInfo, loadingAdvList, count, loadingAdvListAddMore, previews } = props;
-    const [pageIndex, setPageIndex] = useState<number>(1);
-    const [date, setDate] = useState<[string, string]>();
+    const [pageIndex, setPageIndex] = useState<number>(2);
+    const [date, setDate] = useState<[string, string]>([moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]);
     const [cost, setCost] = useState<number>(0)
     const [age, setAge] = useState<CheckboxValueType[] | undefined>();
     const [sex, setSex] = useState<CheckboxValueType[] | undefined>();
@@ -54,10 +54,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
         dispatch({
             type: 'advertising/fetchAdvList',
             payload: {
-                start: moment(new Date()).subtract(1, 'months').format('YYYY-MM-DD'),
-                end: moment().format('YYYY-MM-DD'),
+                start: date[0],
+                end: date[1],
                 cost,
-                order: orderType
+                order: orderType,
+                current: 1
             }
         });
     }, [searchTime])
@@ -127,7 +128,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
 
     const changeDate = (value: [string, string]) => {
         setDate(value);
-        setPageIndex(1);
+        setPageIndex(2);
         dispatch({
             type: 'advertising/fetchAdvList',
             payload: {
@@ -173,7 +174,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             </Select>
                             &nbsp;&nbsp;&nbsp;&nbsp;最小花费 :&nbsp;
                             <Space><InputNumber defaultValue={cost} type='number' min={0} onChange={e => setCost(e as number)} />
-                                <Button type="primary" onClick={() => setSearchTime(searchTime + 1)}>确定</Button>
+                                <Button type="primary" onClick={() => { setPageIndex(2); setSearchTime(searchTime + 1) }}>确定</Button>
                             </Space>
                             <Button style={{ marginLeft: 10 }} type='primary' onClick={toCompaign}>创建广告</Button>
                         </div>
@@ -353,11 +354,13 @@ const Advertising: FC<AdvPropsType> = (props) => {
             <div style={{ width: "100%", textAlign: "center" }}>
                 {
                     advertisingList.length < count ? <Button loading={loadingAdvListAddMore} onClick={() => {
+                        console.log(date)
                         dispatch({
                             type: 'advertising/fetchAdvListAddMore',
                             payload: {
                                 start: date ? date[0] : "",
                                 end: date ? date[1] : "",
+                                current: pageIndex
                             }
                         });
                         setPageIndex(pageIndex + 1);
