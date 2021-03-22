@@ -1,5 +1,5 @@
 import { Form, Input, Button } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { connect, history } from 'umi';
 import { randomLenNum } from '@/utils/utils'
@@ -51,11 +51,13 @@ const Login: React.FC<LoginProps> = (props) => {
           <Input.Password placeholder='请输入密码' prefix={<LockOutlined />} />
         </Form.Item>
         <Form.Item>
-          <Form.Item name="code" rules={[{ required: true, message: '请输入验证码' }]} noStyle><Input placeholder='请输入验证码' allowClear /></Form.Item>
-          <RandomCode random={memoRandom} changeRandom={changeRandom} />
+          <Form.Item name="code" rules={[{ required: true, message: '请输入验证码' }]} noStyle>
+            <Input placeholder='请输入验证码' allowClear className={styles.code}
+              prefix={<SafetyCertificateOutlined />} suffix={<RandomCode random={memoRandom} changeRandom={changeRandom} />} />
+          </Form.Item>
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">登陆</Button>
+        <Form.Item className={styles.end}>
+          <Button htmlType="submit" className={styles.loginbtn}>登陆</Button>
           <div className={styles.register} onClick={() => history.push('/user/register')}>没有账号？快来注册吧</div>
         </Form.Item>
       </Form>

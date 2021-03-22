@@ -8,6 +8,14 @@
     max-width: 328px;
   }
 
+  :global(.ant-input-affix-wrapper){
+    border-radius: 20px;
+    padding: 10px 20px;
+    :global(.anticon){
+      color: #a1a1a1;
+    }
+  }
+
   .title{
     color: #333;
     font-size: 24px;
@@ -34,6 +42,25 @@
     color: @blue-base;
     margin-top: @margin-xs;
     cursor: pointer;
+  }
+
+  .code{
+    padding: 0 20px;
+    height: 44px;
+  }
+
+  .end{
+    text-align: right;
+    .loginbtn{
+      background: #f05525;
+      color: #fff;
+      height: 44px;
+      border-radius: 22px;
+      padding: 0 40px;
+      &:active,&:hover, &:focus{
+        border-color: #f05525;
+      }
+    }
   }
 
   .other {
