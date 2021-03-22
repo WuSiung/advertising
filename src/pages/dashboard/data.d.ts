@@ -20,7 +20,9 @@ export type TStatistic = {
   clicks: string; // 点击数
   pfee: number; // 每结果成本
   approas: number; // 移动应用回报率
+  income: number; // 收入
   spend: number; // 消费金额
+  roi: string;
   ctr: number; // 点击率
   frequency: number; // 频率
   cpm: number; // 每千次展示费用

@@ -78,6 +78,16 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       show: true
     },
     {
+      titleString: '消费金额',
+      dataIndex: 'spend',
+      show: true
+    },
+    {
+      titleString: 'ROI',
+      dataIndex: 'roi',
+      show: true
+    },
+    {
       titleString: '送达数',
       dataIndex: 'reach',
       show: true
@@ -100,11 +110,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     {
       titleString: '移动应用回报率',
       dataIndex: 'mobileAppPurchaseRoas',
-      show: true
-    },
-    {
-      titleString: '消费金额',
-      dataIndex: 'spend',
       show: true
     },
     {
@@ -239,6 +244,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       title: <ColumnSelectTitle dataIndex="spend" titleString="消费金额" optionList={showColumns} onChange={onPackColumnFilter} />,
       dataIndex: 'spend',
       key: 'spend',
+      width: 120,
+    },
+    {
+      title: <ColumnSelectTitle dataIndex="roi" titleString="ROI" optionList={showColumns} onChange={onPackColumnFilter} />,
+      dataIndex: 'roi',
+      key: 'roi',
       width: 120,
     },
     {

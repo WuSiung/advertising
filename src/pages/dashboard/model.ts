@@ -122,6 +122,11 @@ const DashboardModel: TDashboardModel = {
           TARGET_LIST.forEach((t) => {
             if (data.totalList && data.totalList[idx]) {
               data.totalList[idx][t.value] = Math.round(d[t.value] * 100) / 100;
+              if (data.totalList[idx].spend !== 0) {
+                data.totalList[idx].roi = `${Math.round((data.totalList[idx].income - data.totalList[idx].spend) / data.totalList[idx].spend * 100) / 100}%`;
+              } else {
+                data.totalList[idx].roi = '0%';
+              }
             }
           });
         });
