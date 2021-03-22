@@ -103,11 +103,14 @@ const Packs: FC<PacksProps> = (props) => {
         <Spin spinning={loading}>
             <div className={styles.crowdPack}>
                 {
-                    customCrowd.length > 0 && <div className={styles.navname}>自定义</div>
+                    customCrowd.length > 0 && <div className={styles.navname}>自定义
+                        <div className={styles.desc}>此处展示的是在“人群包管理”界面进行编辑混合的人群包，进行分类显示。</div>
+                    </div>
                 }
                 {
                     treeCheck.includes(4) && newset.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>最新人群包</div>
+                        <div className={styles.title}><span className={styles.text}>最新人群包</span></div>
+                        <div className={styles.desc}>下面展示的是你在人群包管理界面最新保存的5个人群包。</div>
                         <div className={styles.packList}>
                             <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
                                 +
@@ -125,7 +128,8 @@ const Packs: FC<PacksProps> = (props) => {
                 }
                 {
                     treeCheck.includes(5) && customCrowd.some(crowd => crowd.stype == '1') && customCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>兴趣人群包</div>
+                        <div className={styles.title}><span className={styles.text}>兴趣人群包</span></div>
+                        <div className={styles.desc}>下面展示的是你在人群包管理界面最新编辑保存的只有兴趣类型的人群包。</div>
                         <div className={styles.packList}>
                             {
                                 customCrowd.map(crowd => {
@@ -137,7 +141,8 @@ const Packs: FC<PacksProps> = (props) => {
                 }
                 {
                     treeCheck.includes(6) && customCrowd.some(crowd => crowd.stype == '2') && customCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>自定义人群包</div>
+                        <div className={styles.title}><span className={styles.text}>自定义人群包</span></div>
+                        <div className={styles.desc}>下面展示的是你在人群包管理界面最新编辑保存的只有自定义人群类型的人群包</div>
                         <div className={styles.packList}>
                             {
                                 customCrowd.map(crowd => {
@@ -149,7 +154,8 @@ const Packs: FC<PacksProps> = (props) => {
                 }
                 {
                     treeCheck.includes(7) && customCrowd.some(crowd => crowd.stype == '0') && customCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>混合人群包</div>
+                        <div className={styles.title}><span className={styles.text}>混合人群包</span></div>
+                        <div className={styles.desc}>下面展示的是你在人群包管理界面最新编辑保存的含有兴趣，自定义，相似人群的混合人群包。</div>
                         <div className={styles.packList}>
                             {
                                 customCrowd.map(crowd => {
@@ -161,11 +167,14 @@ const Packs: FC<PacksProps> = (props) => {
                 }
 
                 {
-                    baseCrowd.length > 0 && <div className={styles.navname}>官方库</div>
+                    baseCrowd.length > 0 && <div className={styles.navname}>官方库
+                        <div className={styles.desc}>此处展示的是平台官方编辑规则的“自定义人群包”和“相似人群包”模板。</div>
+                    </div>
                 }
                 {
                     treeCheck.includes(15) && baseCrowd.some(crowd => crowd.type == '2') && baseCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>重新定位</div>
+                        <div className={styles.title}><span className={styles.text}>重新定位</span></div>
+                        <div className={styles.desc}>下面展示的是你在人群包管理界面最新编辑保存的含有兴趣，自定义，相似人群的混合人群包。</div>
                         <div className={styles.packList}>
                             {
                                 baseCrowd.map(crowd => {
@@ -177,7 +186,8 @@ const Packs: FC<PacksProps> = (props) => {
                 }
                 {
                     treeCheck.includes(16) && baseCrowd.some(crowd => crowd.type == '1') && baseCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>重新参与</div>
+                        <div className={styles.title}><span className={styles.text}>重新参与</span></div>
+                        <div className={styles.desc}>这些受众群体是与你的产品有过接触的用户，看过广告视频或与主页有过互动。</div>
                         <div className={styles.packList}>
                             {
                                 baseCrowd.map(crowd => {
@@ -189,7 +199,7 @@ const Packs: FC<PacksProps> = (props) => {
                 }
                 {
                     treeCheck.includes(17) && baseCrowd.some(crowd => crowd.type == '3') && baseCrowd.length > 0 && <div className={styles.packs}>
-                        <div className={styles.title}>保留</div>
+                        <div className={styles.title}><span className={styles.text}>保留</span></div>
                         <div className={styles.packList}>
                             {
                                 baseCrowd.map(crowd => {

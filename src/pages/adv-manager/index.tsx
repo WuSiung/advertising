@@ -201,7 +201,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             key: 'roi',
 
             render: (_, record) => {
-                console.log(record)
+                // console.log(record)
                 if(record.dataVO.spend == 0){
                     return '0%'
                 } else {
