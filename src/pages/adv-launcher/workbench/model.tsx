@@ -17,6 +17,7 @@ export interface WorkbenchModalType {
         saveImgList: Reducer<WorkbenchDataType>,
         saveTextList: Reducer<WorkbenchModalType>,
         savePreviewAdvs: Reducer<WorkbenchModalType>,
+        savePreviewAdvsRecord: Reducer<WorkbenchModalType>,
         saveTempList: Reducer<WorkbenchModalType>,
         saveHasAdvs: Reducer<WorkbenchModalType>,
     }
@@ -28,7 +29,7 @@ const initSate: WorkbenchDataType = {
     previewAdvs: [],
     templateDetailData: undefined,
     templateList: [],
-    savePreviewAdvsRecord: [],
+    previewAdvsRecord: [],
     hasAdvs: []
 }
 
@@ -84,12 +85,16 @@ const WorkbenchModal: WorkbenchModalType = {
         savePreviewAdvs(state, { payload }) {
             // 数据深拷贝
             let newParams = JSON.parse(JSON.stringify(payload))
+            // console.log(newParams)
             return { ...state, ...newParams }
         },
         saveTempList(state, { payload }) {
             return { ...state, ...payload }
         },
         saveHasAdvs(state, { payload }) {
+            return { ...state, ...payload }
+        },
+        savePreviewAdvsRecord(state, { payload }) {
             return { ...state, ...payload }
         },
     }
