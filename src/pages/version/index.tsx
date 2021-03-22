@@ -35,8 +35,26 @@ const Version = () => {
         '新增文件资源过大报错',
     ]
 
+  const v_1_1_38: string[] = [
+    '人群包列表修改',
+    '修改登录页样式',
+    '仪表盘增加roi列，消费金额和roi挪到前面显示',
+    '策略管理主页，策略作用对象展开可查看执行记录',
+  ]
+
     return <Card>
-        <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-22 21:30</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_38.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.37更新说明</div>
         <div className={styles.time}>2021-03-19 18:39</div>
         <div className={styles.detail}>
             <ol>
