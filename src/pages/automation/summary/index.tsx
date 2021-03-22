@@ -7,10 +7,9 @@ import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
 import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTwoTone} from "@ant-design/icons";
-import {deleteTactic, getActionObjList, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
+import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
-import CollapsePanel from "antd/es/collapse/CollapsePanel";
 
 const {Search} = Input;
 const {Option} = Select;
