@@ -169,6 +169,48 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         },
         {
             idx: 2,
+            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advpackOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onPackColumnFilter(value, 'apet');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+            render: (_,record) => {
+                return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
+            }
+        },
+        {
+            idx: 3,
+            title: <div className={styles.thTitle}>ROI <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="roi"
+                    columns={advpackOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onPackColumnFilter(value, 'roi');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: 'roi',
+            dataIndex: 'roi',
+            key: 'roi',
+
+            render: (_, record) => {
+                // console.log(record)
+                if(record.dataVO.spend == 0){
+                    return '0%'
+                } else {
+                    return (record.dataVO.income - record.dataVO.spend) / 0 * 100 + '%'
+                }
+            }
+        },
+        {
+            idx: 4,
             title: <div className={styles.thTitle}>展示数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -186,7 +228,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 3,
+            idx: 5,
             title: <div className={styles.thTitle}>点击数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -204,7 +246,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 4,
+            idx: 6,
             title: <div className={styles.thTitle}>每结果成本 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -222,7 +264,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 5,
+            idx: 7,
             title: <div className={styles.thTitle}>移动应用回报率 <Popover style={{ minHeight: "300px" }} placement="bottom"
                 title="更换列" content={<SearchColsPopover
                     currentColumnDataIndex="impression" columns={advpackOriginColumnsOnlyLabelAndDataIndex}
@@ -238,26 +280,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 6,
-            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
-                content={<SearchColsPopover
-                    currentColumnDataIndex="impression"
-                    columns={advpackOriginColumnsOnlyLabelAndDataIndex}
-                    onChange={value => {
-                        onPackColumnFilter(value, 'apet');
-                    }
-                    } />} trigger="click"><CaretDownOutlined
-                    className="th-icon" /></Popover></div>,
-            titleString: '消费金额',
-            dataIndex: 'apet',
-            key: 'apet',
-
-            render: (number) => {
-                return '$' + (number && (number as number).toFixed(2) || '0.00')
-            }
-        },
-        {
-            idx: 7,
+            idx: 8,
             title: <div className={styles.thTitle}>点击率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -275,7 +298,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 8,
+            idx: 9,
             title: <div className={styles.thTitle}>频率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover currentColumnDataIndex="impression"
                     columns={advpackOriginColumnsOnlyLabelAndDataIndex}
@@ -293,7 +316,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 9,
+            idx: 10,
             title: <div className={styles.thTitle}>费用/千次 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -311,7 +334,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 10,
+            idx: 11,
             title: <div className={styles.thTitle}>出站点击率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -329,7 +352,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 11,
+            idx: 12,
             title: <div className={styles.thTitle}>每次点击费用 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -347,7 +370,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 12,
+            idx: 13,
             title: <div className={styles.thTitle}>安装数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -365,7 +388,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 13,
+            idx: 14,
             title: <div className={styles.thTitle}>每次安装费用 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -383,7 +406,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 14,
+            idx: 15,
             title: <div className={styles.thTitle}>操作</div>,
             titleString: '操作',
             dataIndex: 'action',
@@ -499,6 +522,43 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         },
         {
             idx: 2,
+            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advsetOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onSetColumnFilter(value, 'apet');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+            render: (_,record) => {
+                return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
+            }
+        },
+        {
+            idx: 3,
+            title: <div className={styles.thTitle}>ROI <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advsetOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onSetColumnFilter(value, 'roi');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: 'roi',
+            dataIndex: 'roi',
+            key: 'roi',
+
+            render: (number) => {
+                return '0%'
+            }
+        },
+        {
+            idx: 4,
             title: <div className={styles.thTitle}>展示数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -516,7 +576,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 3,
+            idx: 5,
             title: <div className={styles.thTitle}>点击数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -534,7 +594,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 4,
+            idx: 6,
             title: <div className={styles.thTitle}>每结果成本 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -552,7 +612,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 5,
+            idx: 7,
             title: <div className={styles.thTitle}>移动应用回报率 <Popover style={{ minHeight: "300px" }} placement="bottom"
                 title="更换列" content={<SearchColsPopover
                     currentColumnDataIndex="impression" columns={advsetOriginColumnsOnlyLabelAndDataIndex}
@@ -568,26 +628,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 6,
-            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
-                content={<SearchColsPopover
-                    currentColumnDataIndex="impression"
-                    columns={advsetOriginColumnsOnlyLabelAndDataIndex}
-                    onChange={value => {
-                        onSetColumnFilter(value, 'apet');
-                    }
-                    } />} trigger="click"><CaretDownOutlined
-                    className="th-icon" /></Popover></div>,
-            titleString: '消费金额',
-            dataIndex: 'apet',
-            key: 'apet',
-
-            render: (number) => {
-                return '$' + (number && (number as number).toFixed(2) || '0.00')
-            }
-        },
-        {
-            idx: 7,
+            idx: 8,
             title: <div className={styles.thTitle}>点击率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -605,7 +646,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 8,
+            idx: 9,
             title: <div className={styles.thTitle}>频率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover currentColumnDataIndex="impression"
                     columns={advsetOriginColumnsOnlyLabelAndDataIndex}
@@ -623,7 +664,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 9,
+            idx: 10,
             title: <div className={styles.thTitle}>费用/千次 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -641,7 +682,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 10,
+            idx: 11,
             title: <div className={styles.thTitle}>出站点击率 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -659,7 +700,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 11,
+            idx: 12,
             title: <div className={styles.thTitle}>每次点击费用 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -677,7 +718,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 12,
+            idx: 13,
             title: <div className={styles.thTitle}>安装数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -695,7 +736,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 13,
+            idx: 14,
             title: <div className={styles.thTitle}>每次安装费用 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -713,7 +754,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 14,
+            idx: 15,
             title: <div className={styles.thTitle}>操作</div>,
             titleString: '操作',
             dataIndex: 'action',
@@ -827,7 +868,43 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
+            idx: 1,
+            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advadvOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onAdvColumnFilter(value, 'apet');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: '消费金额',
+            dataIndex: 'apet',
+            key: 'apet',
+            render: (_,record) => {
+                return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
+            }
+        },
+        {
             idx: 2,
+            title: <div className={styles.thTitle}>ROI <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advadvOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onAdvColumnFilter(value, 'roi');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: 'roi',
+            dataIndex: 'roi',
+            key: 'roi',
+            render: (number) => {
+                return '0%'
+            }
+        },
+        {
+            idx: 3,
             title: <div className={styles.thTitle}>展示数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -845,7 +922,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 3,
+            idx: 4,
             title: <div className={styles.thTitle}>点击数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -863,7 +940,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 4,
+            idx: 5,
             title: <div className={styles.thTitle}>每结果成本 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -881,7 +958,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 5,
+            idx: 6,
             title: <div className={styles.thTitle}>移动应用回报率 <Popover style={{ minHeight: "300px" }} placement="bottom"
                 title="更换列" content={<SearchColsPopover
                     currentColumnDataIndex="impression" columns={advadvOriginColumnsOnlyLabelAndDataIndex}
@@ -894,25 +971,6 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             key: 'approas',
             render: (number) => {
                 return (number && (number as number).toFixed(2) || 0) + '%'
-            }
-        },
-        {
-            idx: 6,
-            title: <div className={styles.thTitle}>消费金额 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
-                content={<SearchColsPopover
-                    currentColumnDataIndex="impression"
-                    columns={advadvOriginColumnsOnlyLabelAndDataIndex}
-                    onChange={value => {
-                        onAdvColumnFilter(value, 'apet');
-                    }
-                    } />} trigger="click"><CaretDownOutlined
-                    className="th-icon" /></Popover></div>,
-            titleString: '消费金额',
-            dataIndex: 'apet',
-            key: 'apet',
-
-            render: (number) => {
-                return '$' + (number && (number as number).toFixed(2) || '0.00')
             }
         },
         {

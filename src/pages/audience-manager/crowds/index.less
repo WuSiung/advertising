@@ -11,12 +11,15 @@
     overflow: scroll;
     .left{
         width: 300px;
-        padding: 10px;
+        padding: 20px 10px;
         box-shadow: @shadow-2;
         background: #ffffff;
         min-height: 500px;
         position: sticky;
         top: 0;
+        :global(.ant-tree .ant-tree-treenode){
+            padding: 6px 0;
+        }
     }
     .right{
         flex: 1;

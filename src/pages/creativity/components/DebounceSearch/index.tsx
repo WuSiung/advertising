@@ -20,7 +20,7 @@ export interface DebounceSelectProps<ValueType = any>
 
 function DebounceSelect<
     ValueType extends { key?: string; label: React.ReactNode; value: string | number } = any
->({ fetchOptions, debounceTimeout = 500, ...props }: DebounceSelectProps) {
+>({ fetchOptions, debounceTimeout = 300, ...props }: DebounceSelectProps) {
     const { setValue, onAdd, defaultOptions, ...otherProps } = props
     const [fetching, setFetching] = React.useState(false);
     const [isFetched, setIsFetched] = React.useState(false);

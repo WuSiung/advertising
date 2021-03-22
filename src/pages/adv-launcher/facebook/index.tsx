@@ -374,7 +374,7 @@ const setName = (settings: SaveFacebookSettingType, audsInfo?: { audId: number; 
     const positionStr = position.map(item => item).join(',');
     const sex = ['男女', '男', '女'];
     const crowdName = audsInfo?.map(item => item.audName).join(',');
-    return `yx-${positionStr}-${crowdName}-${settings.age}-${sex[settings.sex]}-${settings.target_type}-{${settings.include}，${settings.exclude}}`
+    return `TWzt-${positionStr}-${crowdName}-${settings.age}-${sex[settings.sex]}-${settings.target_type}-{${settings.include}，${settings.exclude}}`
 }
 
 const advName = (settings: SaveFacebookSettingType, type?: string | number) => {

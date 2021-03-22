@@ -169,6 +169,11 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     }
 
     const editTagOk = async () => {
+        if (tagName == '') {
+            message.warning('请输入标签名或者等待查找完成')
+            return
+        }
+        
         if (tagParams.id == 'all') {
             message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
             return

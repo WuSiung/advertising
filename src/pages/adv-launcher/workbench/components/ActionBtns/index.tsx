@@ -85,6 +85,19 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
         dispatch({ type: 'workbench/queryTemp' })
     }
 
+    const backCC = async () => {
+        const copyArr: PreviewAdvType[][] = JSON.parse(JSON.stringify(workbench.previewAdvsRecord))
+        copyArr.splice(-1, 1)
+        await dispatch({
+            type: 'workbench/savePreviewAdvs',
+            payload: { previewAdvs: copyArr[copyArr.length - 1] || [] }
+        })
+        await dispatch({
+            type: 'workbench/savePreviewAdvsRecord',
+            payload: { previewAdvsRecord: copyArr }
+        })
+    }
+
     const tempSelect = (_: string, option: any) => {
         setSelectTempLoading(true)
         getTempDetail(option.key).then(res => {
@@ -143,8 +156,8 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
                     </Select>
                 </Col>
                 <Col span={8} className={styles.rightActions}>
-                    <Button type="primary" disabled>撤回</Button>
-                    <Button type="primary" onClick={() => clearPreview(dispatch)}>清空选择</Button>
+                    <Button type="primary" disabled={workbench.previewAdvsRecord.length == 0} onClick={backCC}>撤回</Button>
+                    <Button type="primary" disabled={workbench.previewAdvs.length == 0-1} onClick={() => clearPreview(dispatch, workbench)}>清空选择</Button>
                     <Button type="primary" onClick={createAdv}>创建广告</Button>
                 </Col>
             </Row>
@@ -182,10 +195,17 @@ const addResultToWorkbench = async (result: PostMediaDataType) => {
 }
 
 // 清空预览广告
-const clearPreview = (dispatch: Dispatch) => {
+const clearPreview = async (dispatch: Dispatch, workbench: WorkbenchDataType) => {
     dispatch({
         type: 'workbench/savePreviewAdvs',
         payload: { previewAdvs: [] }
+    })
+    let newArr = JSON.parse(JSON.stringify(workbench.previewAdvsRecord))
+    newArr.push([])
+    // 数据深拷贝
+    await dispatch({
+        type: 'workbench/savePreviewAdvsRecord',
+        payload: { previewAdvsRecord: newArr }
     })
 }
 

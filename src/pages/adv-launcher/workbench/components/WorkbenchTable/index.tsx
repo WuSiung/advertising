@@ -13,6 +13,7 @@ interface WorkbenchTableProps {
     imgList: ImgDataType[],
     textList: TextDataType[],
     previewAdvs: PreviewAdvType[],
+    previewAdvsRecord: Array<Array<PreviewAdvType>>,
     hasAdvs: Array<Array<HasAdvs>>,
     dispatch: Dispatch
 }
@@ -88,7 +89,7 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
 }
 
 const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
-    const { imgList, textList, previewAdvs, dispatch, hasAdvs } = props
+    const { imgList, textList, previewAdvs, dispatch, hasAdvs, previewAdvsRecord } = props
     let tenBlock = 10 - imgList.length > 0 ? new Array(10 - imgList.length) : [];
     tenBlock = Array.apply(null, tenBlock)
 
@@ -102,7 +103,17 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
             title: textList[Y].title,
             textId: textList[Y].textId,
         }
+
         let newPreviewAdvs = saveAdvs(previewAdvs, previewAdvItem);
+        if (previewAdvs.length > 0) {
+            previewAdvsRecord.push(previewAdvs)
+            // 数据深拷贝
+            let newParams = JSON.parse(JSON.stringify(previewAdvsRecord))
+            await dispatch({
+                type: 'workbench/savePreviewAdvsRecord',
+                payload: { previewAdvsRecord: newParams }
+            })
+        }
         await dispatch({
             type: 'workbench/savePreviewAdvs',
             payload: { previewAdvs: newPreviewAdvs }
@@ -164,6 +175,13 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                             })
                         }
                         {
+                            imgList.length <= 0 && [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
+                                return <th key={index} className={styles.container}>
+                                    <div className={styles.mediaBox}><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                                </th>
+                            })
+                        }
+                        {
                             tenBlock.map((empty, index) => {
                                 return <th className={styles.container} key={index}></th>
                             })
@@ -191,14 +209,18 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                             </tr>
                         })
                     }
+                    {
+                        textList.length <= 0 && [1, 1, 1, 1, 1].map((item, index) => {
+                            return <tr key={index}>
+                                <td className={styles.tdtext}>
+                                    <div className={styles.textBox}><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                                </td>
+                            </tr>
+                        })
+                    }
 
                 </tbody>
             </table>
-            {
-                textList.length <= 0 && <div style={{ padding: 30 }}>
-                    {/* <Button onClick={ }>新增标题</Button> */}
-                </div>
-            }
         </div>
     )
 }
@@ -230,4 +252,5 @@ export default connect(({ workbench }: { workbench: WorkbenchDataType }) => ({
     textList: workbench.uploadTextList,
     hasAdvs: workbench.hasAdvs,
     previewAdvs: workbench.previewAdvs,
+    previewAdvsRecord: workbench.previewAdvsRecord
 }))(WorkbenchTable)

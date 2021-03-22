@@ -185,6 +185,10 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     }
 
     const editTagOk = async () => {
+        if (tagName == '') {
+            message.warning('请输入标签名或者等待查找完成')
+            return
+        }
         if (tagParams.id == 'all') {
             message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
             return
@@ -274,11 +278,14 @@ const showDeleteConfirm = (dispatch: Dispatch, deleteInfo: PublicMaterialDataTyp
         okType: 'primary',
         cancelText: '取消',
         onOk() {
-            return deletResource(deleteInfo.id).then(() => {
-                dispatch({
-                    type: 'material/saveTexts',
-                    payload: { textList: JSON.parse(JSON.stringify(setArr)) }
-                })
+            console.log(deleteInfo)
+            return deletResource(deleteInfo.id).then(res => {
+                if (res) {
+                    dispatch({
+                        type: 'material/saveTexts',
+                        payload: { textList: JSON.parse(JSON.stringify(setArr)) }
+                    })
+                }
             })
         }
     });

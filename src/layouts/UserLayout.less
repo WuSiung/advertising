@@ -25,31 +25,39 @@
 
 @media (min-width: @screen-md-min) {
   .container {
-    background-image: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');
+    background-image: url('../assets/logbg.jpeg');
     background-repeat: no-repeat;
-    background-position: center 110px;
+    background-position: 0 100px;
     background-size: 100%;
   }
 
   .content {
-    padding: 32px 0 24px;
+    padding: 0 0 24px;
   }
 }
-
+.loginBox{
+  position: fixed;
+  right: 200px;
+  top: 200px;
+  padding: 20px 40px;
+  background: #fff;
+  border-radius: 10px;
+  border-top: 10px solid #f05525;
+}
 .top {
-  text-align: center;
+  padding: 16px 50px;
 }
 
 .header {
-  height: 44px;
-  line-height: 44px;
+  height: 66px;
+  line-height: 66px;
   a {
     text-decoration: none;
   }
 }
 
 .logo {
-  height: 44px;
+  height: 66px;
   margin-right: 16px;
   vertical-align: top;
 }
@@ -57,10 +65,17 @@
 .title {
   position: relative;
   top: 2px;
-  color: @heading-color;
+  color: #3260aa;
   font-weight: 600;
   font-size: 33px;
   font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.slogan{
+  font-size: 24px;
+  color: #666;
+  font-weight: 600;
+  margin-left: 10px;
 }
 
 .desc {
