@@ -1,7 +1,7 @@
 import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
-import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List} from 'antd';
+import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Tag} from 'antd';
 import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
@@ -10,9 +10,11 @@ import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTw
 import {deleteTactic, getActionObjList, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
+import CollapsePanel from "antd/es/collapse/CollapsePanel";
 
 const {Search} = Input;
 const {Option} = Select;
+const { Panel } = Collapse;
 
 interface SummaryProps {
   dispatch: Dispatch;
@@ -271,7 +273,13 @@ const Summary: FC<SummaryProps> = (props) => {
                   {
                     record.AdvObjs.map(a =>
                       <List.Item key={a.AdvID} style={{marginLeft: 55}}>
-                        <Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>
+                          <Collapse ghost>
+                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
+                              {
+                                a.ExecLog.length > 0 ? a.ExecLog.map(l => <p style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>'暂无执行记录'</p>
+                              }
+                            </Panel>
+                          </Collapse>
                       </List.Item>
                     )
                   }
