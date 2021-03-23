@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import {Row, Col, Card, Select, Space, Table, DatePicker, Tag} from 'antd';
+import { Row, Col, Card, Select, Space, Table, DatePicker, Tag } from 'antd';
 import { Area, Line } from '@ant-design/charts';
 
-import { TColumnOption, TData, TState, TStatistic} from './data';
+import { TColumnOption, TData, TState, TStatistic } from './data';
 import { ColumnsType } from 'antd/es/table';
 import { Moment } from 'moment';
 import type { RangeValue } from './data';
-import {EMPTY_CFG_DETAIL, EMPTY_CFG_ROI, EMPTY_CFG_SUM, TARGET_LIST} from './targets';
+import { EMPTY_CFG_DETAIL, EMPTY_CFG_ROI, EMPTY_CFG_SUM, TARGET_LIST } from './targets';
 import { ColumnSelectTitle } from '@/pages/dashboard/components/column-select-title'
 import styles from './index.less';
 import Loading from '@/components/Loading';
@@ -327,7 +327,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       label: {
         // autoRotate: true
       }
-    }
+    },
+    legend: { position: 'top' },
   };
 
   const config = {
@@ -431,7 +432,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
     return (
       <Col key={idx} span={span} style={{ marginTop: '12px' }}>
-        <p style={{textAlign: 'center'}}>
+        <p style={{ textAlign: 'center' }}>
           {
             idx === 0 && <Tag color="#7655c9">{dashboard.tabList ? dashboard.tabList[idx].tab : ''}</Tag>
           }
@@ -446,7 +447,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           }
         </p>
         <div>
-          { d.length ? <Area {...configSum} data={d} /> : <Area {...EMPTY_CFG_SUM} /> }
+          {d.length ? <Area {...configSum} data={d} /> : <Area {...EMPTY_CFG_SUM} />}
         </div>
       </Col>
     );
@@ -565,31 +566,26 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer content='根据“拉新”，“重新定位”，“重新参与”和“保留”4类受众群体进行广告数据的不同用户的细化分类，实现最大精度的用户跟踪和分析，为你展现最有价值的数据。'
+      extra={<RangePicker value={dashboard.rangeValues}
+        onChange={handleRangeChange}
+        onOpenChange={handleOpenChange}
+        ranges={{
+          '今天': [moment(), moment()],
+          '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
+          '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
+          '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
+          '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
+          '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
+          '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
+          '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
+        }}
+      />}>
       <div className={styles.main}>
         <Card
           className={`${styles.totalCard}`}
           title="综合统计"
           loading={isLoading}
-          extra={
-            <>
-            <RangePicker
-              value={dashboard.rangeValues}
-              onChange={handleRangeChange}
-              onOpenChange={handleOpenChange}
-              ranges={{
-                '今天': [moment(), moment()],
-                '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
-                '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
-                '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
-                '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
-                '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
-                '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
-                '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
-              }}
-            />
-            </>
-          }
         >
           <Table
             size="small"
@@ -623,7 +619,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           </Card>
         </Row>
         <Card title="投入产出比" extra={roiExtra} loading={isLoading}>
-          { roiData.length ? <Line {...configRoi} /> : <Line {...EMPTY_CFG_ROI} /> }
+          {roiData.length ? <Line {...configRoi} /> : <Line {...EMPTY_CFG_ROI} />}
         </Card>
       </div>
       {isLoading && <Loading showMask tips="数据加载中，请稍等..." />}
