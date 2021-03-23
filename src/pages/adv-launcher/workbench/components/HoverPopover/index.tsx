@@ -43,7 +43,6 @@ const PopoverContent: FC<PopoverDataProps> = (props) => {
 }
 
 const HoverPopover: FC<PopoverDataProps> = (props) => {
-    console.log(props.placement)
     return <Popover content={PopoverContent.bind(null, { ...props })} title="数据明细" trigger="hover" placement={props.placement || 'bottom'}>
         {props.children}
     </Popover>
