@@ -25,9 +25,11 @@ const { RangePicker } = DatePicker;
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
   const { dispatch, dashboard, isLoading } = props;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isChanged, setIsChanged] = useState(true);
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open && dashboard.isRangeChanged) {
+  useEffect(() => {
+    if (!isOpen && isChanged) {
       dispatch({
         type: 'dashboard/queryStatistics',
         payload: {
@@ -38,14 +40,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           end:
             dashboard.rangeValues && dashboard.rangeValues[1]
               ? dashboard.rangeValues[1].format('YYYY-MM-DD')
-              : '',
+              : ''
         },
       });
+      setIsChanged(false);
     }
-  };
-  useEffect(() => {
-    handleOpenChange(false);
-  }, []);
+  }, [isOpen]);
 
   const tableOptionList: TColumnOption[] = [
     {
@@ -394,7 +394,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     lineStyle: null,
   };
 
-  // todo: 根据dashboard.detailDataList 和target1, target2 生成summaryDataList
+  // 根据dashboard.detailDataList 和target1, target2 生成summaryDataList
   const summaryDataList: TData[][] = [];
   const contentList: Record<string, TData[]> = {};
   if (dashboard.detailDataList) {
@@ -452,13 +452,17 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     );
   });
 
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
   const handleRangeChange = (dates: RangeValue<Moment>, dataStrings: [string, string]) => {
+    setIsChanged(true);
     dispatch({
       type: 'dashboard/changeRange',
       payload: {
         dates,
-        dataStrings,
-        isRangeChanged: true
+        dataStrings
       },
     });
   };

@@ -83,7 +83,6 @@ export type TState = {
   target2?: string;
   audience?: string;
   activeTabKey?: string;
-  isRangeChanged?: boolean;
   targetList?: TOption[];
   roiOptionList?: TOption[];
   tabList?: TTab[];

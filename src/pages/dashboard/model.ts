@@ -84,7 +84,6 @@ const DashboardModel: TDashboardModel = {
     target2: 'impressions',
     audience: '0',
     activeTabKey: 'tab1',
-    isRangeChanged: true,
     tabList: [],
     totalList: [],
     detailDataList: [],
@@ -94,8 +93,7 @@ const DashboardModel: TDashboardModel = {
     changeRange(state, { payload }) {
       return {
         ...state,
-        rangeValues: payload.dates,
-        isRangeChanged: payload.isRangeChanged,
+        rangeValues: payload.dates
       };
     },
     changeSelect(state, { payload }) {
@@ -114,8 +112,7 @@ const DashboardModel: TDashboardModel = {
       // todo: payload.totalList保留2位小数
       const data: TState = {
         ...state,
-        totalList: payload.totalList,
-        isRangeChanged: false,
+        totalList: payload.totalList
       };
       if (data.totalList && Array.isArray(data.totalList)) {
         data.totalList.forEach((d, idx) => {
@@ -155,31 +152,6 @@ const DashboardModel: TDashboardModel = {
 
       const optionList: TOption[] = [];
       const roiDataList: TData[][] = [];
-
-      // todo: 处理total
-      // if (Array.isArray(payload.total)) {
-      //   const option = {
-      //     name: '总',
-      //     value: '0',
-      //   };
-      //   optionList.push(option);
-      //   // todo: 合并日期相同的数据
-      //   const dList = splitTarget(ROI_TARGET_LIST, payload.total);
-      //   roiDataList.push(dList);
-      // }
-
-      // todo: 处理group
-      // if (Array.isArray(payload.group)) {
-      //   payload.group.forEach((g: any) => {
-      //     const option = {
-      //       name: g.name,
-      //       value: String(g.id),
-      //     };
-      //     optionList.push(option);
-      //     const dList = splitTarget(ROI_TARGET_LIST, g.list);
-      //     roiDataList.push(dList);
-      //   });
-      // }
 
       // 处理收入支出数据
       if (Array.isArray(payload.roiList)) {
