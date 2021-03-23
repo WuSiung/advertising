@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import {Row, Col, Card, Select, Space, Table, DatePicker, Tag} from 'antd';
-// import {Line} from "@ant-design/charts";
 import { Area, Line } from '@ant-design/charts';
 
-// const { TabPane } = Tabs;
 import { TColumnOption, TData, TState, TStatistic} from './data';
 import { ColumnsType } from 'antd/es/table';
 import { Moment } from 'moment';
@@ -27,25 +25,8 @@ const { RangePicker } = DatePicker;
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
   const { dispatch, dashboard, isLoading } = props;
-  // console.log(isLoading)
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'dashboard/queryStatistics',
-  //     payload: {
-  //       start:
-  //         dashboard.rangeValues && dashboard.rangeValues[0]
-  //           ? dashboard.rangeValues[0].format('yyyy-MM-DD')
-  //           : '',
-  //       end:
-  //         dashboard.rangeValues && dashboard.rangeValues[1]
-  //           ? dashboard.rangeValues[1].format('YYYY-MM-DD')
-  //           : '',
-  //     },
-  //   });
-  // }, [dashboard.rangeValues]);
+
   const handleOpenChange = (open: boolean) => {
-    // console.log(open);
-    // console.log(dashboard.isRangeChanged);
     if (!open && dashboard.isRangeChanged) {
       dispatch({
         type: 'dashboard/queryStatistics',
@@ -301,7 +282,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       width: 120,
     },
     {
-      title: <ColumnSelectTitle dataIndex="installs" titleString="每次安装费用" optionList={showColumns} onChange={onPackColumnFilter} />,
+      title: <ColumnSelectTitle dataIndex="cpa" titleString="每次安装费用" optionList={showColumns} onChange={onPackColumnFilter} />,
       dataIndex: 'cpa',
       key: 'cpa',
       width: 120,
@@ -318,112 +299,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       }
     }
   })
-
-  // const columns: ColumnsType<object> = [
-  //   {
-  //     title: '统计名称',
-  //     width: 100,
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //     fixed: 'left',
-  //   },
-  //   {
-  //     title: '结果',
-  //     width: 120,
-  //     dataIndex: 'resultName',
-  //     key: 'resultName',
-  //   },
-  //   {
-  //     title: '送达数',
-  //     dataIndex: 'reach',
-  //     key: 'reach',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '展示数',
-  //     dataIndex: 'impressions',
-  //     key: 'impressions',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '点击数',
-  //     dataIndex: 'clicks',
-  //     key: 'clicks',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '每结果成本',
-  //     dataIndex: 'cpr',
-  //     key: 'cpr',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '移动应用回报率',
-  //     dataIndex: 'mobileAppPurchaseRoas',
-  //     key: 'mobileAppPurchaseRoas',
-  //     width: 150,
-  //   },
-  //   {
-  //     title: '消费金额',
-  //     dataIndex: 'spend',
-  //     key: 'spend',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '点击率',
-  //     dataIndex: 'ctr',
-  //     key: 'ctr',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '频率',
-  //     dataIndex: 'frequency',
-  //     key: 'frequency',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '费用/千次',
-  //     dataIndex: 'cpm',
-  //     key: 'cpm',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '出站点击率',
-  //     dataIndex: 'octr',
-  //     key: 'octr',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '购买回报率',
-  //     dataIndex: 'purchaseRoas',
-  //     key: 'purchaseRoas',
-  //     width: 150,
-  //   },
-  //   {
-  //     title: '出站点击数',
-  //     dataIndex: 'oclicks',
-  //     key: 'oclicks',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '每次点击费用',
-  //     dataIndex: 'cpc',
-  //     key: 'cpc',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '安装数',
-  //     dataIndex: 'installs',
-  //     key: 'installs',
-  //     width: 120,
-  //   },
-  //   {
-  //     title: '每次安装费用',
-  //     dataIndex: 'cpa',
-  //     key: 'cpa',
-  //     width: 120,
-  //   },
-  // ];
 
   const configSum = {
     // data: dashboard.detailDataList && dashboard.detailDataList[0] ? dashboard.detailDataList[0] : [],
@@ -752,7 +627,6 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   );
 };
 
-// export default Dashboard;
 export default connect(({ dashboard, loading }: { dashboard: TState; loading: any }) => ({
   dashboard,
   isLoading: loading.effects['dashboard/queryStatistics'],
