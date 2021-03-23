@@ -1,12 +1,12 @@
-import { Popover } from 'antd'
+import { Popover, PopoverProps } from 'antd'
 import React, { FC } from 'react'
 import { AdvDataType } from '../../data'
 
 import styles from './index.less'
 
-interface PopoverDataProps {
+type PopoverDataProps = {
     data?: AdvDataType
-}
+} & Pick<PopoverProps, 'placement'>
 
 const PopoverContent: FC<PopoverDataProps> = (props) => {
     const { data } = props
@@ -43,7 +43,8 @@ const PopoverContent: FC<PopoverDataProps> = (props) => {
 }
 
 const HoverPopover: FC<PopoverDataProps> = (props) => {
-    return <Popover content={PopoverContent.bind(null, { ...props })} title="数据明细" trigger="hover" placement='bottom'>
+    console.log(props.placement)
+    return <Popover content={PopoverContent.bind(null, { ...props })} title="数据明细" trigger="hover" placement={props.placement || 'bottom'}>
         {props.children}
     </Popover>
 }

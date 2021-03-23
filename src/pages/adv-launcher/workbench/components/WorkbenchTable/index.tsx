@@ -63,7 +63,7 @@ const RenderImgList: FC<RenderImgListProps> = (props) => {
 const RenderTextList: FC<RenderTextListProps> = (props) => {
     const { onCopy, onDelete, onEdit } = props
     return <td className={styles.tdtext}>
-        <HoverPopover {...props}>
+        <HoverPopover {...props} placement='right'>
             <div className={styles.textBox}>
                 {props.content + '&&' + props.title}
                 <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
@@ -195,7 +195,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                 <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
                                 {
                                     imgList.map((img, X) => {
-                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
+                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
                                             <div>
                                                 <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />
