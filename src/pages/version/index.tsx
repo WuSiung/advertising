@@ -42,8 +42,33 @@ const Version = () => {
     '策略管理主页，策略作用对象展开可查看执行记录',
   ]
 
+  const v_1_1_39: string[] = [
+    '修改仪表盘表格列切换混乱的问题',
+    '修改时间选择变动后有时候不更新数据的问题',
+    '自动化策略，广告、广告集数据筛选的问题',
+    '文本素材数据显示位置',
+    '颜色区分人群包',
+    '创建广告过程中广告卡片过小导致的显示不全',
+    '人数及基础包提示语位置',
+    '文本素材数据显示位置',
+    '时间位置及居中',
+    '修改页面描述语',
+    '新增预算展示及修改'
+  ]
+
     return <Card>
       <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-23 21:21</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_39.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.38更新说明</div>
       <div className={styles.time}>2021-03-22 21:30</div>
       <div className={styles.detail}>
         <ol>
