@@ -35,26 +35,47 @@ const Version = () => {
         '新增文件资源过大报错',
     ]
 
-  const v_1_1_38: string[] = [
-    '人群包列表修改',
-    '修改登录页样式',
-    '仪表盘增加roi列，消费金额和roi挪到前面显示',
-    '策略管理主页，策略作用对象展开可查看执行记录',
-  ]
+    const v_1_1_38: string[] = [
+        '人群包列表修改',
+        '修改登录页样式',
+        '仪表盘增加roi列，消费金额和roi挪到前面显示',
+        '策略管理主页，策略作用对象展开可查看执行记录',
+    ]
+
+    const v_1_1_39: string[] = [
+        '登陆页底部样式',
+        '广告管理新增预算展示及修改',
+        '人群包列表人数及提示位置调整',
+        '替换新的页面描述',
+        '工作台文本素材数据显示位置',
+        '创建广告过程中的预览卡片显示不全',
+        '仪表盘时间筛选置顶及策略标签居中',
+    ]
 
     return <Card>
-      <div className={styles.title}>最新版本{pjson.version}更新说明</div>
-      <div className={styles.time}>2021-03-22 21:30</div>
-      <div className={styles.detail}>
-        <ol>
-          {
-            v_1_1_38.map(item => {
-              return <li key={item}>{item}</li>
-            })
-          }
-        </ol>
-      </div>
-      <div className={styles.title}>1.1.37更新说明</div>
+        <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+        <div className={styles.time}>2021-03-23 21:03</div>
+        <div className={styles.detail}>
+            <ol>
+                {
+                    v_1_1_39.map(item => {
+                        return <li key={item}>{item}</li>
+                    })
+                }
+            </ol>
+        </div>
+        <div className={styles.title}>v.1.1.38更新说明</div>
+        <div className={styles.time}>2021-03-22 21:30</div>
+        <div className={styles.detail}>
+            <ol>
+                {
+                    v_1_1_38.map(item => {
+                        return <li key={item}>{item}</li>
+                    })
+                }
+            </ol>
+        </div>
+        <div className={styles.title}>1.1.37更新说明</div>
         <div className={styles.time}>2021-03-19 18:39</div>
         <div className={styles.detail}>
             <ol>
