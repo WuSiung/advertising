@@ -30,7 +30,7 @@ const Pack: FC<OnePackProps> = (props) => {
         count += Number(love.audCount)
     })
     return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audId)}>
-        {props.audName}
+        <div style={{textAlign: 'center'}}>{props.audName}</div>
         <div className={styles.popover}>
             {
 
@@ -38,17 +38,15 @@ const Pack: FC<OnePackProps> = (props) => {
                     return <div key={love.audLoveId}>{love.type == 0 ? '包含' : '排除'}：{love.audName}</div>
                 })
             }
-            <div>覆盖总人数： {formatterPersonNum(count)}</div>
         </div>
+        <div className={styles.count}>覆盖总人数： {formatterPersonNum(count)}</div>
     </div>
 }
 
 const BasePack: FC<basePackProps> = (props) => {
-    return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audienceBaseId)}>
+    return <div className={`${styles.item}`} onClick={() => props.onClick(props.audienceBaseId)}>
         {props.name}
-        <div className={`${styles.popover} ${styles.base}`}>
-            {props.des}
-        </div>
+        <div className={styles.baseDesc}>{props.des}</div>
     </div>
 }
 
