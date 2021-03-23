@@ -167,7 +167,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                     <tr>
                         <th className={styles.firsttd}>
                             <Button type='primary' onClick={clearAll}>清空素材</Button>
-                            <div className={styles.bestText}>最佳文案素材</div>
+                            {/* <div className={styles.bestText}>最佳文案素材</div> */}
                         </th>
                         {
                             imgList.map(img => {
@@ -177,7 +177,11 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                         {
                             imgList.length <= 0 && [1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
                                 return <th key={index} className={styles.container}>
-                                    <div className={styles.mediaBox}><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                                    <div className={styles.mediaBox} style={{ background: 'none', boxShadow: 'none' }}>
+                                        {
+                                            index == 4&& <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{color:'#fff'}} description='NO DATA' />
+                                        }
+                                    </div>
                                 </th>
                             })
                         }
@@ -213,7 +217,11 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                         textList.length <= 0 && [1, 1, 1, 1, 1].map((item, index) => {
                             return <tr key={index}>
                                 <td className={styles.tdtext}>
-                                    <div className={styles.textBox}><Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /></div>
+                                    <div className={styles.textBox} style={{ background: 'none', boxShadow: 'none' }}>
+                                        {
+                                            index == 2 &&  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{color:'#fff'}} description='NO DATA' />
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         })

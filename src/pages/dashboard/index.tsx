@@ -566,7 +566,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   );
 
   return (
-    <PageContainer content='根据“拉新”，“重新定位”，“重新参与”和“保留”4类受众群体进行广告数据的不同用户的细化分类，实现最大精度的用户跟踪和分析，为你展现最有价值的数据。'
+    <PageContainer content='根据“拉新”、“重新定位”、“重新参与”、“保留”四类不同用户的受众群体进行广告数据的细化分类，实现最大精度的用户跟踪和分析，展现最有价值的数据。'
       extra={<RangePicker value={dashboard.rangeValues}
         onChange={handleRangeChange}
         onOpenChange={handleOpenChange}

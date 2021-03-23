@@ -10,7 +10,7 @@ interface CrowdsProps {
     onToCreate?: () => void
 }
 
-const crowdTip = '覆盖尽可能多的不同受众群体可帮助您定位最有利可图的受众，并决定下一步的最佳行动。让您尝试尽可能多的受众，并做出以数据为依掘依托的决策。您的下一个利基受众的广告系列只需点击几下就能完成。'
+const crowdTip = '分类显示尽可能多的不同受众群体可帮助您定位最有价值的受众，并做出以数据为依据的决策，让您只需点击几下就能建立一个基于受众的广告系列。'
 
 const Crowds: FC<CrowdsProps> = (props) => {
     const { onToCreate } = props

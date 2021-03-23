@@ -194,7 +194,7 @@ const AudienceTable: FC<AudienceTableProps> = (props) => {
         </tbody>
     </table>
 }
-const managerTip = '可帮助您确定最有利可图的受众并进行扩展。通过按照历史效果数据对Facebook AP进行挖掘，找出潜在的潜在受众，从而发现新的定位选项。在这里，您可以通过混合，缩小和排除受众群体操作以实现精准目标受众管理。'
+const managerTip = '可帮助您确定最有价值的受众并进行扩展。通过按照历史效果数据对Facebook AP进行挖掘，找出潜在受众，从而发现新的定位选项。在这里，您可以通过混合，缩小和排除受众群体操作以实现精准目标受众管理。'
 const AudienceManager: FC<AudienceManagerProps> = (props) => {
     const { interests, audiences, dispatch, gettingInterest, includeList, excludeList, modelList, changeSelect, onFinished } = props
     useEffect(() => {

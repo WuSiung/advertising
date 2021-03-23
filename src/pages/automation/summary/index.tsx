@@ -255,7 +255,7 @@ const Summary: FC<SummaryProps> = (props) => {
   )
 
   return (
-    <PageContainer header={{title: '策略管理', breadcrumb: {}}}>
+    <PageContainer header={{title: '策略管理', breadcrumb: {}}} content='这些自动化策略构建的系统可以通过主动干预来优化您的广告支出，从而最大限度地提高投产比和投放量，减少了低效重复操作，使自主媒体购买和扩展广告运营成为可能，获得更多时间投入创造。'>
       <Card
         className={`${styles.totalCard}`}
         title={title}

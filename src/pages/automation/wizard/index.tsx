@@ -146,7 +146,7 @@ const Wizard: FC<WizardProps> = (props) => {
   }
 
   return (
-    <PageContainer header={{title: '创建策略', breadcrumb: {}}}>
+    <PageContainer header={{title: '创建策略', breadcrumb: {}}} content='你可以选择单个或多个规则形成一个新策略，实现对广告的实时监控，触发执行。检测频率大约5～15分钟一次。'>
       <Card
         className={`${styles.totalCard}`}
         title={<Title isActionObjSelected={isActionObjSelected} current={current} tactic={tactic} level={level} handleClick={handleClick}></Title>}

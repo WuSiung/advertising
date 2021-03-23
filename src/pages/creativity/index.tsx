@@ -17,7 +17,7 @@ interface CreativityProps {
     }
 }
 
-const pageTip = '公共素材库能够实现所有素材和标题资源的上传和储存，实现时间，效果，类型筛选排序，能同时实现多账号资源共享，加载到工作台进行广告发布。'
+const pageTip = '公共素材库能够实现所有素材和标题资源的上传和储存，实现时间，类型，效果等形式的筛选排序，并能同时实现多账号资源共享，还能加载到工作台进行广告快速发布。'
 const Creativity: FC<CreativityProps> = (props) => {
     const { location } = props
     const tabClick = (activeKey: string) => {
