@@ -1,4 +1,4 @@
-const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
+const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined,editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
         sortIdx: 1,
         titleString: "名称",
@@ -27,86 +27,92 @@ const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefin
     },
     {
         sortIdx: 5,
+        titleString: '预算',
+        dataIndex: 'budget',
+        editable: true,
+        show: true,
+    },
+    {
+        sortIdx: 6,
         titleString: '展示数',
         dataIndex: 'impression',
         show: true,
     },
     {
-        sortIdx: 6,
+        sortIdx: 7,
         titleString: '点击数',
         dataIndex: 'clicks',
         show: false,
     },
     {
-        sortIdx: 7,
+        sortIdx: 8,
         titleString: '每结果成本',
         dataIndex: 'pfee',
         show: false,
 
     },
     {
-        sortIdx: 8,
+        sortIdx: 9,
         titleString: '移动应用回报率',
         dataIndex: 'approas',
         show: true,
 
     },
     {
-        sortIdx: 9,
+        sortIdx: 10,
         titleString: '点击率',
         dataIndex: 'ctr',
         show: true,
 
     },
     {
-        sortIdx: 10,
+        sortIdx: 11,
         titleString: '频率',
         dataIndex: 'frequency',
         show: false,
 
     },
     {
-        sortIdx: 11,
+        sortIdx: 12,
         titleString: '费用/千次',
         dataIndex: 'cpm',
         show: false,
 
     },
     {
-        sortIdx: 12,
+        sortIdx: 13,
         titleString: '出站点击率',
         dataIndex: 'octr',
         show: true,
 
     },
     {
-        sortIdx: 13,
+        sortIdx: 14,
         titleString: '每次点击费用',
         dataIndex: 'cpc',
         show: false,
 
     },
     {
-        sortIdx: 14,
+        sortIdx: 15,
         titleString: '安装数',
         dataIndex: 'installs',
         show: false,
     },
     {
-        sortIdx: 15,
+        sortIdx: 16,
         titleString: '每次安装费用',
         dataIndex: 'installfee',
         show: false,
     },
-    {
-        sortIdx: 16,
-        titleString: '操作',
-        dataIndex: 'action',
-        show: true,
-
-    },
+    // {
+    //     sortIdx: 17,
+    //     titleString: '操作',
+    //     dataIndex: 'action',
+    //     show: false,
+    // },
 ];
-const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
+const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
         sortIdx: 1,
         titleString: "名称",
@@ -124,95 +130,99 @@ const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefine
         titleString: '消费金额',
         dataIndex: 'apet',
         show: true,
-
     },
     {
         sortIdx: 4,
         titleString: 'ROI',
         dataIndex: 'roi',
         show: true,
-
     },
     {
         sortIdx: 5,
+        titleString: '预算',
+        dataIndex: 'budget',
+        editable: true,
+        show: true,
+    },
+    {
+        sortIdx: 6,
         titleString: '展示数',
         dataIndex: 'impression',
         show: true,
     },
     {
-        sortIdx: 6,
+        sortIdx: 7,
         titleString: '点击数',
         dataIndex: 'clicks',
         show: false,
     },
     {
-        sortIdx: 7,
+        sortIdx: 8,
         titleString: '每结果成本',
         dataIndex: 'pfee',
         show: false,
 
     },
     {
-        sortIdx: 8,
+        sortIdx: 9,
         titleString: '移动应用回报率',
         dataIndex: 'approas',
         show: true,
 
     },
     {
-        sortIdx: 9,
+        sortIdx: 10,
         titleString: '点击率',
         dataIndex: 'ctr',
         show: true,
 
     },
     {
-        sortIdx: 10,
+        sortIdx: 11,
         titleString: '频率',
         dataIndex: 'frequency',
         show: false,
 
     },
     {
-        sortIdx: 11,
+        sortIdx: 12,
         titleString: '费用/千次',
         dataIndex: 'cpm',
         show: false,
 
     },
     {
-        sortIdx: 12,
+        sortIdx: 13,
         titleString: '出站点击率',
         dataIndex: 'octr',
         show: true,
 
     },
     {
-        sortIdx: 13,
+        sortIdx: 14,
         titleString: '每次点击费用',
         dataIndex: 'cpc',
         show: false,
 
     },
     {
-        sortIdx: 14,
+        sortIdx: 15,
         titleString: '安装数',
         dataIndex: 'installs',
         show: false,
     },
     {
-        sortIdx: 15,
+        sortIdx: 16,
         titleString: '每次安装费用',
         dataIndex: 'installfee',
         show: false,
     },
-    {
-        sortIdx: 16,
-        titleString: '操作',
-        dataIndex: 'action',
-        show: true,
-
-    },
+    // {
+    //     sortIdx: 17,
+    //     titleString: '操作',
+    //     dataIndex: 'action',
+    //     show: false,
+    // },
 ];
 const advadvOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
@@ -314,13 +324,12 @@ const advadvOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefine
         dataIndex: 'installfee',
         show: false,
     },
-    {
-        sortIdx: 16,
-        titleString: '操作',
-        dataIndex: 'action',
-        show: true,
-
-    },
+    // {
+    //     sortIdx: 16,
+    //     titleString: '操作',
+    //     dataIndex: 'action',
+    //     show: false,
+    // },
 ];
 
 export { advpackOriginColumnsOnlyLabelAndDataIndex, advsetOriginColumnsOnlyLabelAndDataIndex, advadvOriginColumnsOnlyLabelAndDataIndex }

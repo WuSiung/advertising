@@ -1,4 +1,4 @@
-import { Card, Tabs, Table, Popover, Select, Row, Col, Pagination, Switch, Button, Space, Dropdown, Menu, message } from 'antd'
+import { Card, Tabs, Table, Popover, Select, Row, Col, Pagination, Switch, Button, Space, Dropdown, Menu, message, Input } from 'antd'
 import React, { FC, ReactNode, useEffect, useState, useRef } from 'react'
 import moment from 'moment'
 import { connect, Dispatch, history } from 'umi'
@@ -9,6 +9,7 @@ import DateRange from "../adv-launcher/components/DateRange";
 import styles from './index.less';
 import InputTag from './components/InputTags';
 import { advadvOriginColumnsOnlyLabelAndDataIndex, advpackOriginColumnsOnlyLabelAndDataIndex, advsetOriginColumnsOnlyLabelAndDataIndex } from './tableConfig'
+import EditTd from './components/editTd'
 
 type EventValue<DateType> = DateType | null;
 
@@ -181,7 +182,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             titleString: '消费金额',
             dataIndex: 'apet',
             key: 'apet',
-            render: (_,record) => {
+            render: (_, record) => {
                 return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
             }
         },
@@ -202,7 +203,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
 
             render: (_, record) => {
                 // console.log(record)
-                if(record.dataVO.spend == 0){
+                if (record.dataVO.spend == 0) {
                     return '0%'
                 } else {
                     return (record.dataVO.income - record.dataVO.spend) / 0 * 100 + '%'
@@ -211,6 +212,31 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         },
         {
             idx: 4,
+            title: <div className={styles.thTitle}>预算 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advpackOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onPackColumnFilter(value, 'budget');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: '预算',
+            dataIndex: 'budget',
+            key: 'budget',
+            render: (budget, record) => {
+                return budget == 1 ? <EditTd title='预算' onSave={(value) => dispatch({
+                    type: 'adv/advPack',
+                    payload: {
+                        packId: record.packId,
+                        spendNum: value
+                    }
+                })} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                    : '广告集预算'
+            }
+        },
+        {
+            idx: 5,
             title: <div className={styles.thTitle}>展示数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -228,7 +254,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             }
         },
         {
-            idx: 5,
+            idx: 6,
             title: <div className={styles.thTitle}>点击数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -534,7 +560,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             titleString: '消费金额',
             dataIndex: 'apet',
             key: 'apet',
-            render: (_,record) => {
+            render: (_, record) => {
                 return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
             }
         },
@@ -559,6 +585,31 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         },
         {
             idx: 4,
+            title: <div className={styles.thTitle}>预算 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
+                content={<SearchColsPopover
+                    currentColumnDataIndex="impression"
+                    columns={advpackOriginColumnsOnlyLabelAndDataIndex}
+                    onChange={value => {
+                        onSetColumnFilter(value, 'budget');
+                    }
+                    } />} trigger="click"><CaretDownOutlined
+                    className="th-icon" /></Popover></div>,
+            titleString: '预算',
+            dataIndex: 'budget',
+            key: 'budget',
+            render: (budget, record) => {
+                return budget == 1 ? <EditTd title='预算' onSave={(value) => dispatch({
+                    type: 'adv/advSet',
+                    payload: {
+                        setId: (record as AdvSetListType).setId,
+                        spendNum: value
+                    }
+                })} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                    : '广告系列预算'
+            }
+        },
+        {
+            idx: 5,
             title: <div className={styles.thTitle}>展示数 <Popover style={{ minHeight: "300px" }} placement="bottom" title="更换列"
                 content={<SearchColsPopover
                     currentColumnDataIndex="impression"
@@ -881,7 +932,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             titleString: '消费金额',
             dataIndex: 'apet',
             key: 'apet',
-            render: (_,record) => {
+            render: (_, record) => {
                 return '$' + (record.dataVO.spend && record.dataVO.spend.toFixed(2) || '0.00')
             }
         },
