@@ -10,6 +10,7 @@ export async function createTactic(payload: any) {
     User_id: Store.GetUserId(),
     Username: Store.GetUserName(),
     Refresh_token: Store.GetRefreshToken(),
+    Token_type: Store.GetTokenType(),
     Expires_in: Store.GetExpiresIn()
   }
   return request('/autoTactic/api/startautotactics', {

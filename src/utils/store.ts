@@ -9,6 +9,7 @@ class Store {
   static userName: string = 'user_name';
   static mediaTagsId: string = 'media_tag_ids'
   static textTagsId: string = 'text_tag_ids'
+  static tokenType = 'token_type'
 
   static GetToken(): string | null {
     return localStorage.getItem(this.tokenKey);
@@ -101,7 +102,13 @@ class Store {
     return localStorage.getItem(this.textTagsId);
   }
 
+  static GetTokenType(): string | null {
+    return localStorage.getItem(this.tokenType);
+  }
 
+  static SetTokenType(tokenType: string) {
+    localStorage.setItem(this.tokenType, tokenType);
+  }
 
   public static clearStorage() {
     localStorage.clear();

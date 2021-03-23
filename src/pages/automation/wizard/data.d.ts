@@ -6,7 +6,8 @@ export enum EActionType {
   AAT_StopLoss_AdSetLevel = 'StopLoss_AdSetLevel',
   AAT_StopLoss_AdLevel = 'StopLoss_AdLevel',
   AAT_Revive_AdSetLevel = 'Revive_AdSetLevel',
-  AAT_Revive_AdLevel = 'Revive_AdLevel'
+  AAT_Revive_AdLevel = 'Revive_AdLevel',
+  AAT_Custom_AdLevel = 'Custom_AdLevel'
 }
 
 export type TAdvAccessTokenInfo = {
@@ -15,6 +16,7 @@ export type TAdvAccessTokenInfo = {
   User_id: number | null;
   Username: string | null;
   Refresh_token: string | null;
+  Token_type: string | null;
   Expires_in: number | null;
 }
 
