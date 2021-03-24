@@ -94,12 +94,17 @@ request.interceptors.response.use(async (response: Response) => {
       throw new Error(String(status));
     }
   } else {
-    if (res.code !== 0) {
+    if (res.code == 1) {
       notification.error({
         message: res.msg,
         key: 'errorOne'
       })
       throw new Error(JSON.stringify(res));
+    } else if ([404, 405, 501, 502, 503, 505, 506, 600].indexOf(res.code) > -1) {
+      notification.error({
+        message: res.msg,
+        key: 'errorOne'
+      })
     }
   }
   return response;
