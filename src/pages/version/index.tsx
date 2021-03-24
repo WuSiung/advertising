@@ -56,8 +56,31 @@ const Version = () => {
     '新增预算展示及修改'
   ]
 
+  const v_1_1_40: string[] = [
+    '公共素材库无数据及视频素材播放',
+    '人群包排除包含间隔',
+    '修改预算，搜索关键词溢出省略号',
+    '全局刷新加载缺省页去除ant design痕迹',
+    '自动化策略接口统一错误处理',
+    '自动化策略主页去掉作者列，增加策略ID',
+    '已启动的或暂停的策略再执行自动或暂停，直接忽视',
+    '修改止损广告集，数据筛选错误',
+    '修改冲浪2个页面的文字描述，并增加相应的提示'
+  ]
+
     return <Card>
       <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-24 21:15</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_40.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.39更新说明</div>
       <div className={styles.time}>2021-03-23 21:21</div>
       <div className={styles.detail}>
         <ol>
