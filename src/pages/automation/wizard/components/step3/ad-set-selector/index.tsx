@@ -1,10 +1,12 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
-import {Card, Input, Space, Checkbox, Tag, Table } from "antd";
+import {Card, Checkbox, Input, Space, Table, Tag} from "antd";
 import {TStateAdSetSelector} from "@/pages/automation/wizard/components/step3/ad-set-selector/data";
+import {EActionType} from "@/pages/automation/wizard/data.d";
 
 // const CheckboxGroup = Checkbox.Group;
 interface IAdSetSelector {
+  actionType?: EActionType;
   isLoading?: boolean;
   adSetSelector?: TStateAdSetSelector,
   dispatch?: Dispatch,
@@ -15,12 +17,18 @@ interface IAdSetSelector {
 };
 
 const AdSetSelector: FC<IAdSetSelector> = (props) => {
-  const {dispatch, adSetSelector} = props;
+  const {dispatch, adSetSelector, actionType} = props;
+  let pd = {}
+  if (actionType === EActionType.AAT_Surf_AdSetLevel) {
+    pd = {
+      budget: 1
+    }
+  }
   useEffect(() => {
     if (dispatch) {
       dispatch({
         type: 'adSetSelector/getAdSetList',
-        payload: {}
+        payload: pd
       });
     }
 

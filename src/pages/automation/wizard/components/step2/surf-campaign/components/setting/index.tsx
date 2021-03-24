@@ -8,6 +8,7 @@ import SvgChartCampaign
 import surf from '@/assets/automation/surf.svg';
 import SettingHeadCard from "@/pages/automation/wizard/components/setting-head-card";
 import {TSurfCampaignLevelAction} from "@/pages/automation/wizard/components/step2/surf-campaign/data";
+import Prompt from "@/pages/automation/components/tooltip";
 
 const { Option } = Select;
 interface ISetting {
@@ -354,7 +355,8 @@ const Setting: FC<ISetting> = (props) => {
   const campaignTitle = (
     <Space>
       <Switch checkedChildren="开启" unCheckedChildren="关闭" checked={ActionInfo?.FullCheck} onChange={handleSwitchChange}/>
-      <span>仔细检查广告支出回报率（应用安装）是否低于增加前的预算-将预算降低{ActionInfo?.DoubleCheckRoasWeb}%</span>
+      {/*<span>仔细检查广告支出回报率（应用安装）是否低于增加前的预算-将预算降低{ActionInfo?.DoubleCheckRoasWeb}%</span>*/}
+      <span>如果<strong>广告支出回报率（应用安装）</strong>低于预算增减<strong>{ActionInfo?.DoubleCheckRoasWeb}</strong>%之前的值则进行二次检查</span>
     </Space>
   )
   const tictacTitle2 = (
@@ -366,7 +368,7 @@ const Setting: FC<ISetting> = (props) => {
         <Space direction="vertical" size="large">
           {
             ActionInfo?.RoasWebIncres.map((rwi, idx) =>
-              <Space key={idx}><SvgGrid/><span>在。。。之间 {rwi.MinX}x - {idx === 2 ? '无限' : rwi.MaxX}x 广告系列预算将增加 {rwi.Increase}%.</span></Space>
+              <Space key={idx}><SvgGrid/><span>在 <strong>{rwi.MinX}x - {idx === 2 ? '无限' : rwi.MaxX}x</strong> 之间  广告系列预算将增加 <strong>{rwi.Increase}</strong>%.</span></Space>
             )
           }
         </Space>
@@ -380,9 +382,9 @@ const Setting: FC<ISetting> = (props) => {
         size="small"
         icon={surf}
         pictrue={<SvgChartCampaign/>}
-        title="SURF CBO战役等级"
-        subTitle="奖励强者"
-        remark="SURF识别出强劲的绩效趋势，并通过将可用的广告系列预算增加到原始限制之外，自动利用积极的势头。预算将在选定的本地时间自动恢复为原始预算。"
+        title="冲浪广告系列层级"
+        subTitle="给效果好的广告系列增加预算"
+        remark="冲浪策略能识别出强劲的绩效趋势，并通过将可用的广告系列预算增加到原始限制之外，自动利用积极的势头。预算将在设定的本地时间自动恢复为原始预算。"
       />
 
       <Card type="inner">
@@ -415,7 +417,7 @@ const Setting: FC<ISetting> = (props) => {
                   <Space key={idx}>
                     <SvgGrid/>
                     <span>
-                      在。。。之间 <InputNumber step={0.01} value={rwi.MinX} onChange={value => handleListChange(idx, 'MinX', value)} /> x - {idx === 2 ? '无限': <InputNumber step={0.01} value={rwi.MaxX} onChange={value => handleListChange(idx, 'MaxX', value)} />} x 广告系列预算将增加 <InputNumber
+                      在 <InputNumber step={0.01} value={rwi.MinX} onChange={value => handleListChange(idx, 'MinX', value)} /> x - {idx === 2 ? '无限': <InputNumber step={0.01} value={rwi.MaxX} onChange={value => handleListChange(idx, 'MaxX', value)} />} x 之间 广告系列预算将增加 <InputNumber
                     value={rwi.Increase}
                     min={0}
                     formatter={value => `${value}%`}
@@ -429,14 +431,21 @@ const Setting: FC<ISetting> = (props) => {
       </StepCard>
       <Card>
         <Space direction="vertical">
-          <Space><label>每张支票的冲浪限制</label><InputNumber prefix="$" style={{width: 100}} value={ActionInfo?.LimitPerCheck}
+          <Space><label>每次检查的冲浪限额&nbsp;<Prompt content="这是在每2次检查之间，最多可以增加的预算" /></label><InputNumber prefix="$" style={{width: 100}} value={ActionInfo?.LimitPerCheck}
                                                       onChange={value => props.onChange({LimitPerCheck: value})}/></Space>
-          <Space><label>每天的冲浪限制</label><InputNumber prefix="$" style={{width: 100}} value={ActionInfo?.LimitPerDay}
+          <Space><label>每天的冲浪限额&nbsp;<Prompt content="每天最多可以增加的预算额" /></label><InputNumber prefix="$" style={{width: 100}} value={ActionInfo?.LimitPerDay}
                                                     onChange={value => props.onChange({LimitPerDay: value})}/></Space>
         </Space>
       </Card>
       <StepCard
-        title={`预算将在当地时间${ActionInfo?.ResetBudgetTime.format(format)} (亚洲/上海) 自动重置`}
+        title={
+          <p>
+            <strong>预算</strong>
+            将在当地时间{ActionInfo?.ResetBudgetTime?.format(format)} (亚洲/上海) 自动
+            <strong>重置</strong>
+            &nbsp;<Prompt content={'在设置的时间点，所有受次策略影响的广告集，都将恢复到它们的初始预算'} />
+          </p>
+        }
       >
         <Space><label>重置时间表： </label><TimePicker value={ActionInfo?.ResetBudgetTime} format={format}
                                                  onChange={value => props.onChange({ResetBudgetTime: value})}/></Space>

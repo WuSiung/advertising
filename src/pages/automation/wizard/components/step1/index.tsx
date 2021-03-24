@@ -21,8 +21,8 @@ const Step1: FC<IStep1> = (props) => {
               icon={<SvgSurf fill="#7655c9" />}
               color="#7655c9"
               title="冲浪"
-              subTitle="广告集级别"
-              remark="SURF确定了强劲的效果趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头，预算将在选定的本地时间自动重置。"
+              subTitle="广告集层级"
+              remark="冲浪策略能识别出强劲的绩效趋势，并通过将可用的广告集预算增加到原始限制之外，自动利用积极的势头。预算将在设定的本地时间自动恢复为原始预算。"
               onSelected={props.onTactic}
             />
         </Col>
@@ -33,8 +33,8 @@ const Step1: FC<IStep1> = (props) => {
             icon={<SvgSurf fill="#3d2870" />}
             color="#3d2870"
             title="冲浪"
-            subTitle="广告活动层级"
-            remark="SURF识别出强劲的绩效趋势，并通过将可用的广告系列预算增加到原始限制之外，自动利用积极的势头。预算将在选定的本地时间自动恢复为原始预算。"
+            subTitle="广告系列层级"
+            remark="冲浪策略能识别出强劲的绩效趋势，并通过将可用的广告系列预算增加到原始限制之外，自动利用积极的势头。预算将在设定的本地时间自动恢复为原始预算。"
             onSelected={props.onTactic}
           />
         </Col>
@@ -45,8 +45,8 @@ const Step1: FC<IStep1> = (props) => {
             icon={<SvgStopLoss fill="#7655c9" />}
             color="#7655c9"
             title="止损"
-            subTitle="广告集级别"
-            remark="止损可以通过在效果不好的广告集一经识别就立即将其变为负动量，从而将其暂停，从而保护您的预算。在选定的当地时间，它会重新打开广告集。"
+            subTitle="广告集层级"
+            remark="止损策略一旦识别出效果不好的广告集就立即将其暂停，从而保护您的预算。在设定的当地时间，它会重新打开广告集。"
             onSelected={props.onTactic}
           />
         </Col>
@@ -59,8 +59,8 @@ const Step1: FC<IStep1> = (props) => {
             icon={<SvgStopLoss fill="#d964c5" />}
             color="#d964c5"
             title="止损"
-            subTitle="广告等级"
-            remark="止损一经发现就立即已负动量暂停效果不佳的广告，从而保护您的预算，在选定的当地时间，它会重新打开广告。"
+            subTitle="广告层级"
+            remark="止损策略一旦识别出效果不好的广告集就立即将其暂停，从而保护您的预算。在设定的当地时间，它会重新打开广告。"
             onSelected={props.onTactic}
           />
         </Col>
@@ -71,8 +71,8 @@ const Step1: FC<IStep1> = (props) => {
             icon={<SvgRevive fill="#7655c9" />}
             color="#7655c9"
             title="复活"
-            subTitle="广告集级别"
-            remark="Revive在检测到任何积极的活动表明该广告集已再次获利时，会自动重新激活所有已暂停的广告集。"
+            subTitle="广告集层级"
+            remark="复活策略在检测到任何积极的活动表明该广告集已再次获利时，会自动重新激活所有已暂停的广告集。"
             onSelected={props.onTactic}
           />
         </Col>
@@ -83,8 +83,8 @@ const Step1: FC<IStep1> = (props) => {
             icon={<SvgRevive fill="#d964c5" />}
             color="#d964c5"
             title="复活"
-            subTitle="广告等级"
-            remark="Revive在检测到任何积极的活动表明该广告已再次获利时，会自动重新激活任何已暂停的广告"
+            subTitle="广告层级"
+            remark="复活策略在检测到任何积极的活动表明该广告已再次获利时，会自动重新激活任何已暂停的广告"
             onSelected={props.onTactic}
           />
         </Col>

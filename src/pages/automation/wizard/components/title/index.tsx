@@ -69,8 +69,8 @@ const Title: FC<ITitle> = (props) => {
               <TacticCardHead
                 icon={<SvgGear/>}
                 size="small"
-                title="1.战术与最佳实践"
-                subTitle="将多种广告购买自动化规则和策略封装到一个策略中"
+                title="1.策略与最佳实践"
+                subTitle="将多种购买广告的自动化规则和策略封装到一个策略中"
               />
             </Col>
             <Col>
@@ -78,7 +78,7 @@ const Title: FC<ITitle> = (props) => {
                 icon={<SvgFrontSight />}
                 size="small"
                 title="2.实时优化"
-                subTitle="虽然定期检查的市场标准是15/30分钟，但是自动化规则会实时触发"
+                subTitle="虽然定期检查的市场标准是15/30分钟，但是贪玩智投规则会实时触发"
               />
             </Col>
             <Col>

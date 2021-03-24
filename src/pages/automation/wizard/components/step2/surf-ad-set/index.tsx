@@ -1,5 +1,5 @@
-import React, {FC, useImperativeHandle, forwardRef, useEffect} from 'react';
-import { connect, Dispatch } from 'umi';
+import React, {FC, forwardRef, useEffect, useImperativeHandle} from 'react';
+import {connect, Dispatch} from 'umi';
 import Setting from './components/setting';
 import AdSetSelector from "@/pages/automation/wizard/components/step3/ad-set-selector";
 import {TState} from "@/pages/automation/wizard/components/step2/surf-ad-set/data";
@@ -7,6 +7,7 @@ import {TState} from "@/pages/automation/wizard/components/step2/surf-ad-set/dat
 import {OPTIONS} from './model';
 import moment from "moment";
 import {TTacticEditInfo} from "@/pages/automation/data";
+import {EActionType} from "@/pages/automation/wizard/data.d";
 
 interface ISurfAdSetBase {
   dispatch: Dispatch
@@ -81,7 +82,7 @@ const SurfAdSet: FC<ISurfAdSet> = (props) => {
   return (
     <>
       {props.step === 1 && <Setting options={OPTIONS} ActionInfo={surfAdSet.ActionInfo} onChange={handleSettingChange} />}
-      {props.step === 2 && <AdSetSelector Name={surfAdSet.Name} ActionObj={surfAdSet.ActionObj} onChange={handleSelectorChange} onActionObjChange={props.onActionObjChange} />}
+      {props.step === 2 && <AdSetSelector actionType={EActionType.AAT_Surf_AdSetLevel} Name={surfAdSet.Name} ActionObj={surfAdSet.ActionObj} onChange={handleSelectorChange} onActionObjChange={props.onActionObjChange} />}
     </>
   )
 };
