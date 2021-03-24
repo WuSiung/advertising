@@ -25,6 +25,17 @@
       float: left;
       list-style: none;
       margin: 0;
+      .tags{
+        display: flex;
+        align-items: center;
+      }
+      .tagName{
+        overflow: hidden;
+        max-width: 60px;
+        text-overflow: ellipsis;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
 
     &:hover {
