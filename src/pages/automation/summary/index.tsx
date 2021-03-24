@@ -63,6 +63,9 @@ const Summary: FC<SummaryProps> = (props) => {
   }
 
   const handlePause = async (record: TTactic, rowIndex: number) => {
+    if (record.Status === '0') {
+      return;
+    }
     await pauseTactic(record);
     tacticSummary.tacticList[rowIndex].Status = '0';
     dispatch({
@@ -74,6 +77,9 @@ const Summary: FC<SummaryProps> = (props) => {
   }
 
   const handleRestore = async (record: TTactic, rowIndex: number) => {
+    if (record.Status === '1') {
+      return;
+    }
     await restoreTactic(record);
     tacticSummary.tacticList[rowIndex].Status = '1';
     dispatch({
@@ -102,18 +108,18 @@ const Summary: FC<SummaryProps> = (props) => {
     //   key: 'checkCount',
     //   width: 120,
     // },
+    {
+      title: '策略ID',
+      dataIndex: 'ObjectID',
+      key: 'ObjectID',
+      width: 200,
+    },
     // {
-    //   title: '执行次数',
-    //   dataIndex: 'executeCount',
-    //   key: 'executeCount',
+    //   title: '作者',
+    //   dataIndex: 'PlatformId',
+    //   key: 'PlatformId',
     //   width: 120,
     // },
-    {
-      title: '作者',
-      dataIndex: 'PlatformId',
-      key: 'PlatformId',
-      width: 120,
-    },
     {
       title: '策略类型',
       dataIndex: 'ActionTypeName',
@@ -275,7 +281,7 @@ const Summary: FC<SummaryProps> = (props) => {
                           <Collapse ghost>
                             <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
-                                a.ExecLog.length > 0 ? a.ExecLog.map(l => <p style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>'暂无执行记录'</p>
+                                a.ExecLog.length > 0 ? a.ExecLog.map(l => <p style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>暂无执行记录</p>
                               }
                             </Panel>
                           </Collapse>
