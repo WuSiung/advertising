@@ -1,7 +1,7 @@
 import { postOneRecordToWorkbench } from '@/pages/adv-launcher/workbench/service'
 import { isImage } from '@/utils/fileType'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { message, Modal, Spin } from 'antd'
+import { Empty, message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
 import { addTag, createContainer, deletManyResource, deletResource, delTag, getMediaTag, getSouceTag, uploadMedia } from '../../service'
@@ -173,7 +173,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
             message.warning('请输入标签名或者等待查找完成')
             return
         }
-        
+
         if (tagParams.id == 'all') {
             message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
             return
@@ -243,6 +243,9 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
                     })
                 }
             </div>
+            {
+                mediaList.length == 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无媒体素材' />
+            }
         </Spin>
         {
             (mediaUploading || mediaToWorkbenchLoading) && <Loading showMask tips='上传中，请稍后...' />

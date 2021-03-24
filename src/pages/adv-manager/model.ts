@@ -142,7 +142,12 @@ const AdvModal: AdvModalType = {
                 });
                 response = yield call(advSet, payload);
                 if (response.code === 0) {
-                    advSetItem.state = payload.state;
+                    if (payload.state) {
+                        advSetItem.state = payload.state;
+                    }
+                    if (payload.spendNum) {
+                        advSetItem.spendNum = payload.spendNum
+                    }
                 }
                 advSetItem.loading = false;
                 yield put({
@@ -172,7 +177,12 @@ const AdvModal: AdvModalType = {
                 });
                 response = yield call(advPack, payload);
                 if (response.code === 0) {
-                    advPackItem.state = payload.state;
+                    if (payload.state) {
+                        advPackItem.state = payload.state;
+                    }
+                    if (payload.spendNum) {
+                        advPackItem.spendNum = payload.spendNum
+                    }
                 }
                 advPackItem.loading = false;
                 yield put({

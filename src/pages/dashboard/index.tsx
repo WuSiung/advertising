@@ -567,25 +567,31 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
   return (
     <PageContainer content='根据“拉新”、“重新定位”、“重新参与”、“保留”四类不同用户的受众群体进行广告数据的细化分类，实现最大精度的用户跟踪和分析，展现最有价值的数据。'
-      extra={<RangePicker value={dashboard.rangeValues}
-        onChange={handleRangeChange}
-        onOpenChange={handleOpenChange}
-        ranges={{
-          '今天': [moment(), moment()],
-          '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
-          '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
-          '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
-          '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
-          '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
-          '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
-          '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
-        }}
-      />}>
+      extra={<div>
+        选择统计时间范围：
+        <RangePicker value={dashboard.rangeValues}
+          onChange={handleRangeChange}
+          onOpenChange={handleOpenChange}
+          ranges={{
+            '今天': [moment(), moment()],
+            '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
+            '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
+            '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
+            '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
+            '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
+            '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
+            '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
+          }}
+        />
+      </div>}>
       <div className={styles.main}>
         <Card
           className={`${styles.totalCard}`}
           title="综合统计"
           loading={isLoading}
+          extra={
+            <div>自定义列</div>
+          }
         >
           <Table
             size="small"

@@ -10,7 +10,7 @@ export default {
   'menu.advlauncher.launcher': '启动广告',
   'menu.audience': '观众工作室',
   'menu.audience.crowds': '人群包列表',
-  'menu.audience.manager': '人群包管理',
+  'menu.audience.manager': '创建人群包',
   'menu.creativity': '公共素材库',
   'menu.setting': '系统设置',
   // 'menu.automation': '自动化策略',

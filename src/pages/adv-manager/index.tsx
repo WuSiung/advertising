@@ -1,9 +1,9 @@
-import { Card, Tabs, Table, Popover, Select, Row, Col, Pagination, Switch, Button, Space, Dropdown, Menu, message, Input } from 'antd'
+import { Card, Tabs, Table, Popover, Select, Row, Col, Pagination, Switch, Button, Space, Dropdown, Menu, message, Input, Spin } from 'antd'
 import React, { FC, ReactNode, useEffect, useState, useRef } from 'react'
 import moment from 'moment'
 import { connect, Dispatch, history } from 'umi'
 import { AdvAdvListType, AdvData, AdvPackListType, AdvSetListType } from './data.d'
-import { SearchOutlined, CaretDownOutlined, DownOutlined } from '@ant-design/icons';
+import { SearchOutlined, CaretDownOutlined, DownOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useDidMountEffect } from "@/utils/customerHooks";
 import DateRange from "../adv-launcher/components/DateRange";
 import styles from './index.less';
@@ -225,14 +225,25 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'budget',
             key: 'budget',
             render: (budget, record) => {
-                return budget == 1 ? <EditTd title='预算' onSave={(value) => dispatch({
-                    type: 'adv/advPack',
-                    payload: {
-                        packId: record.packId,
-                        spendNum: value
-                    }
-                })} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
-                    : '广告集预算'
+                return budget == 1 ? <Spin spinning={!!(record as AdvPackListType).loading}>
+                    <EditTd title='预算' onSave={(value) => {
+                        if (value != Number(record.spendNum)) {
+                            dispatch({
+                                type: 'adv/advPack',
+                                payload: {
+                                    packId: record.packId,
+                                    spendNum: value
+                                }
+                            })
+                        }
+                    }} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                </Spin>
+                    :
+                    <div> 广告集预算<Popover content='预算已在广告集中开启'>
+                        <QuestionCircleOutlined />
+                    </Popover>
+                    </div>
+
             }
         },
         {
@@ -598,14 +609,25 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'budget',
             key: 'budget',
             render: (budget, record) => {
-                return budget == 1 ? <EditTd title='预算' onSave={(value) => dispatch({
-                    type: 'adv/advSet',
-                    payload: {
-                        setId: (record as AdvSetListType).setId,
-                        spendNum: value
+                return budget == 1 ? <Spin spinning={!!(record as AdvSetListType).loading}>
+                    <EditTd title='预算' onSave={(value) => {
+                        if (value != Number(record.spendNum)) {
+                            dispatch({
+                                type: 'adv/advSet',
+                                payload: {
+                                    setId: (record as AdvSetListType).setId,
+                                    spendNum: value
+                                }
+                            })
+                        }
                     }
-                })} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
-                    : '广告系列预算'
+                    } dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                </Spin >
+                    : <div>广告系列预算
+                        <Popover content='预算已在广告系列预算中开启'>
+                            <QuestionCircleOutlined />
+                        </Popover>
+                    </div>
             }
         },
         {
@@ -886,6 +908,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     }
                 }
                 return (<div className={styles.advName}>
+                    {
+                        <img src={_.imgTextList[0].advImg.url} alt="" width='30' style={{ maxHeight: 30, marginRight: 4 }} />
+                    }
                     <div className={styles.name}>{text}</div>
                     <Switch onClick={() => {
                         advAdv({ key: "adv_", id: (_ as AdvAdvListType).advId, isOn: !(_.state === "1") });
@@ -1528,7 +1553,12 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     <Space>
                                         <InputTag onChange={(val: string[]) => {
                                             setSearchText(val);
-                                        }} ref={packInputTagRef} placeholder="广告系列名称关键词搜索" value={serachText}
+                                        }} ref={packInputTagRef} onBlur={
+                                            (val: string[]) => {
+                                                console.log(val)
+                                                setSearchText(val);
+                                            }
+                                        } placeholder="请输入关键字搜索" value={serachText}
                                             enterButton={true} style={{ width: 300 }} />
                                         <Button type="primary" icon={<SearchOutlined />} onClick={() => {
                                             let sText = packInputTagRef.current?.changeVal();
@@ -1600,7 +1630,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
 
                                         <InputTag onChange={(val: string[]) => {
                                             setSerachTextForSet(val);
-                                        }} key="2" ref={setInputTagRef} placeholder="广告集名称关键词搜索"
+                                        }} key="2" ref={setInputTagRef} placeholder="请输入关键字搜索"
                                             value={serachTextForSet} enterButton={true} style={{ width: 300 }} />
                                         <Button type="primary" icon={<SearchOutlined />} onClick={() => {
                                             let sText = setInputTagRef.current?.changeVal();
@@ -1695,7 +1725,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     <Space key={serachTextForAdv ? serachTextForAdv[0] : "1"}>
                                         <InputTag onChange={(val: string[]) => {
                                             setSerachTextForAdv(val);
-                                        }} key="3" ref={advInputTagRef} placeholder="广告名称关键词搜索" value={serachTextForAdv}
+                                        }} key="3" ref={advInputTagRef} placeholder="请输入关键字搜索" value={serachTextForAdv}
                                             enterButton={true} style={{ width: 300 }} />
                                         <Button type="primary" icon={<SearchOutlined />} onClick={() => {
                                             let sText = advInputTagRef.current?.changeVal();
@@ -1764,7 +1794,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                 </Col>
                             </Row>
                             <Table className={styles.advTb} pagination={false} loading={loadingAdvAdv} columns={advAdvColumns}
-                                rowKey="setId"
+                                rowKey="advId"
                                 dataSource={advAdvList}
                                 scroll={{ x: 1300 }}
                                 footer={() =>

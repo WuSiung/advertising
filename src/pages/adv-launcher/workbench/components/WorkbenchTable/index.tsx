@@ -179,14 +179,14 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                 return <th key={index} className={styles.container}>
                                     <div className={styles.mediaBox} style={{ background: 'none', boxShadow: 'none' }}>
                                         {
-                                            index == 4&& <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{color:'#fff'}} description='NO DATA' />
+                                            index == 2 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#fff' }} description='暂无媒体数据' />
                                         }
                                     </div>
                                 </th>
                             })
                         }
                         {
-                            tenBlock.map((empty, index) => {
+                            imgList.length > 0 && tenBlock.map((empty, index) => {
                                 return <th className={styles.container} key={index}></th>
                             })
                         }
@@ -214,12 +214,12 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                         })
                     }
                     {
-                        textList.length <= 0 && [1, 1, 1, 1, 1].map((item, index) => {
+                        textList.length <= 0 && [1, 1, 1, 1].map((item, index) => {
                             return <tr key={index}>
                                 <td className={styles.tdtext}>
-                                    <div className={styles.textBox} style={{ background: 'none', boxShadow: 'none' }}>
+                                    <div className={styles.textBox} style={{ background: 'none', boxShadow: 'none', overflow: 'hidden' }}>
                                         {
-                                            index == 2 &&  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{color:'#fff'}} description='NO DATA' />
+                                            index == 1 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ color: '#fff' }} description='暂无文本数据' />
                                         }
                                     </div>
                                 </td>

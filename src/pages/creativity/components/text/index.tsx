@@ -3,7 +3,7 @@ import Loading from '@/components/Loading'
 import { postOneTextsToWorkbench } from '@/pages/adv-launcher/workbench/service'
 import Store from '@/utils/store'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { message, Modal, Spin } from 'antd'
+import { Empty, message, Modal, Spin } from 'antd'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { connect, CurrentUser, Dispatch, UserModelState } from 'umi'
 import { MaterialStateType, PublicMaterialDataType, TagType } from '../../data'
@@ -259,6 +259,9 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
                     })
                 }
             </div>
+            {
+                textList.length == 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无文本素材' />
+            }
         </Spin>
         {
             textToWorkbenchLoading && <Loading showMask tips='上传中，请稍后...' />

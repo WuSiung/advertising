@@ -1,7 +1,7 @@
 import { isVideo, isImage } from '@/utils/fileType'
-import React, { FC } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { Image, Tag } from 'antd'
-import { CheckOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
 import styles from './index.less'
 import { PublicMaterialDataType, TagType } from '../../data'
@@ -16,13 +16,26 @@ type MaterialBox = {
 } & PublicMaterialDataType
 const MaterialBox: FC<MaterialBox> = (props) => {
     const { type, onClick, checked, index, onDelete, onEdit, tags } = props
+    const [isPlay, setIsPlay] = useState(false)
+    const video = useRef<HTMLVideoElement>(null)
+
     return <div className={`${styles.materialBox} ${type == 'media' ? styles.isMedia : styles.isText} ${checked ? styles.active : ''}`}
         onClick={() => onClick && onClick(index)}>
         {
             type == 'media' && <div className={styles.imgOrVideo}>
                 {
                     isImage(props.contentType) ? <Image src={props.googleMediaLink} preview={false} />
-                        : <video src={props.googleMediaLink}></video>
+                        : <video src={props.googleMediaLink} ref={video}></video>
+                }
+                {
+                    !isImage(props.contentType) && !isPlay && <span className={styles.videoBtn}>
+                        <PlayCircleOutlined className={styles.play} onClick={() => { video.current?.play(); setIsPlay(true) }} />
+                    </span>
+                }
+                {
+                    !isImage(props.contentType) && isPlay && <span className={styles.videoBtn}>
+                        <PauseCircleOutlined className={styles.pause} onClick={() => { video.current?.pause(); setIsPlay(false) }} />
+                    </span>
                 }
             </div>
         }
