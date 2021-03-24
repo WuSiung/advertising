@@ -94,7 +94,7 @@ request.interceptors.response.use(async (response: Response) => {
       throw new Error(String(status));
     }
   } else {
-    if (res.code == 1) {
+    if (res.code !== 0) {
       notification.error({
         message: res.msg,
         key: 'errorOne'

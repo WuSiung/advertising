@@ -33,6 +33,7 @@ export async function deleteTactic(payload: TTactic) {
     User_id: Store.GetUserId(),
     Username: Store.GetUserName(),
     Refresh_token: Store.GetRefreshToken(),
+    Token_type: Store.GetTokenType(),
     Expires_in: Store.GetExpiresIn()
   }
   return request('/autoTactic/api/stopautotactic', {
@@ -52,6 +53,7 @@ export async function pauseTactic(payload: TTactic) {
     User_id: Store.GetUserId(),
     Username: Store.GetUserName(),
     Refresh_token: Store.GetRefreshToken(),
+    Token_type: Store.GetTokenType(),
     Expires_in: Store.GetExpiresIn()
   }
   return request('/autoTactic/api/pauseautotactic', {
@@ -71,6 +73,7 @@ export async function restoreTactic(payload: TTactic) {
     User_id: Store.GetUserId(),
     Username: Store.GetUserName(),
     Refresh_token: Store.GetRefreshToken(),
+    Token_type: Store.GetTokenType(),
     Expires_in: Store.GetExpiresIn()
   }
   return request('/autoTactic/api/continueautotactic', {
