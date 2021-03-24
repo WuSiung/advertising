@@ -35,6 +35,15 @@ interface AdvDataType {
     spend: number, // 消费总金额
     roas: string, // 广告支出回报率
     income: string, // 广告收益
+    oclicks: number, //出站点击数
+    cpa: string,
+    cpc: string,
+    purchaseRoas: string, // 支出回报率
+    mobileAppPurchaseRoas: string, // 移动应用支出回报率
+    cpr: string, // 每结果成本
+    cpm: string, // cpm
+    ctr: number | string, //点击率
+    frequency: number, // 频率
 }
 
 export interface PreviewAdvType {
