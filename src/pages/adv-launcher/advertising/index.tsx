@@ -149,8 +149,8 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 <AdvPreview appInfo={appInfo} classNames={styles.bigPreviews} {...activeAdv} />
             </Modal> : <></>}
             <div className={styles.filter}>
-                <Row>
-                    <Col xxl={12} span={24}>
+                <Row style={{ width: '100%' }}>
+                    <Col xxl={12} span={16}>
                         <div style={{ minWidth: "525px", marginBottom: "10px" }}>
                             排序 :&nbsp;
                             <Select
@@ -179,9 +179,9 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             <Button style={{ marginLeft: 10 }} type='primary' onClick={toCompaign}>创建广告</Button>
                         </div>
                     </Col>
-                    <Col xxl={12} span={24}>
-                        <div style={{ minWidth: "830px", marginBottom: "10px", textAlign: 'right' }}>
-                            <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "500px" }}>
+                    <Col xxl={12} span={8}>
+                        <div style={{ marginBottom: "10px", textAlign: 'right' }}>
+                            {/* <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "500px" }}>
                                 <Row>
                                     <Col span={6}>
                                         <div style={{ paddingLeft: "2px" }}>年龄:</div>
@@ -290,6 +290,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             </div>} trigger="click">
                                 <Button type="link">筛选器</Button>
                             </Popover>
+                             */}
                             <span className={styles.date}><DateRange onChange={changeDate} defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]} /></span>
                         </div>
                     </Col>
@@ -318,8 +319,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
 
                                 <div className={styles.mask}>
                                     <div className={styles.top}>
-                                        消费金额 : {dataVO.spend || 0} 点击率 ：{dataVO.octr || 0} <br /> 广告支出回报率
-                                        : {dataVO.roas || 0}
+                                        <div className={styles.item}><span>消费金额 : {dataVO.spend || 0}</span><span>点击率 ：{dataVO.ctr || 0}</span></div>
+                                        <div className={styles.item}><span>广告支出回报率: {dataVO.purchaseRoas || 0}</span><span>频率: {dataVO.frequency || 0} </span></div>
+                                        <div className={styles.item}><span>展示数: {dataVO.impressions || 0}</span><span>每次点击费用: {dataVO.cpc || 0}</span></div>
+                                        <div className={styles.item}><span>CPM: {dataVO.cpm || 0}</span><span>安装次数: {dataVO.installs || 0}</span></div>
+                                        <div className={styles.item}><span>CPA: {dataVO.cpa || 0} <br /></span></div>
                                     </div>
                                     <div className={styles.bottom} onClick={e => {
                                         e.stopPropagation()
