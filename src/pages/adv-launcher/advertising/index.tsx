@@ -61,7 +61,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 current: 1
             }
         });
-    }, [searchTime])
+    }, [searchTime, orderType])
     useEffect(() => {
         if (loadingAdvList) {
             hideLoading = success();
@@ -358,7 +358,6 @@ const Advertising: FC<AdvPropsType> = (props) => {
             <div style={{ width: "100%", textAlign: "center" }}>
                 {
                     advertisingList.length < count ? <Button loading={loadingAdvListAddMore} onClick={() => {
-                        console.log(date)
                         dispatch({
                             type: 'advertising/fetchAdvListAddMore',
                             payload: {
