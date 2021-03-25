@@ -1,7 +1,7 @@
 import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
-import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge} from 'antd';
+import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge, Switch} from 'antd';
 import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
@@ -27,11 +27,19 @@ const Summary: FC<SummaryProps> = (props) => {
   const [searchTxt, setSearchTxt] = useState('');
   const [actionType, setActionType] = useState('all');
   const [status, setStatus] = useState('all');
+  const [isAutoRefresh, setAutoRefresh] = useState(true);
   const handleRefresh = () => {
+    console.log('isAutoRefresh', isAutoRefresh);
     dispatch({
       type: 'tacticSummary/getTacticList',
       payload: {}
     });
+  }
+
+  const handleAutoRefresh = () => {
+    if (isAutoRefresh) {
+      handleRefresh()
+    }
   }
   useEffect(() => {
     // dispatch({
@@ -40,7 +48,7 @@ const Summary: FC<SummaryProps> = (props) => {
     // });
     handleRefresh();
 
-    const intervalId = setInterval(handleRefresh, 60000);
+    const intervalId = setInterval(handleAutoRefresh, 5000);
 
     return function cleanInterval() {
       clearInterval(intervalId);
@@ -72,7 +80,9 @@ const Summary: FC<SummaryProps> = (props) => {
       return;
     }
     await pauseTactic(record);
-    tacticSummary.tacticList[rowIndex].Status = '0';
+    if (tacticSummary.tacticList) {
+      tacticSummary.tacticList[rowIndex].Status = '0';
+    }
     dispatch({
       type: 'tacticSummary/updateTacticList',
       payload: {
@@ -86,7 +96,9 @@ const Summary: FC<SummaryProps> = (props) => {
       return;
     }
     await restoreTactic(record);
-    tacticSummary.tacticList[rowIndex].Status = '1';
+    if (tacticSummary.tacticList) {
+      tacticSummary.tacticList[rowIndex].Status = '1';
+    }
     dispatch({
       type: 'tacticSummary/updateTacticList',
       payload: {
@@ -200,22 +212,31 @@ const Summary: FC<SummaryProps> = (props) => {
     }
   ];
 
-  for (let i = 0; i < tacticSummary.tacticList.length; i += 1) {
-    const tactic = tacticSummary.tacticList[i];
-    tactic.ActionTypeName = EActionTypeName[tactic.ActionType];
+  let tacticList: TTactic[] = [];
 
-    // todo: 提取出作者列表和状态列表，用于做筛选
+  if (tacticSummary.tacticList) {
+    for (let i = 0; i < tacticSummary.tacticList.length; i += 1) {
+      const tactic = tacticSummary.tacticList[i];
+      tactic.ActionTypeName = EActionTypeName[tactic.ActionType];
+    }
+    tacticList = tacticSummary.tacticList.filter(t => t.Name.indexOf(searchTxt) > -1)
+
+    if (actionType !== 'all') {
+      tacticList = tacticList.filter(t => t.ActionType === actionType);
+    }
+
+    if (status !== 'all') {
+      tacticList = tacticList.filter(t => t.Status === status)
+    }
   }
 
-  let tacticList = tacticSummary.tacticList.filter(t => t.Name.indexOf(searchTxt) > -1)
 
-  if (actionType !== 'all') {
-    tacticList = tacticList.filter(t => t.ActionType === actionType);
-  }
 
-  if (status !== 'all') {
-    tacticList = tacticList.filter(t => t.Status === status)
-  }
+
+
+  // let tacticList = tacticSummary.tacticList.filter(t => t.Name.indexOf(searchTxt) > -1)
+
+
 
   // const [tacticListShow, setTacticListShow] = useState([...tacticList]);
   // console.log('tacticListShow', tacticListShow);
@@ -244,9 +265,10 @@ const Summary: FC<SummaryProps> = (props) => {
             </label>
           </Space>
         </Col>
-        <Col span={4}>
+        <Col>
           <Space size="large">
-            <Button type="primary" onClick={handleRefresh}>刷新</Button>
+            <span><Switch checked={isAutoRefresh} onChange={v => setAutoRefresh(v)} />&nbsp;是否自动刷新</span>
+            <Button type="primary" onClick={() => handleRefresh()}>刷新</Button>
             <Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button>
           </Space>
         </Col>
