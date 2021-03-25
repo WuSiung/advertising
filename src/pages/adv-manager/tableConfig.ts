@@ -1,4 +1,10 @@
-const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined,editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
+const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
+    {
+        sortIdx: 0,
+        titleString: "id",
+        dataIndex: 'packId',
+        show: true,
+    },
     {
         sortIdx: 1,
         titleString: "名称",
@@ -114,6 +120,12 @@ const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefin
 ];
 const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
+        sortIdx: 0,
+        titleString: "id",
+        dataIndex: 'setId',
+        show: true,
+    },
+    {
         sortIdx: 1,
         titleString: "名称",
         dataIndex: 'setName',
@@ -225,6 +237,12 @@ const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefine
     // },
 ];
 const advadvOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
+    {
+        sortIdx: 0,
+        titleString: "id",
+        dataIndex: 'advId',
+        show: true,
+    },
     {
         sortIdx: 1,
         titleString: "名称",

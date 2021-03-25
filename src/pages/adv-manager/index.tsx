@@ -89,6 +89,14 @@ const AdvManager: FC<AdvPropsType> = (props) => {
 
     const advpackOriginColumns: Columns[] = [
         {
+            idx: -1,
+            title: <div className={styles.thTitle}>id </div>,
+            titleString: 'id',
+            dataIndex: 'packId',
+            width: 60,
+            key: 'packId',
+        },
+        {
             idx: 0,
             title: <div className={styles.thTitle}>名称 </div>,
             titleString: "名称",
@@ -236,7 +244,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                 }
                             })
                         }
-                    }} dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                    }} dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin>
                     :
                     <div> 广告集预算<Popover content='预算已在广告集中开启'>
@@ -478,6 +486,14 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     ];
     const advSetOriginColumns: Columns[] = [
         {
+            idx: -1,
+            title: <div className={styles.thTitle}>id </div>,
+            titleString: 'id',
+            dataIndex: 'setId',
+            width: 60,
+            key: 'setId',
+        },
+        {
             idx: 0,
             title: <div className={styles.thTitle}>名称 </div>,
             titleString: "名称",
@@ -621,7 +637,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                             })
                         }
                     }
-                    } dataIndex='spendNum' record={record}>{record.spendNum}</EditTd>
+                    } dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin >
                     : <div>广告系列预算
                         <Popover content='预算已在广告系列预算中开启'>
@@ -868,6 +884,14 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         },
     ];
     const advAdvOriginColumns: Columns[] = [
+        {
+            idx: -1,
+            title: <div className={styles.thTitle}>id </div>,
+            titleString: 'id',
+            dataIndex: 'advId',
+            width: 60,
+            key: 'advId',
+        },
         {
             idx: 0,
             title: <div className={styles.thTitle}>名称 </div>,

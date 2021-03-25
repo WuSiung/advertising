@@ -32,12 +32,12 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
                     type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url} ref={video}></video>
                 }
                 {
-                    type != 0 && !isPlay && <span className={styles.videoBtn}>
+                    type != 0 && !isPlay && <span className={`${styles.videoBtn} video-btn`}>
                         <PlayCircleOutlined className={styles.play} onClick={() => { video.current?.play(); setIsPlay(true) }} />
                     </span>
                 }
                 {
-                    type != 0 && isPlay && <span className={styles.videoBtn}>
+                    type != 0 && isPlay && <span className={`${styles.videoBtn} video-btn`}>
                         <PauseCircleOutlined className={styles.pause} onClick={() => { video.current?.pause(); setIsPlay(false) }} />
                     </span>
                 }
