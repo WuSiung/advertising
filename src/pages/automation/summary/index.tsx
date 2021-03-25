@@ -29,7 +29,7 @@ const Summary: FC<SummaryProps> = (props) => {
   const [status, setStatus] = useState('all');
   const [isAutoRefresh, setAutoRefresh] = useState(true);
   const handleRefresh = () => {
-    console.log('isAutoRefresh', isAutoRefresh);
+    // console.log('isAutoRefresh', isAutoRefresh);
     dispatch({
       type: 'tacticSummary/getTacticList',
       payload: {}
@@ -41,19 +41,18 @@ const Summary: FC<SummaryProps> = (props) => {
       handleRefresh()
     }
   }
-  useEffect(() => {
-    // dispatch({
-    //   type: 'tacticSummary/getTacticList',
-    //   payload: {}
-    // });
-    handleRefresh();
 
-    const intervalId = setInterval(handleAutoRefresh, 5000);
+  useEffect(() => {
+    handleRefresh();
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(handleAutoRefresh, 60000);
 
     return function cleanInterval() {
       clearInterval(intervalId);
     }
-  }, []);
+  }, [isAutoRefresh]);
 
   const handleDelete = (recored: TTactic, rowIndex: number) => {
     // console.log('recored', recored, 'rowIndex: ', rowIndex);
