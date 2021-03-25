@@ -1,5 +1,5 @@
 import {
-  Card, Space, Switch,
+  Space, Switch,
   TimePicker
 } from 'antd'
 import React, {FC, forwardRef, useEffect, useImperativeHandle} from 'react'
@@ -12,18 +12,8 @@ import {ITactic, ITacticForwardRef, TStateTactic} from "@/pages/automation/wizar
 import {TActionInfoStopLossAdvSet} from "@/pages/automation/wizard/components/step2/stoploss/advset/data";
 import moment from 'moment';
 import styles from "@/pages/automation/wizard/components/step2/revive/advset/index.less";
-
-// interface StopLossAdvSetProps {
-//   step: number;
-//   ref: React.MutableRefObject<any>
-// }
-//
-// interface RetrunValueType {
-//   tacticIdx: number;
-//   installsValue: number | undefined;
-//   installfeeValue: StaticsItemValueType;
-//   spendFeeValue: StaticsItemValueType
-// }
+import Prompt from "@/pages/automation/components/tooltip";
+import StepCard from "@/pages/automation/wizard/components/step-card";
 
 interface ISetting {
   ActionInfo?: TActionInfoStopLossAdvSet;
@@ -31,10 +21,6 @@ interface ISetting {
 };
 
 const Setting: FC<ISetting> = (props) => {
-  // const [staticsIdx, setStaticsIdx] = useState<number>(0);//策略的索引 installs 和 installsfee
-  // const [installsValue, setInstallsValue] = useState<number>();
-  // const [installfeeValue, setInstallfeeValue] = useState<StaticsItemValueType>({mertricType: 2});
-  // const [spendFeeValue, setSpendFeeValue] = useState<StaticsItemValueType>({mertricType: 2});
   /*
     StaticsItemValueType:
     staticMetricValue?:number;//静态指标值
@@ -45,9 +31,14 @@ const Setting: FC<ISetting> = (props) => {
   const format = 'HH:mm';
   const {ActionInfo, onChange} = props;
   return (<>
-    {<SettingHeadCard title="止损广告位" icon={<SvgStopLoss/>} pictrue={<SvgStopLossPicAds/>}
-                      subTitle="我们已经准备了止损策略，以适应渠道中的各种事件。选择您想要作为止损基础的事件，我们将为您推荐该事件的最佳预测止损指标，或者跳过此步骤并从头开始制定策略。"/>}
-    <StaticsSetUp title="系统将触发止损并暂停广告集"
+    <SettingHeadCard title="止损广告集层级" subTitle="减少效果不好的广告集" icon={<SvgStopLoss/>} pictrue={<SvgStopLossPicAds/>}
+                      remark="我们已经准备了止损策略，以适应渠道中的各种事件。选择您想要作为止损基础的事件，我们将为您推荐该事件的最佳预测止损指标，或者跳过此步骤并从头开始制定策略。"/>
+    <StaticsSetUp title={
+      <p>
+        贪玩智投将触发止损并暂停广告集
+        &nbsp;<Prompt content="设置触发暂停效果不好的广告集直到凌晨所需要的临界值"/>
+      </p>
+    }
                   ActionInfo={ActionInfo}
                   onChange={onChange}
 
@@ -57,29 +48,35 @@ const Setting: FC<ISetting> = (props) => {
       <Space>
         <Switch onChange={(value) => {
           onChange({OrCondition: value})
-        }} defaultChecked={ActionInfo?.OrCondition} title="和"></Switch>
-        <span>要么</span>
+        }} defaultChecked={ActionInfo?.OrCondition} title="或者"></Switch>
+        <span>或者&nbsp;<Prompt content="为了确保所选的广告集在今天真的有利可图，我们推荐您同时选择2个触发条件" /></span>
       </Space>
 
     </div>
-    <div style={{opacity: ActionInfo?.OrCondition ? "1" : "0.5", pointerEvents: ActionInfo?.OrCondition ? "inherit" : "none"}}>
+    <div style={{
+      opacity: ActionInfo?.OrCondition ? "1" : "0.5",
+      pointerEvents: ActionInfo?.OrCondition ? "inherit" : "none"
+    }}>
       <StaticsSetUp2 title=""
                      ActionInfo={ActionInfo}
                      onChange={onChange}
       />
     </div>
-    <Card>
-      <div><span className="em">该广告集</span> 将被自动取消暂停在当地时间</div>
-      <div>重置时间表:<TimePicker value={ActionInfo?.ResetBudgetTime} format={format}
-                             onChange={value => props.onChange({ResetBudgetTime: value})}/></div>
-    </Card>
+    <StepCard
+      title={
+        <p>在当地（亚洲/上海）时间 {ActionInfo?.ResetBudgetTime.format('HH:mm')}
+          <strong>该广告集</strong>将被自动<strong>取消暂停</strong>&nbsp;
+          <Prompt content="在设置的时间点，所有受此策略影响的广告集将被取消暂停"/>
+        </p>
+      }
+    >
+      <Space><label>重置时间表: </label><TimePicker value={ActionInfo?.ResetBudgetTime} format={format}
+                                               onChange={value => props.onChange({ResetBudgetTime: value})}/></Space>
+    </StepCard>
   </>);
 }
 
 const StopLossAdvSet: FC<ITactic<TActionInfoStopLossAdvSet>> = ((props) => {
-  // console.log(props.step);
-
-  // const [rVal, setRVal] = useState<RetrunValueType>();
   const {tacticInfo, refInstance, dispatch} = props;
   useImperativeHandle(refInstance, () => ({
     submit: () => {
@@ -166,4 +163,3 @@ const Component = connect(({stopLossAdvSet}: { stopLossAdvSet: TStateTactic<TAct
 
 export default forwardRef<Pick<ITacticForwardRef, any>, any>((props, ref) => <Component {...props} refInstance={ref}/>)
 
-// export default StopLossAdvSet

@@ -1,16 +1,15 @@
 import {
-  Card,
-  Tooltip,
   Select,
-  Button,
   Space,
   Tag,
   InputNumber,
   Radio
 } from 'antd'
-import React, {FC} from 'react'
+import React, {FC, ReactNode} from 'react'
 import styles from './index.less';
 import {TActionInfoStopLossAdvSet} from "@/pages/automation/wizard/components/step2/stoploss/advset/data";
+import Prompt from "@/pages/automation/components/tooltip";
+import StepCard from "@/pages/automation/wizard/components/step-card";
 
 export interface StaticsItemValueType {
   staticMetricValue?: number; // 静态指标值
@@ -35,11 +34,11 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
   }}>
     <div style={{fontSize: "14px"}}>
       <Space>
-        <Tooltip placement="bottomRight" title="可以根据所选指标随时间变化进行设置">
-          <Radio value={1}>
-            静态指标
-          </Radio>
-        </Tooltip>
+        <Radio value={1}>
+          静态指标
+          &nbsp;
+          <Prompt content="可以根据您的喜好设置为1个固定的值"/>
+        </Radio>
         &nbsp;
         <InputNumber value={props.initValues?.staticMetricValue} onChange={(value) => {
           const obj = {staticMetricValue: value as number | undefined};
@@ -49,11 +48,11 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
     </div>
     <div style={{fontSize: "14px", marginTop: "8px"}}>
       <Space>
-        <Tooltip placement="bottomRight" title="可以根据所选指标随时间变化进行设置">
-          <Radio disabled={true} value={2}>
-            动态指标
-          </Radio>
-        </Tooltip>
+        <Radio disabled={true} value={2}>
+          动态指标
+          &nbsp;
+          <Prompt content="可以根据所选指标随时间变化进行设置"/>
+        </Radio>
 
         $ 0.00
         [
@@ -93,20 +92,8 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
   </Radio.Group>
 }
 
-// interface StaticsSetUpProps {
-//   staticsIdx: number,
-//   setStaticsIdx: (value: number) => void,
-//   title: string,
-//   installsValue?: number,
-//   installfeeValue?: StaticsItemValueType,
-//   spendFeeValue?: StaticsItemValueType,
-//   onInstallsValueChange: (installsValue: number | string | undefined | null) => void,
-//   onInstallfeeValueChange: (installfeeValue: StaticsItemValueType | undefined) => void,
-//   onSpendFeeValueChange: (spendFeeValue: StaticsItemValueType | undefined) => void,
-// }
-
 interface ISetUp {
-  title: string;
+  title: string | ReactNode;
   ActionInfo?: TActionInfoStopLossAdvSet;
   onChange: (payload: any) => void;
 };
@@ -132,14 +119,24 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
     // }
   ]
   return (<>
-    <Card
-      title={props.title}
+    <StepCard
+      title={
+        <>
+        {props.title}
+          <div>
+            如果
+            <strong>{statics[ActionInfo?.staticsIdx].label}</strong>
+            小于
+            <strong>{ActionInfo?.installValue}</strong>
+            且
+            <strong>支出</strong>
+            大于
+            <strong>${ActionInfo?.spendFeeValue?.staticMetricValue}</strong>
+          </div>
+        </>
+      }
       className={styles.tacticsSetUp}
     >
-      <div>如果<span className="em">{statics[ActionInfo?.staticsIdx].label}</span>是 小于<span
-        className="em">{ActionInfo?.installValue}</span>且<span className="em">支出</span>大于<span
-        className="em">US${ActionInfo?.spendFeeValue?.staticMetricValue}</span>&nbsp;&nbsp;<Button type="link"></Button>
-      </div>
       <div style={{marginTop: "20px"}}><Space>
         <svg className="icon"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1470">
@@ -184,7 +181,7 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
           }}/>
         </Space>
       </div>
-    </Card>
+    </StepCard>
   </>);
 }
 
@@ -210,14 +207,24 @@ const StaticsSetUp2: FC<ISetUp> = (props) => {
     },
   ]
   return (<>
-    <Card
-      title={props.title}
+    <StepCard
+      title={
+        <>
+          {props.title}
+          <p>
+            如果
+            <strong>{statics[ActionInfo?.staticsIdxPer].label}</strong>
+            大于
+            <strong>{ActionInfo?.installfeeValue?.staticMetricValue}</strong>
+            且
+            <strong>支出</strong>
+            大于
+            <strong>${ActionInfo?.spendFeeValuePer?.staticMetricValue}</strong>
+          </p>
+        </>
+      }
       className={styles.tacticsSetUp}
     >
-      <div>如果<span className="em">{statics[ActionInfo?.staticsIdxPer].label}</span>是 大于<span
-        className="em">{ActionInfo?.installfeeValue?.staticMetricValue}</span>且<span className="em">支出</span>大于<span
-        className="em">US${ActionInfo?.spendFeeValuePer?.staticMetricValue}</span>&nbsp;&nbsp;<Button
-        type="link"></Button></div>
       <div style={{marginTop: "20px"}}><Space>
         <svg className="icon"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1470">
@@ -262,7 +269,7 @@ const StaticsSetUp2: FC<ISetUp> = (props) => {
           }}/>
         </Space>
       </div>
-    </Card>
+    </StepCard>
   </>);
 }
 

@@ -202,7 +202,7 @@ const Setting: FC<ISetting> = (props) => {
             <strong>预算</strong>
             将在当地时间{ActionInfo?.ResetBudgetTime?.format(format)} (亚洲/上海) 自动
             <strong>重置</strong>
-            &nbsp;<Prompt content={'在设置的时间点，所有受次策略影响的广告集，都将恢复到它们的初始预算'} />
+            &nbsp;<Prompt content={'在设置的时间点，所有受此策略影响的广告集，都将恢复到它们的初始预算'} />
           </p>
         }
       >

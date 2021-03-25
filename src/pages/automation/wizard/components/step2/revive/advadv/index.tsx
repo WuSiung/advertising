@@ -1,8 +1,4 @@
-import {
-  Card,
-  TimePicker,
-  InputNumber,
-  Switch, Space
+import {InputNumber, Switch, Space
 } from 'antd'
 import React, {FC, forwardRef, useEffect, useImperativeHandle} from 'react'
 import {connect} from 'umi';
@@ -14,11 +10,9 @@ import {TActionInfoReviveAdv} from "@/pages/automation/wizard/components/step2/r
 import {ITactic, ITacticForwardRef, TStateTactic} from "@/pages/automation/wizard/components/step2/data";
 import AdSelector from "@/pages/automation/wizard/components/step3/ad-selector";
 import {TActionInfoReviveAdvSet} from "@/pages/automation/wizard/components/step2/revive/advset/data";
+import StepCard from "@/pages/automation/wizard/components/step-card";
+import Prompt from "@/pages/automation/components/tooltip";
 
-// interface StopLossAdvSetProps {
-//   step: number;
-//   ref: React.MutableRefObject<any>
-// }
 
 interface ISetting {
   ActionInfo?: TActionInfoReviveAdv;
@@ -26,34 +20,29 @@ interface ISetting {
 };
 
 const Setting: FC<ISetting> = (props) => {
-  // const [staticsIdx,setStaticsIdx] = useState<number>(0);
-  // const [installsValue,setInstallsValue] = useState<number>();
-  // const [installfeeValue,setInstallfeeValue] = useState<StaticsItemValueType>({mertricType:2});
-  // const [spendFeeValue,setSpendFeeValue] = useState<StaticsItemValueType>({mertricType:2});
-  // const [checked,setChecked]= useState<boolean>(false);
-  // const [installs,setInstalls]= useState<number>(0);
-  // const format = 'HH:mm';
   const {ActionInfo, onChange} = props;
   return (<>
-    {<SettingHeadCard title="复活广告位" icon={<SvgRevive fill="#d964c5"/>} pictrue={<SvgRevivePic/>}
-                      subTitle="我们准备了Revive策略，以适应渠道中的各种事件。选择您想作为Revive基础的事件，我们将为您推荐该事件的最佳预测Revive指标，或跳过此步骤并从头开始制定策略。"/>}
-
-    <Card
-      title="恢复效果良好的已暂停广告"
+    <SettingHeadCard title="复活广告层级" subTitle="实时恢复广告" icon={<SvgRevive fill="#d964c5"/>} pictrue={<SvgRevivePic/>}
+                      remark="我们准备了复活策略，以适应渠道中的各种事件。选择您想作为复活基础的事件，我们将为您推荐该事件的最佳预测复活指标，或跳过此步骤并从头开始制定策略。"/>
+    <StepCard
+      title={
+        <>
+          <p>恢复效果良好的已暂停广告</p>
+          <p>如果今天暂停的广告获得<strong>{ActionInfo?.installs}或更多</strong>安装次数</p>
+        </>
+      }
     >
-      <div style={{fontSize: "18px", margin: "10px 0"}}>如果今天暂停的广告集获得<span className="em">{ActionInfo?.installs}</span>次或更多安装次数
-      </div>
       <div><InputNumber value={ActionInfo?.installs} onChange={(value) => {
         onChange({installs: value})
       }}/> 移动安装次数
       </div>
-    </Card>
+    </StepCard>
     <div className={styles.swichWrap}>
       <Space>
         <Switch onChange={(value) => {
           onChange({AndCondition: value})
         }} defaultChecked={ActionInfo?.AndCondition} title="和"></Switch>
-        <span>和</span>
+        <span>和&nbsp;<Prompt placement="right" content="为了确定这个广告今天确实是有利可图的，我们推荐您同时选择这2个触发条件" /></span>
       </Space>
     </div>
     <div style={{opacity: ActionInfo?.AndCondition ? "1" : "0.5", pointerEvents: ActionInfo?.AndCondition ? "inherit" : "none"}}>
@@ -89,11 +78,6 @@ const ReviveAdvAdv: FC<ITactic<TActionInfoReviveAdv>> = (props) => {
   useEffect(() => {
     if (props.editInfo) {
       const actionInfo = JSON.parse(props.editInfo.actionInfo);
-      // actionInfo.installs = actionInfo.InsertCount;
-      // actionInfo.installfeeValue = {
-      //   InsertOneCost: actionInfo.InsertOneCost
-      // }
-
       dispatch({
         type: 'reviveAdv/init',
         payload: {
@@ -143,4 +127,4 @@ const Component = connect(({reviveAdv}: { reviveAdv: TStateTactic<TActionInfoRev
 }))(ReviveAdvAdv);
 
 export default forwardRef<Pick<ITacticForwardRef, any>, any>((props, ref) => <Component {...props} refInstance={ref}/>)
-// export default ReviveAdvAdv
+

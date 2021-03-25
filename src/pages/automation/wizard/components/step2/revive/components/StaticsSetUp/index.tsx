@@ -1,8 +1,6 @@
 import {
-  Card,
   Tooltip,
   Select,
-  Button,
   Space,
   Tag,
   InputNumber,
@@ -11,6 +9,8 @@ import {
 import React, {FC} from 'react'
 import styles from './index.less';
 import {TActionInfoReviveAdvSet} from "@/pages/automation/wizard/components/step2/revive/advset/data";
+import StepCard from "@/pages/automation/wizard/components/step-card";
+import Prompt from "@/pages/automation/components/tooltip";
 
 export interface StaticsItemValueType {
   staticMetricValue?: number;
@@ -35,11 +35,11 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
   }}>
     <div style={{fontSize: "14px"}}>
       <Space>
-        <Tooltip placement="bottomRight" title="可以根据所选指标随时间变化进行设置">
           <Radio value={1}>
             静态指标
+            &nbsp;
+            <Prompt content="可以根据您的喜好设置为1个固定的值" />
           </Radio>
-        </Tooltip>
         &nbsp;
         <InputNumber value={props.initValues?.staticMetricValue} onChange={(value) => {
           const obj = {staticMetricValue: value as number | undefined};
@@ -49,12 +49,11 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
     </div>
     <div style={{fontSize: "14px", marginTop: "8px"}}>
       <Space>
-        <Tooltip placement="bottomRight" title="可以根据所选指标随时间变化进行设置">
           <Radio disabled={true} value={2}>
             动态指标
+            &nbsp;
+            <Prompt content="可以根据所选指标随时间变化进行设置" />
           </Radio>
-        </Tooltip>
-
         $ 0.00
         [
 
@@ -93,18 +92,6 @@ const StaticsItem: FC<StaticsItemProps> = (props) => {
   </Radio.Group>
 }
 
-// interface StaticsSetUpProps {
-//   staticsIdx: number,
-//   setStaticsIdx: (value: number) => void,
-//   title: string,
-//   installsValue?: number,
-//   installfeeValue?: StaticsItemValueType,
-//   spendFeeValue?: StaticsItemValueType,
-//   onInstallsValueChange: (installsValue: number | string | undefined | null) => void,
-//   onInstallfeeValueChange: (installfeeValue: StaticsItemValueType | undefined) => void,
-//   onSpendFeeValueChange: (spendFeeValue: StaticsItemValueType | undefined) => void,
-// }
-
 interface ISetUp {
   title: string;
   ActionInfo?: TActionInfoReviveAdvSet;
@@ -124,13 +111,20 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
     }
   ]
   return (<>
-    <Card
-      title={props.title}
+    <StepCard
+      title={
+        <>
+          <p>{props.title}</p>
+          <p>
+            如果今天暂停的广告集的
+            <strong>{statics[ActionInfo?.staticsIdx].label}</strong>
+            低或等于
+            <strong>{ActionInfo?.installfeeValue?.mertricType === 2 ? ActionInfo?.installfeeValue?.value : ActionInfo?.installfeeValue?.staticMetricValue}</strong>
+          </p>
+        </>
+      }
       className={styles.tacticsSetUp}
     >
-      <div>如果今天暂停的广告集的<span className="em">{statics[ActionInfo?.staticsIdx].label}</span>是 低或等于<span
-        className="em">{ActionInfo?.installfeeValue?.mertricType === 2 ? ActionInfo?.installfeeValue?.value : ActionInfo?.installfeeValue?.staticMetricValue}</span><Button
-        type="link"></Button></div>
       <div style={{marginTop: "20px"}}><Space>
         <svg className="icon"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1470">
@@ -156,7 +150,7 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
         &nbsp;
         {statics[ActionInfo?.staticsIdx].node}
       </Space></div>
-    </Card>
+    </StepCard>
   </>);
 }
 export {StaticsSetUp}

@@ -7,7 +7,7 @@ interface ISettingHeadCard {
   pictrue: string | ReactNode;
   title: string;
   subTitle: string;
-  remark?: string;
+  remark?: string | ReactNode;
   size?: string;
 }
 

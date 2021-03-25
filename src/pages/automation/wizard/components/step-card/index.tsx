@@ -3,6 +3,7 @@ import {Button, Card} from 'antd';
 
 interface IStepCard {
   title: ReactNode
+  className?: string
 };
 
 const StepCard: FC<IStepCard> = (props) => {
