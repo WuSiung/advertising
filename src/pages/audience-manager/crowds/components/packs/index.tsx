@@ -33,7 +33,7 @@ const Pack: FC<OnePackProps> = (props) => {
         <div style={{ textAlign: 'center' }}>{props.audName}</div>
         <div className={styles.popover}>
             {
-                props.advAudLoveList.some(love => love.type == 0) && <div className={styles.exname}>包含</div>
+                props.advAudLoveList.some(love => love.type == 0) && <div className={styles.exname} style={{color: 'green'}}>包含</div>
             }
             {
 
@@ -42,7 +42,7 @@ const Pack: FC<OnePackProps> = (props) => {
                 })
             }
             {
-                props.advAudLoveList.some(love => love.type != 0) && <div className={styles.exname}>排除</div>
+                props.advAudLoveList.some(love => love.type != 0) && <div className={styles.exname} style={{color: '#f05525'}}>排除</div>
             }
             {
 
