@@ -93,6 +93,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: <div className={styles.thTitle}>id </div>,
             titleString: 'id',
             dataIndex: 'packId',
+            fixed: true,
             width: 60,
             key: 'packId',
         },
@@ -490,6 +491,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: <div className={styles.thTitle}>id </div>,
             titleString: 'id',
             dataIndex: 'setId',
+            fixed: true,
             width: 60,
             key: 'setId',
         },
@@ -889,6 +891,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             title: <div className={styles.thTitle}>id </div>,
             titleString: 'id',
             dataIndex: 'advId',
+            fixed: true,
             width: 60,
             key: 'advId',
         },
@@ -933,7 +936,8 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 }
                 return (<div className={styles.advName}>
                     {
-                        <img src={_.imgTextList[0].advImg.url} alt="" width='30' style={{ maxHeight: 30, marginRight: 4 }} />
+                        _.imgTextList[0].advImg.type == 0 ? <img src={_.imgTextList[0].advImg.url} alt="" width='30' style={{ width: 40, marginRight: 4 }} />
+                            : <video src={_.imgTextList[0].advImg.url} style={{ width: 40, marginRight: 4 }}></video>
                     }
                     <div className={styles.name}>{text}</div>
                     <Switch onClick={() => {

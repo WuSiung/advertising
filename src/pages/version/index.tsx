@@ -68,8 +68,27 @@ const Version = () => {
     '修改冲浪2个页面的文字描述，并增加相应的提示'
   ]
 
-    return <Card>
+  const v_1_1_41: string[] = [
+    '自动化策略主页增加策略状态标志，定期刷新以及手动刷新功能',
+    '止损复活四个页面文字描述修改，和增加提示信息，以及增加卡片隐藏编辑功能',
+    '已有广告新增视频播放，筛选实时刷新',
+    '广告管理新增id',
+    '广告管理修改图片大小',
+  ]
+
+  return <Card>
       <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+      <div className={styles.time}>2021-03-25 19:25</div>
+      <div className={styles.detail}>
+        <ol>
+          {
+            v_1_1_41.map(item => {
+              return <li key={item}>{item}</li>
+            })
+          }
+        </ol>
+      </div>
+      <div className={styles.title}>1.1.40更新说明</div>
       <div className={styles.time}>2021-03-24 21:15</div>
       <div className={styles.detail}>
         <ol>
