@@ -32,24 +32,26 @@ const TacticSummaryModel: TModelTacticSummary = {
   effects: {
     *getTacticList({payload}, {call, put}) {
       const response = yield call(getTacticList, payload);
-      // todo: put
-      yield put({
-        type: 'updateTacticList',
-        payload: {
-          tacticList: response.data ? response.data.tacticList : [],
-        },
-      });
+      if (response) {
+        yield put({
+          type: 'updateTacticList',
+          payload: {
+            tacticList: response.data ? response.data.tacticList : [],
+          },
+        });
+      }
     },
     *getObjInfo({payload}, {call, put}) {
       const response = yield call(getActionObjList, payload);
-      yield put({
-        type: 'updateObjInfo',
-        payload: {
-          ...payload,
-          objNames: response
-        }
-      })
-
+      if (response) {
+        yield put({
+          type: 'updateObjInfo',
+          payload: {
+            ...payload,
+            objNames: response
+          }
+        });
+      }
     }
   }
 }

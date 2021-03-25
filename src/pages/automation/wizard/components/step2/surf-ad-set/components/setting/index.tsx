@@ -51,18 +51,22 @@ const Setting: FC<ISetting> = (props) => {
     {
       title: '最佳广告集效果',
       content: '最近7天和最近3天的平均移动应用安装回报率都高于平均水平',
+      bgColor: '#c4dfe2'
     },
     {
       title: '良好的广告集效果',
       content: '最近7天的移动应用安装回报率低于平局水平，并且最近3天的移动应用安装回报率高于平均水平',
+      bgColor: '#d3e5e7'
     },
     {
       title: '中级广告集效果',
       content: '最近7天的移动应用安装回报率高于平局水平，并且最近3天的移动应用安装回报率高于平均水平',
+      bgColor: '#e7eff0'
     },
     {
       title: '最差广告集效果',
       content: '最近7天和最近3天的平均移动应用安装回报率都低于平均水平',
+      bgColor: '#f9f1f4'
     }
   ]
 
@@ -170,7 +174,7 @@ const Setting: FC<ISetting> = (props) => {
             ActionInfo?.AdvEffectLv && ActionInfo?.AdvEffectLv.map((list, i) => {
               return <Row justify="center" key={i}>
                 <Col span={3} style={{minWidth: 150}}>
-                    <Row justify="space-between" style={{lineHeight: '32px', backgroundColor: '#c4dfe2'}}>
+                    <Row justify="space-between" style={{lineHeight: '32px', backgroundColor: labels[i].bgColor}}>
                       <span>{labels[i].title}&nbsp;</span>
                       <span>
                         <Prompt placement="right" content={<p>{labels[i].content}</p>} />

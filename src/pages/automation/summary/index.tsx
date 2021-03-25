@@ -1,7 +1,7 @@
 import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
-import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Tag} from 'antd';
+import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge} from 'antd';
 import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
@@ -27,11 +27,24 @@ const Summary: FC<SummaryProps> = (props) => {
   const [searchTxt, setSearchTxt] = useState('');
   const [actionType, setActionType] = useState('all');
   const [status, setStatus] = useState('all');
-  useEffect(() => {
+  const handleRefresh = () => {
     dispatch({
       type: 'tacticSummary/getTacticList',
       payload: {}
     });
+  }
+  useEffect(() => {
+    // dispatch({
+    //   type: 'tacticSummary/getTacticList',
+    //   payload: {}
+    // });
+    handleRefresh();
+
+    const intervalId = setInterval(handleRefresh, 60000);
+
+    return function cleanInterval() {
+      clearInterval(intervalId);
+    }
   }, []);
 
   const handleDelete = (recored: TTactic, rowIndex: number) => {
@@ -50,14 +63,6 @@ const Summary: FC<SummaryProps> = (props) => {
           type: 'tacticSummary/getTacticList',
           payload: {}
         });
-
-        // console.log('ok');
-        // return deletResource(deleteInfo.id).then(() => {
-        //   dispatch({
-        //     type: 'material/saveMedias',
-        //     payload: { mediaList: JSON.parse(JSON.stringify(setArr)) }
-        //   })
-        // })
       }
     });
   }
@@ -91,23 +96,14 @@ const Summary: FC<SummaryProps> = (props) => {
   }
 
   const columns: ColumnsType<TTactic> = [
-    // {
-    //   title: '状态',
-    //   width: 80,
-    //   dataIndex: 'name',
-    //   key: 'name',
-    // },
     {
       title: '策略名称',
       dataIndex: 'Name',
       key: 'Name',
+      render: (text: string, record: TTactic, rowIndex) => {
+        return <Space><Badge status={record.Status === '1' ? 'success': 'error'} /><span>{record.Name}</span></Space>
+      }
     },
-    // {
-    //   title: '检查次数',
-    //   dataIndex: 'checkCount',
-    //   key: 'checkCount',
-    //   width: 120,
-    // },
     {
       title: '策略ID',
       dataIndex: 'ObjectID',
@@ -148,13 +144,7 @@ const Summary: FC<SummaryProps> = (props) => {
           </Space>
         )
       }
-    },
-    // {
-    //   title: '最后触发',
-    //   dataIndex: 'PreProcessMsg',
-    //   key: 'PreProcessMsg',
-    //   width: 120,
-    // }
+    }
   ];
 
 
@@ -254,7 +244,12 @@ const Summary: FC<SummaryProps> = (props) => {
             </label>
           </Space>
         </Col>
-        <Col span={2}><Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button></Col>
+        <Col span={4}>
+          <Space size="large">
+            <Button type="primary" onClick={handleRefresh}>刷新</Button>
+            <Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button>
+          </Space>
+        </Col>
       </Row>
 
     </div>
@@ -281,7 +276,7 @@ const Summary: FC<SummaryProps> = (props) => {
                           <Collapse ghost>
                             <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
-                                a.ExecLog.length > 0 ? a.ExecLog.map(l => <p style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>暂无执行记录</p>
+                                a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i} style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>暂无执行记录</p>
                               }
                             </Panel>
                           </Collapse>
