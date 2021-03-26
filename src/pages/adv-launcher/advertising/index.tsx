@@ -1,4 +1,4 @@
-import { Card, Button, Empty, Modal, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space } from 'antd'
+import { Card, Button, Empty, Modal, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space, Dropdown, Menu } from 'antd'
 import React, { FC, useEffect, useState } from 'react'
 import DateRange from '../components/DateRange';
 import moment from 'moment';
@@ -11,7 +11,7 @@ import { AdvedDataType, AdvModelStateType } from "./data";
 import { Dispatch, UserModelState } from "@@/plugin-dva/connect";
 import PreviewContainer from '../components/PreviewContainer';
 import { PreviewAdvType, WorkbenchDataType } from '../workbench/data';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, DownOutlined } from '@ant-design/icons';
 
 interface AdvPropsType {
     advertisingList: AdvedDataType[],
@@ -49,6 +49,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [country, setCountry] = useState<SelectValueType[] | undefined>();
     const [activeAdv, setActiveAdv] = useState<PreviewAdvType & { showPreviewModal: boolean }>();
     const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
+    const [mediaType, setMediaType] = useState<'0' | '1'>()
 
     useEffect(() => {
         dispatch({
@@ -58,10 +59,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 end: date[1],
                 cost,
                 order: orderType,
-                current: 1
+                current: 1,
+                type: mediaType
             }
         });
-    }, [searchTime, orderType])
+    }, [searchTime, orderType, mediaType])
     useEffect(() => {
         if (loadingAdvList) {
             hideLoading = success();
@@ -155,7 +157,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             排序 :&nbsp;
                             <Select
                                 showSearch
-                                style={{ width: 200 }}
+                                style={{ width: 200, marginRight: 10 }}
                                 placeholder="选择排序字段"
                                 optionFilterProp="children"
                                 filterOption={(input: string, option) =>
@@ -171,7 +173,20 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 <Select.Option value="cpm">费用/千次</Select.Option>
                                 <Select.Option value="installs">安装次数</Select.Option>
                                 <Select.Option value="cpa">每次安装费用</Select.Option>
+                                <Select.Option value="0">图片</Select.Option>
+                                <Select.Option value="1">视频</Select.Option>
                             </Select>
+                            <Dropdown overlay={
+                                <Menu>
+                                    <Menu.Item key="1" onClick={() => setMediaType(undefined)} className={mediaType != '1' && mediaType != '0' ? styles.mediaActive : ''}>全部</Menu.Item>
+                                    <Menu.Item key="0" onClick={() => setMediaType('0')} className={mediaType == '0' ? styles.mediaActive : ''}>图片</Menu.Item>
+                                    <Menu.Item key="1" onClick={() => setMediaType('1')} className={mediaType == '1' ? styles.mediaActive : ''}>视频</Menu.Item>
+                                </Menu>
+                            }>
+                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                    素材筛选 <DownOutlined />
+                                </a>
+                            </Dropdown>
                             &nbsp;&nbsp;&nbsp;&nbsp;最小花费 :&nbsp;
                             <Space><InputNumber defaultValue={cost} type='number' min={0} onChange={e => setCost(e as number)} />
                                 <Button type="primary" onClick={() => { setPageIndex(2); setSearchTime(searchTime + 1) }}>确定</Button>
