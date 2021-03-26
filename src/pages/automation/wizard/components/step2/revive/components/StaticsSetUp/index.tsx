@@ -146,7 +146,7 @@ const StaticsSetUp: FC<ISetUp> = (props) => {
           }
         </Select>
         &nbsp;
-        <Tag color="rgb(208 208 208)">&nbsp; &gt;= &nbsp;</Tag>
+        <Tag color="rgb(208 208 208)">&nbsp; &lt;= &nbsp;</Tag>
         &nbsp;
         {statics[ActionInfo?.staticsIdx].node}
       </Space></div>
