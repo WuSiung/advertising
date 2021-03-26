@@ -4,9 +4,11 @@ import Operator
   from "@/pages/automation/wizard/components/step2/custom/components/setting/components/task/components/group/operator";
 import Condition
   from "@/pages/automation/wizard/components/step2/custom/components/setting/components/task/components/group/condition";
-import {TCondition, TGroup} from "@/pages/automation/wizard/components/step2/custom/components/setting/data";
+import {TGroup} from "@/pages/automation/wizard/components/step2/custom/components/setting/data";
 
 interface IGroup {
+  idx?: number;
+  numCondition?: number; // 同级的conditions数目
   group: TGroup;
   onAdd: () => void
 }
@@ -29,7 +31,11 @@ function getNumOfCondition(group: TGroup): number {
 const Group: FC<IGroup> = (props) => {
  // todo: 求出group中的所有condition的数目
   const numCondition = getNumOfCondition(props.group);
-  console.log(numCondition);
+  // console.log(numCondition);
+  const condHeight = 40  // 条件高度
+  const condMaginTop = 10 // 条件间隔
+  const optWidth = 24  // 操作条宽度
+
   const {group} = props;
   const handleAddGroup = () => {
     if (!group.children) {
@@ -84,16 +90,16 @@ const Group: FC<IGroup> = (props) => {
 
   return (
     <>
-      <Row style={{marginLeft: 5}}>
+      <Row style={{marginLeft: 5, marginTop: (props.numCondition === 0 && props.idx === 0) ? 0 : condMaginTop}}>
         <Col>
-          <Operator numCondition={numCondition} onAddGroup={handleAddGroup} onAddCondition={handleAddCondition}></Operator>
+          <Operator numCondition={numCondition} condHeight={condHeight} condMarginTop={condMaginTop} optWidth={optWidth} onAddGroup={handleAddGroup} onAddCondition={handleAddCondition}></Operator>
         </Col>
-        <Col span={18}>
+        <Col span={20}>
           {
-            props.group.conditionList.map((c, i) => <Condition key={i}></Condition>)
+            props.group.conditionList.map((c, i) => <Condition key={i} idx={i} condHeight={condHeight} condMarginTop={condMaginTop}></Condition>)
           }
           {
-            props.group.children && props.group.children.map((g, j) => <Group onAdd={props.onAdd} key={j} group={g} />)
+            props.group.children && props.group.children.map((g, j) => <Group onAdd={props.onAdd} key={j} numCondition={props.group.conditionList.length} idx={j} group={g} />)
           }
         </Col>
       </Row>
