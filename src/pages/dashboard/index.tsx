@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, Select, Space, Table, DatePicker, Tag } from 'antd';
+import { Row, Col, Card, Select, Space, Table, DatePicker, Tag, Divider, Modal, message, Input, Empty, Spin } from 'antd';
 import { Area, Line } from '@ant-design/charts';
 
 import { TColumnOption, TData, TState, TStatistic } from './data';
@@ -13,20 +13,27 @@ import { ColumnSelectTitle } from '@/pages/dashboard/components/column-select-ti
 import styles from './index.less';
 import Loading from '@/components/Loading';
 import moment from 'moment';
+import CustomColumns from './components/customColumns';
+import Store from '@/utils/store';
+import { customData } from '@/services/customData';
 
 export type DashboardProps = {
   dispatch: Dispatch;
   dashboard: TState;
   isLoading: boolean;
+  customLoading: boolean
 };
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
-  const { dispatch, dashboard, isLoading } = props;
+  const { dispatch, dashboard, isLoading, customLoading } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [isChanged, setIsChanged] = useState(true);
+  const [showCustom, setShowCustom] = useState(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>(['resultName', 'name'])
+  const [customName, setCustomName] = useState<string>('')
 
   useEffect(() => {
     if (!isOpen && isChanged) {
@@ -46,6 +53,13 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       setIsChanged(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    dispatch({
+      type: 'dashboard/queryCustomColumns',
+      payload: '5adashboardCustom' + Store.GetUserId(),
+    })
+  }, [])
 
   const tableOptionList: TColumnOption[] = [
     {
@@ -487,6 +501,73 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       },
     });
   };
+
+  const customTag = () => {
+    if (customName == '') {
+      message.warning('请输入名称')
+      return
+    }
+    if (dashboard.customColumns?.some(item => item.name == customName)) {
+      message.warning('自定义名称请勿重复')
+      return
+    }
+    const list = tableOptionList.map(col => {
+      if (selectedTags.includes(col.dataIndex)) {
+        col.show = true
+      } else {
+        col.show = false
+      }
+      return col
+    })
+
+    setShowColumns(list)
+    const params = {
+      name: customName,
+      data: list
+    }
+    let arr = []
+    if (dashboard.customColumns?.length && dashboard.customColumns?.length > 0) {
+      arr = JSON.parse(JSON.stringify(dashboard.customColumns))
+      arr.push(params)
+    } else {
+      arr.push(params)
+    }
+    customData({ key: '5adashboardCustom' + Store.GetUserId(), value: JSON.stringify(arr) }).then(() => {
+      setShowCustom(false)
+      dispatch({
+        type: 'dashboard/queryCustomColumns',
+        payload: '5adashboardCustom' + Store.GetUserId(),
+      })
+    })
+  }
+
+  const changeTag = (tags: string, checked: boolean) => {
+    if (tags == 'resultName' || tags == 'name') {
+      message.warning('不可取消')
+      return
+    }
+    const nextSelectedTags = checked ? [...selectedTags, tags] : selectedTags.filter(t => t !== tags)
+    if (nextSelectedTags.length > 10) {
+      message.warning('请最多选择10个')
+      return
+    }
+    setSelectedTags(nextSelectedTags)
+  }
+
+  const selectCustom = (v: string) => {
+    let o = dashboard.customColumns?.filter(item => item.name == v) || []
+    setShowColumns(o[0].data)
+  }
+  const deleteCustom = (v: string) => {
+    let o = dashboard.customColumns?.filter(item => item.name != v) || []
+    customData({ key: '5adashboardCustom' + Store.GetUserId(), value: JSON.stringify(o) }).then(() => {
+      setShowCustom(false)
+      dispatch({
+        type: 'dashboard/queryCustomColumns',
+        payload: '5adashboardCustom' + Store.GetUserId(),
+      })
+    })
+  }
   const optionList1 = TARGET_LIST.filter((o) => o.value !== dashboard.target2);
   const optionList2 = TARGET_LIST.filter((o) => o.value !== dashboard.target1);
 
@@ -590,7 +671,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           title="综合统计"
           loading={isLoading}
           extra={
-            <div>自定义列</div>
+            <Spin spinning={!!customLoading}>
+              <CustomColumns placeholder='切换自定义列' options={dashboard.customColumns} onSelect={selectCustom} onDelete={deleteCustom}>
+                <Divider style={{ margin: '4px 0' }} />
+                <div style={{ padding: '2px 10px', cursor: 'pointer', color: '#000' }} onClick={() => setShowCustom(true)}>新增自定义列</div>
+              </CustomColumns>
+            </Spin>
           }
         >
           <Table
@@ -628,6 +714,16 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           {roiData.length ? <Line {...configRoi} /> : <Line {...EMPTY_CFG_ROI} />}
         </Card>
       </div>
+      <Modal visible={showCustom} title='选择自定义列' onCancel={() => setShowCustom(false)} onOk={customTag}>
+        <div><Input placeholder='自定义列名称' style={{ marginBottom: 10 }} value={customName} onChange={e => setCustomName(e.target.value)} /></div>
+        {
+          tableOptionList.map(item => {
+            return <Tag.CheckableTag className={styles.customTag} key={item.dataIndex} checked={selectedTags.includes(item.dataIndex)} onChange={checked => changeTag(item.dataIndex, checked)}>
+              {item.dataIndex}
+            </Tag.CheckableTag>
+          })
+        }
+      </Modal>
       {isLoading && <Loading showMask tips="数据加载中，请稍等..." />}
     </PageContainer>
   );
@@ -636,4 +732,5 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 export default connect(({ dashboard, loading }: { dashboard: TState; loading: any }) => ({
   dashboard,
   isLoading: loading.effects['dashboard/queryStatistics'],
+  customLoading: loading.effects['dashboard/queryCustomColumns'],
 }))(Dashboard);

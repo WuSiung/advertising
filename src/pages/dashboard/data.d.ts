@@ -89,6 +89,10 @@ export type TState = {
   totalList?: TStatistic[];
   detailDataList?: TData[][];
   roiDataRecord?: Record<string, TData[]>;
+  customColumns?: {
+    name: string;
+    data: TColumnOption[];
+  }[]
 };
 
 export type TColumnOption = {

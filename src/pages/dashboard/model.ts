@@ -4,6 +4,7 @@ import { Effect } from '@@/plugin-dva/connect';
 import { TData, TDetail, TOption, TState, TTab } from './data';
 import moment from 'moment';
 import { TARGET_LIST, ROI_TARGET_LIST } from './targets';
+import { getCustomData } from '@/services/customData';
 
 export type TDashboardModel = {
   namespace: string;
@@ -14,9 +15,11 @@ export type TDashboardModel = {
     changeTab: Reducer<TState>;
     updateDashboard: Reducer<TState>;
     updateSummaryDataList: Reducer<TState>;
+    saveCustomColumns: Reducer<TState>;
   };
   effects: {
     queryStatistics: Effect;
+    queryCustomColumns: Effect
   };
 };
 
@@ -88,6 +91,7 @@ const DashboardModel: TDashboardModel = {
     totalList: [],
     detailDataList: [],
     roiDataRecord: {},
+    customColumns: []
   },
   reducers: {
     changeRange(state, { payload }) {
@@ -186,6 +190,12 @@ const DashboardModel: TDashboardModel = {
 
       return data;
     },
+    saveCustomColumns(state, { payload }) {
+      return {
+        ...state,
+        customColumns: payload
+      }
+    }
   },
   effects: {
     *queryStatistics({ payload }, { call, put }) {
@@ -201,6 +211,13 @@ const DashboardModel: TDashboardModel = {
           roiList: response[2].data,
         },
       });
+    },
+    *queryCustomColumns({ payload }, { call, put }) {
+      const res = yield call(getCustomData, payload)
+      yield put({
+        type: 'saveCustomColumns',
+        payload: JSON.parse(res.data) || []
+      })
     },
   },
 };
