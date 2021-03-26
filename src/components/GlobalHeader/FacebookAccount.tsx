@@ -4,7 +4,7 @@ import { connect, ConnectProps } from 'umi'
 import type { Dispatch } from 'umi'
 import type { FacebookAccount, AppInfo } from '@/models/user'
 import HeaderDropdown from '../HeaderDropdown';
-import { Avatar, Menu, Spin, message } from 'antd';
+import { Avatar, Menu, Spin, message, Modal, Button,Image } from 'antd';
 import styles from './index.less';
 import { DownOutlined, FacebookFilled, GoogleCircleFilled } from '@ant-design/icons';
 import FBLogin, { loadAndInitFB } from '@/utils/fblogin'
@@ -17,7 +17,8 @@ export type GlobalHeaderRightProps = {
     facebookAccounts?: FacebookAccount[],
     appInfo?: AppInfo,
     dispatch?: Dispatch,
-    changeAccounting?: boolean
+    changeAccounting?: boolean,
+    getAccountLoading?: boolean
 } & Partial<ConnectProps>;
 
 export type QueryOnlineAccountParams = {
@@ -26,13 +27,15 @@ export type QueryOnlineAccountParams = {
 }
 
 const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
-    const { facebookAccounts, appInfo, dispatch, changeAccounting } = props;
+    const { facebookAccounts, appInfo, dispatch, changeAccounting, getAccountLoading } = props;
     const [showModal, setShowModal] = useState<boolean>(false)
     const [facebookLoginParam, setFacebookLoginParam] = useState<QueryOnlineAccountParams>()
+    const [hasBindAddcount, setHasBindAddcount] = useState<boolean>(true)
 
     useEffect(() => {
         loadAndInitFB()
     }, [])
+
 
     const changeAccount = async ({ key }: { key: string }) => {
         switch (key) {
@@ -102,6 +105,17 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                 </Spin>
             </HeaderDropdown>
             <AddAccountModal isModalVisible={showModal} handleVisible={setShowModal} fbLoginParams={facebookLoginParam}></AddAccountModal>
+            {
+                hasBindAddcount && <Modal visible={(!getAccountLoading) && facebookAccounts?.length == 0} footer={null} onCancel={() => setHasBindAddcount(false)}>
+                    <Image src={require('@/assets/fbIcon.jpg')} width={20} preview={false}></Image>
+                    <div>智能广告投放解决方案</div>
+                    <div>自动同步Facebook广告列表数据</div>
+                    <div>通过广告工作台批量发布广告</div>
+                    <div>制定自动化策略实时监控优化广告效果</div>
+                    <div>一站式管理批量上传广告素材资源</div>
+                    <Button onClick={() => changeAccount({ key: 'addFacebookAccount' })}>添加Facebook账号</Button>
+                </Modal>
+            }
         </div>
     )
 }
@@ -125,4 +139,5 @@ export default connect(({ user, loading }: ConnectState) => ({
     facebookAccounts: user.facebookAccounts,
     appInfo: user.appInfo,
     changeAccounting: loading.effects['global/changeFbAccount'],
+    getAccountLoading: loading.effects['user/fetchFbAccounts'],
 }))(FacebookAccountLists)
