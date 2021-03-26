@@ -18,7 +18,7 @@ const TacticCard: FC<ITacticCard> = (props) => {
   return (
     <Card
       type="inner"
-      style={{borderRight: border, height: 180, overflow: "hidden"}}
+      style={{borderRight: border, height: 210, overflow: "hidden"}}
       hoverable={true}
       onClick={() => {props.onSelected(props.tactic, props.level)}}
     >

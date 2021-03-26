@@ -248,7 +248,7 @@ const Summary: FC<SummaryProps> = (props) => {
             <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)}/>
             <label>
               类型：
-              <Select style={{width: 120}} value={actionType} onChange={value => setActionType(value)}>
+              <Select value={actionType} onChange={value => setActionType(value)}>
                 {
                   typeList.map(t => <Option key={t.value} value={t.value}>{t.name}</Option>)
                 }
@@ -256,7 +256,7 @@ const Summary: FC<SummaryProps> = (props) => {
             </label>
             <label>
               状态：
-              <Select style={{width: 120}} value={status} onChange={value => setStatus(value)}>
+              <Select value={status} onChange={value => setStatus(value)}>
                 {
                   statusList.map(s => <Option key={s.value} value={s.value}>{s.name}</Option>)
                 }
@@ -293,11 +293,11 @@ const Summary: FC<SummaryProps> = (props) => {
                 <List loading={isExpandLoading}>
                   {
                     record.AdvObjs.map(a =>
-                      <List.Item key={a.AdvID} style={{marginLeft: 55}}>
+                      <List.Item key={a.AdvID}>
                           <Collapse ghost>
                             <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
-                                a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i} style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>暂无执行记录</p>
+                                a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i}>{l}</p>) : <p>暂无执行记录</p>
                               }
                             </Panel>
                           </Collapse>
