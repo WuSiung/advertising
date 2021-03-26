@@ -2,7 +2,7 @@ import {TModelReviveAdvSet} from "@/pages/automation/wizard/components/step2/rev
 import moment from "moment";
 
 const FORMAT = 'HH:mm';
-const TACTIC_NAME = '复活-广告集水平 触发 -> ';
+const TACTIC_NAME = '复活广告集层级 触发 -> ';
 
 function createName(obj: any) {
   obj.Name = `${TACTIC_NAME}(安装数 >= ${obj.ActionInfo.installs})`;

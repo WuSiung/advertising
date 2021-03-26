@@ -2,7 +2,7 @@ import { TModelStopLossAdv } from "@/pages/automation/wizard/components/step2/st
 import moment from 'moment';
 
 const FORMAT = 'HH:mm';
-const TACTIC_NAME = '止损-广告水平 触发 -> ';
+const TACTIC_NAME = '止损广告层级 触发 -> ';
 
 function createName(obj: any) {
   obj.Name = `${TACTIC_NAME}(安装数 < ${obj.ActionInfo.installValue} && 花费 > ${obj.ActionInfo.spendFeeValue.staticMetricValue})`;
