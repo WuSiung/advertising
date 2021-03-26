@@ -52,7 +52,7 @@ const StopLossAdvSetModel: TModelStopLossAdvSet = {
   },
   reducers: {
     updateActionInfo (state, { payload }) {
-      console.log('stop loss adv set ', payload);
+      // console.log('stop loss adv set ', payload);
       const res: any = {
         ...state,
         ActionInfo: {

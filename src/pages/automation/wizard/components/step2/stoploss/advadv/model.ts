@@ -75,7 +75,7 @@ const StopLossAdvModel: TModelStopLossAdv = {
     init (state, { payload }) {
       return {
         ...state,
-        ...JSON.parse(JSON.stringify(payload))
+        ...payload
       }
     }
   }
