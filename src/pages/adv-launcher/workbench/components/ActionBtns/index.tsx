@@ -136,7 +136,8 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
                         loading={upTextLoading} setVisible={setModalVisible}>
                     </UploadTextFile>
                     <div className={styles.uploadBtns}>
-                        <Upload multiple customRequest={e => fileUpload(e, dispatch)} showUploadList={false} beforeUpload={setUploadLength}>
+                        <Upload multiple accept='.png, .jpg, .jpeg, .bmp, .gif, .webp, .psd, .svg, .tiff, .avi, .rmvb, .rm, .asf, .divx, .mpg, .mpeg, .mpe, .wmv, .mp4, .mkv, .vob'
+                            customRequest={e => fileUpload(e, dispatch)} showUploadList={false} beforeUpload={setUploadLength}>
                             <Button type="primary" disabled={upFileloading}>上传资源</Button>
                         </Upload>
                     </div>
