@@ -2,7 +2,7 @@ import {TSurfAdSetModel} from "@/pages/automation/wizard/components/step2/surf-a
 import moment from 'moment';
 import { TState } from './data'
 
-const TACTIC_NAME = '冲浪-广告集水平 触发 -> ';
+const TACTIC_NAME = '冲浪-广告集层级 触发 -> ';
 const OPERATOR = '>= '
 export const OPTIONS = {
   'installs': '移动应用安装数',

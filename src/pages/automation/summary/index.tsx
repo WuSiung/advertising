@@ -2,7 +2,6 @@ import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
 import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge, Switch} from 'antd';
-import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
@@ -10,6 +9,7 @@ import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTw
 import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
+import styles from './index.less';
 
 const {Search} = Input;
 const {Option} = Select;
@@ -248,7 +248,7 @@ const Summary: FC<SummaryProps> = (props) => {
             <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)}/>
             <label>
               类型：
-              <Select style={{width: 120}} value={actionType} onChange={value => setActionType(value)}>
+              <Select value={actionType} onChange={value => setActionType(value)}>
                 {
                   typeList.map(t => <Option key={t.value} value={t.value}>{t.name}</Option>)
                 }
@@ -256,7 +256,7 @@ const Summary: FC<SummaryProps> = (props) => {
             </label>
             <label>
               状态：
-              <Select style={{width: 120}} value={status} onChange={value => setStatus(value)}>
+              <Select value={status} onChange={value => setStatus(value)}>
                 {
                   statusList.map(s => <Option key={s.value} value={s.value}>{s.name}</Option>)
                 }
@@ -279,7 +279,7 @@ const Summary: FC<SummaryProps> = (props) => {
   return (
     <PageContainer header={{title: '策略管理', breadcrumb: {}}} content='这些自动化策略构建的系统可以通过主动干预来优化您的广告支出，从而最大限度地提高投产比和投放量，减少了低效重复操作，使自主媒体购买和扩展广告运营成为可能，获得更多时间投入创造。'>
       <Card
-        className={`${styles.totalCard}`}
+        className={`${styles.main}`}
         title={title}
         loading={isLoading}
       >
@@ -293,11 +293,11 @@ const Summary: FC<SummaryProps> = (props) => {
                 <List loading={isExpandLoading}>
                   {
                     record.AdvObjs.map(a =>
-                      <List.Item key={a.AdvID} style={{marginLeft: 55}}>
+                      <List.Item key={a.AdvID}>
                           <Collapse ghost>
-                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
+                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>{a.fbId}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
-                                a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i} style={{marginLeft: 20}}>{l}</p>) : <p style={{marginLeft: 20}}>暂无执行记录</p>
+                                a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i}>{l}</p>) : <p>暂无执行记录</p>
                               }
                             </Panel>
                           </Collapse>

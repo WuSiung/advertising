@@ -1,7 +1,7 @@
 import { TStateSurfCampaign, TSurfCampaignModel } from "@/pages/automation/wizard/components/step2/surf-campaign/data";
 import moment from 'moment';
 
-const TACTIC_NAME = '冲浪 CBO || 检查';
+const TACTIC_NAME = '冲浪-广告系列层级 || 检查';
 const DOUBEL_CHECK = ' w\\二次检查'
 const FORMAT = 'HH:mm';
 

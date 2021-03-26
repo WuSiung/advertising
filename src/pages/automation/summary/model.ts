@@ -19,7 +19,8 @@ const TacticSummaryModel: TModelTacticSummary = {
         const r = state?.tacticList.find(t => t.ObjectID === payload.objectID);
         if (r) {
           r.AdvObjs.forEach((o, idx) => {
-            r.AdvObjs[idx].ObjName = payload.objNames[idx]
+            r.AdvObjs[idx].ObjName = payload.objs[idx].name;
+            r.AdvObjs[idx].fbId = payload.objs[idx].fbId;
           })
           r.IsLoaded = true;
         }
@@ -48,7 +49,7 @@ const TacticSummaryModel: TModelTacticSummary = {
           type: 'updateObjInfo',
           payload: {
             ...payload,
-            objNames: response
+            objs: response
           }
         });
       }

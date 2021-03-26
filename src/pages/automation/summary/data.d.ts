@@ -6,6 +6,7 @@ export type TAdbObj = {
   ExecLog: string[];
   CheckTimes: number;
   ExecTimes: number;
+  fbId: string;
 }
 
 export type TTactic = {

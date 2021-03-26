@@ -121,5 +121,5 @@ export async function getActionObjList(payload: any) {
   });
 
   const res = await Promise.all(list);
-  return res.map((r, idx) => (r && r.data) ? r.data[key] : objIds[idx])
+  return res.map((r, idx) => (r && r.data) ? {name: r.data[key], fbId: r.data.fbId} : {name: objIds[idx], fbId: objIds[idx]})
 }
