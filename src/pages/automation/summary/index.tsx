@@ -2,7 +2,6 @@ import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
 import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge, Switch} from 'antd';
-import styles from "@/pages/dashboard/index.less";
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
@@ -10,6 +9,7 @@ import {EditTwoTone, ExclamationCircleOutlined, PauseCircleTwoTone, PlayCircleTw
 import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summary/service";
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
+import styles from './index.less';
 
 const {Search} = Input;
 const {Option} = Select;
@@ -279,7 +279,7 @@ const Summary: FC<SummaryProps> = (props) => {
   return (
     <PageContainer header={{title: '策略管理', breadcrumb: {}}} content='这些自动化策略构建的系统可以通过主动干预来优化您的广告支出，从而最大限度地提高投产比和投放量，减少了低效重复操作，使自主媒体购买和扩展广告运营成为可能，获得更多时间投入创造。'>
       <Card
-        className={`${styles.totalCard}`}
+        className={`${styles.main}`}
         title={title}
         loading={isLoading}
       >
