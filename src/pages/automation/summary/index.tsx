@@ -295,7 +295,7 @@ const Summary: FC<SummaryProps> = (props) => {
                     record.AdvObjs.map(a =>
                       <List.Item key={a.AdvID}>
                           <Collapse ghost>
-                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
+                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>{a.fbId}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
                                 a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i}>{l}</p>) : <p>暂无执行记录</p>
                               }
