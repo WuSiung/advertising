@@ -54,6 +54,7 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                             payload: params
                         })
                         setShowModal(true)
+                        setHasBindAddcount(false)
                         message.destroy(params.access_token)
                     }
                 })
@@ -106,14 +107,14 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
             </HeaderDropdown>
             <AddAccountModal isModalVisible={showModal} handleVisible={setShowModal} fbLoginParams={facebookLoginParam}></AddAccountModal>
             {
-                hasBindAddcount && <Modal visible={(!getAccountLoading) && facebookAccounts?.length == 0} footer={null} onCancel={() => setHasBindAddcount(false)}>
-                    <Image src={require('@/assets/fbIcon.jpg')} width={20} preview={false}></Image>
-                    <div>智能广告投放解决方案</div>
-                    <div>自动同步Facebook广告列表数据</div>
-                    <div>通过广告工作台批量发布广告</div>
-                    <div>制定自动化策略实时监控优化广告效果</div>
-                    <div>一站式管理批量上传广告素材资源</div>
-                    <Button onClick={() => changeAccount({ key: 'addFacebookAccount' })}>添加Facebook账号</Button>
+                hasBindAddcount && <Modal visible={(!getAccountLoading) && facebookAccounts?.length == 0} footer={null} className={styles.tips} onCancel={() => setHasBindAddcount(false)}>
+                    <Image src={require('@/assets/fbIcon.jpg')} width={120} preview={false}></Image>
+                    <div className={styles.title}>智能广告投放解决方案</div>
+                    <div className={styles.item}>自动同步Facebook广告列表数据</div>
+                    <div className={styles.item}>通过广告工作台批量发布广告</div>
+                    <div className={styles.item}>制定自动化策略实时监控优化广告效果</div>
+                    <div className={styles.item}>一站式管理批量上传广告素材资源</div>
+                    <Button onClick={() => changeAccount({ key: 'addFacebookAccount' })} type='primary' style={{marginTop: 10}}>添加Facebook账号</Button>
                 </Modal>
             }
         </div>
