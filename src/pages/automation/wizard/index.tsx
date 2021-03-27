@@ -36,7 +36,7 @@ interface WizardProps {
 
 const Wizard: FC<WizardProps> = (props) => {
   const { isLoading, location } = props
-
+  const [isBackToZero, setIsBackToZero] = useState(false);
   // const title = (
   //   <div>
   //     <Row justify="space-between">
@@ -84,11 +84,13 @@ const Wizard: FC<WizardProps> = (props) => {
     }
     const {record} = location.state;
 
-    editInfo = {
-      objectID: record.ObjectID,
-      actionName: record.Name,
-      actionInfo: record.ActionInfo,
-      actionObj: record.AdvObjs.map(o => parseInt(o.AdvID, 10))
+    if (!isBackToZero) {
+      editInfo = {
+        objectID: record.ObjectID,
+        actionName: record.Name,
+        actionInfo: record.ActionInfo,
+        actionObj: record.AdvObjs.map(o => parseInt(o.AdvID, 10))
+      }
     }
   }
 
@@ -138,6 +140,10 @@ const Wizard: FC<WizardProps> = (props) => {
       }
     } else {
       setCurrent(step);
+    }
+
+    if (step === 0) {
+      setIsBackToZero(true);
     }
   }
 
