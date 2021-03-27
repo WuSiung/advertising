@@ -46,12 +46,12 @@ const MaterialBox: FC<MaterialBox> = (props) => {
         <span className={styles.close} onClick={e => { e.stopPropagation(); onDelete && onDelete(index) }}><DeleteOutlined /></span>
         <div className={styles.tag}>
             {
-                tags.map((tag, index) => {
+                Array.isArray(tags) && tags.map((tag, index) => {
                     return index < 3 && <Tag color="magenta" key={tag.id}>{tag.name}</Tag>
                 })
             }
             {
-                tags.length > 3 && <Tag color="magenta">...</Tag>
+                Array.isArray(tags) && tags.length > 3 && <Tag color="magenta">...</Tag>
             }
         </div>
     </div>
