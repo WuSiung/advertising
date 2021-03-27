@@ -76,8 +76,27 @@ const Version = () => {
     '广告管理修改图片大小',
   ]
 
+  const v_1_1_42: string[] = [
+    '修改止损广告层级页面编辑报错的问题',
+    '修改自动化主页，操作按钮大小，和状态图标大小',
+    '修改新建策略时的策略名称',
+    '策略展开显示对象时增加fbId显示',
+    '修改复活策略页面符号错误',
+  ]
+
   return <Card>
       <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-03-27 09:32</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_42.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.41更新说明</div>
       <div className={styles.time}>2021-03-25 19:25</div>
       <div className={styles.detail}>
         <ol>
