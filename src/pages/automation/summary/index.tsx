@@ -111,11 +111,13 @@ const Summary: FC<SummaryProps> = (props) => {
       cancelText: '取消',
       async onOk() {
         // todo: 调用接口删除策略，删除成功之后，再本地删除
-        await deleteTactic(recored);
-        dispatch({
-          type: 'tacticSummary/getTacticList',
-          payload: {}
-        });
+        const res = await deleteTactic(recored);
+        if (res) {
+          dispatch({
+            type: 'tacticSummary/getTacticList',
+            payload: {}
+          });
+        }
       }
     });
   }
@@ -124,32 +126,38 @@ const Summary: FC<SummaryProps> = (props) => {
     if (record.Status === '0') {
       return;
     }
-    await pauseTactic(record);
-    if (tacticSummary.tacticList) {
-      tacticSummary.tacticList[rowIndex].Status = '0';
-    }
-    dispatch({
-      type: 'tacticSummary/updateTacticList',
-      payload: {
-        ...tacticSummary
+    const res = await pauseTactic(record);
+
+    if (res) {
+      if (tacticSummary.tacticList) {
+        tacticSummary.tacticList[rowIndex].Status = '0';
       }
-    })
+      dispatch({
+        type: 'tacticSummary/updateTacticList',
+        payload: {
+          ...tacticSummary
+        }
+      })
+    }
   }
 
   const handleRestore = async (record: TTactic, rowIndex: number) => {
     if (record.Status === '1') {
       return;
     }
-    await restoreTactic(record);
-    if (tacticSummary.tacticList) {
-      tacticSummary.tacticList[rowIndex].Status = '1';
-    }
-    dispatch({
-      type: 'tacticSummary/updateTacticList',
-      payload: {
-        ...tacticSummary
+    const res = await restoreTactic(record);
+
+    if (res) {
+      if (tacticSummary.tacticList) {
+        tacticSummary.tacticList[rowIndex].Status = '1';
       }
-    });
+      dispatch({
+        type: 'tacticSummary/updateTacticList',
+        payload: {
+          ...tacticSummary
+        }
+      });
+    }
   }
 
   const columns: ColumnsType<TTactic> = [
@@ -192,9 +200,9 @@ const Summary: FC<SummaryProps> = (props) => {
       render: (text, record, index) => {
         return (
           <Space size="middle">
-            <PlayCircleTwoTone title="恢复" onClick={() => handleRestore(record, index)} disabled={record.Status === '0'}
+            <PlayCircleTwoTone title="恢复" onClick={async () => await handleRestore(record, index)} disabled={record.Status === '0'}
                                twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
-            <PauseCircleTwoTone title="暂停" onClick={() => handlePause(record, index)} disabled={record.Status === '1'}
+            <PauseCircleTwoTone title="暂停" onClick={async () => await handlePause(record, index)} disabled={record.Status === '1'}
                                 twoToneColor={record.Status === '0' ? '#9d9d9d' : ''}/>
             <Link title="编辑" to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone/></Link>
             <DeleteTwoTone title="删除" onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f"/>
