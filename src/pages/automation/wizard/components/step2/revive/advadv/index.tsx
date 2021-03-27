@@ -41,7 +41,7 @@ const Setting: FC<ISetting> = (props) => {
       <Space>
         <Switch onChange={(value) => {
           onChange({AndCondition: value})
-        }} defaultChecked={ActionInfo?.AndCondition} title="和"></Switch>
+        }} checked={ActionInfo?.AndCondition} title="和"></Switch>
         <span>和&nbsp;<Prompt placement="right" content="为了确定这个广告今天确实是有利可图的，我们推荐您同时选择这2个触发条件" /></span>
       </Space>
     </div>

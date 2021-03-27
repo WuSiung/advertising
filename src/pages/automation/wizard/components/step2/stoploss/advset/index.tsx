@@ -48,7 +48,7 @@ const Setting: FC<ISetting> = (props) => {
       <Space>
         <Switch onChange={(value) => {
           onChange({OrCondition: value})
-        }} defaultChecked={ActionInfo?.OrCondition} title="或者"></Switch>
+        }} checked={ActionInfo?.OrCondition} title="或者"></Switch>
         <span>或者&nbsp;<Prompt content="为了确保所选的广告集在今天真的有利可图，我们推荐您同时选择2个触发条件" /></span>
       </Space>
 
