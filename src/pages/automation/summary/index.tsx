@@ -284,6 +284,13 @@ const Summary: FC<SummaryProps> = (props) => {
     if (status !== 'all') {
       tacticList = tacticList.filter(t => t.Status === status)
     }
+
+    // 按创建时间倒叙排序
+      tacticList.sort((t1, t2) => {
+        const d1 = new Date(t1.CreateTime).getTime();
+        const d2 = new Date(t2.CreateTime).getTime();
+        return d2 - d1;
+      });
   }
 
 
