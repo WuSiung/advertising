@@ -24,18 +24,8 @@ const MaterialBox: FC<MaterialBox> = (props) => {
         {
             type == 'media' && <div className={styles.imgOrVideo}>
                 {
-                    isImage(props.contentType) ? <Image src={props.googleMediaLink} preview={false} />
-                        : <video src={props.googleMediaLink} ref={video}></video>
-                }
-                {
-                    !isImage(props.contentType) && !isPlay && <span className={styles.videoBtn}>
-                        <PlayCircleOutlined className={styles.play} onClick={() => { video.current?.play(); setIsPlay(true) }} />
-                    </span>
-                }
-                {
-                    !isImage(props.contentType) && isPlay && <span className={styles.videoBtn}>
-                        <PauseCircleOutlined className={styles.pause} onClick={() => { video.current?.pause(); setIsPlay(false) }} />
-                    </span>
+                    isImage(props.contentType) ? <Image src={props.googleMediaLink} />
+                        : <video src={props.googleMediaLink} ref={video} controls></video>
                 }
             </div>
         }
