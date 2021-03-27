@@ -90,8 +90,8 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const advpackOriginColumns: Columns[] = [
         {
             idx: -1,
-            title: <div className={styles.thTitle}>id </div>,
-            titleString: 'id',
+            title: <div className={styles.thTitle}>ID </div>,
+            titleString: 'ID',
             dataIndex: 'packId',
             fixed: true,
             width: 60,
@@ -488,8 +488,8 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const advSetOriginColumns: Columns[] = [
         {
             idx: -1,
-            title: <div className={styles.thTitle}>id </div>,
-            titleString: 'id',
+            title: <div className={styles.thTitle}>ID </div>,
+            titleString: 'ID',
             dataIndex: 'setId',
             fixed: true,
             width: 60,
@@ -888,8 +888,8 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const advAdvOriginColumns: Columns[] = [
         {
             idx: -1,
-            title: <div className={styles.thTitle}>id </div>,
-            titleString: 'id',
+            title: <div className={styles.thTitle}>ID </div>,
+            titleString: 'ID',
             dataIndex: 'advId',
             fixed: true,
             width: 60,

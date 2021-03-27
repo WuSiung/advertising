@@ -87,9 +87,31 @@ const Version = () => {
     '系列命名规则修改',
     '新增未绑定账号弹窗(功能已有，样式待调整)'
   ]
+  const v_1_1_43: string[] = [
+    '修复公共素材库无标签bug',
+    '工作台坐标紊乱及样式调整',
+    '未绑定账号弹窗',
+    '人群包弹出动画、广告创意日期超出页面',
+    '修改复活策略页面符号错误',
+    '修改复活策略页面符号错误',
+    '修改复活策略页面符号错误',
+    '修改复活策略页面符号错误',
+    '修改复活策略页面符号错误',
+  ]
 
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-03-27 18:32</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_43.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.42更新说明</div>
     <div className={styles.time}>2021-03-26 21:06</div>
     <div className={styles.detail}>
       <ol>

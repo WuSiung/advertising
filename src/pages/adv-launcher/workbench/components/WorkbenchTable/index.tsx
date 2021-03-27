@@ -1,6 +1,6 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import { Button, Empty, message } from 'antd'
+import { Button, Empty, message, Popover } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
@@ -82,10 +82,10 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
         setCheckX(checkX)
         setCheckY(checkY)
     }
-    return <td className={`${styles.creatBlock}  ${X == checkX && Y == checkY ? styles.hover : ''} ${classNames}`}
+    return <div className={`${styles.creatBlock}  ${X == checkX && Y == checkY ? styles.hover : ''} ${classNames}`}
         onClick={e => createAdv(X, Y)} onMouseEnter={e => setXY(X, Y)} onMouseLeave={e => setXY(-1, -1)}>
         <div className={styles.add}>+</div>
-    </td>
+    </div>
 }
 
 const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
@@ -200,13 +200,17 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                 {
                                     imgList.map((img, X) => {
                                         return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
-                                            <div>
+                                            <td>
                                                 <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />
-                                            </div>
+                                            </td>
                                         </HoverPopover>
-                                            : <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
-                                                createAdv={saveToPreviewAdvs} key={img.imgId + ' ' + text.textId} X={X} Y={Y} />
+                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname}>
+                                                <td key={img.imgId + ' ' + text.textId}>
+                                                    <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
+                                                        createAdv={saveToPreviewAdvs} X={X} Y={Y} />
+                                                </td>
+                                            </Popover>
                                     }
                                     )
                                 }

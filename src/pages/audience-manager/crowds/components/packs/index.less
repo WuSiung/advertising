@@ -64,22 +64,6 @@
         &.active{
             border: 1px solid @primary-color;
         }
-        &:hover{
-            .popover, &::after{
-                display: block;
-            }
-        }
-        &::after{
-            content: "";
-            display: none;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            border-right: 10px solid transparent;
-            border-left: 10px solid transparent;
-            border-bottom: 10px solid #fff;
-            top: 100px;
-        }
         .count{
             color: #ccc;
             font-size: 12px;
@@ -91,27 +75,19 @@
             padding: 0 10px;
             margin-top: 10px;
         }
-        .popover{
-            position: absolute;
-            box-shadow: @shadow-2;
-            top: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 19;
-            width: calc(100% + 100px);
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 12px;
-            background: #fff;
-            display: none;
-            &.base{
-                color: @primary-color;
-            }
-            .exname{
-                padding: 4px 0;
-                border-bottom: 1px solid #ccc;
-                font-size: 14px;
-            }
-        }
+    }
+}
+
+.popover{
+    font-size: 12px;
+    min-width: 200px;
+    &.base{
+        color: @primary-color;
+    }
+    .exname{
+        padding: 4px 0;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        margin-bottom: 10px;
     }
 }

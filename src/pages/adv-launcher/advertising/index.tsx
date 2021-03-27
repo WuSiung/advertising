@@ -141,7 +141,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
     }
 
     return (
-        <Card>
+        <Card className={styles.advertings}>
             {activeAdv ? <Modal
                 className={styles.previewModdal}
                 visible={!!activeAdv?.showPreviewModal}
@@ -173,12 +173,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 <Select.Option value="cpm">费用/千次</Select.Option>
                                 <Select.Option value="installs">安装次数</Select.Option>
                                 <Select.Option value="cpa">每次安装费用</Select.Option>
-                                <Select.Option value="0">图片</Select.Option>
-                                <Select.Option value="1">视频</Select.Option>
+                                <Select.Option value="spend">消费金额</Select.Option>
                             </Select>
                             <Dropdown overlay={
                                 <Menu>
-                                    <Menu.Item key="1" onClick={() => setMediaType(undefined)} className={mediaType != '1' && mediaType != '0' ? styles.mediaActive : ''}>全部</Menu.Item>
+                                    <Menu.Item key="all" onClick={() => setMediaType(undefined)} className={mediaType != '1' && mediaType != '0' ? styles.mediaActive : ''}>全部</Menu.Item>
                                     <Menu.Item key="0" onClick={() => setMediaType('0')} className={mediaType == '0' ? styles.mediaActive : ''}>图片</Menu.Item>
                                     <Menu.Item key="1" onClick={() => setMediaType('1')} className={mediaType == '1' ? styles.mediaActive : ''}>视频</Menu.Item>
                                 </Menu>
@@ -306,6 +305,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 <Button type="link">筛选器</Button>
                             </Popover>
                              */}
+
                             <span className={styles.date}><DateRange onChange={changeDate} defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]} /></span>
                         </div>
                     </Col>
@@ -325,7 +325,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 type: advImg.type,
                                 url: advImg.url
                             }
-                            return (<div key={advImg.imgId + '&' + advText.textId} style={{ border: "1px solid #d9d9d9" }}
+                            return (<div key={advImg.imgId + '&' + advText.textId + '' + i} style={{ border: "1px solid #d9d9d9" }}
                                 className={`${styles.advPreviewWrap} ${advertings.checked ? styles.active : ''}`} onClick={() => createAdv(i)}>
                                 {
                                     advertings.checked && <span className={styles.finished}><CheckCircleOutlined /></span>

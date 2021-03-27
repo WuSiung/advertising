@@ -30,8 +30,8 @@
         user-select: none;
         &.hover{
             .add{
-                box-shadow: 0 3px 6px -4px rgba(69, 235, 19, 0.12), 0 6px 16px 0 rgba(69, 235, 19, 0.08),
-                0 9px 28px 8px rgba(69, 235, 19, 0.05);
+                background-color: #e2e2e2;
+                color: #fff;
             }
         }
         &.active{
@@ -42,7 +42,7 @@
         }
         &.hasAdv{
             .add{
-                background: green;
+                background:  green;
                 color: #ffffff;
             }
         }
@@ -154,4 +154,8 @@
         position: absolute;
         font-size: 22px;
     }
+}
+
+:global(.ant-popover-inner){
+    box-shadow: 0 3px 4px 2px #d2d2d2;
 }
