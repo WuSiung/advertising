@@ -141,7 +141,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
     }
 
     return (
-        <Card>
+        <Card className={styles.advertings}>
             {activeAdv ? <Modal
                 className={styles.previewModdal}
                 visible={!!activeAdv?.showPreviewModal}
@@ -305,6 +305,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 <Button type="link">筛选器</Button>
                             </Popover>
                              */}
+
                             <span className={styles.date}><DateRange onChange={changeDate} defaultValue={[moment(new Date()).subtract(1, 'months'), moment()]} /></span>
                         </div>
                     </Col>
@@ -324,7 +325,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 type: advImg.type,
                                 url: advImg.url
                             }
-                            return (<div key={advImg.imgId + '&' + advText.textId + '' +  i} style={{ border: "1px solid #d9d9d9" }}
+                            return (<div key={advImg.imgId + '&' + advText.textId + '' + i} style={{ border: "1px solid #d9d9d9" }}
                                 className={`${styles.advPreviewWrap} ${advertings.checked ? styles.active : ''}`} onClick={() => createAdv(i)}>
                                 {
                                     advertings.checked && <span className={styles.finished}><CheckCircleOutlined /></span>
