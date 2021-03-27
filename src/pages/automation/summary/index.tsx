@@ -1,7 +1,7 @@
 import React, {FC, useState, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
-import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge, Switch} from 'antd';
+import {Card, Table, Button, Select, Input, Row, Col, Space, Modal, List, Collapse, Badge, Switch, DatePicker} from 'antd';
 import {ColumnsType} from "antd/es/table";
 import {history, Link} from 'umi';
 import {TStateTacticSummary, TTactic} from "@/pages/automation/summary/data";
@@ -10,7 +10,10 @@ import {deleteTactic, pauseTactic, restoreTactic} from "@/pages/automation/summa
 import {DeleteTwoTone} from '@ant-design/icons'
 import {EActionTypeName} from "@/pages/automation/data.d";
 import styles from './index.less';
+import moment, {Moment} from "moment";
+import {RangeValue} from "@/pages/dashboard/data";
 
+const {RangePicker} = DatePicker;
 const {Search} = Input;
 const {Option} = Select;
 const { Panel } = Collapse;
@@ -28,11 +31,39 @@ const Summary: FC<SummaryProps> = (props) => {
   const [actionType, setActionType] = useState('all');
   const [status, setStatus] = useState('all');
   const [isAutoRefresh, setAutoRefresh] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isChanged, setIsRangeChanged] = useState(true);
+  const [rangeValue, setRangeValue] = useState([moment().subtract(30, 'days'), moment()] as RangeValue<moment.Moment>);
+  // const [isTypeChange, setIsTypeChange] = useState(false);
   const handleRefresh = () => {
     // console.log('isAutoRefresh', isAutoRefresh);
+    let [act, start, end] = [actionType, '', ''];
+
+    if (act === 'all') {
+      act = '';
+    }
+
+    // if (sts === 'all') {
+    //   sts = '';
+    // }
+
+    if (rangeValue) {
+      if (rangeValue[0]) {
+        start = rangeValue[0].format('YYYY-MM-DD 00:00:00');
+      }
+
+      if (rangeValue[1]) {
+        end = rangeValue[1]?.format('YYYY-MM-DD 23:59:59');
+      }
+    }
     dispatch({
       type: 'tacticSummary/getTacticList',
-      payload: {}
+      payload: {
+        Name: searchTxt,
+        ActionType: act,
+        StartTime: start,
+        EndTime: end
+      }
     });
   }
 
@@ -44,15 +75,30 @@ const Summary: FC<SummaryProps> = (props) => {
 
   useEffect(() => {
     handleRefresh();
-  }, []);
+  }, [isOpen, actionType]);
 
+  // 所有查询参数的改变，都要放入依赖
   useEffect(() => {
     const intervalId = setInterval(handleAutoRefresh, 60000);
 
     return function cleanInterval() {
       clearInterval(intervalId);
     }
-  }, [isAutoRefresh]);
+  }, [searchTxt, actionType, rangeValue, isAutoRefresh]);
+
+  const handleTypeChange = (value: string) => {
+    setActionType(value);
+    // setIsTypeChange(true);
+  }
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
+  const handleRangeChange = (dates: RangeValue<Moment>, dataStrings: [string, string]) => {
+    setRangeValue(dates)
+    setIsRangeChanged(true);
+  };
 
   const handleDelete = (recored: TTactic, rowIndex: number) => {
     // console.log('recored', recored, 'rowIndex: ', rowIndex);
@@ -218,11 +264,14 @@ const Summary: FC<SummaryProps> = (props) => {
       const tactic = tacticSummary.tacticList[i];
       tactic.ActionTypeName = EActionTypeName[tactic.ActionType];
     }
-    tacticList = tacticSummary.tacticList.filter(t => t.Name.indexOf(searchTxt) > -1)
 
-    if (actionType !== 'all') {
-      tacticList = tacticList.filter(t => t.ActionType === actionType);
-    }
+    // 以下为前端，根据搜索内容，和策略类型过滤
+    // tacticList = tacticSummary.tacticList.filter(t => t.Name.indexOf(searchTxt) > -1)
+
+    tacticList = tacticSummary.tacticList.concat()
+    // if (actionType !== 'all') {
+    //   tacticList = tacticList.filter(t => t.ActionType === actionType);
+    // }
 
     if (status !== 'all') {
       tacticList = tacticList.filter(t => t.Status === status)
@@ -242,13 +291,20 @@ const Summary: FC<SummaryProps> = (props) => {
 
   const title = (
     <div>
-      <Row justify="space-between">
+      <Row justify="end" style={{marginBottom: 10}}>
+        <Space size="large">
+          <span><Switch checked={isAutoRefresh} onChange={v => setAutoRefresh(v)} />&nbsp;是否自动刷新</span>
+          <Button type="primary" onClick={() => handleRefresh()}>刷新</Button>
+          <Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button>
+        </Space>
+      </Row>
+      <Row justify="start">
         <Col>
           <Space size="large">
-            <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)}/>
+            <Search placeholder="搜索策略" value={searchTxt} onChange={e => setSearchTxt(e.target.value)} onSearch={handleRefresh} />
             <label>
               类型：
-              <Select value={actionType} onChange={value => setActionType(value)}>
+              <Select value={actionType} onChange={handleTypeChange}>
                 {
                   typeList.map(t => <Option key={t.value} value={t.value}>{t.name}</Option>)
                 }
@@ -262,14 +318,31 @@ const Summary: FC<SummaryProps> = (props) => {
                 }
               </Select>
             </label>
+            <label>
+              创建时间：
+              <RangePicker value={rangeValue}
+                 onChange={handleRangeChange}
+                 onOpenChange={handleOpenChange}
+                 ranges={{
+                   '今天': [moment(), moment()],
+                   '昨天': [moment(new Date()).add(-1, 'days'), moment(new Date()).add(-1, 'days')],
+                   '最近7天': [moment(new Date()).add(-7, 'days'), moment()],
+                   '最近14天': [moment(new Date()).add(-14, 'days'), moment()],
+                   '最近1个月': [moment(new Date()).subtract(1, 'months'), moment()],
+                   '最近3个月': [moment(new Date()).subtract(3, 'months'), moment()],
+                   '最近6个月': [moment(new Date()).subtract(6, 'months'), moment()],
+                   '最近一年': [moment(new Date()).subtract(1, 'years'), moment()],
+                 }}
+              />
+            </label>
           </Space>
         </Col>
         <Col>
-          <Space size="large">
-            <span><Switch checked={isAutoRefresh} onChange={v => setAutoRefresh(v)} />&nbsp;是否自动刷新</span>
-            <Button type="primary" onClick={() => handleRefresh()}>刷新</Button>
-            <Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button>
-          </Space>
+          {/*<Space size="large">*/}
+          {/*  <span><Switch checked={isAutoRefresh} onChange={v => setAutoRefresh(v)} />&nbsp;是否自动刷新</span>*/}
+          {/*  <Button type="primary" onClick={() => handleRefresh()}>刷新</Button>*/}
+          {/*  <Button type="primary" onClick={() => history.push('/automation/wizard')}>创建策略</Button>*/}
+          {/*</Space>*/}
         </Col>
       </Row>
 

@@ -19,7 +19,8 @@ export async function getTacticList(payload: any) {
     data: {
       access: tokenInfo,
       requestInfo: {
-        PlatformId: String(platformId)
+        PlatformId: String(platformId),
+        ...payload
       }
     }
   });
