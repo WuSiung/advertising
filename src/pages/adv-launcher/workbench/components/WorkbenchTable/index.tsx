@@ -1,6 +1,6 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import { Button, Empty, message } from 'antd'
+import { Button, Empty, message, Popover } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
@@ -205,10 +205,12 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />
                                             </td>
                                         </HoverPopover>
-                                            : <td key={img.imgId + ' ' + text.textId}>
-                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
-                                                    createAdv={saveToPreviewAdvs} X={X} Y={Y} />
-                                            </td>
+                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname}>
+                                                <td key={img.imgId + ' ' + text.textId}>
+                                                    <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
+                                                        createAdv={saveToPreviewAdvs} X={X} Y={Y} />
+                                                </td>
+                                            </Popover>
                                     }
                                     )
                                 }
