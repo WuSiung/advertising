@@ -1,5 +1,5 @@
 import { AudienceModelDataType } from '@/pages/audience-manager/data'
-import { Spin } from 'antd'
+import { Popover, Spin } from 'antd'
 import React, { FC, useEffect } from 'react'
 import { connect, Dispatch, history } from 'umi'
 import { baseAudienceDataType, CrowdStateType } from '../../data'
@@ -29,30 +29,32 @@ const Pack: FC<OnePackProps> = (props) => {
     props.advAudLoveList.map(love => {
         count += Number(love.audCount)
     })
-    return <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audId)}>
-        <div style={{ textAlign: 'center' }}>{props.audName}</div>
-        <div className={styles.popover}>
-            {
-                props.advAudLoveList.some(love => love.type == 0) && <div className={styles.exname} style={{color: 'green'}}>包含</div>
-            }
-            {
+    const content = <div className={styles.popover}>
+        {
+            props.advAudLoveList.some(love => love.type == 0) && <div className={styles.exname} style={{ color: 'green' }}>包含</div>
+        }
+        {
 
-                props.advAudLoveList.map(love => {
-                    return <div style={{ paddingLeft: 20 }} key={love.audLoveId}>{love.type == 0 && love.audName}</div>
-                })
-            }
-            {
-                props.advAudLoveList.some(love => love.type != 0) && <div className={styles.exname} style={{color: '#f05525'}}>排除</div>
-            }
-            {
+            props.advAudLoveList.map(love => {
+                return <div style={{ paddingLeft: 20 }} key={love.audLoveId}>{love.type == 0 && love.audName}</div>
+            })
+        }
+        {
+            props.advAudLoveList.some(love => love.type != 0) && <div className={styles.exname} style={{ color: '#f05525' }}>排除</div>
+        }
+        {
 
-                props.advAudLoveList.map(love => {
-                    return <div style={{ paddingLeft: 20 }} key={love.audLoveId}>{love.type != 0 && love.audName}</div>
-                })
-            }
-        </div>
-        <div className={styles.count}>覆盖总人数： {formatterPersonNum(count)}</div>
+            props.advAudLoveList.map(love => {
+                return <div style={{ paddingLeft: 20 }} key={love.audLoveId}>{love.type != 0 && love.audName}</div>
+            })
+        }
     </div>
+    return <Popover placement="bottom"  content={content} trigger="hover">
+        <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audId)}>
+            <div style={{ textAlign: 'center' }}>{props.audName}</div>
+            <div className={styles.count}>覆盖总人数： {formatterPersonNum(count)}</div>
+        </div>
+    </Popover>
 }
 
 const BasePack: FC<basePackProps> = (props) => {
@@ -124,7 +126,7 @@ const Packs: FC<PacksProps> = (props) => {
                         <div className={styles.desc}>下面展示的是你在创建人群包界面最新保存的5个人群包。</div>
                         <div className={styles.packList}>
                             <div className={styles.item} onClick={toCreateCrowd} style={{ color: '#409eff', fontSize: 24 }}>
-                                + <div className={styles.baseDesc} style={{marginTop: 20}}>点击前往创建新的人群包</div>
+                                + <div className={styles.baseDesc} style={{ marginTop: 20 }}>点击前往创建新的人群包</div>
                             </div>
                             {
                                 newset.map((crowd, index) => {
