@@ -1,5 +1,5 @@
 import { showConfirm } from '@/components/Confrim'
-import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
+import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Empty, message, Popover } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
@@ -84,7 +84,9 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
     }
     return <div className={`${styles.creatBlock}  ${X == checkX && Y == checkY ? styles.hover : ''} ${classNames}`}
         onClick={e => createAdv(X, Y)} onMouseEnter={e => setXY(X, Y)} onMouseLeave={e => setXY(-1, -1)}>
-        <div className={styles.add}>+</div>
+        <div className={styles.add}>
+            <span><PlusOutlined /></span>
+        </div>
     </div>
 }
 
@@ -199,14 +201,27 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                                 <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
                                 {
                                     imgList.map((img, X) => {
-                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
+                                        let type = 0
+                                        if (hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0) {
+                                            let roas = Number(hasAdvs[X][Y].data?.mobileAppPurchaseRoas)
+                                            if (roas > 1) {
+                                                type = 3
+                                            } else if (roas < 1 && roas > 0.5) {
+                                                type = 2
+                                            } else if (roas < 0.5 && roas > 0.1) {
+                                                type = 1
+                                            } else if (roas < 0.1) {
+                                                type = 0
+                                            }
+                                        }
+                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + '&' + text.textId} >
                                             <td>
-                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
+                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${'has-adv' + type}`}
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />
                                             </td>
                                         </HoverPopover>
-                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname}>
-                                                <td key={img.imgId + ' ' + text.textId}>
+                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname} key={img.imgId + '&' + text.textId}>
+                                                <td>
                                                     <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
                                                         createAdv={saveToPreviewAdvs} X={X} Y={Y} />
                                                 </td>
