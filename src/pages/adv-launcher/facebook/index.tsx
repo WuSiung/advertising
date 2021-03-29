@@ -210,9 +210,9 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
             if (newAdv.checked) {
                 newAdv.facebookSetting = params
                 newAdv.checked = false
-                newAdv.setName = setName(params, adv.audsInfo) + '-' + addZero(i + 1);
-                newAdv.advName = advName(params, adv.type);
                 newAdv.campaignName = compaignParams.appName + '-' + addZero(i + 1);
+                newAdv.setName = setName(params, newAdv.campaignName, adv.audsInfo)
+                newAdv.advName = advName(params, newAdv.campaignName, adv.type);
                 autoNextIndex = i + 1
             } else {
                 count++
@@ -247,12 +247,12 @@ const SetFacebook: FC<SetFacebookProps> = (props) => {
                 }
                 {
                     isNeedSetCrowd && <RenderFacebookBox title='新近度设置'>
-                        <Input style={{marginBottom: 10}} placeholder='请输入新近度(1-365天)' type='number' value={newProcess} onChange={e => setCrowdsDay(e.target.value)}></Input>
-                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(30)}>30天</Tag>
-                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(60)}>60天</Tag>
-                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(90)}>90天</Tag>
-                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(180)}>180天</Tag>
-                        <Tag className={styles.dayTag} color="processing" onClick={()=>setNewProcess(360)}>360天</Tag>
+                        <Input style={{ marginBottom: 10 }} placeholder='请输入新近度(1-365天)' type='number' value={newProcess} onChange={e => setCrowdsDay(e.target.value)}></Input>
+                        <Tag className={styles.dayTag} color="processing" onClick={() => setNewProcess(30)}>30天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={() => setNewProcess(60)}>60天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={() => setNewProcess(90)}>90天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={() => setNewProcess(180)}>180天</Tag>
+                        <Tag className={styles.dayTag} color="processing" onClick={() => setNewProcess(360)}>360天</Tag>
                     </RenderFacebookBox>
                 }
                 <RenderFacebookBox title='选择转换类型'>
@@ -369,15 +369,13 @@ const ageRange = {
     75: '75岁',
 }
 
-const setName = (settings: SaveFacebookSettingType, audsInfo?: { audId: number; audName: string; }[]) => {
-    const { position } = settings
-    const positionStr = position.map(item => item).join(',');
+const setName = (settings: SaveFacebookSettingType, compaignName: string, audsInfo?: { audId: number; audName: string; }[]) => {
     const sex = ['男女', '男', '女'];
     const crowdName = audsInfo?.map(item => item.audName).join(',');
-    return `TWzt-${positionStr}-${crowdName}-${settings.age}-${sex[settings.sex]}-${settings.target_type}-{${settings.include}，${settings.exclude}}`
+    return `${compaignName}-${crowdName}-${settings.age}-${sex[settings.sex]}-${settings.target_type}-{${settings.include}，${settings.exclude}}`
 }
 
-const advName = (settings: SaveFacebookSettingType, type?: string | number) => {
+const advName = (settings: SaveFacebookSettingType, compaignName: string, type?: string | number) => {
     const include = settings.include.map(item => item).join(',');
     const exclude = settings.exclude.map(item => item).join(',');
     const mediaType = type == '0' ? '图片' : '视频';
@@ -385,7 +383,7 @@ const advName = (settings: SaveFacebookSettingType, type?: string | number) => {
     const random = Math.floor(Math.random() * 1000000) + 1;
     const now = new Date();
     const time = now.getFullYear() + '' + addZero(now.getMonth() + 1) + '' + addZero(now.getDate());
-    return `${settings.market_type}-${mediaType}-{${include}，${exclude}}-${transType}-${random + time}`
+    return `${compaignName}-${settings.market_type}-${mediaType}-{${include}，${exclude}}-${transType}-${random + time}`
 }
 
 const addZero = (num: number): string | number => {
