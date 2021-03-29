@@ -44,7 +44,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [sex, setSex] = useState<CheckboxValueType[] | undefined>();
     const [device, setDevice] = useState<CheckboxValueType[] | undefined>();
     const [publishLocation, setPublishLocation] = useState<CheckboxValueType[] | undefined>();
-    const [orderType, setOrderType] = useState('')
+    const [orderType, setOrderType] = useState('installs')
     const [searchTime, setSearchTime] = useState(0)
     const [country, setCountry] = useState<SelectValueType[] | undefined>();
     const [activeAdv, setActiveAdv] = useState<PreviewAdvType & { showPreviewModal: boolean }>();
@@ -160,6 +160,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 style={{ width: 200, marginRight: 10 }}
                                 placeholder="选择排序字段"
                                 optionFilterProp="children"
+                                value={orderType}
                                 filterOption={(input: string, option) =>
                                     option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
