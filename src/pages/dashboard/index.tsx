@@ -528,7 +528,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     let arr = []
     if (dashboard.customColumns?.length && dashboard.customColumns?.length > 0) {
       arr = JSON.parse(JSON.stringify(dashboard.customColumns))
-      arr.push(params)
+      arr.unshift(params)
     } else {
       arr.push(params)
     }
@@ -555,8 +555,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   }
 
   const selectCustom = (v: string) => {
-    let o = dashboard.customColumns?.filter(item => item.name == v) || []
-    setShowColumns(o[0].data)
+    if (v == '恢复默认') {
+      setShowColumns(tableOptionList)
+    } else {
+      let o = dashboard.customColumns?.filter(item => item.name == v) || []
+      setShowColumns(o[0].data)
+    }
   }
   const deleteCustom = (v: string) => {
     let o = dashboard.customColumns?.filter(item => item.name != v) || []
@@ -719,7 +723,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         {
           tableOptionList.map(item => {
             return <Tag.CheckableTag className={styles.customTag} key={item.dataIndex} checked={selectedTags.includes(item.dataIndex)} onChange={checked => changeTag(item.dataIndex, checked)}>
-              {item.dataIndex}
+              {item.titleString}
             </Tag.CheckableTag>
           })
         }

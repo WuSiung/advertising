@@ -12,6 +12,9 @@ interface CustomColumnsProps {
 const CustomColumns: FC<CustomColumnsProps> = (props) => {
     const { placeholder, options, onDelete, onSelect } = props
     return <Select dropdownRender={(value) => (<>{value} {props.children}</>)} placeholder={placeholder} style={{ width: 200 }} onChange={onSelect}>
+        <Select.Option value='恢复默认'>
+            恢复默认
+        </Select.Option>
         {
             options?.map((option, index) => {
                 return <Select.Option key={index} value={option.name}>
