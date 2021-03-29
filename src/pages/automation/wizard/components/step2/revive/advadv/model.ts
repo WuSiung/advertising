@@ -63,4 +63,6 @@ const ReviveAdvModel: TModelReviveAdv = {
   }
 }
 
+createName(ReviveAdvModel.state);
+
 export default ReviveAdvModel;

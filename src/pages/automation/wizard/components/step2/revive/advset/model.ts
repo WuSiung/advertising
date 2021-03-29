@@ -1,5 +1,6 @@
 import {TModelReviveAdvSet} from "@/pages/automation/wizard/components/step2/revive/advset/data";
 import moment from "moment";
+import ReviveAdvModel from "@/pages/automation/wizard/components/step2/revive/advadv/model";
 
 const FORMAT = 'HH:mm';
 const TACTIC_NAME = '复活-广告集层级 触发 -> ';
@@ -62,5 +63,7 @@ const ReviveAdvSetModel: TModelReviveAdvSet = {
     }
   }
 }
+
+createName(ReviveAdvSetModel.state);
 
 export default ReviveAdvSetModel;
