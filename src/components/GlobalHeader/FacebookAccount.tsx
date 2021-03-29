@@ -9,7 +9,7 @@ import styles from './index.less';
 import { DownOutlined, FacebookFilled, GoogleCircleFilled } from '@ant-design/icons';
 import FBLogin, { loadAndInitFB } from '@/utils/fblogin'
 import AddAccountModal from './AddAccountModal'
-import { refreshToekn } from '@/services/user'
+import { getFbId, refreshToekn } from '@/services/user'
 import Store from '@/utils/store'
 
 
@@ -33,9 +33,11 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
     const [hasBindAddcount, setHasBindAddcount] = useState<boolean>(true)
 
     useEffect(() => {
-        loadAndInitFB()
+        (async () => {
+            let res: any = await getFbId()
+            loadAndInitFB(res.data as string)
+        })()
     }, [])
-
 
     const changeAccount = async ({ key }: { key: string }) => {
         switch (key) {

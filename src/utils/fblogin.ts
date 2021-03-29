@@ -11,10 +11,10 @@ async function loadFbSDK(d: Document, s: string, id: string) {
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode?.insertBefore(js, fjs);
 }
-async function initFacebook() {
+async function initFacebook(id: string) {
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '1671575193015707',
+            appId: id,
             version: 'v9.0',
             status: true,
             cookie: true,
@@ -24,9 +24,9 @@ async function initFacebook() {
     };
 }
 
-async function loadAndInitFB() {
+async function loadAndInitFB(id: string) {
     await loadFbSDK(document, "script", "facebook-jssdk");
-    await initFacebook();
+    await initFacebook(id);
 }
 
 async function logInWithFacebook() {
