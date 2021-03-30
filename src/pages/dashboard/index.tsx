@@ -240,6 +240,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       dataIndex: 'spend',
       key: 'spend',
       width: 120,
+      render: (num) => {
+        return '$' + num
+      }
     },
     {
       title: <ColumnSelectTitle dataIndex="roi" titleString="ROI" optionList={showColumns} onChange={onPackColumnFilter} />,
@@ -264,6 +267,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       dataIndex: 'cpm',
       key: 'cpm',
       width: 120,
+      render: (num) => {
+        return '$' + num
+      }
     },
     {
       title: <ColumnSelectTitle dataIndex="octr" titleString="出站点击率" optionList={showColumns} onChange={onPackColumnFilter} />,
@@ -288,6 +294,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       dataIndex: 'cpc',
       key: 'cpc',
       width: 120,
+      render: (num) => {
+        return '$' + num
+      }
     },
     {
       title: <ColumnSelectTitle dataIndex="installs" titleString="安装数" optionList={showColumns} onChange={onPackColumnFilter} />,
@@ -300,6 +309,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       dataIndex: 'cpa',
       key: 'cpa',
       width: 120,
+      render: (num) => {
+        return '$' + num
+      }
     },
   ];
 
