@@ -281,7 +281,6 @@ const showDeleteConfirm = (dispatch: Dispatch, deleteInfo: PublicMaterialDataTyp
         okType: 'primary',
         cancelText: '取消',
         onOk() {
-            console.log(deleteInfo)
             return deletResource(deleteInfo.id).then(res => {
                 if (res) {
                     dispatch({

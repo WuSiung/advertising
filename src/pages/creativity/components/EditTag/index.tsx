@@ -31,7 +31,7 @@ const EditTag: FC<EditTagProps> = (props) => {
                 setValue={setTagName} onChange={onChangeResult} onAdd={onAdd}></DebounceSelect>
         }
         {
-            tagList.map(tag => {
+            Array.isArray(tagList) && tagList.map(tag => {
                 return <Tag closable={type != 'all'} color="magenta" onClose={e => { e.preventDefault(); onDelete(tag.id) }} key={tag.id}>{tag.name}</Tag>
             })
         }
