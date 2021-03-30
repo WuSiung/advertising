@@ -11,6 +11,7 @@ import InputTag from './components/InputTags';
 import { advadvOriginColumnsOnlyLabelAndDataIndex, advpackOriginColumnsOnlyLabelAndDataIndex, advsetOriginColumnsOnlyLabelAndDataIndex } from './tableConfig'
 import EditTd from './components/editTd'
 import ManagerFilter, { ParamsType } from './components/ManagerFilter'
+import { copyAdv, copyPack, copySet } from './service'
 
 type EventValue<DateType> = DateType | null;
 
@@ -90,6 +91,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [packFilter, setPackFilter] = useState<ParamsType>();
     const [setFilter, setSetFilter] = useState<ParamsType>();
     const [advFilter, setAdvFilter] = useState<ParamsType>();
+    const [refreshPack, setRefreshPack] = useState(0)
+    const [refreshSet, setRefreshSet] = useState(0)
+    const [refreshAdv, setRefreshAdv] = useState(0)
 
     const advpackOriginColumns: Columns[] = [
         {
@@ -462,7 +466,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告系列</Button></>)
+                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)}>复制广告系列</Button></>)
             }
         },
     ];
@@ -832,7 +836,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告集</Button></>)
+                return (<><Button type="link" onClick={() => copyAdvSet((_ as AdvSetListType).setId)}>复制广告集</Button></>)
             }
         },
     ];
@@ -1161,7 +1165,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告</Button></>)
+                return (<><Button type="link" onClick={() => copyAdvAdv((_ as AdvAdvListType).advId)}>复制广告</Button></>)
             }
         },
     ];
@@ -1203,8 +1207,30 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [serachTextForSet, setSerachTextForSet] = useState<string | Array<string> | undefined>([]);
     const [serachTextForAdv, setSerachTextForAdv] = useState<string | Array<string> | undefined>([]);
 
-    const copyAdv = () => {
-        message.warning('此功能等待开放')
+    const copyAdvPack = (id: number) => {
+        copyPack(id).then(res => {
+            if (res.code == 0) {
+                let num = refreshPack
+                console.log(num)
+                setRefreshPack(++num)
+            }
+        })
+    }
+    const copyAdvSet = (id: number) => {
+        copySet(id).then(res => {
+            if (res.code == 0) {
+                let num = refreshSet
+                setRefreshSet(num++)
+            }
+        })
+    }
+    const copyAdvAdv = (id: number) => {
+        copyAdv(id).then(res => {
+            if (res.code == 0) {
+                let num = refreshAdv
+                setRefreshAdv(num++)
+            }
+        })
     }
 
     const onPackColumnFilter: (newKey: string, originKey: string) => void = (newKey, originKey) => {
@@ -1300,7 +1326,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 filter: packFilter
             }
         })
-    }, [advpackPageindex, advpackPagesize, packFilter]);
+    }, [advpackPageindex, advpackPagesize, packFilter, refreshPack]);
 
     useEffect(() => {
         let sText = serachTextForSet;
@@ -1327,7 +1353,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 filter: setFilter
             }
         })
-    }, [advSetPageindex, advSetPagesize, setFilter]);
+    }, [advSetPageindex, advSetPagesize, setFilter, refreshSet]);
 
     useEffect(() => {
         let sText = advInputTagRef.current?.changeVal();
@@ -1354,7 +1380,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 filter: advFilter
             }
         })
-    }, [advAdvPageindex, advAdvPagesize, advFilter]);
+    }, [advAdvPageindex, advAdvPagesize, advFilter, refreshAdv]);
 
 
     const onRowClick = (record: AdvAdvListType | AdvSetListType | AdvPackListType, tabType: string) => {
