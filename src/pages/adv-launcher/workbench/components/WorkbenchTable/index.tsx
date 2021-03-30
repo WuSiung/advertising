@@ -1,10 +1,10 @@
 import { showConfirm } from '@/components/Confrim'
 import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Empty, message, Popover } from 'antd'
+import { Button, Empty, Input, message, Modal, Popover } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
-import { deleteMedia, deleteText } from '../../service'
+import { deleteMedia, deleteText, editText } from '../../service'
 import HoverPopover from '../HoverPopover'
 
 import styles from './index.less'
@@ -92,6 +92,8 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
 
 const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
     const { imgList, textList, previewAdvs, dispatch, hasAdvs, previewAdvsRecord } = props
+    const [textInfo, setTextInfo] = useState<string>('')
+    const [showTextEdit, setShowTextEdit] = useState<{ id: number, show: boolean }>({ id: -1, show: false })
     let tenBlock = 10 - imgList.length > 0 ? new Array(10 - imgList.length) : [];
     tenBlock = Array.apply(null, tenBlock)
 
@@ -162,6 +164,22 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
         message.success('复制成功')
         dispatch({ type: 'workbench/fetchAllList' })
     }
+
+    const onEditText = (info: TextDataType) => {
+        setTextInfo(info.content + '&&' + info.title)
+        setShowTextEdit({ id: info.textId, show: true })
+    }
+
+    const onChangeTextInfo = () => {
+        const text = textInfo.split('&&')
+        editText({ title: text[1], content: text[0], textId: showTextEdit.id }).then(res => {
+            if (res.code == 0) {
+                setShowTextEdit({ id: -1, show: false })
+                dispatch({ type: 'workbench/fetchAllList' })
+            }
+        })
+    }
+
     return (
         <div className={styles.tableContainer}>
             <table className={styles.workbenchTable}>
@@ -198,7 +216,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                     {
                         textList.map((text, Y) => {
                             return <tr key={text.textId}>
-                                <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
+                                <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} onEdit={onEditText} />
                                 {
                                     imgList.map((img, X) => {
                                         let type = 0
@@ -248,6 +266,9 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
 
                 </tbody>
             </table>
+            <Modal title='编辑文本' visible={showTextEdit.show} onCancel={() => setShowTextEdit({ show: false, id: -1 })} onOk={onChangeTextInfo}>
+                <Input.TextArea value={textInfo} className={styles.textcontent} onChange={e => setTextInfo(e.target.value)} />
+            </Modal>
         </div>
     )
 }
