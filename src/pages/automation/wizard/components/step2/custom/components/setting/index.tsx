@@ -3,6 +3,8 @@ import Action from "@/pages/automation/wizard/components/step2/custom/components
 import {TAction} from "@/pages/automation/wizard/components/step2/custom/data";
 import {Button, Row} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
+import TriggleSchedule
+  from "@/pages/automation/wizard/components/step2/custom/components/setting/components/triggle-schedule";
 
 interface ISetting {
   actions: TAction[]
@@ -43,9 +45,10 @@ const Setting: FC<ISetting> = (props) => {
       {
         props.actions.map((a, i) => <Action idx={i} action={a} onChange={props.onChange} onDel={props.onDel}></Action>)
       }
-      <Row justify="center">
+      <Row justify="center" style={{marginBottom: 20}}>
         <Button type="primary" onClick={props.onAdd}><PlusOutlined />&nbsp;&nbsp;行动</Button>
       </Row>
+      <TriggleSchedule></TriggleSchedule>
     </>
   )
 }

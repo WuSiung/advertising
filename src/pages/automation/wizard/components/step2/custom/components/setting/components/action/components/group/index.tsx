@@ -160,10 +160,10 @@ const Group: FC<IGroup> = (props) => {
   return (
     <>
       <Row style={{marginLeft: 5, marginTop: (props.numCondition === 0 && props.idx === 0) ? 0 : condMaginTop}}>
-        <Col>
+        <Col flex="24px">
           <Operator logical={group.logical} numCondition={numCondition} condHeight={condHeight} condMarginTop={condMaginTop} optWidth={optWidth} onAddGroup={handleAddGroup} onAddCondition={handleAddCondition} onToggle={handleToggle}></Operator>
         </Col>
-        <Col span={20}>
+        <Col flex="auto">
           {
             props.group.conditions.map((c, i) => <Condition onDel={handleDelCondition} key={i} idx={i} condHeight={condHeight} condMarginTop={condMaginTop} ></Condition>)
           }
