@@ -39,7 +39,7 @@ async function logInWithFacebook() {
                     reject("")
                 }
             }, {
-                scope: 'business_management,ads_read,ads_management,attribution_read',
+                scope: 'ads_read,ads_management,attribution_read,public_profile,email',
             })
 
         } catch (err) {
