@@ -2,11 +2,13 @@ import React, {FC} from 'react';
 import {Col, Divider, Row, Select, Space} from "antd";
 
 import styles from './index.less';
+import {DeleteOutlined} from "@ant-design/icons";
 
 interface ICondition {
   idx: number;
   condHeight: number;
   condMarginTop: number;
+  onDel: (idx: number) => void;
 }
 
 const Condition: FC<ICondition> = (props) => {
@@ -21,14 +23,19 @@ const Condition: FC<ICondition> = (props) => {
     //   </Col>
     // </Row>
     <div className={styles.main} style={{height: props.condHeight, marginTop: props.idx === 0 ? 0 : props.condMarginTop}}>
-      <Space style={{height: props.condHeight}}>
-        <Divider style={{width: 10, borderTop: '2px solid rgba(0, 0, 0, 0.1)'}} />
+      <Space className="outter-space" style={{height: props.condHeight}}>
+        <Divider />
         {/*<p style={{marginBottom: 0}}>选择条件</p>*/}
-          <Space size="large" style={{height: props.condHeight, border: '1px solid black', borderRadius: 12, padding: '1px 10px'}}>
-            <Select size="small" style={{width: 120}}></Select>
-            <Select size="small" style={{width: 120}}></Select>
-            <Select size="small" style={{width: 120}}></Select>
+        <Row className="box" style={{height: props.condHeight}} justify="space-between">
+          <Space className="select-space" size="large" >
+            <Select size="small"></Select>
+            <Select size="small"></Select>
+            <Select size="small"></Select>
           </Space>
+          <Space className="action-space">
+            <DeleteOutlined style={{fontSize: 18}} onClick={() => props.onDel(props.idx)} />
+          </Space>
+        </Row>
       </Space>
     </div>
   )

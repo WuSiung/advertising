@@ -1,102 +1,52 @@
 import React, {FC, useState} from 'react';
-import Task from "@/pages/automation/wizard/components/step2/custom/components/setting/components/task";
-import {TGroup} from "@/pages/automation/wizard/components/step2/custom/components/setting/data";
+import Action from "@/pages/automation/wizard/components/step2/custom/components/setting/components/action";
+import {TAction} from "@/pages/automation/wizard/components/step2/custom/data";
+import {Button, Row} from "antd";
+import {PlusOutlined} from "@ant-design/icons";
 
-// function updateGroup(originGrp: TGroup, grp: TGroup) {
-//   if (originGrp === grp) {
-//     return originGrp
-//   }
-//   if (originGrp.children) {
-//     for (let i = 0; i < originGrp.children.length; i += 1) {
-//       if (originGrp.children[i] === grp) {
-//
-//       }
-//     }
-//   }
-// }
+interface ISetting {
+  actions: TAction[]
+  onChange: () => void
+  onAdd: () => void
+  onDel: (idx: number) => void
+}
 
-const Setting: FC<any> = (props) => {
-  // const conditionList: any[] = [1,2,3];
-  // const groupList: any[] = [1,2,3];
-  // const groupList = [
-  //   {
-  //     target: 'cpa',
-  //     time: '00:00',
-  //     operator: '<',
-  //     value: 0
-  //   },
-  //   {
-  //     target: 'cpa',
-  //     time: '00:00',
-  //     operator: '<',
-  //     value: 0
-  //   },
-  //   [
+const Setting: FC<ISetting> = (props) => {
+  // const groups: TGroup[] = [];
+  // const group: TGroup = {
+  //   logical: 'or',
+  //   conditions: [
   //     {
   //       target: 'cpa',
   //       time: '00:00',
   //       operator: '<',
   //       value: 0
-  //     },
-  //     {
-  //       target: 'cpa',
-  //       time: '00:00',
-  //       operator: '<',
-  //       value: 0
-  //     },
-  //   ]
-  // ]
+  //     }
+  //   ],
+  //   children: groups
+  // };
 
+  // const [grp, setGrp] = useState(group);
 
-  const group = {
-    conditionList: [
-      {
-        target: 'cpa',
-        time: '00:00',
-        operator: '<',
-        value: 0
-      },
-      {
-        target: 'cpa',
-        time: '00:00',
-        operator: '<',
-        value: 0
-      }
-    ],
-    children: [
-      {
-        conditionList: [
-          {
-            target: 'cpa',
-            time: '00:00',
-            operator: '<',
-            value: 0
-          },
-          // {
-          //   target: 'cpa',
-          //   time: '00:00',
-          //   operator: '<',
-          //   value: 0
-          // }
-        ]
-      }
-    ]
-  }
+  // const handleChange = () => {
+  //   setGrp({...grp});
+  // }
+  const {actions} = props;
 
-  const [grp, setGrp] = useState(group);
-
-  const handleAdd = () => {
-    setGrp({...grp});
-  }
-
-  // const handleAddCondition = (g: TGroup) => {
-  //   setGrp({...grp})
+  // const handleDelAction = (idx: number) => {
+  //   props.actions.splice(idx, 1);
+  //   props.onChange();
   // }
 
-
-
   return (
-    <Task group={grp} onAdd={handleAdd}></Task>
+    <>
+      {
+        props.actions.map((a, i) => <Action idx={i} action={a} onChange={props.onChange} onDel={props.onDel}></Action>)
+      }
+      <Row justify="center">
+        <Button type="primary" onClick={props.onAdd}><PlusOutlined />&nbsp;&nbsp;行动</Button>
+      </Row>
+    </>
   )
 }
 
