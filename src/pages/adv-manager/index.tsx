@@ -12,6 +12,8 @@ import { advadvOriginColumnsOnlyLabelAndDataIndex, advpackOriginColumnsOnlyLabel
 import EditTd from './components/editTd'
 import ManagerFilter, { ParamsType } from './components/ManagerFilter'
 import { copyAdv, copyPack, copySet } from './service'
+import LoadingElement from '@/components/Loading'
+import { PageContainer } from '@ant-design/pro-layout'
 
 type EventValue<DateType> = DateType | null;
 
@@ -94,6 +96,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [refreshPack, setRefreshPack] = useState(0)
     const [refreshSet, setRefreshSet] = useState(0)
     const [refreshAdv, setRefreshAdv] = useState(0)
+    const [copyLoading, setCopyLoading] = useState(false)
 
     const advpackOriginColumns: Columns[] = [
         {
@@ -256,7 +259,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     }} dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin>
                     :
-                    <div> 广告集预算<Popover content='预算已在广告集中开启'>
+                    <div> 广告集<Popover content='预算已在广告集中开启'>
                         <QuestionCircleOutlined />
                     </Popover>
                     </div>
@@ -466,7 +469,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)}>复制广告系列</Button></>)
+                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)} disabled={copyLoading}>复制广告系列</Button></>)
             }
         },
     ];
@@ -626,7 +629,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     }
                     } dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin >
-                    : <div>广告系列预算
+                    : <div>广告系列
                         <Popover content='预算已在广告系列预算中开启'>
                             <QuestionCircleOutlined />
                         </Popover>
@@ -1208,28 +1211,39 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [serachTextForAdv, setSerachTextForAdv] = useState<string | Array<string> | undefined>([]);
 
     const copyAdvPack = (id: number) => {
+        setCopyLoading(true)
         copyPack(id).then(res => {
+            setCopyLoading(false)
             if (res.code == 0) {
-                let num = refreshPack
-                console.log(num)
-                setRefreshPack(++num)
+                let num = Math.random()
+                setRefreshPack(num)
             }
+        }).catch(() => {
+            setCopyLoading(false)
         })
     }
     const copyAdvSet = (id: number) => {
+        setCopyLoading(true)
         copySet(id).then(res => {
+            setCopyLoading(false)
             if (res.code == 0) {
-                let num = refreshSet
+                let num = Math.random()
                 setRefreshSet(num++)
             }
+        }).catch(() => {
+            setCopyLoading(false)
         })
     }
     const copyAdvAdv = (id: number) => {
+        setCopyLoading(true)
         copyAdv(id).then(res => {
+            setCopyLoading(false)
             if (res.code == 0) {
-                let num = refreshAdv
+                let num = Math.random()
                 setRefreshAdv(num++)
             }
+        }).catch(() => {
+            setCopyLoading(false)
         })
     }
 
@@ -1454,8 +1468,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const advInputTagRef = useRef<{ changeVal: () => Array<string>; }>();
 
     const [tabKey, setTabKey] = useState("1");
+
     return (
-        <>
+        <PageContainer content='广告管理针对广告查询、修改、数据展示等场景提供了丰富的能力，帮助用户进行高效盯盘和广告优化，默认1小时更新一次结果。' title='广告管理'>
             <div className={styles.advManager}>
                 <Card>
                     <Tabs className={styles.advTabs} activeKey={tabKey} onChange={(key) => {
@@ -1733,8 +1748,11 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                         </TabPane>
                     </Tabs>
                 </Card>
+                {
+                    copyLoading && <LoadingElement showMask tips='复制中，请稍等'></LoadingElement>
+                }
             </div>
-        </>
+        </PageContainer>
     )
 }
 export default connect(({ adv, loading }: { adv: AdvData, loading: { effects: { [key: string]: boolean } } }) => ({
