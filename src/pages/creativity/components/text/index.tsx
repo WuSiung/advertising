@@ -154,7 +154,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
 
     const editTag = (i: number) => {
         let editInfo = textList[i]
-        setTagParams({ id: editInfo.id, tagList: editInfo.tags })
+        setTagParams({ id: editInfo.id, tagList: editInfo.tags || [] })
         setEditInfo({ title: editInfo.title, content: editInfo.description })
         setTagVisible(true)
     }
