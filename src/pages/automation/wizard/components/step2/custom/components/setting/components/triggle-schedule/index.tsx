@@ -36,7 +36,7 @@ const TriggleSchedule: FC<any> = props => {
         title={title}
       >
           <NoHoverableGrid className="select-target-date">
-            <Row justify="end">
+            <Row justify="end" style={{padding: 8}}>
               <Space>
                 <span>绩效衡量标准：</span>
                 <Select size="small"></Select>
@@ -46,8 +46,8 @@ const TriggleSchedule: FC<any> = props => {
             </Row>
           </NoHoverableGrid>
           <NoHoverableGrid className="legend">
-            <Row justify="end">
-              <Space>
+            <Row justify="end" style={{padding: 8}}>
+              <Space size="large">
                 <span>积极的</span>
                 <span>不活跃的</span>
                 <span>整体平局表现</span>
@@ -93,32 +93,48 @@ const TriggleSchedule: FC<any> = props => {
               </Col>
             </Row>
           </NoHoverableGrid>
-          <NoHoverableGrid className="radio-plan">
-            <Radio>每天</Radio>
-          </NoHoverableGrid>
+          <Radio.Group style={{width: '100%'}}>
+            <NoHoverableGrid className="radio-plan">
+              <Radio>每天</Radio>
+            </NoHoverableGrid>
+            <NoHoverableGrid className="chart-slider">
+              <Row>
+                <Col flex='140px'></Col>
+                <Col flex="auto">
+                  <ChartSlider></ChartSlider>
+                </Col>
+              </Row>
+            </NoHoverableGrid>
+            <NoHoverableGrid className="radio-plan">
+              <Radio>在选定的日子</Radio>
+            </NoHoverableGrid>
+          </Radio.Group>
+        <Radio.Group style={{width: '100%'}}>
           <NoHoverableGrid className="chart-slider">
             <Row>
-              <Col flex='140px'></Col>
+              <Col flex='140px'>
+                <div style={{width: 20, margin: '0 auto', paddingTop: 40}}>
+                  <Radio>周一</Radio>
+                </div>
+              </Col>
               <Col flex="auto">
                 <ChartSlider></ChartSlider>
               </Col>
             </Row>
           </NoHoverableGrid>
-        <NoHoverableGrid className="radio-plan">
-          <Radio>在选定的日子</Radio>
-        </NoHoverableGrid>
-        <NoHoverableGrid className="chart-slider">
-          <Row>
-            <Col flex='140px'>
-              <div style={{width: 20, margin: '0 auto', paddingTop: 40}}>
-                <Radio>周一</Radio>
-              </div>
-            </Col>
-            <Col flex="auto">
-              <ChartSlider></ChartSlider>
-            </Col>
-          </Row>
-        </NoHoverableGrid>
+          <NoHoverableGrid className="chart-slider">
+            <Row>
+              <Col flex='140px'>
+                <div style={{width: 20, margin: '0 auto', paddingTop: 40}}>
+                  <Radio>周一</Radio>
+                </div>
+              </Col>
+              <Col flex="auto">
+                <ChartSlider></ChartSlider>
+              </Col>
+            </Row>
+          </NoHoverableGrid>
+        </Radio.Group>
       </Card>
   )
 }

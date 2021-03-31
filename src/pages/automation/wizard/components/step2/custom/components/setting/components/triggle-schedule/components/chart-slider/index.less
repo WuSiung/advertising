@@ -1,5 +1,21 @@
 @import '~antd/es/style/themes/default.less';
 
+.generator-tracks(@n, @i: 2) when (@i <= @n) {
+  .@{ant-prefix}-slider-track-@{i} {
+    &:hover {
+      background-color: transparent;
+    }
+    background-color: transparent;
+  }
+
+  &:hover {
+    .@{ant-prefix}-slider-track-@{i} {
+      background-color: transparent;
+    }
+  }
+  .generator-tracks(@n, @i + 2);
+}
+
 .main {
   :global {
     padding: 24px 0;
@@ -10,6 +26,18 @@
 
     .@{ant-prefix}-slider {
       margin: 0;
+      .generator-tracks(24);
+      //.@{ant-prefix}-slider-track-2 {
+      //  &:hover {
+      //    background-color: transparent;
+      //  }
+      //  background-color: transparent;
+      //}
+      //&:hover {
+      //  .@{ant-prefix}-slider-track-2 {
+      //    background-color: transparent;
+      //  }
+      //}
     }
   }
 }
