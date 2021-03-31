@@ -67,11 +67,11 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                 if (ageNum == '' && ages.value != 'age7') {
                     ageNum = ages.label
                 } else if (ageNum == '' && ages.value == 'age7') {
-                    ageNum = '65+'
+                    ageNum = '65'
                 } else if (ageNum != '' && ages.value != 'age7') {
                     ageNum = ageNum.split('-')[0] + '-' + ages.label.split('-')[1]
                 } else if (ageNum != '' && ages.value == 'age7') {
-                    ageNum = ageNum.split('-')[0] + '-' + '65+'
+                    ageNum = ageNum.split('-')[0] + '-' + '65'
                 }
             }
         })
@@ -106,7 +106,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                             [
                                 { value: "male", label: "男" },
                                 { value: "female", label: "女" },
-                                { value: "unkown", label: "未分类" },
+                                { value: "unkown", label: "所有" },
                             ].map(item => {
                                 return <Radio style={radioStyle} key={item.value} value={item.value}>
                                     {item.label}
