@@ -24,9 +24,7 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
             </div>
         </div>
         <div className={styles.content}>
-            <div className={styles.contentText}>
-                {ohterProps.content}
-            </div>
+            <div className={styles.contentText} dangerouslySetInnerHTML={{ __html: ohterProps.content.replace(/\n/g, '<br/>') }}></div>
             <div className={styles.media}>
                 {
                     type == 0 ? <Image src={ohterProps.url} preview={false} /> : <video src={ohterProps.url} ref={video}></video>
