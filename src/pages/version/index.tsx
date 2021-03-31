@@ -104,9 +104,25 @@ const Version = () => {
     '工作台、广告创意、公共素材库样式',
     'appid读取接口配置',
   ]
+  const v_1_1_46: string[] = [
+    '广告管理复制',
+    '广告管理筛选（接口还未调通）',
+    '其他见jira',
+  ]
 
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-03-31 20:12</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_46.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.45更新说明</div>
     <div className={styles.time}>2021-03-29 18:28</div>
     <div className={styles.detail}>
       <ol>
