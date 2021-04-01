@@ -4,6 +4,8 @@ import {getCampaignList} from "@/pages/automation/wizard/components/step3/campai
 const CampaignSelectorModel: TModelCampaignSelector = {
   namespace: 'campaignSelector',
   state: {
+    total: 0,
+    current: 1,
     campaignList: []
   },
   reducers: {
@@ -20,6 +22,8 @@ const CampaignSelectorModel: TModelCampaignSelector = {
       yield put({
         type: 'updateCampaignList',
         payload: {
+          total: response.data.total,
+          current: response.data.current,
           campaignList: response.data.records
         }
       });

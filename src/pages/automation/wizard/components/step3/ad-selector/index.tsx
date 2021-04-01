@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
-import {Card, Input, Space, Checkbox, Tag, Table } from "antd";
+import {Card, Input, Space, Checkbox, Tag, Table, Pagination} from "antd";
 import {TAd, TStateAdSelector} from "@/pages/automation/wizard/components/step3/ad-selector/data";
 import {ColumnsType} from "antd/es/table";
 
@@ -15,13 +15,18 @@ interface IAdSelector {
   onActionObjChange: (isSelected: boolean) => void;
 };
 
+const size = 10;
+
 const AdSelector: FC<IAdSelector> = (props) => {
-  const {dispatch, adSelector} = props;
+  const {dispatch, adSelector, ActionObj} = props;
   useEffect(() => {
     if (dispatch) {
       dispatch({
         type: 'adSelector/getAdList',
-        payload: {}
+        payload: {
+          current: adSelector?.current,
+          size,
+        }
       });
     }
 
@@ -31,7 +36,7 @@ const AdSelector: FC<IAdSelector> = (props) => {
     }
     props.onActionObjChange(isSelected);
 
-  }, []);
+  }, [adSelector?.current]);
 
   const columns: ColumnsType<TAd> = [
     { title: '适用于所有收购活动', dataIndex: 'advName', key: 'advName' },
@@ -50,26 +55,84 @@ const AdSelector: FC<IAdSelector> = (props) => {
     });
   }
 
+  const triggleActionObjChange = (selectedRowKeys: string[]) => {
+    props.onChange({ActionObj: selectedRowKeys});
+
+    let isChanged = false;
+    if (selectedRowKeys.length !== ActionObj?.length) {
+      isChanged = true
+    }
+
+    if (!isChanged) {
+      props.ActionObj?.forEach(k => {
+        if (selectedRowKeys.indexOf(k) === -1) {
+          isChanged = true
+        }
+      });
+    }
+
+    if (isChanged) {
+      props.onActionObjChange(selectedRowKeys.length > 0);
+    }
+  }
+
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[]) => {
-      props.onChange({ActionObj: selectedRowKeys});
+    // onChange: (selectedRowKeys: React.Key[]) => {
+    //   props.onChange({ActionObj: selectedRowKeys});
+    //
+    //   let isChanged = false;
+    //   if (props.ActionObj?.length !== selectedRowKeys.length) {
+    //     isChanged = true
+    //   }
+    //
+    //   if (!isChanged) {
+    //     props.ActionObj?.forEach(k => {
+    //       if (selectedRowKeys.indexOf(k) === -1) {
+    //         isChanged = true
+    //       }
+    //     });
+    //   }
+    //
+    //   if (isChanged) {
+    //     props.onActionObjChange(selectedRowKeys.length > 0);
+    //   }
+    // },
+    onSelect: (record: TAd, selected: boolean) => {
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        const idx = selectedRowKeys.indexOf(record.advId);
+        if (idx === -1 && selected) {
+          selectedRowKeys.push(record.advId);
+        }
 
-      let isChanged = false;
-      if (props.ActionObj?.length !== selectedRowKeys.length) {
-        isChanged = true
+        if (idx > -1 && !selected) {
+          selectedRowKeys.splice(idx, 1);
+        }
       }
+      triggleActionObjChange(selectedRowKeys);
+    },
+    onSelectAll: (selected: boolean, selectedRows: TAd[], changeRows: TAd[]) => {
+      // console.log(changeRows);
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        changeRows.forEach((record: TAd) => {
+          if (record) {
+            const idx = selectedRowKeys.indexOf(record.advId);
+            if (idx === -1 && selected) {
+              selectedRowKeys.push(record.advId);
+            }
 
-      if (!isChanged) {
-        props.ActionObj?.forEach(k => {
-          if (selectedRowKeys.indexOf(k) === -1) {
-            isChanged = true
+            if (idx > -1 && !selected) {
+              selectedRowKeys.splice(idx, 1);
+            }
           }
-        });
+        })
       }
-
-      if (isChanged) {
-        props.onActionObjChange(selectedRowKeys.length > 0);
-      }
+      triggleActionObjChange(selectedRowKeys);
     },
     selectedRowKeys: props.ActionObj
   };
@@ -97,6 +160,26 @@ const AdSelector: FC<IAdSelector> = (props) => {
           dataSource={adSelector?.adList}
           rowSelection={rowSelection}
           rowKey="advId"
+          pagination={false}
+          footer={() =>
+            (<Pagination defaultCurrent={1}
+                         total={adSelector?.total}
+                         pageSize={size}
+                         current={adSelector?.current}
+                         onChange={(pageIdx, pageSize) => {
+                           // setAdvpackPageindex(pi);
+                           if (dispatch) {
+                             dispatch({
+                               type: 'adSelector/updateAdList',
+                               payload: {
+                                 current: pageIdx
+                               }
+                             });
+                           }
+                         }}
+
+            />)
+          }
         />
       </Card>
     </div>

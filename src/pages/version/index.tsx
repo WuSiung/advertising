@@ -110,8 +110,24 @@ const Version = () => {
     '其他见jira',
   ]
 
+  const v_1_1_47: string[] = [
+    '自动化策略，广告、广告集、广告系列筛选过滤掉草稿状态的数据',
+    '自动化策略，广告、广告集、广告系列改为服务端分页查询',
+  ]
+
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-04-01 19:07</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_47.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.46更新说明</div>
     <div className={styles.time}>2021-03-31 20:12</div>
     <div className={styles.detail}>
       <ol>

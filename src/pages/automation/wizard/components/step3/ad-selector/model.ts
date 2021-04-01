@@ -1,9 +1,11 @@
-import {TModelAdSelector} from "@/pages/automation/wizard/components/step3/ad-selector/data";
+import {TAd, TModelAdSelector} from "@/pages/automation/wizard/components/step3/ad-selector/data";
 import {getAdList} from "@/pages/automation/wizard/components/step3/ad-selector/service";
 
 const AdSelectorModel: TModelAdSelector = {
   namespace: 'adSelector',
   state: {
+    total: 0,
+    current: 1,
     adList: []
   },
   reducers: {
@@ -20,6 +22,8 @@ const AdSelectorModel: TModelAdSelector = {
       yield put({
         type: 'updateAdList',
         payload: {
+          total: response.data.total,
+          current: response.data.current,
           adList: response.data.records
         }
       });

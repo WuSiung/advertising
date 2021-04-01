@@ -1,7 +1,8 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
-import {Card, Input, Space, Checkbox, Tag, Table } from "antd";
+import {Card, Input, Space, Checkbox, Tag, Table, Pagination} from "antd";
 import {TStateCampaignSelector} from "@/pages/automation/wizard/components/step3/campaign-selector/data";
+import {TCampaign} from "@/pages/automation/wizard/components/step3/ad-selector/data";
 
 // const CheckboxGroup = Checkbox.Group;
 interface ICampaignSelector {
@@ -14,13 +15,18 @@ interface ICampaignSelector {
   onActionObjChange: (isSelected: boolean) => void;
 };
 
+const size = 10;
+
 const CampaignSelector: FC<ICampaignSelector> = (props) => {
-  const {dispatch, campaignSelector} = props;
+  const {dispatch, campaignSelector, ActionObj} = props;
   useEffect(() => {
     if (dispatch) {
       dispatch({
         type: 'campaignSelector/getCampaignList',
-        payload: {}
+        payload: {
+          current: campaignSelector?.current,
+          size,
+        }
       });
     }
 
@@ -29,7 +35,7 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
       isSelected = true;
     }
     props.onActionObjChange(isSelected);
-  }, []);
+  }, [campaignSelector?.current]);
 
   const columns = [
     { title: '适用于所有收购活动', dataIndex: 'appName', key: 'appName' },
@@ -48,27 +54,85 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
     });
   }
 
+  const triggleActionObjChange = (selectedRowKeys: string[]) => {
+    props.onChange({ActionObj: selectedRowKeys});
+
+    let isChanged = false;
+    if (selectedRowKeys.length !== ActionObj?.length) {
+      isChanged = true
+    }
+
+    if (!isChanged) {
+      props.ActionObj?.forEach(k => {
+        if (selectedRowKeys.indexOf(k) === -1) {
+          isChanged = true
+        }
+      });
+    }
+
+    if (isChanged) {
+      props.onActionObjChange(selectedRowKeys.length > 0);
+    }
+  }
+
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[]) => {
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      props.onChange({ActionObj: selectedRowKeys});
+    // onChange: (selectedRowKeys: React.Key[]) => {
+    //   // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    //   props.onChange({ActionObj: selectedRowKeys});
+    //
+    //   let isChanged = false;
+    //   if (props.ActionObj?.length !== selectedRowKeys.length) {
+    //     isChanged = true
+    //   }
+    //
+    //   if (!isChanged) {
+    //     props.ActionObj?.forEach(k => {
+    //       if (selectedRowKeys.indexOf(k) === -1) {
+    //         isChanged = true
+    //       }
+    //     });
+    //   }
+    //
+    //   if (isChanged) {
+    //     props.onActionObjChange(selectedRowKeys.length > 0);
+    //   }
+    // },
+    onSelect: (record: TCampaign, selected: boolean) => {
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        const idx = selectedRowKeys.indexOf(record.packId);
+        if (idx === -1 && selected) {
+          selectedRowKeys.push(record.packId);
+        }
 
-      let isChanged = false;
-      if (props.ActionObj?.length !== selectedRowKeys.length) {
-        isChanged = true
+        if (idx > -1 && !selected) {
+          selectedRowKeys.splice(idx, 1);
+        }
       }
+      triggleActionObjChange(selectedRowKeys);
+    },
+    onSelectAll: (selected: boolean, selectedRows: TCampaign[], changeRows: TCampaign[]) => {
+      // console.log(selectedRows);
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        changeRows.forEach((record: TCampaign) => {
+          if (record) {
+            const idx = selectedRowKeys.indexOf(record.packId);
+            if (idx === -1 && selected) {
+              selectedRowKeys.push(record.packId);
+            }
 
-      if (!isChanged) {
-        props.ActionObj?.forEach(k => {
-          if (selectedRowKeys.indexOf(k) === -1) {
-            isChanged = true
+            if (idx > -1 && !selected) {
+              selectedRowKeys.splice(idx, 1);
+            }
           }
-        });
+        })
       }
-
-      if (isChanged) {
-        props.onActionObjChange(selectedRowKeys.length > 0);
-      }
+      triggleActionObjChange(selectedRowKeys);
     },
     selectedRowKeys: props.ActionObj
   };
@@ -96,6 +160,26 @@ const CampaignSelector: FC<ICampaignSelector> = (props) => {
           dataSource={campaignSelector?.campaignList}
           rowSelection={rowSelection}
           rowKey="packId"
+          pagination={false}
+          footer={() =>
+            (<Pagination defaultCurrent={1}
+                         total={campaignSelector?.total}
+                         pageSize={size}
+                         current={campaignSelector?.current}
+                         onChange={(pageIdx, pageSize) => {
+                           // setAdvpackPageindex(pi);
+                           if (dispatch) {
+                             dispatch({
+                               type: 'campaignSelector/updateCampaignList',
+                               payload: {
+                                 current: pageIdx
+                               }
+                             });
+                           }
+                         }}
+
+            />)
+          }
         />
       </Card>
     </div>
