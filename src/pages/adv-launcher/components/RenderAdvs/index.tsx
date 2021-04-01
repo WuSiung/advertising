@@ -76,6 +76,7 @@ const RenderAdvs: FC<RenderAdvsProps> = (props) => {
             </div>
             <Button style={{ marginRight: 10 }} type='primary' onClick={onCheckAll}>{isCheckAll ? "取消全选" : "全选"}</Button>
             <Button style={{ marginRight: 10 }} type='primary' onClick={() => history.goBack()}>返回</Button>
+            {/* <Button type='primary' disabled={!isFinished} onClick={history.push()}>跳过</Button> */}
             <Button type='primary' disabled={!isFinished} onClick={nextStep}>下一步</Button>
         </div>
         <div className={styles.lists}>
