@@ -111,12 +111,12 @@ const advpackOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefin
         dataIndex: 'installfee',
         show: false,
     },
-    // {
-    //     sortIdx: 17,
-    //     titleString: '操作',
-    //     dataIndex: 'action',
-    //     show: false,
-    // },
+    {
+        sortIdx: 17,
+        titleString: '操作',
+        dataIndex: 'action',
+        show: true,
+    },
 ];
 const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, editable?: boolean, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
@@ -229,12 +229,12 @@ const advsetOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefine
         dataIndex: 'installfee',
         show: false,
     },
-    // {
-    //     sortIdx: 17,
-    //     titleString: '操作',
-    //     dataIndex: 'action',
-    //     show: false,
-    // },
+    {
+        sortIdx: 17,
+        titleString: '操作',
+        dataIndex: 'action',
+        show: true,
+    },
 ];
 const advadvOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefined, dataIndex: string, show: boolean, sortIdx: number }[] = [
     {
@@ -342,12 +342,12 @@ const advadvOriginColumnsOnlyLabelAndDataIndex: { titleString: string | undefine
         dataIndex: 'installfee',
         show: false,
     },
-    // {
-    //     sortIdx: 16,
-    //     titleString: '操作',
-    //     dataIndex: 'action',
-    //     show: false,
-    // },
+    {
+        sortIdx: 16,
+        titleString: '操作',
+        dataIndex: 'action',
+        show: true,
+    },
 ];
 
 export { advpackOriginColumnsOnlyLabelAndDataIndex, advsetOriginColumnsOnlyLabelAndDataIndex, advadvOriginColumnsOnlyLabelAndDataIndex }

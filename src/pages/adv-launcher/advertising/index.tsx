@@ -1,5 +1,5 @@
 import { Card, Button, Empty, Modal, message, Select, InputNumber, Popover, Checkbox, Row, Col, Space, Dropdown, Menu } from 'antd'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import DateRange from '../components/DateRange';
 import moment from 'moment';
 import { AdvPreview } from "../components/AdvPreview";
@@ -44,12 +44,13 @@ const Advertising: FC<AdvPropsType> = (props) => {
     const [sex, setSex] = useState<CheckboxValueType[] | undefined>();
     const [device, setDevice] = useState<CheckboxValueType[] | undefined>();
     const [publishLocation, setPublishLocation] = useState<CheckboxValueType[] | undefined>();
-    const [orderType, setOrderType] = useState('')
+    const [orderType, setOrderType] = useState('installs')
     const [searchTime, setSearchTime] = useState(0)
     const [country, setCountry] = useState<SelectValueType[] | undefined>();
     const [activeAdv, setActiveAdv] = useState<PreviewAdvType & { showPreviewModal: boolean }>();
     const [PreiviewVisible, setPreviewVisible] = useState<boolean>(false)
     const [mediaType, setMediaType] = useState<'0' | '1'>()
+    const wrapperRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         dispatch({
@@ -78,6 +79,30 @@ const Advertising: FC<AdvPropsType> = (props) => {
             hideLoadingMore && hideLoadingMore();
         }
     }, [loadingAdvListAddMore])
+
+    const scrollWrap = () => {
+        const clientHeight = wrapperRef.current?.clientHeight || 0;
+        const scrollTop = wrapperRef.current?.scrollTop || 0;
+        const scrollHeight = wrapperRef.current?.scrollHeight || 0;
+        if ((clientHeight + scrollTop) == scrollHeight) {
+            if (advertisingList.length < count) {
+                dispatch({
+                    type: 'advertising/fetchAdvListAddMore',
+                    payload: {
+                        start: date ? date[0] : "",
+                        end: date ? date[1] : "",
+                        current: pageIndex,
+                        cost,
+                        order: orderType,
+                        type: mediaType
+                    }
+                });
+                setPageIndex(pageIndex + 1);
+            } else {
+                message.warning('没有更多广告了')
+            }
+        }
+    }
 
     const createAdv = (i: number) => {
         let editList: AdvedDataType[] = JSON.parse(JSON.stringify(advertisingList));
@@ -136,6 +161,10 @@ const Advertising: FC<AdvPropsType> = (props) => {
             payload: {
                 start: value[0],
                 end: value[1],
+                cost,
+                order: orderType,
+                current: 1,
+                type: mediaType
             }
         });
     }
@@ -160,6 +189,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                                 style={{ width: 200, marginRight: 10 }}
                                 placeholder="选择排序字段"
                                 optionFilterProp="children"
+                                value={orderType}
                                 filterOption={(input: string, option) =>
                                     option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
@@ -312,7 +342,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
                 </Row>
             </div>
             <div className={styles.advContainer}>
-                <div className={styles.advWarp} >
+                <div className={styles.advWarp} ref={wrapperRef} onScroll={scrollWrap}>
                     {
                         advertisingList.length > 0 ? advertisingList.map((advertings, i) => {
                             // const imgtext = advertings.imgTextList[0] ? advertings.imgTextList[0] : null;
@@ -370,7 +400,7 @@ const Advertising: FC<AdvPropsType> = (props) => {
 
                 </div>
             </div>
-            <div style={{ width: "100%", textAlign: "center" }}>
+            {/* <div style={{ width: "100%", textAlign: "center" }}>
                 {
                     advertisingList.length < count ? <Button loading={loadingAdvListAddMore} onClick={() => {
                         dispatch({
@@ -378,13 +408,16 @@ const Advertising: FC<AdvPropsType> = (props) => {
                             payload: {
                                 start: date ? date[0] : "",
                                 end: date ? date[1] : "",
-                                current: pageIndex
+                                current: pageIndex,
+                                cost,
+                                order: orderType,
+                                type: mediaType
                             }
                         });
                         setPageIndex(pageIndex + 1);
                     }}>加载更多</Button> : <></>
                 }
-            </div>
+            </div> */}
             <PreviewContainer visible={PreiviewVisible} handleVisible={setPreviewVisible}></PreviewContainer>
         </Card>
     )

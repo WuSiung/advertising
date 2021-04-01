@@ -10,6 +10,10 @@ import styles from './index.less';
 import InputTag from './components/InputTags';
 import { advadvOriginColumnsOnlyLabelAndDataIndex, advpackOriginColumnsOnlyLabelAndDataIndex, advsetOriginColumnsOnlyLabelAndDataIndex } from './tableConfig'
 import EditTd from './components/editTd'
+import ManagerFilter, { ParamsType } from './components/ManagerFilter'
+import { copyAdv, copyPack, copySet } from './service'
+import LoadingElement from '@/components/Loading'
+import { PageContainer } from '@ant-design/pro-layout'
 
 type EventValue<DateType> = DateType | null;
 
@@ -86,6 +90,13 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [value, setValue] = useState<RangeValue<moment.Moment> | undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
     const [valueFSet, setValueFSet] = useState<RangeValue<moment.Moment> | undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
     const [valueFAdv, setValueFAdv] = useState<RangeValue<moment.Moment> | undefined>([moment(new Date()).subtract(1, 'months'), moment()]);
+    const [packFilter, setPackFilter] = useState<ParamsType>();
+    const [setFilter, setSetFilter] = useState<ParamsType>();
+    const [advFilter, setAdvFilter] = useState<ParamsType>();
+    const [refreshPack, setRefreshPack] = useState(0)
+    const [refreshSet, setRefreshSet] = useState(0)
+    const [refreshAdv, setRefreshAdv] = useState(0)
+    const [copyLoading, setCopyLoading] = useState(false)
 
     const advpackOriginColumns: Columns[] = [
         {
@@ -248,7 +259,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     }} dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin>
                     :
-                    <div> 广告集预算<Popover content='预算已在广告集中开启'>
+                    <div> 广告集<Popover content='预算已在广告集中开启'>
                         <QuestionCircleOutlined />
                     </Popover>
                     </div>
@@ -458,30 +469,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告系列</Button><Dropdown key={2} overlay={() => {
-                    return (<Menu>
-                        <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                在FACEBOOK打开
-                            </a>
-                        </Menu.Item>
-                        {/* <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                打开故事详情
-                            </a>
-                        </Menu.Item> */}
-                    </Menu>)
-                }}>
-                    <span>
-                        <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                            <DownOutlined />
-                        </a>
-                    </span>
-                </Dropdown></>)
+                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)} disabled={copyLoading}>复制广告系列</Button></>)
             }
         },
     ];
@@ -641,7 +629,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     }
                     } dataIndex='spendNum' record={record}>${record.spendNum}</EditTd>
                 </Spin >
-                    : <div>广告系列预算
+                    : <div>广告系列
                         <Popover content='预算已在广告系列预算中开启'>
                             <QuestionCircleOutlined />
                         </Popover>
@@ -851,37 +839,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告集</Button><Dropdown key={2} overlay={() => {
-                    return (<Menu>
-                        <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                复制广告集条件新建
-                            </a>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                在FACEBOOK打开
-                            </a>
-                        </Menu.Item>
-                        {/* <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                打开故事详情
-                            </a>
-                        </Menu.Item> */}
-                    </Menu>)
-                }}>
-                    <span>
-                        <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                            <DownOutlined />
-                        </a>
-                    </span>
-                </Dropdown></>)
+                return (<><Button type="link" onClick={() => copyAdvSet((_ as AdvSetListType).setId)}>复制广告集</Button></>)
             }
         },
     ];
@@ -1210,37 +1168,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={copyAdv}>复制广告</Button><Dropdown key={2} overlay={() => {
-                    return (<Menu>
-                        <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                复制广告素材新建
-                            </a>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                在FACEBOOK打开
-                            </a>
-                        </Menu.Item>
-                        {/* <Menu.Item>
-                            <a rel="noopener noreferrer" onClick={() => {
-
-                            }}>
-                                打开故事详情
-                            </a>
-                        </Menu.Item> */}
-                    </Menu>)
-                }}>
-                    <span>
-                        <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                            <DownOutlined />
-                        </a>
-                    </span>
-                </Dropdown></>)
+                return (<><Button type="link" onClick={() => copyAdvAdv((_ as AdvAdvListType).advId)}>复制广告</Button></>)
             }
         },
     ];
@@ -1282,8 +1210,41 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const [serachTextForSet, setSerachTextForSet] = useState<string | Array<string> | undefined>([]);
     const [serachTextForAdv, setSerachTextForAdv] = useState<string | Array<string> | undefined>([]);
 
-    const copyAdv = () => {
-        message.warning('此功能等待开放')
+    const copyAdvPack = (id: number) => {
+        setCopyLoading(true)
+        copyPack(id).then(res => {
+            setCopyLoading(false)
+            if (res.code == 0) {
+                let num = Math.random()
+                setRefreshPack(num)
+            }
+        }).catch(() => {
+            setCopyLoading(false)
+        })
+    }
+    const copyAdvSet = (id: number) => {
+        setCopyLoading(true)
+        copySet(id).then(res => {
+            setCopyLoading(false)
+            if (res.code == 0) {
+                let num = Math.random()
+                setRefreshSet(num++)
+            }
+        }).catch(() => {
+            setCopyLoading(false)
+        })
+    }
+    const copyAdvAdv = (id: number) => {
+        setCopyLoading(true)
+        copyAdv(id).then(res => {
+            setCopyLoading(false)
+            if (res.code == 0) {
+                let num = Math.random()
+                setRefreshAdv(num++)
+            }
+        }).catch(() => {
+            setCopyLoading(false)
+        })
     }
 
     const onPackColumnFilter: (newKey: string, originKey: string) => void = (newKey, originKey) => {
@@ -1376,21 +1337,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 appName: Array.isArray(sText) ? sText.join(" ") : "",
                 startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
+                filter: packFilter
             }
         })
-    }, [advpackPageindex]);
-    useDidMountEffect(() => {
-        let sText = serachText;
-        dispatch({
-            type: 'adv/fetchAdvPackList', payload: {
-                current: advpackPageindex,
-                size: advpackPagesize,
-                appName: Array.isArray(sText) ? sText.join(" ") : "",
-                startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
-                endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
-            }
-        })
-    }, [advpackPagesize]);
+    }, [advpackPageindex, advpackPagesize, packFilter, refreshPack]);
 
     useEffect(() => {
         let sText = serachTextForSet;
@@ -1409,43 +1359,17 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         dispatch({
             type: 'adv/fetchAdvSetList', payload: {
                 current: advSetPageindex,
-                size: advpackPagesize,
+                size: advSetPagesize,
                 packids: sIds.join(","),
                 setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
+                filter: setFilter
             }
         })
-    }, [advSetPageindex]);
-    useDidMountEffect(() => {
-        let sText = serachTextForSet;
-        sText = sText as string[];
-        sText = Array.from(new Set(sText))
-        const sIds: Array<number> = [];
-        if (sText && sText[0]) {
-            sText.forEach(st => {
-                if (st.indexOf("#^*_") != -1) {
-                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
-                    sIds.push(sId);
-                }
-            })
-        }
-        setSerachTextForSet(sText);
-        dispatch({
-            type: 'adv/fetchAdvSetList', payload: {
-                current: advSetPageindex,
-                size: advpackPagesize,
-                packids: sIds.join(","),
-                setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
-                startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
-                endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
-            }
-        })
-    }, [advSetPagesize]);
-
+    }, [advSetPageindex, advSetPagesize, setFilter, refreshSet]);
 
     useEffect(() => {
-
         let sText = advInputTagRef.current?.changeVal();
         sText = sText as string[];
         sText = Array.from(new Set(sText));
@@ -1462,39 +1386,15 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         dispatch({
             type: 'adv/fetchAdvAdvList', payload: {
                 current: advAdvPageindex,
-                size: advpackPagesize,
+                size: advAdvPagesize,
                 setids: sIds.join(","),
                 advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
+                filter: advFilter
             }
         })
-    }, [advAdvPageindex]);
-    useDidMountEffect(() => {
-        let sText = advInputTagRef.current?.changeVal();
-        sText = sText as string[];
-        sText = Array.from(new Set(sText));
-        const sIds: Array<number> = [];
-        if (sText && sText[0]) {
-            sText.forEach(st => {
-                if (st.indexOf("#^*_") != -1) {
-                    const sId = Number.parseInt(st.split("#^*_")[0], 10);
-                    sIds.push(sId);
-                }
-            })
-        }
-        setSerachTextForAdv(sText);
-        dispatch({
-            type: 'adv/fetchAdvAdvList', payload: {
-                current: advAdvPageindex,
-                size: advpackPagesize,
-                setids: sIds.join(","),
-                advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
-                startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
-                endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
-            }
-        })
-    }, [advAdvPagesize]);
+    }, [advAdvPageindex, advAdvPagesize, advFilter, refreshAdv]);
 
 
     const onRowClick = (record: AdvAdvListType | AdvSetListType | AdvPackListType, tabType: string) => {
@@ -1568,8 +1468,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
     const advInputTagRef = useRef<{ changeVal: () => Array<string>; }>();
 
     const [tabKey, setTabKey] = useState("1");
+
     return (
-        <>
+        <PageContainer content='广告管理针对广告查询、修改、数据展示等场景提供了丰富的能力，帮助用户进行高效盯盘和广告优化，默认1小时更新一次结果。' title='广告管理'>
             <div className={styles.advManager}>
                 <Card>
                     <Tabs className={styles.advTabs} activeKey={tabKey} onChange={(key) => {
@@ -1606,9 +1507,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     </Space>
                                 </Col>
                                 <Col span={12} style={{ textAlign: "right" }}>
+                                    <ManagerFilter onFilter={setPackFilter}></ManagerFilter>
                                     <Button type="primary" onClick={() => {
                                         history.push('/advlauncher/workbench');
-                                    }}>创建新的</Button>
+                                    }}>创建广告</Button>
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
@@ -1690,9 +1592,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     </Space>
                                 </Col>
                                 <Col span={12} style={{ textAlign: "right" }}>
+                                    <ManagerFilter onFilter={setSetFilter}></ManagerFilter>
                                     <Button type="primary" onClick={() => {
                                         history.push('/advlauncher/workbench');
-                                    }}>创建新的</Button>
+                                    }}>创建广告</Button>
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
@@ -1785,9 +1688,10 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                                     </Space>
                                 </Col>
                                 <Col span={12} style={{ textAlign: "right" }}>
+                                    <ManagerFilter onFilter={setAdvFilter}></ManagerFilter>
                                     <Button type="primary" onClick={() => {
                                         history.push('/advlauncher/workbench');
-                                    }}>创建新的</Button>
+                                    }}>创建广告</Button>
                                     &nbsp;
                                     &nbsp;
                                     <DateRange
@@ -1844,8 +1748,11 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                         </TabPane>
                     </Tabs>
                 </Card>
+                {
+                    copyLoading && <LoadingElement showMask tips='复制中，请稍等'></LoadingElement>
+                }
             </div>
-        </>
+        </PageContainer>
     )
 }
 export default connect(({ adv, loading }: { adv: AdvData, loading: { effects: { [key: string]: boolean } } }) => ({

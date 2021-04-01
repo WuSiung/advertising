@@ -1,10 +1,10 @@
 import { showConfirm } from '@/components/Confrim'
-import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import { Button, Empty, message, Popover } from 'antd'
+import { CopyOutlined, DeleteFilled, EditOutlined, PauseCircleOutlined, PlayCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Empty, Input, message, Modal, Popover } from 'antd'
 import React, { FC, useRef, useState } from 'react'
 import { connect, Dispatch } from 'umi'
 import { WorkbenchDataType, ImgDataType, TextDataType, PreviewAdvType, HasAdvs } from '../../data.d'
-import { deleteMedia, deleteText } from '../../service'
+import { deleteMedia, deleteText, editText } from '../../service'
 import HoverPopover from '../HoverPopover'
 
 import styles from './index.less'
@@ -62,10 +62,12 @@ const RenderImgList: FC<RenderImgListProps> = (props) => {
 
 const RenderTextList: FC<RenderTextListProps> = (props) => {
     const { onCopy, onDelete, onEdit } = props
+    let content = props.content.replace(/\n/g, '<br/>') || ''
     return <td className={styles.tdtext}>
         <HoverPopover {...props} placement='right'>
             <div className={styles.textBox}>
-                {props.content + '&&' + props.title}
+
+                {props.title}<div dangerouslySetInnerHTML={{ __html: content }}></div>
                 <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
                 <span className={styles.copyText} onClick={() => onCopy && onCopy(props)}><CopyOutlined /></span>
                 <span className={styles.editText} onClick={() => onEdit && onEdit(props)}><EditOutlined /></span>
@@ -84,12 +86,16 @@ const RenderCreateBlock: FC<CreateBlockProps> = (props) => {
     }
     return <div className={`${styles.creatBlock}  ${X == checkX && Y == checkY ? styles.hover : ''} ${classNames}`}
         onClick={e => createAdv(X, Y)} onMouseEnter={e => setXY(X, Y)} onMouseLeave={e => setXY(-1, -1)}>
-        <div className={styles.add}>+</div>
+        <div className={styles.add}>
+            <span><PlusOutlined /></span>
+        </div>
     </div>
 }
 
 const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
     const { imgList, textList, previewAdvs, dispatch, hasAdvs, previewAdvsRecord } = props
+    const [textInfo, setTextInfo] = useState<string>('')
+    const [showTextEdit, setShowTextEdit] = useState<{ id: number, show: boolean }>({ id: -1, show: false })
     let tenBlock = 10 - imgList.length > 0 ? new Array(10 - imgList.length) : [];
     tenBlock = Array.apply(null, tenBlock)
 
@@ -160,6 +166,22 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
         message.success('复制成功')
         dispatch({ type: 'workbench/fetchAllList' })
     }
+
+    const onEditText = (info: TextDataType) => {
+        setTextInfo(info.content + '&&' + info.title)
+        setShowTextEdit({ id: info.textId, show: true })
+    }
+
+    const onChangeTextInfo = () => {
+        const text = textInfo.split('&&')
+        editText({ title: text[1], content: text[0], textId: showTextEdit.id }).then(res => {
+            if (res.code == 0) {
+                setShowTextEdit({ id: -1, show: false })
+                dispatch({ type: 'workbench/fetchAllList' })
+            }
+        })
+    }
+
     return (
         <div className={styles.tableContainer}>
             <table className={styles.workbenchTable}>
@@ -196,17 +218,30 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
                     {
                         textList.map((text, Y) => {
                             return <tr key={text.textId}>
-                                <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} />
+                                <RenderTextList {...text} onDelete={onDeleteText} onCopy={onCopyText} onEdit={onEditText} />
                                 {
                                     imgList.map((img, X) => {
-                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + ' ' + text.textId} >
+                                        let type = 0
+                                        if (hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0) {
+                                            let roas = Number(hasAdvs[X][Y].data?.mobileAppPurchaseRoas)
+                                            if (roas > 1) {
+                                                type = 3
+                                            } else if (roas < 1 && roas > 0.5) {
+                                                type = 2
+                                            } else if (roas < 0.5 && roas > 0.1) {
+                                                type = 1
+                                            } else if (roas < 0.1) {
+                                                type = 0
+                                            }
+                                        }
+                                        return hasAdvs.length > 0 && hasAdvs[X][Y] && hasAdvs[X][Y].ads > 0 ? <HoverPopover placement='top'  {...hasAdvs[X][Y]} key={img.imgId + '&' + text.textId} >
                                             <td>
-                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${styles.hasAdv}`}
+                                                <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active} ${'has-adv' + type}`}
                                                     createAdv={saveToPreviewAdvs} X={X} Y={Y} />
                                             </td>
                                         </HoverPopover>
-                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname}>
-                                                <td key={img.imgId + ' ' + text.textId}>
+                                            : <Popover content='组合创建新广告' placement='bottom' className={styles.popsname} key={img.imgId + '&' + text.textId}>
+                                                <td>
                                                     <RenderCreateBlock classNames={`${isActive(previewAdvs, img.imgId, text.textId) && styles.active}`}
                                                         createAdv={saveToPreviewAdvs} X={X} Y={Y} />
                                                 </td>
@@ -233,6 +268,9 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
 
                 </tbody>
             </table>
+            <Modal title='编辑文本' visible={showTextEdit.show} onCancel={() => setShowTextEdit({ show: false, id: -1 })} onOk={onChangeTextInfo}>
+                <Input.TextArea value={textInfo} className={styles.textcontent} onChange={e => setTextInfo(e.target.value)} />
+            </Modal>
         </div>
     )
 }

@@ -4,12 +4,12 @@ import { connect, ConnectProps } from 'umi'
 import type { Dispatch } from 'umi'
 import type { FacebookAccount, AppInfo } from '@/models/user'
 import HeaderDropdown from '../HeaderDropdown';
-import { Avatar, Menu, Spin, message, Modal, Button,Image } from 'antd';
+import { Avatar, Menu, Spin, message, Modal, Button, Image } from 'antd';
 import styles from './index.less';
 import { DownOutlined, FacebookFilled, GoogleCircleFilled } from '@ant-design/icons';
 import FBLogin, { loadAndInitFB } from '@/utils/fblogin'
 import AddAccountModal from './AddAccountModal'
-import { refreshToekn } from '@/services/user'
+import { getFbId, refreshToekn } from '@/services/user'
 import Store from '@/utils/store'
 
 
@@ -33,11 +33,13 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
     const [hasBindAddcount, setHasBindAddcount] = useState<boolean>(true)
 
     useEffect(() => {
-        loadAndInitFB()
+        (async () => {
+            let res: any = await getFbId()
+            loadAndInitFB(res.data as string)
+        })()
     }, [])
 
-
-    const changeAccount = async ({ key }: { key: string }) => {
+    const changeAccount = async ({ key }: { key: string | number }) => {
         switch (key) {
             case 'addFacebookAccount':
                 FBLogin().then(async (res: fb.StatusResponse) => {
@@ -60,8 +62,8 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                 })
                 break;
             default:
-                const changeAccount = facebookAccounts?.filter(account => account.accountId == key) || [];
-                dispatchChangeAccount(dispatch, changeAccount)
+                const changeAccounts = facebookAccounts?.filter(account => account.tokenId == key) || [];
+                dispatchChangeAccount(dispatch, changeAccounts)
                 break;
         }
     }
@@ -72,7 +74,7 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
             checkAccount = item
             return
         } else {
-            return (<Menu.Item key={item.accountId}>
+            return (<Menu.Item key={item.tokenId}>
                 <Avatar size='small' className={styles.avatar} src={appInfo?.logo} alt='appLogo'></Avatar>
                 <span style={{ marginLeft: 10 }}>{item?.accountName}</span>
             </Menu.Item>)
@@ -114,7 +116,7 @@ const FacebookAccountLists: React.FC<GlobalHeaderRightProps> = (props) => {
                     <div className={styles.item}>通过广告工作台批量发布广告</div>
                     <div className={styles.item}>制定自动化策略实时监控优化广告效果</div>
                     <div className={styles.item}>一站式管理批量上传广告素材资源</div>
-                    <Button onClick={() => changeAccount({ key: 'addFacebookAccount' })} type='primary' style={{marginTop: 10}}>添加Facebook账号</Button>
+                    <Button onClick={() => changeAccount({ key: 'addFacebookAccount' })} type='primary' style={{ marginTop: 10 }}>添加Facebook账号</Button>
                 </Modal>
             }
         </div>

@@ -92,20 +92,48 @@ const Version = () => {
     '工作台坐标紊乱及样式调整',
     '未绑定账号弹窗',
     '人群包弹出动画、广告创意日期超出页面',
-    '修改复活策略页面符号错误',
-    '修改复活策略页面符号错误',
-    '修改复活策略页面符号错误',
-    '修改复活策略页面符号错误',
-    '修改复活策略页面符号错误',
     '自动化策略按创建时间倒序',
     '自动化策略主页，按时间搜索策略',
     '自动化策略启动暂停，删除断网时，客户端界面也显示操作成功的问题',
     '修改从编辑策略界面退回到策略选择界面，然后再点击其他策略时，页面混乱的问题',
     '修改复活止损四个策略的编辑页面的开关按钮，不能回显的问题'
   ]
+  const v_1_1_45: string[] = [
+    '系列、集、广告命名规则',
+    '广告创意默认安装数排序',
+    '工作台、广告创意、公共素材库样式',
+    'appid读取接口配置',
+  ]
+  const v_1_1_46: string[] = [
+    '广告管理复制',
+    '广告管理筛选（接口还未调通）',
+    '其他见jira',
+  ]
 
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-03-31 20:12</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_46.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.45更新说明</div>
+    <div className={styles.time}>2021-03-29 18:28</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_45.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.43更新说明</div>
     <div className={styles.time}>2021-03-27 18:32</div>
     <div className={styles.detail}>
       <ol>

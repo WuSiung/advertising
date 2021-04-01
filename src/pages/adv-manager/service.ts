@@ -64,3 +64,21 @@ export async function advAdv(params: AdvParam) {
         data: params
     });
 }
+
+export async function copyPack(id: number) {
+    return request('/ads/advpack/copy/' + id, {
+        method: 'get',
+    });
+}
+
+export async function copySet(id: number) {
+    return request('/ads/advset/copy/' + id, {
+        method: 'get',
+    });
+}
+
+export async function copyAdv(id: number) {
+    return request('/ads/advadv/copy/' + id, {
+        method: 'get',
+    });
+}

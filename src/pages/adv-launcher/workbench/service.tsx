@@ -26,6 +26,13 @@ export async function postOneTextsToWorkbench(data: { content: string, title: st
     })
 }
 
+export async function editText(params: { content: string, title: string, textId: number }) {
+    return request('/ads/advtext', {
+        method: 'put',
+        data: params
+    })
+}
+
 export async function postTextsToWorkbench(data: { data: string }) {
     return request('/ads/advtext/batchSave', {
         method: 'post',

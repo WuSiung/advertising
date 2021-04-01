@@ -233,7 +233,7 @@ const Compaign: FC<CompaignProps> = (props) => {
 }
 
 const initName = (appInfo: AppInfo): string => {
-    return 'TWzt-' + appInfo.appName + '-' + moment().format("YYYYMMDD") + '-主要系列'
+    return 'TWzt-' + appInfo.appName + '-' + moment().format("YYYYMMDD HH:mm")
 }
 
 export default connect(({ workbench, compaigns, user, loading }: { workbench: WorkbenchDataType, compaigns: CompaignsData, user: UserModelState, loading: { effects: { [key: string]: boolean } } }) => ({

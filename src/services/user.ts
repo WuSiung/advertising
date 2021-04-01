@@ -13,6 +13,10 @@ export async function queryFbAccounts(): Promise<any> {
   return request('/admin/systoken/getTokens');
 }
 
+export async function getFbId() {
+  return request('/auth/token/appid');
+}
+
 export async function queryNotices(): Promise<any> {
   return request('/api/notices');
 }

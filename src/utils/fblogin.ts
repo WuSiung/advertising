@@ -11,10 +11,10 @@ async function loadFbSDK(d: Document, s: string, id: string) {
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode?.insertBefore(js, fjs);
 }
-async function initFacebook() {
+async function initFacebook(id: string) {
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '1671575193015707',
+            appId: id,
             version: 'v9.0',
             status: true,
             cookie: true,
@@ -24,9 +24,9 @@ async function initFacebook() {
     };
 }
 
-async function loadAndInitFB() {
+async function loadAndInitFB(id: string) {
     await loadFbSDK(document, "script", "facebook-jssdk");
-    await initFacebook();
+    await initFacebook(id);
 }
 
 async function logInWithFacebook() {
@@ -39,7 +39,7 @@ async function logInWithFacebook() {
                     reject("")
                 }
             }, {
-                scope: 'ads_management,publish_video,pages_manage_posts,pages_read_engagement,business_management,ads_read,publish_to_groups,pages_manage_engagement,read_insights,instagram_basic,instagram_content_publish,instagram_manage_comments,instagram_manage_insights,attribution_read,email,leads_retrieval,pages_manage_ads,pages_manage_metadata,pages_read_user_content,pages_show_list,public_profile',
+                scope: 'ads_read,ads_management,attribution_read,public_profile,email,business_management pages_show_list',
             })
 
         } catch (err) {

@@ -30,19 +30,44 @@
         user-select: none;
         &.hover{
             .add{
-                background-color: #e2e2e2;
                 color: #fff;
+                span{
+                    border-radius: 50%;
+                    background: #fff;
+                    box-shadow: @shadow-2;
+                }
             }
         }
         &.active{
             .add{
                 background-color: rebeccapurple !important;
+                .add{
+                    span{
+                        color: #fff;
+                    }
+
+                }
+            }
+        }
+        &:global(.has-adv0){
+            .add{
+                background:  #E1FFFF;
+            }
+        }
+        &:global(.has-adv1){
+            .add{
+                background:  #AFEEEE;
+            }
+        }
+        &:global(.has-adv2){
+            .add{
+                background:  #48D1CC;
                 color: #ffffff;
             }
         }
-        &.hasAdv{
+        &:global(.has-adv3){
             .add{
-                background:  green;
+                background:  #20B2AA;
                 color: #ffffff;
             }
         }
@@ -56,6 +81,16 @@
             background-color: #ffffff;
             border-radius: 4px;
             box-shadow: @shadow-2;
+            span{
+                width: 40px;
+                color: #20B2AA;
+                height: 40px;
+                text-align: center;
+                font-size: 12px;
+                line-height: 42px;
+                border-radius: 50%;
+                // box-shadow: @shadow-2;
+            }
         }
     }
     .container{
@@ -156,6 +191,17 @@
     }
 }
 
+.textcontent{
+    display: block;
+    width: 100%;
+    height: 200px !important;
+    margin-bottom: 10px;
+}
+:global(.ant-popover-arrow){
+    margin-top: -30px !important;
+
+}
 :global(.ant-popover-inner){
     box-shadow: 0 3px 4px 2px #d2d2d2;
+    margin-top: -30px !important;
 }

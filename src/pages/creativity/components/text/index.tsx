@@ -91,7 +91,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const submitTexts = async (values: string[]) => {
         const uploadParams = values.map(value => {
             let str = value.split('&&')
-            return { title: str[1] || '', text: str[0] || '', id: generateUUID() }
+            return { title: str[0] || '', text: str[1] || '', id: generateUUID() }
         })
         await dispatch({
             type: 'material/uploadTexts',
@@ -154,7 +154,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
 
     const editTag = (i: number) => {
         let editInfo = textList[i]
-        setTagParams({ id: editInfo.id, tagList: editInfo.tags })
+        setTagParams({ id: editInfo.id, tagList: editInfo.tags || [] })
         setEditInfo({ title: editInfo.title, content: editInfo.description })
         setTagVisible(true)
     }
@@ -281,7 +281,6 @@ const showDeleteConfirm = (dispatch: Dispatch, deleteInfo: PublicMaterialDataTyp
         okType: 'primary',
         cancelText: '取消',
         onOk() {
-            console.log(deleteInfo)
             return deletResource(deleteInfo.id).then(res => {
                 if (res) {
                     dispatch({

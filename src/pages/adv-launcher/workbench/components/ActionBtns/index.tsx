@@ -14,7 +14,6 @@ import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 interface ActionBtnsProps {
     workbench: WorkbenchDataType,
-    upFileloading?: boolean,
     upTextLoading?: boolean,
     dispatch: Dispatch,
     saveTempLoading: boolean,
@@ -26,11 +25,12 @@ let uploadedLenth: number = 0;
 let uploadFileSize = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
 
-    const { dispatch, upFileloading, upTextLoading, workbench, saveTempLoading, queryTempLoading } = props
+    const { dispatch, upTextLoading, workbench, saveTempLoading, queryTempLoading } = props
 
     const [modalVisible, setModalVisible] = useState<boolean>(false)
     const [showSaveTemp, setShowSaveTemp] = useState<boolean>(false)
     const [tempName, setTempName] = useState('')
+    const [upFileloading, setUpFileloading,] = useState(false)
     const [selectTempLoading, setSelectTempLoading] = useState<boolean>(false)
 
     const fileChange = async (e: RcCustomRequestOptions, dispatch: Dispatch) => {
@@ -42,6 +42,7 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
         formData.append('media', e.file)
         const type: 0 | 1 | undefined = fileType(e.file.type)
         if (dispatch) {
+            setUpFileloading(true)
             const res: PostMediaDataType = await dispatch({
                 type: 'workbench/uploadFile',
                 payload: formData
@@ -51,6 +52,7 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
             uploadSucessValue.push(addResultToWorkbench(res))
             if (uploadFileLength == uploadedLenth) {
                 Promise.all(uploadSucessValue).then(() => {
+                    setUpFileloading(false)
                     uploadSucessValue = [];
                     uploadFileLength = 0;
                     uploadedLenth = 0
@@ -158,7 +160,7 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
                 </Col>
                 <Col span={8} className={styles.rightActions}>
                     <Button type="primary" disabled={workbench.previewAdvsRecord.length == 0} onClick={backCC}>撤回</Button>
-                    <Button type="primary" disabled={workbench.previewAdvs.length == 0-1} onClick={() => clearPreview(dispatch, workbench)}>清空选择</Button>
+                    <Button type="primary" disabled={workbench.previewAdvs.length == 0 - 1} onClick={() => clearPreview(dispatch, workbench)}>清空选择</Button>
                     <Button type="primary" onClick={createAdv}>创建广告</Button>
                 </Col>
             </Row>
@@ -174,7 +176,7 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
 const submitText = async (value: string[], dispatch: Dispatch, handleModalVisible: (visible: boolean) => void, workbench: WorkbenchDataType) => {
     const postArr = value.map(text => {
         const textStr = text.split('&&')
-        return { title: textStr[1] || '', content: textStr[0] || '' }
+        return { title: textStr[0] || '', content: textStr[1] || '' }
     })
     await dispatch({
         type: 'workbench/uploadText',
@@ -240,7 +242,6 @@ const showDeleteConfirm = (id: number, dispatch: Dispatch) => {
 
 export default connect(({ workbench, loading }: { workbench: WorkbenchDataType, loading: { effects: { [key: string]: boolean } } }) => ({
     workbench,
-    upFileloading: loading.effects['workbench/uploadFile'],
     upTextLoading: loading.effects['workbench/uploadText'],
     saveTempLoading: loading.effects['workbench/saveTemp'],
     queryTempLoading: loading.effects['workbench/queryTemp'],
