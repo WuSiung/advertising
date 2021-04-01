@@ -14,7 +14,7 @@ interface SettingProps {
     currentUser: CurrentUser
 }
 
-const pageTip = '在系统设置中，您可以退出登陆，修改密码'
+const pageTip = '在系统设置中，您可以修改密码。'
 const Setting: FC<SettingProps> = (props) => {
     const { dispatch, currentUser } = props
     const [oldPwd, setOldPwd] = useState('')
@@ -87,7 +87,7 @@ const Setting: FC<SettingProps> = (props) => {
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
                 <Button htmlType="submit" type='primary' style={{ marginRight: 10 }}>修改密码</Button>
-                <Button onClick={logout} type='primary'>退出登陆</Button>
+                {/* <Button onClick={logout} type='primary'>退出登陆</Button> */}
             </Form.Item>
         </Form>
 
