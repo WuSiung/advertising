@@ -35,11 +35,11 @@ function move(values: number[], idx: number, direction: number): boolean {
 
 // todo: 找出最大的空隙插入2个点
 function insertStep(values: number[]) {
-  console.log(values);
+  // console.log(values);
   let [minIdx, maxIdx] = [-1, -1];
   let maxStep = 3;
-  let i = 0;
-  for (; i <= values.length; i += 2) {
+
+  for (let i = 0; i <= values.length; i += 2) {
     if (i === 0 && values[i] >= maxStep) {
       minIdx = 0;
       maxIdx = 0;
@@ -47,7 +47,7 @@ function insertStep(values: number[]) {
     }
     else if (i === values.length && (24 - values[values.length - 1] >= maxStep)) {
         minIdx = values.length - 1;
-        minIdx = values.length - 1;
+        maxIdx = values.length - 1;
         maxStep = 24 - values[values.length - 1]
     }
     else if (i > 0 && (values[i] - values[i - 1] >= maxStep)) {
@@ -67,7 +67,7 @@ function insertStep(values: number[]) {
     // }
   }
 
-  console.log('minIdx: ', minIdx, 'maxIdx: ', maxIdx, 'maxStep: ', maxStep);
+  // console.log('minIdx: ', minIdx, 'maxIdx: ', maxIdx, 'maxStep: ', maxStep);
   let isInserted = false;
   if (minIdx > -1 && maxIdx > -1) {
     if (minIdx === 0 && maxIdx === 0) {
@@ -133,31 +133,38 @@ const ChartSlider: FC<any> = props => {
     // todo: 增减时间段
     let delta = Object.keys(marks).length - 2 - v * 2;
 
-    if (delta > 0) {
-      if (values[0] === 0) {
-        delta -= 1;
-      }
+    if (values[0] === 0) {
+      delta += 1;
+    }
 
-      if (values[values.length - 1] === 24) {
-        delta -= 1;
-      }
+    if (values[values.length - 1] === 24) {
+      delta += 1;
+    }
+
+    if (delta > 0) {
+      // if (values[0] === 0) {
+      //   delta -= 1;
+      // }
+      //
+      // if (values[values.length - 1] === 24) {
+      //   delta -= 1;
+      // }
       while (delta > 0) {
+        console.log('while del delta: ', delta);
         values.splice(values.length - 2, 2);
         delta -= 2;
       }
-    }
-
-    if (delta < 0) {
-      if (values[0] === 0) {
-        delta += 1;
-      }
-
-      if (values[values.length - 1] === 24) {
-        delta += 1;
-      }
+    } else if (delta < 0) {
+      // if (values[0] === 0) {
+      //   delta += 1;
+      // }
+      //
+      // if (values[values.length - 1] === 24) {
+      //   delta += 1;
+      // }
       // 找到能够放下2个step的地方插入2个step
       while(delta < 0) {
-        console.log('while insert delta: ', delta);
+        // console.log('while insert delta: ', delta);
         insertStep(values);
         delta += 2
       }
@@ -215,7 +222,7 @@ const ChartSlider: FC<any> = props => {
           <InputNumber size="small" min={1} max={12} step={1} defaultValue={1} onChange={handleNumChange}></InputNumber>
         </div>
       </Col>
-      <Col flex="auto">
+      <Col flex="auto" style={{paddingRight: 20}}>
         <Row style={{height:35, marginTop: 10, backgroundColor: 'red'}}>
           {
             cols.map(c => <Col span={1}></Col>)

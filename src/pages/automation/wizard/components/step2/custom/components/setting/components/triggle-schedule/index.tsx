@@ -11,6 +11,33 @@ const TriggleSchedule: FC<any> = props => {
     width: '25%',
     textAlign: 'center',
   };
+
+  const clockTxts = [
+    '上午十二点',
+    '上午一点',
+    '上午二点',
+    '上午三点',
+    '上午四点',
+    '上午五点',
+    '上午六点',
+    '上午七点',
+    '上午八点',
+    '上午九点',
+    '上午十点',
+    '上午十一点',
+    '中午十二点',
+    '下午一点',
+    '下午二点',
+    '下午三点',
+    '下午四点',
+    '下午五点',
+    '下午六点',
+    '下午七点',
+    '下午八点',
+    '下午九点',
+    '下午十点',
+    '下午十一点'
+  ];
   const title = (
     <>
       <Row>
@@ -63,39 +90,28 @@ const TriggleSchedule: FC<any> = props => {
                 &nbsp;
               </Col>
               <Col flex="140px"><div style={{width: 100, margin: '0 0 0 auto', padding: '45px 0'}}><span>活动时间范围数</span></div></Col>
-              <Col flex="auto">
+              <Col flex="auto" className="clock-txt">
                 <Row>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
-                  <Col span={1}><div style={{width: 14, margin: '0 auto'}}><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>
+                  {
+                    clockTxts.map(c => {
+                      const txts = c.split('');
+                      return (
+                        <Col span={1}><div><span>
+                          {
+                            txts.map(t => <>{t}<br/></>)
+                          }
+                        </span></div></Col>
+                      )
+                    })
+                  }
+                  {/*<Col span={1}><div><span>上<br/>午<br/>十<br/>二<br/>点</span></div></Col>*/}
                 </Row>
               </Col>
             </Row>
           </NoHoverableGrid>
           <Radio.Group style={{width: '100%'}}>
             <NoHoverableGrid className="radio-plan">
-              <Radio>每天</Radio>
+              <Space>&nbsp;<Radio>每天</Radio></Space>
             </NoHoverableGrid>
             <NoHoverableGrid className="chart-slider">
               <Row>
@@ -106,7 +122,7 @@ const TriggleSchedule: FC<any> = props => {
               </Row>
             </NoHoverableGrid>
             <NoHoverableGrid className="radio-plan">
-              <Radio>在选定的日子</Radio>
+              <Space>&nbsp;<Radio>在选定的日子</Radio></Space>
             </NoHoverableGrid>
           </Radio.Group>
         <Radio.Group style={{width: '100%'}}>
