@@ -121,7 +121,7 @@ const Packs: FC<PacksProps> = (props) => {
                     </div>
                 }
                 {
-                    treeCheck.includes(4) && newset.length > 0 && <div className={styles.packs}>
+                    treeCheck.includes(4) && <div className={styles.packs}>
                         <div className={styles.title}><span className={styles.text} style={{ background: '#02b2c9' }}>最新人群包</span></div>
                         <div className={styles.desc}>下面展示的是你在创建人群包界面最新保存的5个人群包。</div>
                         <div className={styles.packList}>
