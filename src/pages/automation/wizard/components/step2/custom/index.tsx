@@ -8,6 +8,7 @@ import {
   TSchedule,
   TWeeklyPlan
 } from "@/pages/automation/wizard/components/step2/custom/data";
+import moment from "moment";
 
 function initActions(): TAction {
   return     {
@@ -67,6 +68,10 @@ const CustomAd: FC<any> = (props) => {
 
   const actInfo: TActionInfoCustom = {
     actions: acts,
+    effectiveTime: {
+      isFromNowON: true,
+      timePeriod: [moment().format('yyyy-MM-DD'), moment().add(30, 'days').format('yyyy-MM-DD')]
+    },
     schedule: sched
   }
 

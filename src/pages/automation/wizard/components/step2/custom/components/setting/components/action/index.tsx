@@ -33,7 +33,7 @@ const Action: FC<ITask> = (props) => {
   return (
     <>
       <Card
-        style={{marginBottom: 20}}
+        style={{marginBottom: 40}}
         title={title}
         extra={ <DeleteOutlined style={{fontSize: 18}} onClick={() => props.onDel(props.idx)} />}
       >

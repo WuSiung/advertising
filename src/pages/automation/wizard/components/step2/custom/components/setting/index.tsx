@@ -5,6 +5,8 @@ import {Button, Row} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import TriggleSchedule
   from "@/pages/automation/wizard/components/step2/custom/components/setting/components/triggle-schedule";
+import EffectiveTime
+  from "@/pages/automation/wizard/components/step2/custom/components/setting/components/effective-time";
 
 interface ISetting {
   ActionInfo: TActionInfoCustom;
@@ -41,9 +43,10 @@ const Setting: FC<ISetting> = (props) => {
       {
         props.ActionInfo.actions.map((a, i) => <Action idx={i} action={a} onChange={props.onChange} onDel={props.onDel}></Action>)
       }
-      <Row justify="center" style={{marginBottom: 20}}>
+      <Row justify="center" style={{marginBottom: 40}}>
         <Button type="primary" onClick={props.onAdd}><PlusOutlined />&nbsp;&nbsp;行动</Button>
       </Row>
+      <EffectiveTime effectiveTime={props.ActionInfo.effectiveTime} onChange={props.onChange}></EffectiveTime>
       <TriggleSchedule schedule={props.ActionInfo.schedule} onChange={props.onChange} ></TriggleSchedule>
     </>
   )
