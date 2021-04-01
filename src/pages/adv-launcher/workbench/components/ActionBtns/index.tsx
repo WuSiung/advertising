@@ -176,7 +176,7 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
 const submitText = async (value: string[], dispatch: Dispatch, handleModalVisible: (visible: boolean) => void, workbench: WorkbenchDataType) => {
     const postArr = value.map(text => {
         const textStr = text.split('&&')
-        return { title: textStr[1] || '', content: textStr[0] || '' }
+        return { title: textStr[0] || '', content: textStr[1] || '' }
     })
     await dispatch({
         type: 'workbench/uploadText',

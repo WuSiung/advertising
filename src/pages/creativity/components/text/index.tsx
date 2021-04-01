@@ -91,7 +91,7 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
     const submitTexts = async (values: string[]) => {
         const uploadParams = values.map(value => {
             let str = value.split('&&')
-            return { title: str[1] || '', text: str[0] || '', id: generateUUID() }
+            return { title: str[0] || '', text: str[1] || '', id: generateUUID() }
         })
         await dispatch({
             type: 'material/uploadTexts',

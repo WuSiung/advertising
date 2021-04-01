@@ -62,12 +62,12 @@ const RenderImgList: FC<RenderImgListProps> = (props) => {
 
 const RenderTextList: FC<RenderTextListProps> = (props) => {
     const { onCopy, onDelete, onEdit } = props
-    let content = props.content.replace(/\n/g, '<br/>')
+    let content = props.content.replace(/\n/g, '<br/>') || ''
     return <td className={styles.tdtext}>
         <HoverPopover {...props} placement='right'>
             <div className={styles.textBox}>
 
-                <div dangerouslySetInnerHTML={{ __html: content }}></div>{props.title}
+                {props.title}<div dangerouslySetInnerHTML={{ __html: content }}></div>
                 <span className={styles.delText} onClick={() => onDelete && onDelete(props)}><DeleteFilled /></span>
                 <span className={styles.copyText} onClick={() => onCopy && onCopy(props)}><CopyOutlined /></span>
                 <span className={styles.editText} onClick={() => onEdit && onEdit(props)}><EditOutlined /></span>
