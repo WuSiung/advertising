@@ -14,6 +14,8 @@ export type TColumn = {
 };
 
 export type TStateCampaignSelector = {
+  total: number;
+  current: number;
   campaignList: TCampaign[];
 }
 

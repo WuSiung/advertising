@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import {connect, Dispatch} from 'umi';
-import {Card, Checkbox, Input, Space, Table, Tag} from "antd";
-import {TStateAdSetSelector} from "@/pages/automation/wizard/components/step3/ad-set-selector/data";
+import {Card, Checkbox, Input, Pagination, Space, Table, Tag} from "antd";
+import {TAdSet, TStateAdSetSelector} from "@/pages/automation/wizard/components/step3/ad-set-selector/data";
 import {EActionType} from "@/pages/automation/wizard/data.d";
 
 // const CheckboxGroup = Checkbox.Group;
@@ -16,8 +16,10 @@ interface IAdSetSelector {
   onActionObjChange: (isSelected: boolean) => void;
 };
 
+const size = 10;
+
 const AdSetSelector: FC<IAdSetSelector> = (props) => {
-  const {dispatch, adSetSelector, actionType} = props;
+  const {dispatch, adSetSelector, actionType, ActionObj} = props;
   let pd = {}
   if (actionType === EActionType.AAT_Surf_AdSetLevel) {
     pd = {
@@ -28,7 +30,11 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
     if (dispatch) {
       dispatch({
         type: 'adSetSelector/getAdSetList',
-        payload: pd
+        payload: {
+          ...pd,
+          current: adSetSelector?.current,
+          size
+        }
       });
     }
 
@@ -37,7 +43,7 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
       isSelected = true;
     }
     props.onActionObjChange(isSelected);
-  }, []);
+  }, [adSetSelector?.current]);
 
   const columns = [
     { title: '套用至所有[揽客]广告', dataIndex: 'setName', key: 'setName' },
@@ -56,34 +62,87 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
     });
   }
 
+  const triggleActionObjChange = (selectedRowKeys: string[]) => {
+    props.onChange({ActionObj: selectedRowKeys});
+
+    let isChanged = false;
+    if (selectedRowKeys.length !== ActionObj?.length) {
+      isChanged = true
+    }
+
+    if (!isChanged) {
+      props.ActionObj?.forEach(k => {
+        if (selectedRowKeys.indexOf(k) === -1) {
+          isChanged = true
+        }
+      });
+    }
+
+    if (isChanged) {
+      props.onActionObjChange(selectedRowKeys.length > 0);
+    }
+  }
+
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[]) => {
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      props.onChange({ActionObj: selectedRowKeys});
+    // onChange: (selectedRowKeys: React.Key[]) => {
+    //   // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    //   props.onChange({ActionObj: selectedRowKeys});
+    //
+    //   let isChanged = false;
+    //   if (props.ActionObj?.length !== selectedRowKeys.length) {
+    //     isChanged = true
+    //   }
+    //
+    //   if (!isChanged) {
+    //     props.ActionObj?.forEach(k => {
+    //       if (selectedRowKeys.indexOf(k) === -1) {
+    //         isChanged = true
+    //       }
+    //     });
+    //   }
+    //
+    //   if (isChanged) {
+    //     props.onActionObjChange(selectedRowKeys.length > 0);
+    //   }
+    // },
+    onSelect: (record: TAdSet, selected: boolean) => {
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        const idx = selectedRowKeys.indexOf(record.setId);
+        if (idx === -1 && selected) {
+          selectedRowKeys.push(record.setId);
+        }
 
-      let isChanged = false;
-      if (props.ActionObj?.length !== selectedRowKeys.length) {
-        isChanged = true
+        if (idx > -1 && !selected) {
+          selectedRowKeys.splice(idx, 1);
+        }
       }
+      triggleActionObjChange(selectedRowKeys);
+    },
+    onSelectAll: (selected: boolean, selectedRows: TAdSet[], changeRows: TAdSet[]) => {
+      // console.log(selectedRows);
+      let selectedRowKeys: string[] = [];
+      // console.log(ActionObj);
+      if (ActionObj) {
+        selectedRowKeys = ActionObj.concat();
+        changeRows.forEach((record: TAdSet) => {
+          if (record) {
+            const idx = selectedRowKeys.indexOf(record.setId);
+            if (idx === -1 && selected) {
+              selectedRowKeys.push(record.setId);
+            }
 
-      if (!isChanged) {
-        props.ActionObj?.forEach(k => {
-          if (selectedRowKeys.indexOf(k) === -1) {
-            isChanged = true
+            if (idx > -1 && !selected) {
+              selectedRowKeys.splice(idx, 1);
+            }
           }
-        });
+        })
       }
-
-      if (isChanged) {
-        props.onActionObjChange(selectedRowKeys.length > 0);
-      }
+      triggleActionObjChange(selectedRowKeys);
     },
     selectedRowKeys: props.ActionObj
-
-    // getCheckboxProps: (record: DataType) => ({
-    //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    //   name: record.name,
-    // }),
   };
 
   const title = (
@@ -109,6 +168,26 @@ const AdSetSelector: FC<IAdSetSelector> = (props) => {
           dataSource={adSetSelector?.adSetList}
           rowSelection={rowSelection}
           rowKey="setId"
+          pagination={false}
+          footer={() =>
+            (<Pagination defaultCurrent={1}
+                         total={adSetSelector?.total}
+                         pageSize={size}
+                         current={adSetSelector?.current}
+                         onChange={(pageIdx, pageSize) => {
+                           // setAdvpackPageindex(pi);
+                           if (dispatch) {
+                             dispatch({
+                               type: 'adSetSelector/updateAdSetList',
+                               payload: {
+                                 current: pageIdx
+                               }
+                             });
+                           }
+                         }}
+
+            />)
+          }
         />
       </Card>
     </div>

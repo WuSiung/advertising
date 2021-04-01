@@ -4,6 +4,8 @@ import {getAdSetList} from "@/pages/automation/wizard/components/step3/ad-set-se
 const AdSetSelectorModel: TModelAdSetSelector = {
   namespace: 'adSetSelector',
   state: {
+    total: 0,
+    current: 1,
     adSetList: []
   },
   reducers: {
@@ -20,6 +22,8 @@ const AdSetSelectorModel: TModelAdSetSelector = {
       yield put({
         type: 'updateAdSetList',
         payload: {
+          total: response.data.total,
+          current: response.data.current,
           adSetList: response.data.records
         }
       });

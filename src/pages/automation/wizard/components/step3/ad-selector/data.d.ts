@@ -14,6 +14,8 @@ export type TColumn = {
 };
 
 export type TStateAdSelector = {
+  total: number;
+  current: number;
   adList: TAd[];
 }
 
