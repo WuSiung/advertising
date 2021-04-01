@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {Col, InputNumber, Row, Slider, Space} from "antd";
 import styles from './index.less';
+import {TDailyPlan} from "@/pages/automation/wizard/components/step2/custom/data";
 
 function move(values: number[], idx: number, direction: number): boolean {
   if (direction === -1) {
@@ -54,17 +55,7 @@ function insertStep(values: number[]) {
       minIdx = i - 1;
       maxIdx = i;
       maxStep = values[i] - values[i - 1];
-      // if ((i === values.length - 1) && (24 - values[i] >= maxStep)) {
-      //   minIdx = values.length - 1;
-      //   minIdx = values.length - 1;
-      //   maxStep = 24 - values[values.length - 1]
-      // }
     }
-    // else if (i === values.length - 1 && 24 - values[i] >= maxStep) {
-    //   minIdx = values.length - 1;
-    //   minIdx = values.length - 1;
-    //   maxStep = 24 - values[values.length - 1]
-    // }
   }
 
   // console.log('minIdx: ', minIdx, 'maxIdx: ', maxIdx, 'maxStep: ', maxStep);
@@ -96,7 +87,13 @@ function insertStep(values: number[]) {
   return isInserted;
 }
 
-const ChartSlider: FC<any> = props => {
+interface IChartSlider {
+  plan: TDailyPlan;
+  onChange: () => void;
+  isDisabled: boolean;
+}
+
+const ChartSlider: FC<IChartSlider> = props => {
   const marks = {
     0: {
       label: <strong>00:00</strong>,
@@ -109,13 +106,15 @@ const ChartSlider: FC<any> = props => {
     }
   };
 
-  const [values, setValues] = useState([6, 7]);
+  const {isDisabled, plan, onChange} = props;
 
-  values.forEach((v, idx) => {
+  // const [values, setValues] = useState([6, 7]);
+
+  plan.timePeriods.forEach((v, idx) => {
     const tag = (
       <Space direction="vertical">
         <span>{v}点</span>
-        <div style={{width: 0, height: 35, border: '1px solid green', margin: '0 auto'}}></div>
+        <div style={{width: 0, height: 35, border: '1px solid #91d5ff', margin: '0 auto'}}></div>
       </Space>
     )
 
@@ -129,49 +128,37 @@ const ChartSlider: FC<any> = props => {
 
   const cols = new Array(24).fill(0)
 
-  const handleNumChange = v => {
+  const handleNumChange = (v: number) => {
+    console.log('numChange');
     // todo: 增减时间段
     let delta = Object.keys(marks).length - 2 - v * 2;
 
-    if (values[0] === 0) {
+    if (plan.timePeriods[0] === 0) {
       delta += 1;
     }
 
-    if (values[values.length - 1] === 24) {
+    if (plan.timePeriods[plan.timePeriods.length - 1] === 24) {
       delta += 1;
     }
 
     if (delta > 0) {
-      // if (values[0] === 0) {
-      //   delta -= 1;
-      // }
-      //
-      // if (values[values.length - 1] === 24) {
-      //   delta -= 1;
-      // }
       while (delta > 0) {
-        console.log('while del delta: ', delta);
-        values.splice(values.length - 2, 2);
+        // console.log('while del delta: ', delta);
+        plan.timePeriods.splice(plan.timePeriods.length - 2, 2);
         delta -= 2;
       }
     } else if (delta < 0) {
-      // if (values[0] === 0) {
-      //   delta += 1;
-      // }
-      //
-      // if (values[values.length - 1] === 24) {
-      //   delta += 1;
-      // }
       // 找到能够放下2个step的地方插入2个step
       while(delta < 0) {
         // console.log('while insert delta: ', delta);
-        insertStep(values);
+        insertStep(plan.timePeriods);
         delta += 2
       }
     }
-
+    plan.numTimePeriod = v;
+    props.onChange();
     // todo: setValues
-    setValues([...values]);
+    // setValues([...values]);
   }
 
   // todo: 先让所有的点不能重合
@@ -181,16 +168,16 @@ const ChartSlider: FC<any> = props => {
     let direction = 0;
     let isRepeat = false;
     for (let i = 0; i < vals.length; i += 1) {
-      if (vals[i] !== values[i]) {
+      if (vals[i] !== plan.timePeriods[i]) {
         idx = i;
-        if (vals[i] > values[i]) {
+        if (vals[i] > plan.timePeriods[i]) {
           direction = 1;
           if (i < vals.length - 1 && vals[i] === vals[i + 1]) {
             isRepeat = true;
           }
         }
 
-        if (vals[i] < values[i]) {
+        if (vals[i] < plan.timePeriods[i]) {
           direction = -1
           if (i > 0 && vals[i] === vals[i - 1]) {
             isRepeat = true;
@@ -211,24 +198,97 @@ const ChartSlider: FC<any> = props => {
         return;
       }
     }
-    setValues(vals);
+    plan.timePeriods = vals;
+    props.onChange();
+    // setValues(vals);
   }
+
+  // const handleNumChange = v => {
+  //   // todo: 增减时间段
+  //   let delta = Object.keys(marks).length - 2 - v * 2;
+  //
+  //   if (values[0] === 0) {
+  //     delta += 1;
+  //   }
+  //
+  //   if (values[values.length - 1] === 24) {
+  //     delta += 1;
+  //   }
+  //
+  //   if (delta > 0) {
+  //     while (delta > 0) {
+  //       console.log('while del delta: ', delta);
+  //       values.splice(values.length - 2, 2);
+  //       delta -= 2;
+  //     }
+  //   } else if (delta < 0) {
+  //     // 找到能够放下2个step的地方插入2个step
+  //     while(delta < 0) {
+  //       // console.log('while insert delta: ', delta);
+  //       insertStep(values);
+  //       delta += 2
+  //     }
+  //   }
+  //
+  //   // todo: setValues
+  //   setValues([...values]);
+  // }
+  //
+  // // todo: 先让所有的点不能重合
+  // const handleSlide = (vals: number[]) => {
+  //   // todo: 找出跟之前不一样的点，判断这个点是往哪边运动（左右）
+  //   let idx = -1;
+  //   let direction = 0;
+  //   let isRepeat = false;
+  //   for (let i = 0; i < vals.length; i += 1) {
+  //     if (vals[i] !== values[i]) {
+  //       idx = i;
+  //       if (vals[i] > values[i]) {
+  //         direction = 1;
+  //         if (i < vals.length - 1 && vals[i] === vals[i + 1]) {
+  //           isRepeat = true;
+  //         }
+  //       }
+  //
+  //       if (vals[i] < values[i]) {
+  //         direction = -1
+  //         if (i > 0 && vals[i] === vals[i - 1]) {
+  //           isRepeat = true;
+  //         }
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   // todo : 如果有点重合，判断运动方向前面的点是否还能够向前移动，如果能够，则向前移动，如果不能判断再往前面的点是否能移动,直到找到能前移的点然后依次移动，如果找不到，本次不更新值
+  //   if (direction === 0) {
+  //     return;
+  //   }
+  //
+  //   if (isRepeat) {
+  //     const isMove = move(vals, idx, direction);
+  //     console.log('isMove', isMove);
+  //     if (!isMove) {
+  //       return;
+  //     }
+  //   }
+  //   setValues(vals);
+  // }
 
 
   return (
-    <Row className={styles.main}>
+    <Row className={styles.main}  style={{opacity: isDisabled ? "0.5" : "1", pointerEvents: isDisabled? "none" : "inherit"}}>
       <Col flex='100px'>
         <div style={{padding: '14px 0'}}>
-          <InputNumber size="small" min={1} max={12} step={1} defaultValue={1} onChange={handleNumChange}></InputNumber>
+          <InputNumber size="small" min={1} max={12} step={1} disabled={isDisabled} value={plan.numTimePeriod} onChange={handleNumChange}></InputNumber>
         </div>
       </Col>
       <Col flex="auto" style={{paddingRight: 20}}>
-        <Row style={{height:35, marginTop: 10, backgroundColor: 'red'}}>
+        <Row style={{height:35, marginTop: 10, backgroundColor: '#ededed'}}>
           {
             cols.map(c => <Col span={1}></Col>)
           }
         </Row>
-        <Slider style={{width: '100%'}} max={24} range={{ draggableTrack: true }} marks={marks} value={values as [number, number]}
+        <Slider disabled={isDisabled} style={{width: '100%'}} max={24} range={{ draggableTrack: true }} marks={marks} value={plan.timePeriods as [number, number]}
                  tooltipVisible={false} onChange={handleSlide} />
       </Col>
     </Row>

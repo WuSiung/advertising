@@ -46,13 +46,13 @@ const Group: FC<IGroup> = (props) => {
           conditions: [
             {
               target: 'cpa',
-              time: '00:00',
+              timePeriod: '00:00',
               operator: '<',
               value: 0
             },
             {
               target: 'cpa',
-              time: '00:00',
+              timePeriod: '00:00',
               operator: '<',
               value: 0
             }
@@ -65,13 +65,13 @@ const Group: FC<IGroup> = (props) => {
         conditions: [
           {
             target: 'cpa',
-            time: '00:00',
+            timePeriod: '00:00',
             operator: '<',
             value: 0
           },
           {
             target: 'cpa',
-            time: '00:00',
+            timePeriod: '00:00',
             operator: '<',
             value: 0
           }
@@ -84,7 +84,7 @@ const Group: FC<IGroup> = (props) => {
   const handleAddCondition = () => {
     group.conditions.push({
       target: 'cpa',
-      time: '00:00',
+      timePeriod: '00:00',
       operator: '<',
       value: 0
     });
