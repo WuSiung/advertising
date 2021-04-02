@@ -13,11 +13,11 @@ const PopoverContent: FC<PopoverDataProps> = (props) => {
     return <div className={styles.datas}>
         <div className={styles.line}>
             <div className={styles.name}>广告收益</div>
-            <div className={styles.value}>${data?.income || '0'}</div>
+            <div className={styles.value}>${Number(data?.income).toFixed(2) || '0'}</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>展示次数</div>
-            <div className={styles.value}>{data?.impressions || '0'}</div>
+            <div className={styles.value}>{Number(data?.impressions) || '0'}</div>
         </div>
         <div className={styles.line}>
             <div className={styles.name}>广告支出回报率(ROAS)</div>

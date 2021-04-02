@@ -364,11 +364,11 @@ const Advertising: FC<AdvPropsType> = (props) => {
 
                                 <div className={styles.mask}>
                                     <div className={styles.top}>
-                                        <div className={styles.item}><span>消费金额 : {dataVO.spend || 0}</span><span>点击率 ：{dataVO.ctr || 0}</span></div>
-                                        <div className={styles.item}><span>广告支出回报率: {dataVO.purchaseRoas || 0}</span><span>频率: {dataVO.frequency || 0} </span></div>
-                                        <div className={styles.item}><span>展示数: {dataVO.impressions || 0}</span><span>每次点击费用: {dataVO.cpc || 0}</span></div>
-                                        <div className={styles.item}><span>CPM: {dataVO.cpm || 0}</span><span>安装次数: {dataVO.installs || 0}</span></div>
-                                        <div className={styles.item}><span>CPA: {dataVO.cpa || 0} <br /></span></div>
+                                        <div className={styles.item}><span>消费金额 : ${dataVO.spend.toFixed(2) || 0}</span><span>点击率 ：{Number(dataVO.ctr).toFixed(2) + '%' || '0%'}</span></div>
+                                        <div className={styles.item}><span>广告支出回报率: {Number(dataVO.purchaseRoas).toFixed(2) + '%' || '0%'}</span><span>频率: {Number(dataVO.frequency).toFixed(2) + '%' || '0%'} </span></div>
+                                        <div className={styles.item}><span>展示数: {dataVO.impressions || 0}</span><span>每次点击费用: {Number(dataVO.cpc).toFixed(2) || 0}</span></div>
+                                        <div className={styles.item}><span>CPM: {Number(dataVO.cpm).toFixed(2) || 0}</span><span>安装次数: {dataVO.installs || 0}</span></div>
+                                        <div className={styles.item}><span>CPA: {Number(dataVO.cpa).toFixed(2) || 0} <br /></span></div>
                                     </div>
                                     <div className={styles.bottom} onClick={e => {
                                         e.stopPropagation()
