@@ -1,12 +1,12 @@
 import {Effect, Reducer} from "@@/plugin-dva/connect";
 
-export type TAdbObj = {
+export type TAdvObj = {
   AdvID: string;
-  ObjName: string;
+  AdvName: string;
   ExecLog: string[];
   CheckTimes: number;
   ExecTimes: number;
-  fbId: string;
+  FBID: string;
 }
 
 export type TTactic = {
@@ -14,7 +14,7 @@ export type TTactic = {
   Name: string;
   PlatformId: number;
   ActionType: string;
-  AdvObjs: TAdbObj[];
+  AdvObjs: TAdvObj[];
   ActionTypeName: string;
   AdvID: string;
   Status: string;

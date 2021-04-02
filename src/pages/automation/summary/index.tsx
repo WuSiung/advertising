@@ -383,7 +383,7 @@ const Summary: FC<SummaryProps> = (props) => {
                     record.AdvObjs.map(a =>
                       <List.Item key={a.AdvID}>
                           <Collapse ghost>
-                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.ObjName ? a.ObjName : a.AdvID}</span><span>{a.fbId}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
+                            <Panel key={a.AdvID} header={<Space size="large"><span>{a.AdvName ? a.AdvName : a.AdvID}</span><span>{a.FBID}</span><span>检查次数：{a.CheckTimes}</span><span>执行次数：{a.ExecTimes}</span></Space>}>
                               {
                                 a.ExecLog.length > 0 ? a.ExecLog.map((l, i) => <p key={i}>{l}</p>) : <p>暂无执行记录</p>
                               }
@@ -397,26 +397,18 @@ const Summary: FC<SummaryProps> = (props) => {
             },
             rowExpandable: record => record.Name !== 'Not Expandable',
             onExpand: async (expanded, record) => {
-              if (expanded && !record.IsLoaded && record.AdvObjs && record.AdvObjs.length) {
-                // const res = await getActionObjList(record.ActionType, record.AdvObjs.map(o => o.AdvID));
-                // const r = tacticSummary.tacticList.find(t => t.ObjectID === record.ObjectID);
-                // if (r) {
-                //   r.AdvObjs.forEach((o, idx) => {
-                //     r.AdvObjs[idx].ObjName = res[idx]
-                //   })
-                //   r.IsLoaded = true;
-                // }
-                if (!record.IsLoaded) {
-                  dispatch({
-                    type: 'tacticSummary/getObjInfo',
-                    payload: {
-                      objectID: record.ObjectID,
-                      actionType: record.ActionType,
-                      objIds: record.AdvObjs.map(o => o.AdvID),
-                    }
-                  });
-                }
-              }
+              // if (expanded && !record.IsLoaded && record.AdvObjs && record.AdvObjs.length) {
+              //   if (!record.IsLoaded) {
+              //     dispatch({
+              //       type: 'tacticSummary/getObjInfo',
+              //       payload: {
+              //         objectID: record.ObjectID,
+              //         actionType: record.ActionType,
+              //         objIds: record.AdvObjs.map(o => o.AdvID),
+              //       }
+              //     });
+              //   }
+              // }
             }
           }}
         />
