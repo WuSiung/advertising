@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { Button, Col, Row, Select, Upload } from 'antd'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { DeleteOutlined, FolderOutlined } from '@ant-design/icons'
@@ -15,7 +15,7 @@ interface PublicHeaderProps {
     type: 'media' | 'text',
     clearDisable: boolean,
     tags: TagType[],
-    onUpload?: (e: RcCustomRequestOptions, allLenth: number) => void,
+    onUpload?: (e: RcCustomRequestOptions, allLenth: number, size: number) => void,
     onUploadText?: (values: string[]) => void
     onClear: () => void,
     onAddToWorkbench: () => void,
@@ -61,7 +61,9 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
     const { onClear, uploading, onUpload, type, onUploadText, openText, textVisible, onAddToWorkbench, onDeleteAll,
         onSort, onSource, onChangeDate, openFolder, clearDisable, fetchTag, onFilterTagValue, onSelectTag } = props
     const [uploadLenth, setLength] = useState(0)
+    const size = useRef(0)
     const setUploadLength = (file: RcFile, fileList: RcFile[]): boolean => {
+        size.current += file.size
         setLength(fileList.length)
         return true
     }
@@ -74,8 +76,9 @@ const PublicHeader: FC<PublicHeaderProps> = (props) => {
         <Col className={styles.btns} span={10}>
             {
                 type == 'media' && <div className={styles.uploadBtns}>
-                    <Upload multiple customRequest={e => onUpload!(e, uploadLenth)} showUploadList={false} beforeUpload={setUploadLength}>
-                        <Button type="primary" disabled={uploading}>新增资源</Button>
+                    <Upload multiple customRequest={e => { onUpload!(e, uploadLenth, size.current) }} showUploadList={false}
+                        beforeUpload={setUploadLength}>
+                        <Button type="primary" disabled={uploading} onClick={() => size.current = 0}>新增资源</Button>
                     </Upload>
                 </div>
             }
