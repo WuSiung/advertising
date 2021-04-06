@@ -170,7 +170,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     </Checkbox.Group>
                 </Col>
             </Row>
-            <Row style={{ paddingTop: "20px" }}>
+            {/* <Row style={{ paddingTop: "20px" }}>
                 <Col span={24}>
                     <span className={styles.label}>消费金额：</span>
                     <Select placeholder='选择符号' onChange={(value) => {
@@ -210,7 +210,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     <Input placeholder='请输入' value={show?.value} style={{ display: 'inline-block', width: 200, marginLeft: 10 }}
                         onChange={e => setShow({ type: show?.type, value: e.target.value })}></Input>
                 </Col>
-            </Row>
+            </Row> */}
             <Row style={{ paddingTop: "20px" }}>
                 <Col span={24}>
                     <Select mode="tags" style={{ display: 'block' }} placeholder='选择国家' onChange={(value) => {

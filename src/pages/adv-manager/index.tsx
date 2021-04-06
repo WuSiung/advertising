@@ -14,6 +14,7 @@ import ManagerFilter, { ParamsType } from './components/ManagerFilter'
 import { copyAdv, copyPack, copySet } from './service'
 import LoadingElement from '@/components/Loading'
 import { PageContainer } from '@ant-design/pro-layout'
+import { showConfirm } from '@/components/Confrim'
 
 type EventValue<DateType> = DateType | null;
 
@@ -469,7 +470,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)} disabled={copyLoading}>复制广告系列</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告系列', _.packId, copyAdvPack.bind(_.packId))} disabled={copyLoading}>复制广告系列</Button></>)
             }
         },
     ];
@@ -839,7 +840,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvSet((_ as AdvSetListType).setId)}>复制广告集</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告集', (_ as AdvSetListType).setId, copyAdvSet.bind((_ as AdvSetListType).setId))}>复制广告集</Button></>)
             }
         },
     ];
@@ -1168,7 +1169,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvAdv((_ as AdvAdvListType).advId)}>复制广告</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告', (_ as AdvAdvListType).advId, copyAdvAdv.bind((_ as AdvAdvListType).advId))}>复制广告</Button></>)
             }
         },
     ];
@@ -1221,6 +1222,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         }).catch(() => {
             setCopyLoading(false)
         })
+    }
+    const confirmCopy = (title: string, id: number, callback: (id: number) => void) => {
+        showConfirm({ title: title, content: ' ', onOk: () => { callback(id) } })
     }
     const copyAdvSet = (id: number) => {
         setCopyLoading(true)

@@ -206,14 +206,14 @@ const Launcher: FC<LuancherProps> = (props) => {
         <div className={styles.when}>
             <div className={styles.ask}>何时启动</div>
             <div className={styles.times} onClick={() => setLuanchTime('now')}><StartIcon active={luanchTime == 'now'} /> <div className={styles.text}>现在启动</div></div>
-            <div className={`${styles.times}`}>
+            <div className={`${styles.times} ${styles.disable}`}>
                 <StartIcon />
                 <div className={styles.text}>
                     启动时间优化
-                     <div>111</div>
+                     {/* <div>111</div> */}
                 </div>
             </div>
-            <div className={`${styles.times}`}><StartIcon /> <div className={styles.text}>排程时间</div></div>
+            <div className={`${styles.times} ${styles.disable}`}><StartIcon /> <div className={styles.text}>排程时间</div></div>
             <div className={`${styles.times} ${styles.disable}`}><StartIcon /> <div className={styles.text}>午夜</div></div>
         </div>
         {/* <div className={styles.title}>点击可查看详细信息</div> */}
