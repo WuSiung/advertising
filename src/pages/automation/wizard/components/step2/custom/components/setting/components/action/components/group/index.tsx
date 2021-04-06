@@ -7,6 +7,7 @@ import Condition
 import {TGroup} from "@/pages/automation/wizard/components/step2/custom/data";
 
 interface IGroup {
+  deepth: number;
   idx?: number;
   numCondition?: number; // 同级的conditions数目
   group: TGroup;
@@ -161,14 +162,14 @@ const Group: FC<IGroup> = (props) => {
     <>
       <Row style={{marginLeft: 5, marginTop: (props.numCondition === 0 && props.idx === 0) ? 0 : condMaginTop}}>
         <Col flex="24px">
-          <Operator logical={group.logical} numCondition={numCondition} condHeight={condHeight} condMarginTop={condMaginTop} optWidth={optWidth} onAddGroup={handleAddGroup} onAddCondition={handleAddCondition} onToggle={handleToggle}></Operator>
+          <Operator deepth={props.deepth} logical={group.logical} numCondition={numCondition} condHeight={condHeight} condMarginTop={condMaginTop} optWidth={optWidth} onAddGroup={handleAddGroup} onAddCondition={handleAddCondition} onToggle={handleToggle}></Operator>
         </Col>
         <Col flex="auto">
           {
             props.group.conditions.map((c, i) => <Condition onDel={handleDelCondition} key={i} idx={i} condHeight={condHeight} condMarginTop={condMaginTop} ></Condition>)
           }
           {
-            props.group.children && props.group.children.map((g, j) => <Group onChange={props.onChange} onDel={handleDelGroup} onReplace={handleReplaceGroup} key={j} numCondition={props.group.conditions.length} idx={j} group={g} />)
+            props.group.children && props.group.children.map((g, j) => <Group deepth={props.deepth + 1} onChange={props.onChange} onDel={handleDelGroup} onReplace={handleReplaceGroup} key={j} numCondition={props.group.conditions.length} idx={j} group={g} />)
           }
         </Col>
       </Row>

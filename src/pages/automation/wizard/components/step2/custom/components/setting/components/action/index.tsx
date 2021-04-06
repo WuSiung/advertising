@@ -37,7 +37,7 @@ const Action: FC<ITask> = (props) => {
         title={title}
         extra={ <DeleteOutlined style={{fontSize: 18}} onClick={() => props.onDel(props.idx)} />}
       >
-        <Group group={props.action.group} onChange={props.onChange} onReplace={handleReplaceGroup}></Group>
+        <Group deepth={0} group={props.action.group} onChange={props.onChange} onReplace={handleReplaceGroup}></Group>
       </Card>
     </>
   )

@@ -3,6 +3,7 @@ import {PlusOutlined} from "@ant-design/icons";
 import {Dropdown, Menu, Button} from "antd";
 
 interface IOperator {
+  deepth: number;
   logical: 'or' | 'and';
   numCondition: number;
   condMarginTop: number;
@@ -14,11 +15,12 @@ interface IOperator {
 }
 
 const Operator: FC<IOperator> = (props) => {
+  const colors = ['#b6dee2', '#dcceff', '#b0c5f3', '#9ee1ff']
   const menu = (
     <Menu>
       <Menu.ItemGroup title="添加：">
         <Menu.Item key="0">
-          <Button onClick={props.onAddGroup}>组</Button>
+          <Button onClick={props.onAddGroup} disabled={props.deepth >= 3}>组</Button>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="1">
@@ -28,7 +30,7 @@ const Operator: FC<IOperator> = (props) => {
     </Menu>
   );
   return (
-    <div style={{marginTop: props.numCondition === 1 ? (props.condHeight - props.optWidth) / 2: 0, width: props.optWidth, height: (props.numCondition === 1) ? props.optWidth : (props.numCondition * (props.condHeight + props.condMarginTop) - 10), borderRadius: props.optWidth / 2, backgroundColor: '#b6dee2', position: 'relative'}}>
+    <div style={{marginTop: props.numCondition === 1 ? (props.condHeight - props.optWidth) / 2: 0, width: props.optWidth, height: (props.numCondition === 1) ? props.optWidth : (props.numCondition * (props.condHeight + props.condMarginTop) - 10), borderRadius: props.optWidth / 2, backgroundColor: colors[props.deepth], position: 'relative'}}>
       {
         props.numCondition > 1 &&
         <Button size="small" style={{position: 'absolute', top: '60%', transformOrigin: '0 0', transform: 'rotate(-90deg)', borderRadius: 12}} onClick={props.onToggle}>
