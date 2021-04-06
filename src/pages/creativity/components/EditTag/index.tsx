@@ -36,7 +36,7 @@ const EditTag: FC<EditTagProps> = (props) => {
             })
         }
         {
-            textInfo && <div>
+            type != 'all' && textInfo && <div>
                 <div className={styles.editT}>编辑文字</div>
                 <Input.TextArea value={textInfo} className={styles.textcontent} onChange={e => onChangeTextInfo && onChangeTextInfo(e.target.value)} />
                 <Button type='primary' onClick={onEditText}>修改</Button>
