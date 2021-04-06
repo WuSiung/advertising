@@ -9,6 +9,9 @@ import {
   TWeeklyPlan
 } from "@/pages/automation/wizard/components/step2/custom/data";
 import moment from "moment";
+import AdSelector from "@/pages/automation/wizard/components/step3/ad-selector";
+import CampaignSelector from "@/pages/automation/wizard/components/step3/campaign-selector";
+import {TTacticEditInfo} from "@/pages/automation/data";
 
 function initActions(): TAction {
   return     {
@@ -35,7 +38,16 @@ function initPlan(): TDailyPlan {
   }
 }
 
-const CustomAd: FC<any> = (props) => {
+interface ICustomAd {
+  ref: React.MutableRefObject<any>;
+  step: number;
+  level: number;
+  editInfo?: TTacticEditInfo;
+  onActionObjChange: (isSelected: boolean) => void;
+  onLevelChange: (lvl: number) => void;
+}
+
+const CustomAd: FC<ICustomAd> = (props) => {
   // todo: 这里持有actions 每个action中有tasks 每个task中有根group和选择的活动，action可以在这里删除
   // const list: TAction[] = [
   //   {
@@ -116,8 +128,10 @@ const CustomAd: FC<any> = (props) => {
 
   return (
     <>
-      {props.step === 1 && <Setting ActionInfo={ActionInfo} onChange={handleChange} onAdd={handleAdd} onDel={handleDel} />}
-      {props.step === 2 && <AdSetSelector onChange={() => {}} onActionObjChange={props.onActionObjChange} />}
+      {props.step === 1 && <Setting level={props.level} onLevelChange={props.onLevelChange} ActionInfo={ActionInfo} onChange={handleChange} onAdd={handleAdd} onDel={handleDel} />}
+      {props.step === 2 && props.level === 0 && <AdSelector onChange={() => {}} onActionObjChange={props.onActionObjChange} />}
+      {props.step === 2 && props.level === 1 && <AdSetSelector onChange={() => {}} onActionObjChange={props.onActionObjChange} />}
+      {props.step === 2 && props.level === 2 && <CampaignSelector onChange={() => {}} onActionObjChange={props.onActionObjChange} />}
     </>
   )
 }

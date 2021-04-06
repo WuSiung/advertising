@@ -40,7 +40,7 @@ const EffectiveTime: FC<IEffectiveTime> = props => {
     <Card title={title} style={{marginBottom: 40}}>
       <Space>
         <Radio.Group value={effectiveTime.isFromNowON} onChange={handleFromNowOn}>
-          <Radio value={true}>连续运行</Radio>
+          <Radio value={true}>从今天开始</Radio>
           <Radio value={false}>在特定的日期/小时</Radio>
         </Radio.Group>
         { !effectiveTime.isFromNowON && <RangePicker format={format} value={rangeValue} onChange={handleRangeChange}></RangePicker> }
