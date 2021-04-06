@@ -121,8 +121,27 @@ const Version = () => {
     '登陆页底部新增copyright'
   ]
 
+  const v_1_1_48: string[] = [
+    '素材上传放开限制',
+    '广告管理筛选参数调整',
+    '服务条款、登陆等文字及样式修改',
+    '复制广告管理弹出确认框',
+    '请勿上传过大的【图片】，会导致网页卡顿',
+  ]
+
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-04-06 18:53</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_48.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.47更新说明</div>
     <div className={styles.time}>2021-04-01 19:07</div>
     <div className={styles.detail}>
       <ol>
