@@ -61,31 +61,39 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
         }
 
 
-        let ageNum = ''
+        let agemin = '',
+            ageNum = '',
+            agemax = ''
         ageAround.map(ages => {
             if (age?.includes(ages.value)) {
                 if (ageNum == '' && ages.value != 'age7') {
-                    ageNum = ages.label
+                    ageNum = ages.label.replaceAll('岁', '')
                 } else if (ageNum == '' && ages.value == 'age7') {
                     ageNum = '65'
                 } else if (ageNum != '' && ages.value != 'age7') {
-                    ageNum = ageNum.split('-')[0] + '-' + ages.label.split('-')[1]
+                    ageNum = (ageNum.split('-')[0] + '-' + ages.label.split('-')[1]).replaceAll('岁', '')
                 } else if (ageNum != '' && ages.value == 'age7') {
-                    ageNum = ageNum.split('-')[0] + '-' + '65'
+                    ageNum = ageNum.split('-')[0] + '-65'
                 }
             }
         })
+        console.log(ageNum)
+        if (ageNum == '65') {
+            agemin = agemax = ageNum
+        } else {
+            agemin = ageNum.split('-')[0]
+            agemax = ageNum.split('-')[1]
+        }
         let params = {
-            age: ageNum.replace('岁', ''), sex, device, publishLocation, country, status, spend, roi, clicks, show
+            agemin, agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
         }
 
-        console.log(params)
         props.onFilter(params)
         setVisible(false)
     }
 
     return <>
-        <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "500px" }}>
+        <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "600px" }}>
             <Row>
                 <Col span={5}>
                     <div style={{ paddingLeft: "2px" }}>年龄:</div>
@@ -99,7 +107,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     >
                     </Checkbox.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                     <div style={{ paddingLeft: "2px" }}>姓别:</div>
                     <Radio.Group value={sex} style={{ width: '100%' }} onChange={(value) => { setSex(value.target.value); }}>
                         {
@@ -115,7 +123,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         }
                     </Radio.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                     <div style={{ paddingLeft: "2px" }}>状态:</div>
                     <Radio.Group value={status} style={{ width: '100%' }} onChange={(value) => { setStatus(value.target.value); }}>
                         {
@@ -150,7 +158,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     >
                     </Checkbox.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={7}>
                     <div style={{ paddingLeft: "2px" }}>刊登位置:</div>
                     <Checkbox.Group
                         value={publishLocation}
@@ -160,10 +168,10 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         style={{ width: '100%' }}
                         options={
                             [
-                                { value: "facebook", label: "脸书" },
-                                { value: "instagram", label: "移动" },
-                                { value: "messenger", label: "信使" },
-                                { value: "audnetwork", label: "观众网络" }
+                                { value: "facebook_positions", label: "facebook" },
+                                { value: "instagram_positions", label: "instagram" },
+                                { value: "messenger_positions", label: "messenger" },
+                                { value: "audience_network_positions", label: "audienceNetwork" }
                             ]
                         }
                     >
