@@ -66,8 +66,8 @@ const PrivacyPolicy: FC = (props) => {
         <SmallTitle>接受本政策</SmallTitle>
         <ArticleDesc>您承认已阅读本政策并同意其所有条款和条件。通过访问和使用网站和服务，您同意受本政策的约束。如果您不同意遵守本政策的条款，则无权访问或使用本网站和服务。</ArticleDesc>
         <SmallTitle>联络我们</SmallTitle>
-        <ArticleDesc>如果您想与我们联系以了解有关本政策的更多信息，或希望就与个人权利和您的个人信息有关的任何问题与我们联系，请发送电子邮件至tanwan7899@gmail.com</ArticleDesc>
-        <ArticleDesc>本文档的最新更新时间为2021年1月8日</ArticleDesc>
+        <ArticleDesc>如果您想与我们联系以了解有关本政策的更多信息，或希望就与个人权利和您的个人信息有关的任何问题与我们联系，请发送电子邮件至lzyuan1006@gmail.com</ArticleDesc>
+        <ArticleDesc>本文档的最新更新时间为2021年4月6日</ArticleDesc>
     </Card>
 }
 
