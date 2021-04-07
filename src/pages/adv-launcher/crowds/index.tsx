@@ -93,8 +93,9 @@ const BindCrowds: FC<BindCrowdsProps> = (props) => {
         // 自动选择下一项
         if (autoNextIndex < editAdvs.length) {
             editAdvs[autoNextIndex].checked = true
+            setCrowds(dispatch, editAdvs[autoNextIndex].audsInfo, customCrowd)
+            setBaseCrowds(dispatch, editAdvs[autoNextIndex].bassInfo, baseCrowd)
         }
-        console.log(editAdvs)
         setAdvs(dispatch, editAdvs)
         message.success('保存成功啦~')
     }
