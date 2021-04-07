@@ -84,8 +84,14 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
             agemax = ageNum.split('-')[1]
         }
         let params = {
-            ageMin: agemin, ageMax: agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
+            agemin, agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
         }
+        if (sex == '0') {
+            delete params.sex
+        }
+
+        console.log(params)
+        return
 
         props.onFilter(params)
         setVisible(false)
