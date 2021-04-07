@@ -90,9 +90,6 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
             delete params.sex
         }
 
-        console.log(params)
-        return
-
         props.onFilter(params)
         setVisible(false)
     }
