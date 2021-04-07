@@ -16,6 +16,7 @@
         .info{
             flex: 1;
             margin-left: 10px;
+            text-align: left;
             .appName{
                 font-size: @font-size-sm;
             }
@@ -29,6 +30,11 @@
             padding-left: 4px;
             padding-right: 4px;
             text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
         }
         .media{
             background-color: #000;
@@ -36,7 +42,7 @@
             align-items: center;
             justify-content: center;
             max-width: 100%;
-            min-height: 252px;
+            height: 252px;
             position: relative;
             video{
                 max-height: 100%;
