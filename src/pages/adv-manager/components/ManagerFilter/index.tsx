@@ -84,7 +84,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
             agemax = ageNum.split('-')[1]
         }
         let params = {
-            agemin, agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
+            ageMin: agemin, ageMax: agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
         }
 
         props.onFilter(params)
@@ -111,9 +111,9 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     <Radio.Group value={sex} style={{ width: '100%' }} onChange={(value) => { setSex(value.target.value); }}>
                         {
                             [
-                                { value: "male", label: "男" },
-                                { value: "female", label: "女" },
-                                { value: "unkown", label: "所有" },
+                                { value: "1", label: "男" },
+                                { value: "2", label: "女" },
+                                { value: "0", label: "所有" },
                             ].map(item => {
                                 return <Radio style={radioStyle} key={item.value} value={item.value}>
                                     {item.label}
@@ -150,8 +150,8 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         style={{ width: '100%' }}
                         options={
                             [
-                                { value: "pc", label: "桌面" },
-                                { value: "mobile", label: "移动" }
+                                { value: "1", label: "桌面" },
+                                { value: "0", label: "移动" }
                             ]
                         }
                     >
