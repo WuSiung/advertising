@@ -6,6 +6,9 @@ import { baseAudienceDataType, CrowdStateType } from '../../data'
 import { formatterPersonNum } from '@/utils/countTrans'
 
 import styles from './index.less'
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { showConfirm } from '@/components/Confrim'
+import { postDelCrowd } from '@/pages/audience-manager/manager/service'
 
 interface PacksProps {
     customCrowd: Array<AudienceModelDataType>,
@@ -18,6 +21,7 @@ interface PacksProps {
 
 type OnePackProps = {
     onClick(id: number): void,
+    onDelete?(id: number): void
 } & AudienceModelDataType
 
 type basePackProps = {
@@ -25,6 +29,7 @@ type basePackProps = {
 } & baseAudienceDataType
 
 const Pack: FC<OnePackProps> = (props) => {
+    const { onDelete, audId } = props;
     let count: number = 0;
     props.advAudLoveList.map(love => {
         count += Number(love.audCount)
@@ -49,8 +54,10 @@ const Pack: FC<OnePackProps> = (props) => {
             })
         }
     </div>
-    return <Popover placement="bottom"  content={content} trigger="hover">
-        <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(props.audId)}>
+
+    return <Popover placement="bottom" content={content} trigger="hover">
+        <div className={`${styles.item} ${props.active ? styles.active : ''}`} onClick={() => props.onClick(audId)}>
+            <CloseCircleOutlined className={styles.delete} onClick={e => { e.stopPropagation(); onDelete && onDelete(audId) }} />
             <div style={{ textAlign: 'center' }}>{props.audName}</div>
             <div className={styles.count}>覆盖总人数： {formatterPersonNum(count)}</div>
         </div>
@@ -111,6 +118,19 @@ const Packs: FC<PacksProps> = (props) => {
             payload: { baseCrowd: newArr }
         })
     }
+
+    const deletePack = (id: number) => {
+        showConfirm({
+            onOk: async () => {
+                postDelCrowd({ id }).then(res => {
+                    dispatch({
+                        type: 'crowds/fetchCrowdsList',
+                        payload: { size: 1000 }
+                    })
+                })
+            }
+        })
+    }
     return <>
         {/* <div className={styles.navname}>全部</div> */}
         <Spin spinning={loading}>
@@ -130,7 +150,7 @@ const Packs: FC<PacksProps> = (props) => {
                             </div>
                             {
                                 newset.map((crowd, index) => {
-                                    return <Pack {...crowd} key={crowd.audId} onClick={() => choose(crowd.audId)}></Pack>
+                                    return <Pack {...crowd} key={crowd.audId} onClick={() => choose(crowd.audId)} onDelete={deletePack}></Pack>
                                 })
                             }
                         </div>
