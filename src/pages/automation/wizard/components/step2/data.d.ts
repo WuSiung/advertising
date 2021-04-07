@@ -11,7 +11,7 @@ export type TStateTactic<T> = {
 export interface ITacticBase {
   dispatch: Dispatch;
   step: number;
-  editInfo: TTacticEditInfo;
+  editInfo?: TTacticEditInfo;
 }
 
 export interface ITactic<T> extends ITacticBase {

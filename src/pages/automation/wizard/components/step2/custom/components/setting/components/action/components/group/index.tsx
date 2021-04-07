@@ -93,6 +93,13 @@ const Group: FC<IGroup> = (props) => {
     props.onChange();
   }
 
+  const handleCopyCondition = (idx: number) => {
+    group.conditions.push({
+      ...group.conditions[idx]
+    });
+    props.onChange();
+  }
+
   const handleDelCondition = (idx: number) => {
     // todo: 如果还有组，直接删除condtion
     // todo: 如果没有组，1.conditon数目大于2,删除condition;2.condtition数目小于等于2，删除整个组
@@ -166,7 +173,7 @@ const Group: FC<IGroup> = (props) => {
         </Col>
         <Col flex="auto">
           {
-            props.group.conditions.map((c, i) => <Condition onDel={handleDelCondition} key={i} idx={i} condHeight={condHeight} condMarginTop={condMaginTop} ></Condition>)
+            props.group.conditions.map((c, i) => <Condition onCopy={handleCopyCondition} onDel={handleDelCondition} key={i} idx={i} condHeight={condHeight} condMarginTop={condMaginTop} ></Condition>)
           }
           {
             props.group.children && props.group.children.map((g, j) => <Group deepth={props.deepth + 1} onChange={props.onChange} onDel={handleDelGroup} onReplace={handleReplaceGroup} key={j} numCondition={props.group.conditions.length} idx={j} group={g} />)

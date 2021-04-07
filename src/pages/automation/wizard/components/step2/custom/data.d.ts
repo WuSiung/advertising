@@ -1,4 +1,8 @@
 // 触发条件结构(就是每次点+号添加一个的逻辑条件)
+import {TStateTactic} from "@/pages/automation/wizard/components/step2/data";
+import {Reducer} from "umi";
+import {TActionInfoStopLossAdv} from "@/pages/automation/wizard/components/step2/stoploss/advadv/data";
+
 export type TCondition = {
   target: string; // 指标
   timePeriod: string; // 时间段
@@ -57,4 +61,14 @@ export type TActionInfoCustom = {
   actions: TAction[];
   effectiveTime: TEffectiveTime;
   schedule: TSchedule;
+}
+
+export type TModelCustom = {
+  namespace: string;
+  state: TStateTactic<TActionInfoCustom>;
+  reducers: {
+    change: Reducer<TStateTactic<TActionInfoCustom>>;
+    addAction: Reducer<TStateTactic<TActionInfoCustom>>;
+    updateActionObj: Reducer<TStateTactic<TActionInfoCustom>>;
+  }
 }

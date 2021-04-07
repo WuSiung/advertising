@@ -2,13 +2,14 @@ import React, {FC} from 'react';
 import {Col, Divider, Row, Select, Space} from "antd";
 
 import styles from './index.less';
-import {DeleteOutlined} from "@ant-design/icons";
+import {CopyOutlined, DeleteOutlined, InteractionOutlined} from "@ant-design/icons";
 
 interface ICondition {
   idx: number;
   condHeight: number;
   condMarginTop: number;
   onDel: (idx: number) => void;
+  onCopy: (idx: number) => void;
 }
 
 const Condition: FC<ICondition> = (props) => {
@@ -33,7 +34,9 @@ const Condition: FC<ICondition> = (props) => {
             <Select size="small"></Select>
           </Space>
           <Space className="action-space">
-            <DeleteOutlined style={{fontSize: 18}} onClick={() => props.onDel(props.idx)} />
+            {/*<InteractionOutlined />*/}
+            <CopyOutlined onClick={() => props.onCopy(props.idx)} />
+            <DeleteOutlined onClick={() => props.onDel(props.idx)} />
           </Space>
         </Row>
       </Space>

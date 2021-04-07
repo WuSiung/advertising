@@ -19,6 +19,21 @@
         width: 5px;
         border-top: 2px solid rgba(0, 0, 0, 0.1);
       }
+
+      .action-space {
+        //padding: 1px 20px;
+        visibility: hidden;
+        .anticon {
+          font-size: 18px;
+        }
+      }
+
+      &:hover {
+        .action-space {
+          visibility: visible;
+          //display: block;
+        }
+      }
     }
 
     .box {
@@ -39,9 +54,13 @@
       }
     }
 
-    .action-sapce {
-      //padding: 1px 20px;
-
-    }
+    //.action-space {
+    //  //padding: 1px 20px;
+    //  visibility: hidden;
+    //  &:hover {
+    //    visibility: visible;
+    //    //display: block;
+    //  }
+    //}
   }
 }

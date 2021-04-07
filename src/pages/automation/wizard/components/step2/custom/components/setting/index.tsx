@@ -58,13 +58,13 @@ const Setting: FC<ISetting> = (props) => {
         </Radio.Group>
       </Card>
       {
-        props.ActionInfo.actions.map((a, i) => <Action idx={i} action={a} onChange={props.onChange} onDel={props.onDel}></Action>)
+        props.ActionInfo?.actions.map((a, i) => <Action key={i} idx={i} action={a} onChange={props.onChange} onDel={props.onDel}></Action>)
       }
       <Row justify="center" style={{marginBottom: 40}}>
         <Button type="primary" onClick={props.onAdd}><PlusOutlined />&nbsp;&nbsp;行动</Button>
       </Row>
-      <EffectiveTime effectiveTime={props.ActionInfo.effectiveTime} onChange={props.onChange}></EffectiveTime>
-      <TriggleSchedule schedule={props.ActionInfo.schedule} onChange={props.onChange} ></TriggleSchedule>
+      <EffectiveTime effectiveTime={props.ActionInfo?.effectiveTime} onChange={props.onChange}></EffectiveTime>
+      <TriggleSchedule schedule={props.ActionInfo?.schedule} onChange={props.onChange} ></TriggleSchedule>
     </>
   )
 }
