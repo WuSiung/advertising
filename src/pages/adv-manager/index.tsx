@@ -1341,7 +1341,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 appName: Array.isArray(sText) ? sText.join(" ") : "",
                 startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: packFilter
+                ...packFilter
             }
         })
     }, [advpackPageindex, advpackPagesize, packFilter, refreshPack]);
@@ -1368,7 +1368,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: setFilter
+                ...setFilter
             }
         })
     }, [advSetPageindex, advSetPagesize, setFilter, refreshSet]);
@@ -1395,7 +1395,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: advFilter
+                ...advFilter
             }
         })
     }, [advAdvPageindex, advAdvPagesize, advFilter, refreshAdv]);

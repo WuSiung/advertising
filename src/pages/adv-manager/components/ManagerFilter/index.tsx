@@ -77,7 +77,6 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                 }
             }
         })
-        console.log(ageNum)
         if (ageNum == '65') {
             agemin = agemax = ageNum
         } else {
