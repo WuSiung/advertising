@@ -193,10 +193,12 @@ const TextCreativity: FC<PublicTextProps> = (props) => {
             message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
             return
         } else {
-            const flag = tagParams.tagList.some(tag => tagName == tag.name)
-            if (flag) {
-                message.warning('标签已存在，请重新输入')
-                return
+            if (Array.isArray(tagParams.tagList)) {
+                const flag = tagParams.tagList.some(tag => tagName == tag.name)
+                if (flag) {
+                    message.warning('标签已存在，请重新输入')
+                    return
+                }
             }
         }
         await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })

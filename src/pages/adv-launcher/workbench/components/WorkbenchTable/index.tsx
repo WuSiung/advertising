@@ -175,6 +175,7 @@ const WorkbenchTable: FC<WorkbenchTableProps> = (props) => {
     const onChangeTextInfo = () => {
         const text = textInfo.split('&&')
         editText({ title: text[1], content: text[0], textId: showTextEdit.id }).then(res => {
+            console.log(res)
             if (res.code == 0) {
                 setShowTextEdit({ id: -1, show: false })
                 dispatch({ type: 'workbench/fetchAllList' })

@@ -114,10 +114,52 @@ const Version = () => {
     '自动化策略，广告、广告集、广告系列筛选过滤掉草稿状态的数据',
     '自动化策略，广告、广告集、广告系列改为服务端分页查询(测试筛选的数据是否与facebook后台一致)',
     '自动化策略主页，去掉策略展开时，异步加载策略对象信息',
+    '绑定人群包新增跳过功能',
+    '仪表盘自定义列支持拖动、读取数据',
+    '系统设置页面描述更新，去除退出登陆',
+    '工作台、公共素材库文字素材上传规则修改',
+    '登陆页底部新增copyright'
+  ]
+
+  const v_1_1_48: string[] = [
+    '素材上传放开限制',
+    '广告管理筛选参数调整',
+    '服务条款、登陆等文字及样式修改',
+    '复制广告管理弹出确认框',
+    '请勿上传过大的【图片】，会导致网页卡顿',
+  ]
+
+  const v_1_1_49: string[] = [
+    '新增人群包列表删除功能',
+    '所有预览框样式、下载按钮去除',
+    '绑定人群包自动切换时，更改选择数据',
+    '广告管理筛选参数调整',
   ]
 
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-04-08 10:45</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_49.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.48更新说明</div>
+    <div className={styles.time}>2021-04-06 18:53</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_48.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.47更新说明</div>
     <div className={styles.time}>2021-04-01 19:07</div>
     <div className={styles.detail}>
       <ol>

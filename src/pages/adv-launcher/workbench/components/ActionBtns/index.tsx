@@ -22,6 +22,7 @@ interface ActionBtnsProps {
 let uploadSucessValue: Array<Promise<unknown>> = []
 let uploadFileLength = 0;
 let uploadedLenth: number = 0;
+let uploadedSuccess: number = 0;
 let uploadFileSize = 0
 const ActionBtns: FC<ActionBtnsProps> = (props) => {
 
@@ -34,9 +35,14 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
     const [selectTempLoading, setSelectTempLoading] = useState<boolean>(false)
 
     const fileChange = async (e: RcCustomRequestOptions, dispatch: Dispatch) => {
-        if (uploadFileSize > 150 * 1024 * 1024) {
-            uploadFileSize = 0;
-            message.error('选择的素材超过150M,请分次上传')
+        uploadedLenth++
+        if (uploadFileSize > 1024 * 1024 * 1024) {
+            message.error({ content: '选择的素材超过1G,请分次上传', key: 'uploadLarge' })
+            if (uploadedLenth == uploadFileLength) {
+                uploadFileSize = 0;
+                uploadedLenth = 0
+            }
+            return
         }
         const formData: FormData = new FormData()
         formData.append('media', e.file)
@@ -47,15 +53,15 @@ const ActionBtns: FC<ActionBtnsProps> = (props) => {
                 type: 'workbench/uploadFile',
                 payload: formData
             })
+            uploadedSuccess++
             res.type = type
-            uploadedLenth++
             uploadSucessValue.push(addResultToWorkbench(res))
-            if (uploadFileLength == uploadedLenth) {
+            if (uploadFileLength == uploadedSuccess) {
                 Promise.all(uploadSucessValue).then(() => {
                     setUpFileloading(false)
                     uploadSucessValue = [];
                     uploadFileLength = 0;
-                    uploadedLenth = 0
+                    uploadedSuccess = 0
                     dispatch({ type: 'workbench/fetchAllList' })
                 })
 

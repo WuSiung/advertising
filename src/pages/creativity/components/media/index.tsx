@@ -90,10 +90,14 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
         })
     }
 
-    const onUploadMedias = (e: RcCustomRequestOptions, allLenth: number) => {
+    const onUploadMedias = (e: RcCustomRequestOptions, allLenth: number, size: number) => {
+        uploadProcess++
+        if (size > 500 * 1024 * 1024) {
+            message.error({ content: '选择的素材超过500M,请分次上传', key: 'uploadLarge' })
+            return
+        }
         createContainer({ id: userInfo?.userId || 1, description: '无', title: '无' }).then(res => {
             const fromData: FormData = new FormData()
-            uploadProcess++
             fromData.append('media', e.file)
             promistUploadFileArray.push(uploadFunction(res.value, fromData))
             if (uploadProcess == allLenth) {
@@ -178,10 +182,12 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
             message.warning('暂时无法添加到标签库，您可以通过资源添加标签')
             return
         } else {
-            const flag = tagParams.tagList.some(tag => tagName == tag.name)
-            if (flag) {
-                message.warning('标签已存在，请重新输入')
-                return
+            if (Array.isArray(tagParams.tagList)) {
+                const flag = tagParams.tagList.some(tag => tagName == tag.name)
+                if (flag) {
+                    message.warning('标签已存在，请重新输入')
+                    return
+                }
             }
         }
         await addTag({ soureceId: tagParams.id == 'all' ? '' : tagParams.id, userId: userInfo?.userId, name: tagName })
@@ -239,7 +245,7 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
             <div className={`${styles.mediaContent} ${styles.mediaList}`} onScroll={scrollMedia} ref={mediaRef}>
                 {
                     mediaList.map((media, i) => {
-                        return <MaterialBox {...media} key={media.id} index={i} type='media' onClick={checkedMedia} onDelete={deleteMedia} onEdit={editTag} />
+                        return <MaterialBox {...media} key={i} index={i} type='media' onClick={checkedMedia} onDelete={deleteMedia} onEdit={editTag} />
                     })
                 }
             </div>

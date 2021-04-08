@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, Dispatch } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, Select, Space, Table, DatePicker, Tag, Divider, Modal, message, Input, Empty, Spin, Popover } from 'antd';
+import { Row, Col, Card, Select, Space, Table, DatePicker, Tag, Divider, Modal, message, Input, Empty, Spin, Popover, Checkbox, Tree } from 'antd';
 import { Area, Line } from '@ant-design/charts';
 
 import { TColumnOption, TData, TState, TStatistic } from './data';
@@ -16,7 +16,9 @@ import moment from 'moment';
 import CustomColumns from './components/customColumns';
 import Store from '@/utils/store';
 import { customData } from '@/services/customData';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { EventDataNode } from 'antd/lib/tree';
 
 export type DashboardProps = {
   dispatch: Dispatch;
@@ -25,15 +27,24 @@ export type DashboardProps = {
   customLoading: boolean
 };
 
+type NodeDragEventParams<T = HTMLDivElement> = {
+  event: React.MouseEvent<T>;
+  node: EventDataNode;
+};
+
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+
+type TreeType = { key: string, dataIndex: string, title: string, children?: TreeType[], icon?: React.ReactNode }
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
   const { dispatch, dashboard, isLoading, customLoading } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [isChanged, setIsChanged] = useState(true);
   const [showCustom, setShowCustom] = useState(false)
-  const [selectedTags, setSelectedTags] = useState<string[]>(['resultName', 'name'])
+  const [selectedTags, setSelectedTags] = useState<Array<TreeType>>([
+    { title: '统计名称', dataIndex: 'name', key: 'name', icon: <UnorderedListOutlined /> },
+    { title: '结果', dataIndex: 'resultName', key: 'resultName', icon: <UnorderedListOutlined /> }])
   const [customName, setCustomName] = useState<string>('')
 
   useEffect(() => {
@@ -204,9 +215,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
           default:
         }
         return <Tag color={color}>
-          <span style={{display: 'inline-block', marginRight: 2}}>{text}</span>
+          <span style={{ display: 'inline-block', marginRight: 2 }}>{text}</span>
           <Popover content={tips} placement='right'>
-            <QuestionCircleOutlined style={{ fontSize: 14}}/>
+            <QuestionCircleOutlined style={{ fontSize: 14 }} />
           </Popover>
         </Tag>
       }
@@ -535,16 +546,24 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       message.warning('自定义名称请勿重复')
       return
     }
-    const list = tableOptionList.map(col => {
-      if (selectedTags.includes(col.dataIndex)) {
-        col.show = true
-      } else {
-        col.show = false
-      }
-      return col
+
+    const selectTagsKey = selectedTags.map(item => item.dataIndex)
+    const list: TColumnOption[] = [];
+    selectTagsKey.map(key => {
+      const result = tableOptionList.filter(item => item.dataIndex == key)[0]
+      result.show = true
+      list.push(result)
     })
 
-    setShowColumns(list)
+    let otherShow: TColumnOption[] = [];
+    tableOptionList.map(col => {
+      if (!selectTagsKey.includes(col.dataIndex)) {
+        col.show = false
+        otherShow.push(col)
+      }
+    })
+
+    setShowColumns(list.concat(otherShow))
     const params = {
       name: customName,
       data: list
@@ -565,17 +584,69 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     })
   }
 
-  const changeTag = (tags: string, checked: boolean) => {
-    if (tags == 'resultName' || tags == 'name') {
-      message.warning('不可取消')
+  const changeTag = (checkedValue: CheckboxValueType[]) => {
+    let arr: TreeType[] = [];
+    tableOptionList.map(item => {
+      if (checkedValue.includes(item.dataIndex)) {
+        arr.push({ key: item.dataIndex, title: item.titleString as string, dataIndex: item.dataIndex, icon: <UnorderedListOutlined /> })
+      }
+    })
+    setSelectedTags(arr)
+  }
+
+  const deleteTags = (key: string | number) => {
+    if (key == 'name' || key == 'resultName') {
+      message.warning('不可删除')
+    } else {
+      let newSelected = selectedTags.filter(item => item.key != key)
+      setSelectedTags(newSelected)
+    }
+  }
+
+  const onDrop = async (info: NodeDragEventParams<HTMLDivElement> & {
+    dragNode: EventDataNode;
+    dragNodesKeys: React.ReactText[];
+    dropPosition: number;
+    dropToGap: boolean;
+  }) => {
+    const dropKey = info.node.key;
+    const dragKey = info.dragNode.key;
+    if (dragKey == 'name' || dragKey == 'resultName' || dropKey == 'name' || dropKey == 'resultName') {
+      message.warning('统计名称与结果不可移动')
       return
     }
-    const nextSelectedTags = checked ? [...selectedTags, tags] : selectedTags.filter(t => t !== tags)
-    if (nextSelectedTags.length > 10) {
-      message.warning('请最多选择10个')
-      return
+    const dropPos = info.node.pos.split('-');
+    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1])
+
+    const loop = (data: TreeType[], key: React.ReactText, callback: (item: TreeType, i: number, d: TreeType[]) => void) => {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].key === key) {
+          return callback(data[i], i, data);
+        }
+      }
+    };
+
+    const data = [...selectedTags]
+
+    let dragObj: any = {};
+    let ar: TreeType[] = [];
+    let i = 0;
+
+    loop(data, dragKey, (item, index, arr) => {
+      arr.splice(index, 1);
+      dragObj = item;
+    });
+
+    loop(data, dropKey, (item, index, arr) => {
+      ar = arr;
+      i = index;
+    });
+    if (dropPosition === -1) {
+      ar.splice(i, 0, dragObj);
+    } else {
+      ar.splice(i + 1, 0, dragObj);
     }
-    setSelectedTags(nextSelectedTags)
+    setSelectedTags(data)
   }
 
   const selectCustom = (v: string) => {
@@ -595,6 +666,12 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         payload: '5adashboardCustom' + Store.GetUserId(),
       })
     })
+  }
+
+  const selectEdit = (value: string) => {
+    setCustomName(value)
+    const selects = dashboard.customColumns?.filter(item => item.name == value) || []
+    setSelectedTags(selects[0].data.map(item => ({ title: item.titleString as string, key: item.dataIndex, dataIndex: item.dataIndex, icon: <UnorderedListOutlined /> })))
   }
   const optionList1 = TARGET_LIST.filter((o) => o.value !== dashboard.target2);
   const optionList2 = TARGET_LIST.filter((o) => o.value !== dashboard.target1);
@@ -744,13 +821,30 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       </div>
       <Modal visible={showCustom} title='选择自定义列' onCancel={() => setShowCustom(false)} onOk={customTag}>
         <div><Input placeholder='自定义列名称' style={{ marginBottom: 10 }} value={customName} onChange={e => setCustomName(e.target.value)} /></div>
-        {
-          tableOptionList.map(item => {
-            return <Tag.CheckableTag className={styles.customTag} key={item.dataIndex} checked={selectedTags.includes(item.dataIndex)} onChange={checked => changeTag(item.dataIndex, checked)}>
-              {item.titleString}
-            </Tag.CheckableTag>
-          })
-        }
+        <div className={styles.columnsContainer}>
+          <div className={styles.leftL}>
+            <Checkbox.Group value={selectedTags.map(item => item.dataIndex)} onChange={changeTag}>
+              {
+                tableOptionList.map(item => {
+                  return <Checkbox value={item.dataIndex} key={item.dataIndex} className={styles.item} disabled={item.dataIndex == 'name' || item.dataIndex == 'resultName'}>
+                    {item.titleString}
+                  </Checkbox>
+                })
+              }
+            </Checkbox.Group>
+          </div>
+          <div className={styles.rightL}>
+            <div className={styles.tips}>tips: 右键可删除</div>
+            <Tree treeData={selectedTags} key='item' draggable onDrop={onDrop} showIcon onRightClick={info => deleteTags(info.node.key)}></Tree>
+          </div>
+        </div>
+        <Select style={{ width: '100%', marginTop: 10 }} placeholder='选择已有列编辑' onChange={(value) => selectEdit(value as string)}>
+          {
+            dashboard.customColumns?.map((item, index) => {
+              return <Select.Option key={index} value={item.name}>{item.name}</Select.Option>
+            })
+          }
+        </Select>
       </Modal>
       {isLoading && <Loading showMask tips="数据加载中，请稍等..." />}
     </PageContainer>

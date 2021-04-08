@@ -14,6 +14,7 @@ import ManagerFilter, { ParamsType } from './components/ManagerFilter'
 import { copyAdv, copyPack, copySet } from './service'
 import LoadingElement from '@/components/Loading'
 import { PageContainer } from '@ant-design/pro-layout'
+import { showConfirm } from '@/components/Confrim'
 
 type EventValue<DateType> = DateType | null;
 
@@ -179,7 +180,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
@@ -469,7 +470,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvPack(_.packId)} disabled={copyLoading}>复制广告系列</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告系列', _.packId, copyAdvPack.bind(_.packId))} disabled={copyLoading}>复制广告系列</Button></>)
             }
         },
     ];
@@ -554,7 +555,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
@@ -839,7 +840,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvSet((_ as AdvSetListType).setId)}>复制广告集</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告集', (_ as AdvSetListType).setId, copyAdvSet.bind((_ as AdvSetListType).setId))}>复制广告集</Button></>)
             }
         },
     ];
@@ -920,7 +921,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
@@ -1168,7 +1169,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
             dataIndex: 'action',
             key: 'action',
             render: (text, _) => {
-                return (<><Button type="link" onClick={() => copyAdvAdv((_ as AdvAdvListType).advId)}>复制广告</Button></>)
+                return (<><Button type="link" onClick={() => confirmCopy('你确认要复制广告', (_ as AdvAdvListType).advId, copyAdvAdv.bind((_ as AdvAdvListType).advId))}>复制广告</Button></>)
             }
         },
     ];
@@ -1221,6 +1222,9 @@ const AdvManager: FC<AdvPropsType> = (props) => {
         }).catch(() => {
             setCopyLoading(false)
         })
+    }
+    const confirmCopy = (title: string, id: number, callback: (id: number) => void) => {
+        showConfirm({ title: title, content: ' ', onOk: () => { callback(id) } })
     }
     const copyAdvSet = (id: number) => {
         setCopyLoading(true)
@@ -1337,7 +1341,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 appName: Array.isArray(sText) ? sText.join(" ") : "",
                 startT: value && value[0] ? (value[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: value && value[1] ? (value[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: packFilter
+                ...packFilter
             }
         })
     }, [advpackPageindex, advpackPagesize, packFilter, refreshPack]);
@@ -1364,7 +1368,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 setName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFSet && valueFSet[0] ? (valueFSet[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFSet && valueFSet[1] ? (valueFSet[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: setFilter
+                ...setFilter
             }
         })
     }, [advSetPageindex, advSetPagesize, setFilter, refreshSet]);
@@ -1391,7 +1395,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                 advName: Array.isArray(sText) ? sText.filter(st => st.indexOf("#^*_") === -1).join(" ") : "",
                 startT: valueFAdv && valueFAdv[0] ? (valueFAdv[0] as moment.Moment).format("YYYY-MM-DD") : "",
                 endT: valueFAdv && valueFAdv[1] ? (valueFAdv[1] as moment.Moment).format("YYYY-MM-DD") : "",
-                filter: advFilter
+                ...advFilter
             }
         })
     }, [advAdvPageindex, advAdvPagesize, advFilter, refreshAdv]);

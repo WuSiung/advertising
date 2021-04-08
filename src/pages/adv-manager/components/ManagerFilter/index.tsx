@@ -61,31 +61,41 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
         }
 
 
-        let ageNum = ''
+        let agemin = '',
+            ageNum = '',
+            agemax = ''
         ageAround.map(ages => {
             if (age?.includes(ages.value)) {
                 if (ageNum == '' && ages.value != 'age7') {
-                    ageNum = ages.label
+                    ageNum = ages.label.replaceAll('岁', '')
                 } else if (ageNum == '' && ages.value == 'age7') {
                     ageNum = '65'
                 } else if (ageNum != '' && ages.value != 'age7') {
-                    ageNum = ageNum.split('-')[0] + '-' + ages.label.split('-')[1]
+                    ageNum = (ageNum.split('-')[0] + '-' + ages.label.split('-')[1]).replaceAll('岁', '')
                 } else if (ageNum != '' && ages.value == 'age7') {
-                    ageNum = ageNum.split('-')[0] + '-' + '65'
+                    ageNum = ageNum.split('-')[0] + '-65'
                 }
             }
         })
+        if (ageNum == '65') {
+            agemin = agemax = ageNum
+        } else {
+            agemin = ageNum.split('-')[0]
+            agemax = ageNum.split('-')[1]
+        }
         let params = {
-            age: ageNum.replace('岁', ''), sex, device, publishLocation, country, status, spend, roi, clicks, show
+            agemin, agemax, sex, device, publishLocation, country, status, spend, roi, clicks, show
+        }
+        if (sex == '0') {
+            delete params.sex
         }
 
-        console.log(params)
         props.onFilter(params)
         setVisible(false)
     }
 
     return <>
-        <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "500px" }}>
+        <Popover placement="bottomRight" title="筛选器" content={<div style={{ width: "600px" }}>
             <Row>
                 <Col span={5}>
                     <div style={{ paddingLeft: "2px" }}>年龄:</div>
@@ -99,14 +109,14 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     >
                     </Checkbox.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                     <div style={{ paddingLeft: "2px" }}>姓别:</div>
                     <Radio.Group value={sex} style={{ width: '100%' }} onChange={(value) => { setSex(value.target.value); }}>
                         {
                             [
-                                { value: "male", label: "男" },
-                                { value: "female", label: "女" },
-                                { value: "unkown", label: "所有" },
+                                { value: "1", label: "男" },
+                                { value: "2", label: "女" },
+                                { value: "0", label: "所有" },
                             ].map(item => {
                                 return <Radio style={radioStyle} key={item.value} value={item.value}>
                                     {item.label}
@@ -115,7 +125,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         }
                     </Radio.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={4}>
                     <div style={{ paddingLeft: "2px" }}>状态:</div>
                     <Radio.Group value={status} style={{ width: '100%' }} onChange={(value) => { setStatus(value.target.value); }}>
                         {
@@ -143,14 +153,14 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         style={{ width: '100%' }}
                         options={
                             [
-                                { value: "pc", label: "桌面" },
-                                { value: "mobile", label: "移动" }
+                                { value: "1", label: "桌面" },
+                                { value: "0", label: "移动" }
                             ]
                         }
                     >
                     </Checkbox.Group>
                 </Col>
-                <Col span={5}>
+                <Col span={7}>
                     <div style={{ paddingLeft: "2px" }}>刊登位置:</div>
                     <Checkbox.Group
                         value={publishLocation}
@@ -160,17 +170,17 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                         style={{ width: '100%' }}
                         options={
                             [
-                                { value: "facebook", label: "脸书" },
-                                { value: "instagram", label: "移动" },
-                                { value: "messenger", label: "信使" },
-                                { value: "audnetwork", label: "观众网络" }
+                                { value: "facebook_positions", label: "facebook" },
+                                { value: "instagram_positions", label: "instagram" },
+                                { value: "messenger_positions", label: "messenger" },
+                                { value: "audience_network_positions", label: "audienceNetwork" }
                             ]
                         }
                     >
                     </Checkbox.Group>
                 </Col>
             </Row>
-            <Row style={{ paddingTop: "20px" }}>
+            {/* <Row style={{ paddingTop: "20px" }}>
                 <Col span={24}>
                     <span className={styles.label}>消费金额：</span>
                     <Select placeholder='选择符号' onChange={(value) => {
@@ -210,7 +220,7 @@ const ManagerFilter: FC<ManagerFilterProps> = (props) => {
                     <Input placeholder='请输入' value={show?.value} style={{ display: 'inline-block', width: 200, marginLeft: 10 }}
                         onChange={e => setShow({ type: show?.type, value: e.target.value })}></Input>
                 </Col>
-            </Row>
+            </Row> */}
             <Row style={{ paddingTop: "20px" }}>
                 <Col span={24}>
                     <Select mode="tags" style={{ display: 'block' }} placeholder='选择国家' onChange={(value) => {

@@ -45,7 +45,7 @@ const AdvPreview: FC<AdvPreviewProps> = (props) => {
         </div>
         <div className={styles.footer}>
             <span className={styles.title}>{ohterProps.title}</span>
-            <Button className={styles.download}>下载</Button>
+            {/* <Button className={styles.download}>下载</Button> */}
         </div>
     </div>
 }

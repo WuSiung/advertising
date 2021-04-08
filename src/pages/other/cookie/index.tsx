@@ -36,7 +36,7 @@ const Cookie: FC = () => {
         <ArticleDesc>我们还在此网站上使用社交媒体按钮和/或插件。这些使您可以通过各种方式与社交网络连接。为了使这些网站能工作，以下社交媒体网站包括：{"{Facebook（Instagram），Twitter}"}将在我们的网站上设置cookie，这些cookie可能会用于增强您在其站点上的个人资料，或出于各自隐私政策中概述的各种目的而对它们所拥有的数据做出贡献。</ArticleDesc>
         <SmallTitle>更多信息</SmallTitle>
         <ArticleDesc>希望这为您澄清了一切。如前所述，如果您不确定是否需要某些内容，通常启用Cookie更为安全，以防Cookie与您在我们网站上使用的功能之一进行交互。</ArticleDesc>
-        <ArticleDesc>但是，如果您仍在寻找更多信息，请给我们发送电子邮件至tanwan7899@gmail.com。</ArticleDesc>
+        <ArticleDesc>但是，如果您仍在寻找更多信息，请给我们发送电子邮件至lzyuan1006@gmail.com。</ArticleDesc>
     </Card>
 }
 

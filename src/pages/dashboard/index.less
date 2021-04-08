@@ -26,3 +26,44 @@
   border: 1px solid #ccc;
   padding: 2px 6px;
 }
+
+.columnsContainer{
+  display: flex;
+  user-select: none;
+  .leftL{
+    width: 200px;
+    height: 400px;
+    .item{
+      display: block;
+      margin-left: 0;
+    }
+  }
+  .rightL{
+    flex: 1;
+    align-items: stretch;
+    background: #f2f2f2;
+    padding: 10px;
+    height: 400px;
+    overflow-y: scroll;
+    .tips{
+      margin-bottom: 10px;
+    }
+    :global(.ant-tree){
+      background: transparent;
+    }
+    :global(.ant-tree .ant-tree-treenode){
+      margin-bottom: 10px;
+      padding: 0;
+    }
+    :global(.ant-tree .ant-tree-node-content-wrapper){
+      padding: 4px 0;
+      background: #ffffff;
+    }
+    :global(.ant-tree-switcher-noop){
+      display: none;
+    }
+    :global(.ant-tree .ant-tree-node-content-wrapper), :global(.ant-tree .ant-tree-treenode){
+      width: 100%;
+    }
+  }
+}
