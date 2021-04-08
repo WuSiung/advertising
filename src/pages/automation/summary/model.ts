@@ -8,7 +8,7 @@ const TacticSummaryModel: TModelTacticSummary = {
   },
   reducers: {
     updateTacticList(state, { payload }) {
-      console.log('updateTacticList', payload);
+      // console.log('updateTacticList', payload);
       return {
         ...state,
         ...payload

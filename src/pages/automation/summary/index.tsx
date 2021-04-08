@@ -122,95 +122,94 @@ const Summary: FC<SummaryProps> = (props) => {
     });
   }
 
-  const handlePause = async (record: TTactic, rowIndex: number) => {
-    if (record.Status === '0') {
-      return;
-    }
-    const res = await pauseTactic(record);
+  // const handlePause = async (record: TTactic, rowIndex: number) => {
+  //   if (record.Status === '0') {
+  //     return;
+  //   }
+  //   const res = await pauseTactic(record);
+  //   if (res) {
+  //     if (tacticSummary.tacticList) {
+  //       tacticSummary.tacticList[rowIndex].Status = '0';
+  //     }
+  //     dispatch({
+  //       type: 'tacticSummary/updateTacticList',
+  //       payload: {
+  //         ...tacticSummary
+  //       }
+  //     })
+  //   }
+  // }
+  //
+  // const handleRestore = async (record: TTactic, rowIndex: number) => {
+  //   if (record.Status === '1') {
+  //     return;
+  //   }
+  //   const res = await restoreTactic(record);
+  //
+  //   if (res) {
+  //     if (tacticSummary.tacticList) {
+  //       tacticSummary.tacticList[rowIndex].Status = '1';
+  //     }
+  //     dispatch({
+  //       type: 'tacticSummary/updateTacticList',
+  //       payload: {
+  //         ...tacticSummary
+  //       }
+  //     });
+  //   }
+  // }
 
-    if (res) {
-      if (tacticSummary.tacticList) {
-        tacticSummary.tacticList[rowIndex].Status = '0';
-      }
-      dispatch({
-        type: 'tacticSummary/updateTacticList',
-        payload: {
-          ...tacticSummary
-        }
-      })
-    }
-  }
-
-  const handleRestore = async (record: TTactic, rowIndex: number) => {
-    if (record.Status === '1') {
-      return;
-    }
-    const res = await restoreTactic(record);
-
-    if (res) {
-      if (tacticSummary.tacticList) {
-        tacticSummary.tacticList[rowIndex].Status = '1';
-      }
-      dispatch({
-        type: 'tacticSummary/updateTacticList',
-        payload: {
-          ...tacticSummary
-        }
-      });
-    }
-  }
-
-  const columns: ColumnsType<TTactic> = [
-    {
-      title: '策略名称',
-      dataIndex: 'Name',
-      key: 'Name',
-      render: (text: string, record: TTactic, rowIndex) => {
-        return <Space><Badge status={record.Status === '1' ? 'success': 'error'} /><span>{record.Name}</span></Space>
-      }
-    },
-    {
-      title: '策略ID',
-      dataIndex: 'ObjectID',
-      key: 'ObjectID',
-      width: 200,
-    },
-    // {
-    //   title: '作者',
-    //   dataIndex: 'PlatformId',
-    //   key: 'PlatformId',
-    //   width: 120,
-    // },
-    {
-      title: '策略类型',
-      dataIndex: 'ActionTypeName',
-      key: 'ActionTypeName',
-      width: 160,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'CreateTime',
-      key: 'CreateTime',
-      width: 200,
-    },
-    {
-      title: '操作',
-      key: 'operation',
-      width: 120,
-      render: (text, record, index) => {
-        return (
-          <Space size="middle">
-            <PlayCircleTwoTone title="恢复" onClick={async () => await handleRestore(record, index)} disabled={record.Status === '0'}
-                               twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
-            <PauseCircleTwoTone title="暂停" onClick={async () => await handlePause(record, index)} disabled={record.Status === '1'}
-                                twoToneColor={record.Status === '0' ? '#9d9d9d' : ''}/>
-            <Link title="编辑" to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone/></Link>
-            <DeleteTwoTone title="删除" onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f"/>
-          </Space>
-        )
-      }
-    }
-  ];
+  // const columns: ColumnsType<TTactic> = [
+  //   {
+  //     title: '策略名称',
+  //     dataIndex: 'Name',
+  //     key: 'Name',
+  //     render: (text: string, record: TTactic, rowIndex) => {
+  //       return <Space><Badge status={record.Status === '1' ? 'success': 'error'} /><span>{record.Name}</span></Space>
+  //     }
+  //   },
+  //   {
+  //     title: '策略ID',
+  //     dataIndex: 'ObjectID',
+  //     key: 'ObjectID',
+  //     width: 200,
+  //   },
+  //   // {
+  //   //   title: '作者',
+  //   //   dataIndex: 'PlatformId',
+  //   //   key: 'PlatformId',
+  //   //   width: 120,
+  //   // },
+  //   {
+  //     title: '策略类型',
+  //     dataIndex: 'ActionTypeName',
+  //     key: 'ActionTypeName',
+  //     width: 160,
+  //   },
+  //   {
+  //     title: '创建时间',
+  //     dataIndex: 'CreateTime',
+  //     key: 'CreateTime',
+  //     width: 200,
+  //   },
+  //   {
+  //     title: '操作',
+  //     key: 'operation',
+  //     width: 120,
+  //     render: (text, record, index) => {
+  //       return (
+  //         <Space size="middle">
+  //           <PlayCircleTwoTone title="恢复" onClick={async () => await handleRestore(record, index)} disabled={record.Status === '0'}
+  //                              twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
+  //           <PauseCircleTwoTone title="暂停" onClick={async () => await handlePause(record, index)} disabled={record.Status === '1'}
+  //                               twoToneColor={record.Status === '0' ? '#9d9d9d' : ''}/>
+  //           <Link title="编辑" to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone/></Link>
+  //           <DeleteTwoTone title="删除" onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f"/>
+  //         </Space>
+  //       )
+  //     }
+  //   }
+  // ];
 
 
   // todo: Card 的 actions可以用于，当没有自动化策略时，提示用户去创建自动化策略
@@ -303,6 +302,86 @@ const Summary: FC<SummaryProps> = (props) => {
 
   // const [tacticListShow, setTacticListShow] = useState([...tacticList]);
   // console.log('tacticListShow', tacticListShow);
+
+
+  const handlePause = async (record: TTactic, rowIndex: number) => {
+    if (record.Status === '0') {
+      return;
+    }
+    const res = await pauseTactic(record);
+    if (res) {
+      tacticList[rowIndex].Status = '0';
+      dispatch({
+        type: 'tacticSummary/updateTacticList',
+        payload: {
+          tacticList
+        }
+      })
+    }
+  }
+
+  const handleRestore = async (record: TTactic, rowIndex: number) => {
+    if (record.Status === '1') {
+      return;
+    }
+    const res = await restoreTactic(record);
+
+    if (res) {
+      tacticList[rowIndex].Status = '1';
+      dispatch({
+        type: 'tacticSummary/updateTacticList',
+        payload: {
+          tacticList
+        }
+      });
+    }
+  }
+
+  const columns: ColumnsType<TTactic> = [
+    {
+      title: '策略名称',
+      dataIndex: 'Name',
+      key: 'Name',
+      render: (text: string, record: TTactic, rowIndex) => {
+        return <Space><Badge status={record.Status === '1' ? 'success': 'error'} /><span>{record.Name}</span></Space>
+      }
+    },
+    {
+      title: '策略ID',
+      dataIndex: 'ObjectID',
+      key: 'ObjectID',
+      width: 200,
+    },
+    {
+      title: '策略类型',
+      dataIndex: 'ActionTypeName',
+      key: 'ActionTypeName',
+      width: 160,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'CreateTime',
+      key: 'CreateTime',
+      width: 200,
+    },
+    {
+      title: '操作',
+      key: 'operation',
+      width: 120,
+      render: (text, record, index) => {
+        return (
+          <Space size="middle">
+            <PlayCircleTwoTone title="恢复" onClick={async () => await handleRestore(record, index)} disabled={record.Status === '0'}
+                               twoToneColor={record.Status === '1' ? '#9d9d9d' : ''}/>
+            <PauseCircleTwoTone title="暂停" onClick={async () => await handlePause(record, index)} disabled={record.Status === '1'}
+                                twoToneColor={record.Status === '0' ? '#9d9d9d' : ''}/>
+            <Link title="编辑" to={{pathname: '/automation/wizard', state: {record}}}><EditTwoTone/></Link>
+            <DeleteTwoTone title="删除" onClick={() => handleDelete(record, index)} twoToneColor="#ff4d4f"/>
+          </Space>
+        )
+      }
+    }
+  ];
 
   const title = (
     <div>
