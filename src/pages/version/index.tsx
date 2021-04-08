@@ -129,8 +129,26 @@ const Version = () => {
     '请勿上传过大的【图片】，会导致网页卡顿',
   ]
 
+  const v_1_1_49: string[] = [
+    '新增人群包列表删除功能',
+    '所有预览框样式、下载按钮去除',
+    '绑定人群包自动切换时，更改选择数据',
+    '广告管理筛选参数调整',
+  ]
+
   return <Card>
     <div className={styles.title}>最新版本{pjson.version}更新说明</div>
+    <div className={styles.time}>2021-04-08 10:45</div>
+    <div className={styles.detail}>
+      <ol>
+        {
+          v_1_1_49.map(item => {
+            return <li key={item}>{item}</li>
+          })
+        }
+      </ol>
+    </div>
+    <div className={styles.title}>1.1.48更新说明</div>
     <div className={styles.time}>2021-04-06 18:53</div>
     <div className={styles.detail}>
       <ol>
