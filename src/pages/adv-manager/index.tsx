@@ -180,7 +180,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
@@ -555,7 +555,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
@@ -921,7 +921,7 @@ const AdvManager: FC<AdvPropsType> = (props) => {
                     case "1":
                         return "发送中"
                     case "2":
-                        return "失败"
+                        return <div title={_.statusDesc}>失败</div>
                     case "3":
                         return "成功"
                     default:
