@@ -1,0 +1,1 @@
+xcopy .\dist\* F:\build\ /s /e /y

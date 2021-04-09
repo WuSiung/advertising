@@ -29,6 +29,7 @@ interface PageProps {
 
 let promistUploadFileArray: Array<Promise<unknown>> = [];
 let uploadProcess: number = 0
+let uploadSuccess: number = 0
 const MediaCreativity: FC<MediaCreativityProps> = (props) => {
     const { mediaList, dispatch, userInfo, mediaGetLoading, mediaTags } = props
 
@@ -100,11 +101,13 @@ const MediaCreativity: FC<MediaCreativityProps> = (props) => {
             const fromData: FormData = new FormData()
             fromData.append('media', e.file)
             promistUploadFileArray.push(uploadFunction(res.value, fromData))
-            if (uploadProcess == allLenth) {
+            uploadSuccess++
+            if (uploadSuccess == allLenth) {
                 setMediaLoading(true)
                 Promise.all(promistUploadFileArray).then((res) => {
                     promistUploadFileArray = []
                     uploadProcess = 0
+                    uploadSuccess = 0
                     allLenth = 0
                     setMediaLoading(false)
                     setMediaQuery({ page: 1, size: 10 })
